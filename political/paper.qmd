@@ -16,7 +16,8 @@ format:
   latex:
     keep-tex: true
     number-sections: false
-    cite-method: bibtex
+    cite-method: natbib
+    bibliography: refs.bib
     include-in-header:
       - header.tex
 ---

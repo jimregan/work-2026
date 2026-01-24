@@ -1,0 +1,19 @@
+---
+title: "Papers, January 2026"
+bibliography: refs.bib
+---
+
+### [Wav2vec behind the Scenes: How end2end Models learn Phonetics](https://www.isca-archive.org/interspeech_2022/dieck22_interspeech.html) [@dieck22_interspeech]
+
+### [Common Phone: A Multilingual Dataset for Robust Acoustic Modelling](https://aclanthology.org/2022.lrec-1.81/)
+[@klumpp-etal-2022-common]
+
+Dataset for acoustic models derived from Common Voice.
+- [Dataset](https://zenodo.org/records/5846137)
+- Languages: English, French, German, Italian, Spanish, Russian
+- 116.5 hours of speech samples, collected from 11,246 speakers
+
+
+### [Applying speech verification to a large data base of German to obtain a statistical survey about rules of pronunciation](https://www.isca-archive.org/icslp_1994/wesenick94_icslp.html) [@wesenick94_icslp]
+
+- Verifies phonological rules for pronunciation variation using acoustic evidence.

@@ -1,24 +1,3 @@
-northern-sami-asr/README.md at main · aalto-speech/northern-sami-asr
-https://github.com/aalto-speech/northern-sami-asr/blob/main/README.md
-
-getman24b_interspeech.pdf
-https://www.isca-archive.org/interspeech_2024/getman24b_interspeech.pdf
-
-New Baseline in Automatic Speech Recognition for Northern Sámi
-https://aclanthology.org/W18-0208.pdf
-
-subword-kaldi/local/make_lfst_spm.py at master · aalto-speech/subword-kaldi
-https://github.com/aalto-speech/subword-kaldi/blob/master/local/make_lfst_spm.py
-
-Sámi Parliament wav2vec2 ASR - a GetmanY1 Collection
-https://huggingface.co/collections/GetmanY1/sami-parliament-wav2vec2-asr
-
-aalto-speech/northern-sami-asr: Scripts for adapting large speech foundation models for Northern Sámi ASR
-https://github.com/aalto-speech/northern-sami-asr?tab=readme-ov-file
-
-GetmanY1/wav2vec2-large-sami-cont-pt-22k-finetuned · Hugging Face
-https://huggingface.co/GetmanY1/wav2vec2-large-sami-cont-pt-22k-finetuned
-
 Radio and Television Archive - Kavi
 https://kavi.fi/en/radio-ja-televisioarkistointia-vuodesta-2008/
 

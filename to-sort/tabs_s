@@ -7,9 +7,6 @@ https://www.isca-archive.org/interspeech_2024/getman24b_interspeech.pdf
 New Baseline in Automatic Speech Recognition for Northern Sámi
 https://aclanthology.org/W18-0208.pdf
 
-Improved Subword Modeling for WFST-Based Speech Recognition
-https://www.isca-archive.org/interspeech_2017/smit17_interspeech.pdf
-
 subword-kaldi/local/make_lfst_spm.py at master · aalto-speech/subword-kaldi
 https://github.com/aalto-speech/subword-kaldi/blob/master/local/make_lfst_spm.py
 
@@ -160,9 +157,6 @@ https://www.sverigesradio.se/avsnitt/2695289
 Sameradion
 https://www.sverigesradio.se/sameradion
 
-view-source:https://www.sverigesradio.se/sameradion
-view-source:https://www.sverigesradio.se/sameradion
-
 Tablå Sameradion - Sveriges Radio
 https://www.sverigesradio.se/kanaler/tabla/sameradion?datum=2025-12-01
 
@@ -192,11 +186,4 @@ https://api.sr.se/api/rss/program/2054
 
 Sameradion | Sveriges Radio
 http://web.archive.org/web/20240331235801/https://sverigesradio.se/sameradion
-
-RESOURCEFUL-2026 | resourceful-2026
-https://resourceful-workshop.github.io/resourceful-2026/
-
-en.wikipedia.org
-https://en.wikipedia.org/wiki/Northern_S%C3%A1mi#Phonology
-
 

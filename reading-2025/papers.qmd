@@ -7,3 +7,8 @@ bibliography: refs.bib
 
 - Aimed at agglutinative languages
 - Morfessor, greedy unigram, BPE
+
+
+### [Exploring adaptation techniques of large speech foundation models for low-resource ASR: a case study on Northern Sámi](https://www.isca-archive.org/interspeech_2024/getman24b_interspeech.html) [@getman24b_interspeech]
+
+### [New Baseline in Automatic Speech Recognition for Northern Sámi](https://aclanthology.org/W18-0208/) [@leinonen-etal-2018-new]

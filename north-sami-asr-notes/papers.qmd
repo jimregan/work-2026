@@ -3,7 +3,7 @@ title: "North Sámi ASR"
 bibliography: refs.bib
 ---
 
-### [Improved Subword Modeling for WFST-Based Speech Recognition](https://www.isca-archive.org/interspeech_2017/smit17_interspeech.html) [@smit17_interspeech]
+### [Improved Subword Modeling for WFST-Based Speech Recognition](https://www.isca-archive.org/interspeech_2017/smit17_interspeech.html) [@smit17_interspeech]
 
 - Aimed at agglutinative languages
 - Morfessor, greedy unigram, BPE

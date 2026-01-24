@@ -1,5 +1,5 @@
 ---
-title: "Papers, 2025"
+title: "North Sámi ASR"
 bibliography: refs.bib
 ---
 

@@ -1,0 +1,6 @@
+---
+title: "Papers, 2025"
+bibliography: refs.bib
+---
+
+### [Improved Subword Modeling for WFST-Based Speech Recognition](https://www.isca-archive.org/interspeech_2017/smit17_interspeech.html) [@smit17_interspeech]

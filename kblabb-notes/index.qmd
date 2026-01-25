@@ -1,0 +1,17 @@
+---
+title: "KBLabb notes"
+bibliography: refs.bib
+---
+
+### [Swedish Sentence Transformer 2.0](https://kb-labb.github.io/posts/2023-01-16-sentence-transformer-20/) [@rekathati2023]
+
+- SweParaphrase v1.0
+  - Pearson 0.9283 (best model)
+- SweParaphrase v2.0
+  - v1.1 best
+- SweFAQ v2.0
+  - retrieval task
+  - train: 0.7106
+  - dev: 0.6727
+  - test: 0.5871
+

@@ -1,0 +1,13 @@
+---
+title: "Papers, 2026"
+bibliography: refs.bib
+---
+
+### [Dependency Parsing Evaluation for Low-resource Spontaneous Speech](https://aclanthology.org/2021.adaptnlp-1.16/) [@liu-prudhommeaux-2021-dependency]
+
+- CHILDES
+- Converted to UD (conversion is weird)
+
+### [Alignment of Speech to Highly Imperfect Text Transcriptions](https://ieeexplore.ieee.org/document/4284627)
+- [arXiv](https://arxiv.org/abs/cs/0612139)
+

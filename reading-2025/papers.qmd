@@ -10,4 +10,7 @@ bibliography: refs.bib
 
 ### [Alignment of Speech to Highly Imperfect Text Transcriptions](https://ieeexplore.ieee.org/document/4284627)
 - [arXiv](https://arxiv.org/abs/cs/0612139)
+- phoneme-based alignment
+- phones detected using a matlab toolkit
+- formants aligned using Euclidean distance
 

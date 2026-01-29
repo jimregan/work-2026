@@ -111,3 +111,17 @@ print(get_word_timestamps(audio))
 # {'text': 'i', 'start': 3.036530172413793, 'end': 3.347198275862069, 'conf': 0.7995760873559864}, 
 # {'text': 'exist', 'start': 3.347198275862069, 'end': 4.078771551724138, 'conf': 0.0}]
 ```
+
+```{python}
+from pathlib import Path
+TEXTDIR = Path("/Users/joregan/Playing/wolne-match/text")
+
+EG = TEXTDIR / "z-wichrow-i-hal-z-tatr-krzak-dzikiej-rozy-w-ciemnych-smreczy.txt"
+
+textlines = []
+with open(str(EG)) as inf:
+    for line in inf.readlines():
+        textlines.append(line)
+
+textlines[0]
+```

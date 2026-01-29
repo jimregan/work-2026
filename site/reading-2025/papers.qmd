@@ -1,9 +1,9 @@
 ---
-title: "Papers, 2026"
+title: "Papers, 2025"
 bibliography: refs.bib
 ---
 
-### [Dependency Parsing Evaluation for Low-resource Spontaneous Speech](https://aclanthology.org/2021.adaptnlp-1.16/) [@liu-prudhommeaux-2021-dependency]
+### [Dependency Parsing Evaluation for Low-resource Spontaneous Speech](https://aclanthology.org/2021.adaptnlp-1.16/) [@liu-prudhommeaux-2021-dependency]
 
 - CHILDES
 - Converted to UD (conversion is weird)

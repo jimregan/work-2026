@@ -1,0 +1,23 @@
+---
+title: "Papers, 2026"
+bibliography: refs.bib
+---
+
+### [Dependency Parsing Evaluation for Low-resource Spontaneous Speech](https://aclanthology.org/2021.adaptnlp-1.16/) [@liu-prudhommeaux-2021-dependency]
+
+- CHILDES
+- Converted to UD (conversion is weird)
+
+### [Alignment of Speech to Highly Imperfect Text Transcriptions](https://ieeexplore.ieee.org/document/4284627) [@haubold2007alignment]
+- [arXiv](https://arxiv.org/abs/cs/0612139)
+- phoneme-based alignment
+- vowel phonemes detected using a Matlab toolkit for formant estimation
+- formants matched to expected values using Euclidean distance
+- fricatives detected using spectral energy distribution
+- phoneme sequences aligned using dynamic programming edit-distance
+- uses [this toolkit](https://www.clear.rice.edu/elec431/projects96/digitalbb/)
+
+## [On The Landscape of Spoken Language Models: A Comprehensive Survey](https://openreview.net/forum?id=BvxaP3sVbA) [@arora2025on]
+
+- [arXiv](https://arxiv.org/abs/2504.08528)
+

@@ -3,7 +3,7 @@ title: "Papers, January 2026"
 bibliography: refs.bib
 ---
 
-### [Wav2vec behind the Scenes: How end2end Models learn Phonetics](https://www.isca-archive.org/interspeech_2022/dieck22_interspeech.html) [@dieck22_interspeech]
+### [Wav2vec behind the Scenes: How end2end Models learn Phonetics](https://www.isca-archive.org/interspeech_2022/dieck22_interspeech.html) [@dieck22_interspeech]
 
 ### [Common Phone: A Multilingual Dataset for Robust Acoustic Modelling](https://aclanthology.org/2022.lrec-1.81/)
 [@klumpp-etal-2022-common]
@@ -23,7 +23,7 @@ Dataset for acoustic models derived from Common Voice.
 - integrates LF-MMI into E2E ASR for both training and decoding
 - [code](https://github.com/jctian98/e2e_lfmmi) --- no licence, espnet1-based (but not forked)
 
-### [Decoupling Speaker-Independent Emotions for Voice Conversion via Source-Filter Networks](https://ieeexplore.ieee.org/document/9829916) [@luo2023emotionvc]
+### [Decoupling Speaker-Independent Emotions for Voice Conversion via Source-Filter Networks](https://ieeexplore.ieee.org/document/9829916) [@luo2023emotionvc]
 - Compares with Speechflow [@qian2020speechflow]
 
 ### [Unsupervised speech decomposition via triple information bottleneck](https://dl.acm.org/doi/10.5555/3524938.3525664) [@qian2020speechflow]

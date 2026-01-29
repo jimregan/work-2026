@@ -17,3 +17,8 @@ Dataset for acoustic models derived from Common Voice.
 ### [Applying speech verification to a large data base of German to obtain a statistical survey about rules of pronunciation](https://www.isca-archive.org/icslp_1994/wesenick94_icslp.html) [@wesenick94_icslp]
 
 - Verifies phonological rules for pronunciation variation using acoustic evidence.
+
+### [Integrating Lattice-Free MMI Into End-to-End Speech Recognition](https://ieeexplore.ieee.org/document/9855847) [@tian23lfmmi]
+
+- integrates LF-MMI into E2E ASR for both training and decoding
+- [code](https://github.com/jctian98/e2e_lfmmi) --- no licence, espnet1-based (but not forked)

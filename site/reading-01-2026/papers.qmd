@@ -37,3 +37,6 @@ Dataset for acoustic models derived from Common Voice.
 > (3) As these algorithms provide forced alignments, they assume that the audio contains only the text which should be aligned; but for most public domain audio this is not the case.
 - [original code](https://github.com/cornerfarmer/ctc_segmentation)
 - [updated code](https://github.com/lumaku/ctc-segmentation)
+
+### [VIBEVOICE-ASR Technical Report](https://arxiv.org/abs/2601.18184)
+- [code](https://github.com/microsoft/VibeVoice)

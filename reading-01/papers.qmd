@@ -28,3 +28,6 @@ Dataset for acoustic models derived from Common Voice.
 
 ### [Unsupervised speech decomposition via triple information bottleneck](https://dl.acm.org/doi/10.5555/3524938.3525664) [@qian2020speechflow]
 - [code](https://github.com/auspicious3000/SpeechSplit)
+
+### [Disentangling Prosody Representations With Unsupervised Speech Reconstruction](https://ieeexplore.ieee.org/document/10269014) [@qu2024prosody2vec]
+- no code

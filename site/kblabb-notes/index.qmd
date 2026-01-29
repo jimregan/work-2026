@@ -19,3 +19,6 @@ bibliography: refs.bib
 - Based on [Bootleg](https://github.com/HazyResearch/bootleg) [@orr2020bootlegchasingtailselfsupervised]
 - Nothing released
 
+### [For how long is a person recognisable by their voice?](https://kb-labb.github.io/posts/2023-07-04-for-how-long-is-a-person-recognisable-by-their-voice/)
+- [code](https://github.com/MKNachesa/masters_thesis)
+- [thesis](https://uu.diva-portal.org/smash/record.jsf?pid=diva2%3A1762445&dswid=-1452)

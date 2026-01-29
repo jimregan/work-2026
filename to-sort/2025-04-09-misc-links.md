@@ -29,7 +29,6 @@ categories: [links]
 [Word-Level Alignment of Paper Documents with their Electronic Full-Text Counterparts](https://aclanthology.org/2021.bionlp-1.19/),
 [code](https://github.com/nlpAThits/BioNLP2021)
 
-[Alignment of Speech to Highly Imperfect Text Transcriptions](https://arxiv.org/abs/cs/0612139)
 
 [On The Landscape of Spoken Language Models: A Comprehensive Survey](https://arxiv.org/abs/2504.08528)
 

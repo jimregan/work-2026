@@ -1,13 +1,5 @@
 --- dataloader.py.orig	2026-01-30 19:29:45
 +++ dataloader.py	2026-01-30 19:30:20
-@@ -3,6 +3,7 @@
- import random
- from multiprocessing import Pool
- from os.path import basename, join
-+from pathlib import Path
- 
- import librosa
- import numpy as np
 @@ -87,14 +88,14 @@
  
      # extract mel-spectrogram
@@ -30,10 +22,7 @@
  
      def process_file(self, wav_path):
 -        phn_path = wav_path.replace("wav", "phn")
-+        wav_p = Path(wav_path)
-+        phn_path = str(wav_p.with_suffix(".phn"))
-+        if not os.path.exists(phn_path):
-+            phn_path = str(wav_p.with_suffix(".PHN"))
++        phn_path = wav_path.replace("WAV", "PHN")
  
          # load audio
          spect = extract_features(wav_path, self.hparams)
@@ -42,7 +31,7 @@
      def _make_dataset(self):
          files = []
 -        wavs = list(iter_find_files(self.wav_path, "*.wav"))
-+        wavs = list(iter_find_files(self.wav_path, "*.wav")) + list(iter_find_files(self.wav_path, "*.WAV"))
++        wavs = list(iter_find_files(self.wav_path, "*.WAV"))
          if self.hparams.devrun:
              wavs = wavs[:self.hparams.devrun_size]
  
@@ -52,20 +41,8 @@
      @staticmethod
 -    def get_datasets(hparams):
 -        train_dataset = TimitDataset(join(hparams.wav_path, 'train'),
-+    def _find_subdir(base, name):
-+        """Find a subdirectory case-insensitively."""
-+        target = name.lower()
-+        for entry in os.listdir(base):
-+            if entry.lower() == target and os.path.isdir(join(base, entry)):
-+                return join(base, entry)
-+        return join(base, name)
-+
-+    @staticmethod
-+    def get_datasets(hparams):
-+        train_dataset = TimitDataset(TimitDataset._find_subdir(hparams.wav_path, 'train'),
-                                      hparams)
 -        test_dataset  = TimitDataset(join(hparams.wav_path, 'test'),
-+        test_dataset  = TimitDataset(TimitDataset._find_subdir(hparams.wav_path, 'test'),
-                                      hparams)
++        train_dataset = TimitDataset(join(hparams.wav_path, 'TRAIN'),
++        test_dataset  = TimitDataset(join(hparams.wav_path, 'TEST'),
  
          train_len   = len(train_dataset)

@@ -29,5 +29,9 @@ bibliography: refs.bib
 
 ### [Welcome KB-Whisper, a new fine-tuned Swedish Whisper model!](https://kb-labb.github.io/posts/2025-03-07-welcome-KB-Whisper/) [@vesterbacka2025]
 - [Hugging face collection](https://huggingface.co/collections/KBLab/kb-whisper)
+- [notebook](https://colab.research.google.com/drive/1RCP53jqClJz0zDX_VBT_K04BevUKk842?usp=sharing)
+
+### [RixVox: A Swedish Speech Corpus with 5500 Hours of Speech from Parliamentary Debates](https://kb-labb.github.io/posts/2023-03-09-rixvox-a-swedish-speech-corpus/) [@rekathati2023rixvox]
+- [dataset](https://huggingface.co/datasets/KBLab/rixvox)
 
 

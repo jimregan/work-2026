@@ -47,3 +47,7 @@ bibliography: refs.bib
 - [notebook](https://colab.research.google.com/drive/1CMJ0ko8kWA4Zjf_qkBA0AN_TwDHeRV8t?usp)
 
 ### [Unearthing forgotten images with the help of AI](https://kb-labb.github.io/posts/2023-10-20-unearthing-forgotten-images-with-the-help-of-ai/) [@haffenden2023unearthing]
+
+### [Swedish zero-shot classification model](https://kb-labb.github.io/posts/2023-02-12-zero-shot-text-classification/) [@sikora2023zeroshot]
+- [hugging face](https://huggingface.co/KBLab/megatron-bert-large-swedish-cased-165-zero-shot) --- no licence
+- [emotional-headlines](https://github.com/kb-labb/emotional-headlines) --- Few-shot classification of basic emotions in Swedish text

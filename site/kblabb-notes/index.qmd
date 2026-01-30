@@ -26,3 +26,8 @@ bibliography: refs.bib
 ### [Finding Speeches in the Riksdag’s Debates](https://kb-labb.github.io/posts/2023-02-15-finding-speeches-in-the-riksdags-debates/) [@rekathati2023]
 - [code](https://github.com/kb-labb/riksdagen_anforanden) --- no licence
 - [data](https://github.com/kb-labb/riksdagen_anforanden/tree/main/metadata)
+
+### [Welcome KB-Whisper, a new fine-tuned Swedish Whisper model!](https://kb-labb.github.io/posts/2025-03-07-welcome-KB-Whisper/) [@vesterbacka2025]
+- [Hugging face collection](https://huggingface.co/collections/KBLab/kb-whisper)
+
+

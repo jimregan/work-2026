@@ -41,3 +41,6 @@ bibliography: refs.bib
 - `wget https://github.com/rhasspy/piper/releases/download/v0.0.2/voice-sv-se-nst-medium.tar.gz`
 - [Hugging face](https://huggingface.co/KBLab/piper-tts-nst-swedish)
 - Uses the (now deleted) [NST Martin data](https://www.nb.no/sprakbanken/en/resource-catalogue/oai-nb-no-sbr-18/)
+
+### [CLIP-Topic: Identifying Themes in Large Image Collections](https://kb-labb.github.io/posts/2025-12-01-clip-topic/)
+- [notebook](https://colab.research.google.com/drive/1CMJ0ko8kWA4Zjf_qkBA0AN_TwDHeRV8t?usp)

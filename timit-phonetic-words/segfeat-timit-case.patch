@@ -1,6 +1,8 @@
---- dataloader.py.orig	2026-01-30 19:29:45
-+++ dataloader.py	2026-01-30 19:30:20
-@@ -87,14 +88,14 @@
+diff --git a/dataloader.py b/dataloader.py
+index 44d6fba..f141162 100644
+--- a/dataloader.py
++++ b/dataloader.py
+@@ -87,14 +87,14 @@ def extract_features(wav_file, hparams):
  
      # extract mel-spectrogram
      if hparams.feats == 'mel':
@@ -17,7 +19,7 @@
                                       sr=sr,
                                       n_fft=hparams.n_fft,
                                       hop_length=hparams.hop_length,
-@@ -208,7 +209,10 @@
+@@ -208,7 +208,7 @@ class WavPhnDataset(Dataset):
          raise NotImplementedError
  
      def process_file(self, wav_path):
@@ -26,7 +28,7 @@
  
          # load audio
          spect = extract_features(wav_path, self.hparams)
-@@ -235,7 +239,7 @@
+@@ -235,7 +235,7 @@ class WavPhnDataset(Dataset):
  
      def _make_dataset(self):
          files = []
@@ -35,14 +37,15 @@
          if self.hparams.devrun:
              wavs = wavs[:self.hparams.devrun_size]
  
-@@ -265,10 +269,19 @@
-         self.data = self._make_dataset()
+@@ -266,9 +266,9 @@ class TimitDataset(WavPhnDataset):
  
      @staticmethod
--    def get_datasets(hparams):
+     def get_datasets(hparams):
 -        train_dataset = TimitDataset(join(hparams.wav_path, 'train'),
--        test_dataset  = TimitDataset(join(hparams.wav_path, 'test'),
 +        train_dataset = TimitDataset(join(hparams.wav_path, 'TRAIN'),
+                                      hparams)
+-        test_dataset  = TimitDataset(join(hparams.wav_path, 'test'),
 +        test_dataset  = TimitDataset(join(hparams.wav_path, 'TEST'),
+                                      hparams)
  
          train_len   = len(train_dataset)

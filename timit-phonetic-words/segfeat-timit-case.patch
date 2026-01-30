@@ -19,3 +19,28 @@
 +        wavs = list(iter_find_files(self.wav_path, "*.wav")) + list(iter_find_files(self.wav_path, "*.WAV"))
          if self.hparams.devrun:
              wavs = wavs[:self.hparams.devrun_size]
+
+@@ -215,10 +219,18 @@ class TimitDataset(WavPhnDataset):
+         self.data = self._make_dataset()
+
++    @staticmethod
++    def _find_subdir(base, name):
++        """Find a subdirectory case-insensitively."""
++        target = name.lower()
++        for entry in os.listdir(base):
++            if entry.lower() == target and os.path.isdir(join(base, entry)):
++                return join(base, entry)
++        return join(base, name)
++
+     @staticmethod
+     def get_datasets(hparams):
+-        train_dataset = TimitDataset(join(hparams.wav_path, 'train'),
+-                                     hparams)
+-        test_dataset  = TimitDataset(join(hparams.wav_path, 'test'),
+-                                     hparams)
++        train_dataset = TimitDataset(TimitDataset._find_subdir(hparams.wav_path, 'train'),
++                                      hparams)
++        test_dataset  = TimitDataset(TimitDataset._find_subdir(hparams.wav_path, 'test'),
++                                      hparams)
+
+         train_len   = len(train_dataset)

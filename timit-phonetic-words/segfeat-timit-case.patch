@@ -1,29 +1,32 @@
---- a/dataloader.py
-+++ b/dataloader.py
-@@ -160,7 +160,11 @@ class WavPhnDataset(Dataset):
-         super(WavPhnDataset, self).__init__()
-
+--- dataloader.py.orig	2026-01-30 19:00:26
++++ dataloader.py	2026-01-30 19:00:56
+@@ -208,7 +208,10 @@
+         raise NotImplementedError
+ 
      def process_file(self, wav_path):
 -        phn_path = wav_path.replace("wav", "phn")
 +        base = wav_path.rsplit(".", 1)[0]
 +        phn_path = base + ".phn"
 +        if not os.path.exists(phn_path):
 +            phn_path = base + ".PHN"
-
+ 
          # load audio
          spect = extract_features(wav_path, self.hparams)
-@@ -190,7 +194,7 @@ class WavPhnDataset(Dataset):
+@@ -235,7 +238,7 @@
+ 
      def _make_dataset(self):
          files = []
 -        wavs = list(iter_find_files(self.wav_path, "*.wav"))
 +        wavs = list(iter_find_files(self.wav_path, "*.wav")) + list(iter_find_files(self.wav_path, "*.WAV"))
          if self.hparams.devrun:
              wavs = wavs[:self.hparams.devrun_size]
-
-@@ -215,10 +219,18 @@ class TimitDataset(WavPhnDataset):
+ 
+@@ -265,10 +268,19 @@
          self.data = self._make_dataset()
-
-+    @staticmethod
+ 
+     @staticmethod
+-    def get_datasets(hparams):
+-        train_dataset = TimitDataset(join(hparams.wav_path, 'train'),
 +    def _find_subdir(base, name):
 +        """Find a subdirectory case-insensitively."""
 +        target = name.lower()
@@ -32,15 +35,12 @@
 +                return join(base, entry)
 +        return join(base, name)
 +
-     @staticmethod
-     def get_datasets(hparams):
--        train_dataset = TimitDataset(join(hparams.wav_path, 'train'),
--                                     hparams)
--        test_dataset  = TimitDataset(join(hparams.wav_path, 'test'),
--                                     hparams)
++    @staticmethod
++    def get_datasets(hparams):
 +        train_dataset = TimitDataset(TimitDataset._find_subdir(hparams.wav_path, 'train'),
-+                                      hparams)
+                                      hparams)
+-        test_dataset  = TimitDataset(join(hparams.wav_path, 'test'),
 +        test_dataset  = TimitDataset(TimitDataset._find_subdir(hparams.wav_path, 'test'),
-+                                      hparams)
-
+                                      hparams)
+ 
          train_len   = len(train_dataset)

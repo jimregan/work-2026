@@ -35,3 +35,9 @@ bibliography: refs.bib
 - [dataset](https://huggingface.co/datasets/KBLab/rixvox)
 
 
+### [Swedish speech synthesis](https://kb-labb.github.io/posts/2023-05-24-swedish-text-to-speech/) [@rekathati2023tts]
+- Uses Piper
+- [voice weights](https://rhasspy.github.io/piper-samples/)
+- `wget https://github.com/rhasspy/piper/releases/download/v0.0.2/voice-sv-se-nst-medium.tar.gz`
+- [Hugging face](https://huggingface.co/KBLab/piper-tts-nst-swedish)
+- Uses the (now deleted) [NST Martin data](https://www.nb.no/sprakbanken/en/resource-catalogue/oai-nb-no-sbr-18/)

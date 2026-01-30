@@ -14,6 +14,7 @@ bibliography: refs.bib
   - train: 0.7106
   - dev: 0.6727
   - test: 0.5871
+- [code](https://github.com/kb-labb/swedish-sbert) --- no licence
 
 ### [Swedish Bootleg model](https://kb-labb.github.io/posts/2022-03-03-swedish-bootleg-model/) [@fano2022]
 - Based on [Bootleg](https://github.com/HazyResearch/bootleg) [@orr2020bootlegchasingtailselfsupervised]
@@ -34,7 +35,6 @@ bibliography: refs.bib
 ### [RixVox: A Swedish Speech Corpus with 5500 Hours of Speech from Parliamentary Debates](https://kb-labb.github.io/posts/2023-03-09-rixvox-a-swedish-speech-corpus/) [@rekathati2023rixvox]
 - [dataset](https://huggingface.co/datasets/KBLab/rixvox)
 - [code](https://github.com/kb-labb/rixvox) --- no licence
-
 
 ### [Swedish speech synthesis](https://kb-labb.github.io/posts/2023-05-24-swedish-text-to-speech/) [@rekathati2023tts]
 - Uses Piper

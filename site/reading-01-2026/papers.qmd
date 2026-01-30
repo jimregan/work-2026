@@ -31,3 +31,18 @@ Dataset for acoustic models derived from Common Voice.
 
 ### [Disentangling Prosody Representations With Unsupervised Speech Reconstruction](https://ieeexplore.ieee.org/document/10269014) [@qu2024prosody2vec]
 - no code
+
+### [CTC-Segmentation of Large Corpora for German End-to-End Speech Recognition](https://link.springer.com/chapter/10.1007/978-3-030-60276-5_27) [@kurzinger2020ctc]
+
+> (3) As these algorithms provide forced alignments, they assume that the audio contains only the text which should be aligned; but for most public domain audio this is not the case.
+- [original code](https://github.com/cornerfarmer/ctc_segmentation)
+- [updated code](https://github.com/lumaku/ctc-segmentation)
+
+### [VIBEVOICE-ASR Technical Report](https://arxiv.org/abs/2601.18184)
+- [code](https://github.com/microsoft/VibeVoice)
+
+### [ASVspoof 5: crowdsourced speech data, deepfakes, and adversarial attacks at scale](https://www.isca-archive.org/asvspoof_2024/wang24_asvspoof.html) [@wang24_asvspoof]
+- [code](https://github.com/asvspoof-challenge/asvspoof5) --- no licence
+- [Hugging face](https://huggingface.co/datasets/jungjee/asvspoof5)
+- [Zenodo](https://zenodo.org/records/14498691)
+- [Kaggle](https://www.kaggle.com/datasets/ulianazb/asvspoof-2024) (D & T only, no E)

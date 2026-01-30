@@ -17,7 +17,11 @@ bibliography: refs.bib
 - phoneme sequences aligned using dynamic programming edit-distance
 - uses [this toolkit](https://www.clear.rice.edu/elec431/projects96/digitalbb/)
 
-## [On The Landscape of Spoken Language Models: A Comprehensive Survey](https://openreview.net/forum?id=BvxaP3sVbA) [@arora2025on]
+### [On The Landscape of Spoken Language Models: A Comprehensive Survey](https://openreview.net/forum?id=BvxaP3sVbA) [@arora2025on]
 
 - [arXiv](https://arxiv.org/abs/2504.08528)
 
+### [Omnilingual ASR: Open-Source Multilingual Speech Recognition for 1600+ Languages](https://ai.meta.com/blog/omnilingual-asr-advancing-automatic-speech-recognition/) [@omnilingualasr2025]
+- [dataset](https://huggingface.co/datasets/facebook/omnilingual-asr-corpus) --- CC-BY
+- [code](https://github.com/facebookresearch/omnilingual-asr) --- code & models Apache 2.0
+- [space](https://huggingface.co/spaces/facebook/omniasr-transcriptions)

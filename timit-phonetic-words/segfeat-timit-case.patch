@@ -1,5 +1,22 @@
---- dataloader.py.orig	2026-01-30 19:00:26
-+++ dataloader.py	2026-01-30 19:00:56
+--- dataloader.py.orig	2026-01-30 19:09:45
++++ dataloader.py	2026-01-30 19:10:09
+@@ -87,14 +87,14 @@
+ 
+     # extract mel-spectrogram
+     if hparams.feats == 'mel':
+-        spect = librosa.feature.melspectrogram(wav,
++        spect = librosa.feature.melspectrogram(y=wav,
+                                                sr=sr,
+                                                n_fft=hparams.n_fft,
+                                                hop_length=hparams.hop_length,
+                                                n_mels=hparams.rnn_input_size)
+     # extract mfcc
+     elif hparams.feats == 'mfcc':
+-        spect = librosa.feature.mfcc(wav,
++        spect = librosa.feature.mfcc(y=wav,
+                                      sr=sr,
+                                      n_fft=hparams.n_fft,
+                                      hop_length=hparams.hop_length,
 @@ -208,7 +208,10 @@
          raise NotImplementedError
  

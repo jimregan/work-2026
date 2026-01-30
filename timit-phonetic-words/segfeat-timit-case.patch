@@ -1,6 +1,14 @@
---- dataloader.py.orig	2026-01-30 19:09:45
-+++ dataloader.py	2026-01-30 19:10:09
-@@ -87,14 +87,14 @@
+--- dataloader.py.orig	2026-01-30 19:29:45
++++ dataloader.py	2026-01-30 19:30:20
+@@ -3,6 +3,7 @@
+ import random
+ from multiprocessing import Pool
+ from os.path import basename, join
++from pathlib import Path
+ 
+ import librosa
+ import numpy as np
+@@ -87,14 +88,14 @@
  
      # extract mel-spectrogram
      if hparams.feats == 'mel':
@@ -17,19 +25,19 @@
                                       sr=sr,
                                       n_fft=hparams.n_fft,
                                       hop_length=hparams.hop_length,
-@@ -208,7 +208,10 @@
+@@ -208,7 +209,10 @@
          raise NotImplementedError
  
      def process_file(self, wav_path):
 -        phn_path = wav_path.replace("wav", "phn")
-+        base = wav_path.rsplit(".", 1)[0]
-+        phn_path = base + ".phn"
++        wav_p = Path(wav_path)
++        phn_path = str(wav_p.with_suffix(".phn"))
 +        if not os.path.exists(phn_path):
-+            phn_path = base + ".PHN"
++            phn_path = str(wav_p.with_suffix(".PHN"))
  
          # load audio
          spect = extract_features(wav_path, self.hparams)
-@@ -235,7 +238,7 @@
+@@ -235,7 +239,7 @@
  
      def _make_dataset(self):
          files = []
@@ -38,7 +46,7 @@
          if self.hparams.devrun:
              wavs = wavs[:self.hparams.devrun_size]
  
-@@ -265,10 +268,19 @@
+@@ -265,10 +269,19 @@
          self.data = self._make_dataset()
  
      @staticmethod

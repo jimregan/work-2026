@@ -19,24 +19,6 @@ https://github.com/facebookresearch/seamless_communication?tab=readme-ov-file
 facebookresearch/fairseq2: FAIR Sequence Modeling Toolkit 2
 https://github.com/facebookresearch/fairseq2?tab=readme-ov-file
 
-Omnilingual ASR: Open-Source Multilingual Speech Recognition for 1600+ Languages
-https://arxiv.org/pdf/2511.09690
-
-facebookresearch/omnilingual-asr: Omnilingual ASR Open-Source Multilingual SpeechRecognition for 1600+ Languages
-https://github.com/facebookresearch/omnilingual-asr
-
-omnilingual-asr/workflows/recipes/wav2vec2/asr/README.md at main · facebookresearch/omnilingual-asr
-https://github.com/facebookresearch/omnilingual-asr/blob/main/workflows/recipes/wav2vec2/asr/README.md
-
-omnilingual-asr/workflows/dataprep/README.md at main · facebookresearch/omnilingual-asr
-https://github.com/facebookresearch/omnilingual-asr/blob/main/workflows/dataprep/README.md
-
-omnilingual-asr/src/omnilingual_asr/models/README.md at main · facebookresearch/omnilingual-asr
-https://github.com/facebookresearch/omnilingual-asr/blob/main/src/omnilingual_asr/models/README.md
-
-facebook/omnilingual-asr-corpus · Datasets at Hugging Face
-https://huggingface.co/datasets/facebook/omnilingual-asr-corpus
-
 facebook/w2v-bert-2.0 · Hugging Face
 https://huggingface.co/facebook/w2v-bert-2.0
 

@@ -40,3 +40,9 @@ Dataset for acoustic models derived from Common Voice.
 
 ### [VIBEVOICE-ASR Technical Report](https://arxiv.org/abs/2601.18184)
 - [code](https://github.com/microsoft/VibeVoice)
+
+### [ASVspoof 5: crowdsourced speech data, deepfakes, and adversarial attacks at scale](https://www.isca-archive.org/asvspoof_2024/wang24_asvspoof.html) [@wang24_asvspoof]
+- [code](https://github.com/asvspoof-challenge/asvspoof5) --- no licence
+- [Hugging face](https://huggingface.co/datasets/jungjee/asvspoof5)
+- [Zenodo](https://zenodo.org/records/14498691)
+- [Kaggle](https://www.kaggle.com/datasets/ulianazb/asvspoof-2024) (D & T only, no E)

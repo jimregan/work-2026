@@ -28,3 +28,8 @@ bibliography: refs.bib
 ### [Phoneme Boundary Detection Using Learnable Segmental Features](https://ieeexplore.ieee.org/document/9053053) [@kreuk2020phoneme]
 - [arXiv](https://arxiv.org/abs/2002.04992)
 - [code](https://github.com/felixkreuk/SegFeat)
+
+### [Self-Supervised Contrastive Learning for Unsupervised Phoneme Segmentation](https://www.isca-archive.org/interspeech_2020/kreuk20_interspeech.html) [@kreuk20_interspeech]
+
+- [arXiv](https://arxiv.org/abs/2007.13465)
+- [code](https://github.com/felixkreuk/UnsupSeg)

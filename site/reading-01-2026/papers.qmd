@@ -46,3 +46,10 @@ Dataset for acoustic models derived from Common Voice.
 - [Hugging face](https://huggingface.co/datasets/jungjee/asvspoof5)
 - [Zenodo](https://zenodo.org/records/14498691)
 - [Kaggle](https://www.kaggle.com/datasets/ulianazb/asvspoof-2024) (D & T only, no E)
+
+[language-based-audio-retrieval](https://github.com/xieh97/language-based-audio-retrieval)
+
+### [FLAM: Frame-Wise Language-Audio Modeling](https://arxiv.org/abs/2505.05335) [@flam2025]
+- [OpenReview](https://openreview.net/forum?id=7fQohcFrxG)
+- Adobe; they call it "openflan" presumably to distract from the fact that it is anything but open.
+

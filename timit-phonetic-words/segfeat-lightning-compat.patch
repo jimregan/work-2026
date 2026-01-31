@@ -54,6 +54,29 @@
              )
  
      if not hparams.test:
+--- utils.py.orig	2026-01-30 19:07:04
++++ utils.py	2026-01-30 19:07:16
+@@ -36,12 +36,16 @@
+
+         for (y, yhat) in zip(batch_y, batch_yhat):
+             y, yhat = np.array(y), np.array(yhat)
+             y, yhat = y[1:-1], yhat[1:-1]
+-            for yhat_i in yhat:
+-                min_dist = np.abs(y - yhat_i).min()
+-                precision_counter += (min_dist <= self.tolerance)
+-            for y_i in y:
+-                min_dist = np.abs(yhat - y_i).min()
+-                recall_counter += (min_dist <= self.tolerance)
++            if len(yhat) > 0 and len(y) > 0:
++                for yhat_i in yhat:
++                    min_dist = np.abs(y - yhat_i).min()
++                    precision_counter += (min_dist <= self.tolerance)
++                for y_i in y:
++                    min_dist = np.abs(yhat - y_i).min()
++                    recall_counter += (min_dist <= self.tolerance)
+             pred_counter += len(yhat)
+             gt_counter += len(y)
+
 --- model.py.orig	2026-01-30 19:07:04
 +++ model.py	2026-01-30 19:07:16
 @@ -138,7 +138,7 @@

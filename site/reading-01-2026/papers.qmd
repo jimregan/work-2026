@@ -53,3 +53,6 @@ Dataset for acoustic models derived from Common Voice.
 - [OpenReview](https://openreview.net/forum?id=7fQohcFrxG)
 - Adobe; they call it "openflan" presumably to distract from the fact that it is anything but open.
 
+### [FlexCTC: GPU-powered CTC Beam Decoding With Advanced Contextual Abilities](https://arxiv.org/abs/2508.07315) [@grigoryan2025flexctcgpupoweredctcbeam]
+- NeMo
+- Tested on MultiMed

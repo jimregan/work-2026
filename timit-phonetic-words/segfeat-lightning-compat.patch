@@ -54,6 +54,17 @@
              )
  
      if not hparams.test:
+--- model.py.orig	2026-01-30 19:07:04
++++ model.py	2026-01-30 19:07:16
+@@ -138,7 +138,7 @@
+         results = {}
+
+         # feed through rnn
+-        x = nn.utils.rnn.pack_padded_sequence(x, length, batch_first=True, enforce_sorted=False)
++        x = nn.utils.rnn.pack_padded_sequence(x, length.cpu(), batch_first=True, enforce_sorted=False)
+         rnn_out, _ = self.rnn(x)
+         rnn_out, _ = nn.utils.rnn.pad_packed_sequence(rnn_out, batch_first=True)
+         rnn_cum = torch.cumsum(rnn_out, dim=1)
 --- solver.py.orig	2026-01-30 19:07:04
 +++ solver.py	2026-01-30 19:07:57
 @@ -19,7 +19,7 @@

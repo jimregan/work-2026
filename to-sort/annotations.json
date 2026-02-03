@@ -1,0 +1,63 @@
+[
+  {
+    "segment_index": 1,
+    "diff_op_index": 2,
+    "op": "replace",
+    "vv_words": [
+      "One."
+    ],
+    "et_words": [
+      "I."
+    ],
+    "classification": "normalisation"
+  },
+  {
+    "segment_index": 1,
+    "diff_op_index": 4,
+    "op": "replace",
+    "vv_words": [
+      "is"
+    ],
+    "et_words": [
+      "as"
+    ],
+    "classification": "asr"
+  },
+  {
+    "segment_index": 1,
+    "diff_op_index": 6,
+    "op": "replace",
+    "vv_words": [
+      "is"
+    ],
+    "et_words": [
+      "as"
+    ],
+    "classification": "asr"
+  },
+  {
+    "segment_index": 1,
+    "diff_op_index": 10,
+    "op": "replace",
+    "vv_words": [
+      "Sir",
+      "Eden"
+    ],
+    "et_words": [
+      "Sheridan"
+    ],
+    "classification": "reading"
+  },
+  {
+    "segment_index": 1,
+    "diff_op_index": 20,
+    "op": "replace",
+    "vv_words": [
+      "ex-chiquoir,"
+    ],
+    "et_words": [
+      "Exchequer,"
+    ],
+    "classification": "reading"
+  }
+]

@@ -33,3 +33,7 @@ bibliography: refs.bib
 
 - [arXiv](https://arxiv.org/abs/2007.13465)
 - [code](https://github.com/felixkreuk/UnsupSeg)
+
+### [Bridging the gap: A comparative exploration of Speech-LLM and end-to-end architecture for multilingual conversational ASR](https://arxiv.org/abs/2601.01461)
+- [code](https://github.com/YuCeong-May/MLC-SLM)
+- [models](https://huggingface.co/YuCeong-May/MLC-SLM)

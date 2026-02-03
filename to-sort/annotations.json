@@ -1,18 +1,10 @@
 [
   {
     "segment_index": 1,
-    "diff_op_index": 2,
-    "op": "replace",
-    "vv_words": [
-      "One."
-    ],
-    "et_words": [
-      "I."
-    ],
-    "classification": "normalisation"
-  },
-  {
-    "segment_index": 1,
+    "start": 19.22,
+    "end": 32.48,
+    "vibevoice": "Around the World in Eighty Days by Jules Verne. Chapter One. In which Phileas Fogg and Passepartout accept each other. The one is master, the other is man. Mr.",
+    "etext": "This is a LibriVox recording. All LibriVox recordings are in the public domain. For more information, or to volunteer, please visit LibriVox.org. That's L-I-B-R-I-V-O-X dot org. Around the World in Eighty Days by Jules Verne. Chapter I. In which Phileas Fogg and Passepartout accept each other, the one as master, the other as man Mr. Phileas Fogg lived, in 1872, at",
     "diff_op_index": 4,
     "op": "replace",
     "vv_words": [
@@ -22,42 +14,5 @@
       "as"
     ],
     "classification": "asr"
-  },
-  {
-    "segment_index": 1,
-    "diff_op_index": 6,
-    "op": "replace",
-    "vv_words": [
-      "is"
-    ],
-    "et_words": [
-      "as"
-    ],
-    "classification": "asr"
-  },
-  {
-    "segment_index": 1,
-    "diff_op_index": 10,
-    "op": "replace",
-    "vv_words": [
-      "Sir",
-      "Eden"
-    ],
-    "et_words": [
-      "Sheridan"
-    ],
-    "classification": "reading"
-  },
-  {
-    "segment_index": 1,
-    "diff_op_index": 20,
-    "op": "replace",
-    "vv_words": [
-      "ex-chiquoir,"
-    ],
-    "et_words": [
-      "Exchequer,"
-    ],
-    "classification": "reading"
   }
 ]

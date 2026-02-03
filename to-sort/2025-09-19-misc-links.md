@@ -89,31 +89,17 @@ categories: [links]
 [Identity-Preserving Talking Face Generation with Landmark and Appearance Priors](https://www.computer.org/csdl/proceedings-article/cvpr/2023/012900j729/1POPw2eqT7y),
 [code](https://github.com/Weizhi-Zhong/IP_LAP)
 
-[OmniGen2: Exploration to Advanced Multimodal Generation](https://arxiv.org/abs/2506.18871),
-[code](https://github.com/VectorSpaceLab/OmniGen2),
-[model](https://huggingface.co/OmniGen2/OmniGen2)
-
-[GrapheneOS](https://grapheneos.org/)
-
-[Playing with binary formats](https://www.linux.it/~rubini/docs/binfmt/binfmt.html)
-
 [Kyutai STT](https://kyutai.org/next/stt),
 [kyutai/stt-1b-en_fr](https://huggingface.co/kyutai/stt-1b-en_fr),
 [kyutai/tts-1.6b-en_fr](https://huggingface.co/kyutai/tts-1.6b-en_fr),
 [code](https://github.com/kyutai-labs/delayed-streams-modeling/),
 [kyutai/mimi](https://huggingface.co/kyutai/mimi)
 
-[The State of Freedom Around the World in 2025](https://www.visualcapitalist.com/the-state-of-freedom-around-the-world-in-2025/)
-
-[baidu/ERNIE-4.5-300B-A47B-Base-PT](https://huggingface.co/baidu/ERNIE-4.5-300B-A47B-Base-PT)
-
 [Add recipe for Qwen2-Audio-7B-Chat on Dynamic-SUPERB ASR task #6194](https://github.com/espnet/espnet/pull/6194)
 
 [Add Harvest algorithm as an option for F0 extraction #6083](https://github.com/espnet/espnet/pull/6083)
 
 [Create a ESPnet bootcamp recipe for proyecto-nahuatl-asr #6066](https://github.com/espnet/espnet/pull/6066)
-
-[Fine-tune an image model](https://replicate.com/docs/get-started/fine-tune-with-flux)
 
 [TalkingGaussian: Structure-Persistent 3D Talking Head Synthesis via Gaussian Splatting](https://arxiv.org/abs/2404.15264)
 

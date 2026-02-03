@@ -14,7 +14,7 @@ pipeline:
 
 ## Input formats
 
-### VibeVoice output (JSONL-ish)
+### VibeVoice output (JSON array)
 
 ```json
 {"Start":7.22,"End":10.48,"Speaker":0,"Content":"Yeah, you're, I mean, your place looks amazing."},
@@ -25,9 +25,9 @@ Each line has `Start`/`End` (seconds), `Speaker` (int), and `Content` (text).
 
 ### Etext
 
-Plain text from Project Gutenberg (or similar). Includes Gutenberg/LibriVox
-boilerplate at the start and end that should be preserved (tagged as
-boilerplate, not discarded).
+Plain text from Project Gutenberg (or similar). Spoken Librivox boilerplate should be handled
+since it won't appear in the etext: this is usually quite formulaic (title,
+author, chapter headings, licence text).
 
 ## Pipeline
 
@@ -119,7 +119,7 @@ Gutenberg etext. Strategy:
 - `numpy`
 - `rapidfuzz`
 - `nltk`
-- `soundfile` or `librosa` (audio loading)
+- `pydub`
 
 ## Notes
 

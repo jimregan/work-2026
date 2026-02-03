@@ -1,4 +1,4 @@
-"""Parse VibeVoice JSON output and merge chunks at sentence boundaries."""
+"""Parse VibeVoice JSON output and merge temporally contiguous chunks."""
 
 import json
 from dataclasses import dataclass
@@ -10,9 +10,6 @@ class Chunk:
     end: float
     speaker: int
     content: str
-
-
-SENTENCE_ENDINGS = frozenset(".!?")
 
 
 def parse_vibevoice(json_path: str) -> list[Chunk]:
@@ -31,11 +28,11 @@ def parse_vibevoice(json_path: str) -> list[Chunk]:
 
 
 def merge_chunks(chunks: list[Chunk]) -> list[Chunk]:
-    """Merge consecutive chunks that don't end with sentence-ending punctuation.
+    """Merge temporally contiguous chunks.
 
-    If a chunk's content does not end with '.', '!', or '?', it is merged
-    with the following chunk (accumulating text, extending the end time).
-    Speaker is taken from the first chunk in a merged group.
+    When one chunk's end time exactly equals the next chunk's start time,
+    they are merged (accumulating text, extending the end time). Speaker
+    is taken from the first chunk in a merged group.
     """
     if not chunks:
         return []
@@ -49,8 +46,10 @@ def merge_chunks(chunks: list[Chunk]) -> list[Chunk]:
     )
 
     for chunk in chunks[1:]:
-        text = current.content.rstrip()
-        if text and text[-1] in SENTENCE_ENDINGS:
+        if chunk.start == current.end:
+            current.end = chunk.end
+            current.content = current.content + " " + chunk.content
+        else:
             merged.append(current)
             current = Chunk(
                 start=chunk.start,
@@ -58,9 +57,6 @@ def merge_chunks(chunks: list[Chunk]) -> list[Chunk]:
                 speaker=chunk.speaker,
                 content=chunk.content,
             )
-        else:
-            current.end = chunk.end
-            current.content = current.content + " " + chunk.content
 
     merged.append(current)
     return merged

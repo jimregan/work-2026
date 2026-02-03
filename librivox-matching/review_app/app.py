@@ -34,10 +34,10 @@ def _normalize_word(word: str) -> str:
 def _align_chunks_to_etext(chunks: list[Chunk], etext: str) -> list[dict]:
     """Align VibeVoice chunks to etext using SequenceMatcher on normalised words.
 
-    Concatenates all chunk texts, aligns the whole thing against the etext
-    at the word level (using normalised forms for comparison), then splits
-    the aligned etext back into per-chunk passages using SequenceMatcher's
-    matching blocks.
+    Does a single global alignment of all concatenated VV words against the
+    etext, then walks through the opcodes splitting them at chunk boundaries
+    to produce per-chunk diff ops directly. Each chunk gets its own list of
+    diff ops with no overlap.
     """
     et_words = etext.split()
     et_norm = [_normalize_word(w) for w in et_words]
@@ -55,36 +55,117 @@ def _align_chunks_to_etext(chunks: list[Chunk], etext: str) -> list[dict]:
 
     # Single SequenceMatcher on the full normalised word lists
     matcher = difflib.SequenceMatcher(None, et_norm, vv_norm)
-    opcodes = matcher.get_opcodes()
+    opcodes = list(matcher.get_opcodes())
 
-    # For each chunk, find which etext words correspond to it
-    # by looking at the opcodes that overlap the chunk's VV word range.
-    segments = []
-    for ci, chunk in enumerate(chunks):
+    # Split opcodes at chunk boundaries to produce per-chunk diff ops.
+    # Each opcode covers et_words[i1:i2] and vv_words[j1:j2].
+    # We walk through opcodes and chunk boundaries together.
+    chunk_ops: list[list[dict]] = [[] for _ in chunks]
+    op_idx = 0
+
+    for ci in range(len(chunks)):
         vv_start, vv_end = chunk_boundaries[ci]
 
-        # Find the etext word range that maps to this chunk's VV words
-        et_start = None
-        et_end = None
+        while op_idx < len(opcodes):
+            tag, i1, i2, j1, j2 = opcodes[op_idx]
 
-        for tag, i1, i2, j1, j2 in opcodes:
-            # Does this opcode overlap with our chunk's VV range?
-            if j2 <= vv_start:
-                continue  # entirely before our chunk
             if j1 >= vv_end:
-                break  # entirely after our chunk
+                # This opcode starts at or after our chunk ends.
+                # Any "delete" ops (no VV words) right before a chunk
+                # boundary should be assigned to the next chunk.
+                break
 
-            # This opcode overlaps with our chunk
-            if et_start is None:
-                et_start = i1
-            et_end = i2
+            if j2 <= vv_start:
+                # Entirely before our chunk — skip
+                op_idx += 1
+                continue
 
-        if et_start is not None:
-            passage = " ".join(et_words[et_start:et_end])
-            is_boilerplate = False
-        else:
-            passage = ""
-            is_boilerplate = True
+            # This opcode overlaps with our chunk.
+            if j1 >= vv_start and j2 <= vv_end:
+                # Entirely within our chunk — take it whole
+                chunk_ops[ci].append({
+                    "op": tag,
+                    "et_words": et_words[i1:i2],
+                    "vv_words": vv_words[j1:j2],
+                })
+                op_idx += 1
+            elif j1 < vv_start:
+                # Opcode starts before our chunk — split it
+                # The part before vv_start belongs to previous chunk(s)
+                # Take only the part from vv_start onward
+                vv_offset = vv_start - j1
+                vv_portion = j2 - vv_start
+                total_vv = j2 - j1
+                total_et = i2 - i1
+
+                if tag == "equal":
+                    et_offset = vv_offset
+                    chunk_ops[ci].append({
+                        "op": "equal",
+                        "et_words": et_words[i1 + et_offset:i2],
+                        "vv_words": vv_words[vv_start:j2],
+                    })
+                elif tag in ("replace", "insert"):
+                    # For replace/insert, proportionally split etext words
+                    if total_vv > 0:
+                        et_split = int(total_et * vv_offset / total_vv)
+                    else:
+                        et_split = total_et
+                    chunk_ops[ci].append({
+                        "op": tag,
+                        "et_words": et_words[i1 + et_split:i2],
+                        "vv_words": vv_words[vv_start:j2],
+                    })
+                # delete ops have no VV words, so they can't span chunks
+                op_idx += 1
+            elif j2 > vv_end:
+                # Opcode extends past our chunk — split it
+                vv_portion = vv_end - j1
+                total_vv = j2 - j1
+                total_et = i2 - i1
+
+                if tag == "equal":
+                    chunk_ops[ci].append({
+                        "op": "equal",
+                        "et_words": et_words[i1:i1 + vv_portion],
+                        "vv_words": vv_words[j1:vv_end],
+                    })
+                    # Update opcode for next chunk
+                    opcodes[op_idx] = (tag, i1 + vv_portion, i2,
+                                       vv_end, j2)
+                elif tag in ("replace", "insert"):
+                    if total_vv > 0:
+                        et_split = int(total_et * vv_portion / total_vv)
+                    else:
+                        et_split = 0
+                    chunk_ops[ci].append({
+                        "op": tag,
+                        "et_words": et_words[i1:i1 + et_split],
+                        "vv_words": vv_words[j1:vv_end],
+                    })
+                    opcodes[op_idx] = (tag, i1 + et_split, i2,
+                                       vv_end, j2)
+                # Don't advance op_idx — remainder belongs to next chunk
+                break
+            else:
+                op_idx += 1
+
+    # Build segments with their diff ops
+    segments = []
+    for ci, chunk in enumerate(chunks):
+        ops = chunk_ops[ci]
+
+        # Determine etext passage from the ops
+        et_passage_words = []
+        for op in ops:
+            et_passage_words.extend(op["et_words"])
+        passage = " ".join(et_passage_words)
+
+        # A chunk is boilerplate if it has no matching etext words
+        has_match = any(
+            op["op"] == "equal" and op["et_words"]
+            for op in ops
+        )
 
         segments.append({
             "index": ci,
@@ -92,7 +173,8 @@ def _align_chunks_to_etext(chunks: list[Chunk], etext: str) -> list[dict]:
             "end": chunk.end,
             "vibevoice": chunk.content,
             "etext": passage,
-            "boilerplate": is_boilerplate,
+            "boilerplate": not has_match,
+            "diff_ops": ops,
         })
 
     return segments
@@ -181,12 +263,7 @@ def align():
         traceback.print_exc()
         return jsonify({"error": f"Alignment failed: {e}"}), 500
 
-    # Add word-level diffs
-    for seg in segments:
-        if seg["boilerplate"] or not seg["etext"]:
-            seg["diff_ops"] = []
-        else:
-            seg["diff_ops"] = compute_word_diff(seg["etext"], seg["vibevoice"])
+    # diff_ops are already computed by _align_chunks_to_etext
 
     return jsonify({"segments": segments})
 

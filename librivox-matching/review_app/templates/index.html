@@ -31,7 +31,10 @@
   .btn-secondary { background: #e5e7eb; color: #333; }
   .btn-secondary:hover { background: #d1d5db; }
   .btn:disabled { opacity: 0.5; cursor: not-allowed; }
-  .btn-bar { display: flex; gap: 0.5rem; margin-top: 0.5rem; }
+  .btn-bar { display: flex; gap: 0.5rem; margin-top: 0.5rem; align-items: center; }
+
+  .load-area { margin-left: 1.5rem; font-size: 0.85rem; display: flex; align-items: center; gap: 0.4rem; }
+  .load-area label { font-weight: 600; }
 
   #status { margin-top: 0.5rem; font-size: 0.85rem; color: #666; }
 
@@ -71,6 +74,8 @@
   .class-badge.asr { background: #dbeafe; color: #1e40af; }
   .class-badge.reading { background: #fce7f3; color: #9d174d; }
   .class-badge.normalisation { background: #e0e7ff; color: #4338ca; }
+  .class-badge.punctuation { background: #fef9c3; color: #854d0e; }
+  .class-badge.dialect { background: #d1fae5; color: #065f46; }
 
   .popup {
     position: absolute; z-index: 100; background: #fff; border: 1px solid #ddd;
@@ -90,6 +95,14 @@
   .popup-item .dot.asr { background: #3b82f6; }
   .popup-item .dot.reading { background: #ec4899; }
   .popup-item .dot.normalisation { background: #6366f1; }
+  .popup-item .dot.punctuation { background: #eab308; }
+  .popup-item .dot.dialect { background: #10b981; }
+
+  .norm-input {
+    display: block; width: calc(100% - 1rem); margin: 0.15rem 0.5rem 0.25rem;
+    padding: 0.3rem 0.4rem; font-size: 0.8rem; border: 1px solid #ccc;
+    border-radius: 4px; font-family: monospace;
+  }
 </style>
 </head>
 <body>
@@ -113,6 +126,10 @@
     <button class="btn btn-primary" id="align-btn">Align</button>
     <button class="btn btn-secondary" id="save-btn" disabled>Save</button>
     <button class="btn btn-secondary" id="export-btn" disabled>Export</button>
+    <span class="load-area">
+      <label for="load-file">Import:</label>
+      <input type="file" id="load-file" accept=".json">
+    </span>
   </div>
   <div id="status"></div>
 </div>

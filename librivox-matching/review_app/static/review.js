@@ -2,17 +2,22 @@
   "use strict";
 
   let segmentsData = [];
-  let annotations = {};  // key: "segIdx-opIdx" → classification string
+  let annotations = {};  // key: "segIdx-opIdx" → { classification, normalised? }
+  let pendingAnnotations = null;  // stored annotations to apply after alignment
 
   const alignBtn = document.getElementById("align-btn");
   const saveBtn = document.getElementById("save-btn");
   const exportBtn = document.getElementById("export-btn");
   const statusEl = document.getElementById("status");
   const segmentsEl = document.getElementById("segments");
+  const loadInput = document.getElementById("load-file");
 
   alignBtn.addEventListener("click", doAlign);
   saveBtn.addEventListener("click", doSave);
   exportBtn.addEventListener("click", doExport);
+  if (loadInput) {
+    loadInput.addEventListener("change", doLoad);
+  }
 
   // Close any open popup when clicking elsewhere
   document.addEventListener("click", function (e) {
@@ -63,6 +68,11 @@
         }
         segmentsData = data.segments;
         annotations = {};
+        // Apply pending annotations from a loaded file
+        if (pendingAnnotations) {
+          applyLoadedAnnotations(pendingAnnotations);
+          pendingAnnotations = null;
+        }
         renderSegments();
         saveBtn.disabled = false;
         exportBtn.disabled = false;
@@ -79,6 +89,7 @@
     segmentsData.forEach(function (seg) {
       const div = document.createElement("div");
       div.className = "segment" + (seg.boilerplate ? " boilerplate" : "");
+      div.dataset.segIdx = seg.index;
 
       const header = document.createElement("div");
       header.className = "segment-header";
@@ -110,9 +121,14 @@
 
   function renderDiffOp(segIdx, opIdx, op) {
     const span = document.createElement("span");
-    span.className = "diff-group";
+    span.className = "diff-group clickable";
     span.dataset.segIdx = segIdx;
     span.dataset.opIdx = opIdx;
+
+    span.addEventListener("click", function (e) {
+      e.stopPropagation();
+      togglePopup(span, segIdx, opIdx, op);
+    });
 
     if (op.op === "equal") {
       op.et_words.forEach(function (w) {
@@ -121,17 +137,7 @@
         s.textContent = w + " ";
         span.appendChild(s);
       });
-      return span;
-    }
-
-    // Non-equal: make clickable
-    span.classList.add("clickable");
-    span.addEventListener("click", function (e) {
-      e.stopPropagation();
-      togglePopup(span, segIdx, opIdx, op);
-    });
-
-    if (op.op === "replace") {
+    } else if (op.op === "replace") {
       op.et_words.forEach(function (w) {
         const s = document.createElement("span");
         s.className = "et-word";
@@ -163,7 +169,7 @@
     // Show existing classification badge
     const key = segIdx + "-" + opIdx;
     if (annotations[key]) {
-      appendBadge(span, annotations[key]);
+      appendBadge(span, annotations[key].classification);
     }
 
     return span;
@@ -175,28 +181,41 @@
 
     const key = segIdx + "-" + opIdx;
     const current = annotations[key] || null;
+    const currentClass = current ? current.classification : null;
 
     const popup = document.createElement("div");
     popup.className = "popup";
 
-    var options = [
-      { value: "asr", label: "ASR error" },
-      { value: "reading", label: "Reading error" },
-      { value: "normalisation", label: "Normalisation" },
-    ];
+    var options;
+    if (op.op === "equal") {
+      // Equal words only get a reduced menu
+      options = [
+        { value: "reading", label: "Reading error" },
+      ];
+    } else {
+      options = [
+        { value: "asr", label: "ASR error" },
+        { value: "reading", label: "Reading error" },
+        { value: "normalisation", label: "Normalisation" },
+        { value: "punctuation", label: "Punctuation" },
+        { value: "dialect", label: "Dialect" },
+      ];
+    }
 
     options.forEach(function (opt) {
       const btn = document.createElement("button");
-      btn.className = "popup-item" + (current === opt.value ? " active" : "");
+      btn.className = "popup-item" + (currentClass === opt.value ? " active" : "");
       btn.innerHTML = '<span class="dot ' + opt.value + '"></span>' + opt.label;
       btn.addEventListener("click", function (e) {
         e.stopPropagation();
-        annotations[key] = opt.value;
-        popup.remove();
-        // Re-render badge on the group
-        const existing = groupEl.querySelector(".class-badge");
-        if (existing) existing.remove();
-        appendBadge(groupEl, opt.value);
+
+        // For reading/normalisation, show text input
+        if (opt.value === "reading" || opt.value === "normalisation") {
+          showNormInput(popup, groupEl, segIdx, opIdx, op, opt.value, current);
+        } else {
+          applyAnnotation(key, { classification: opt.value }, groupEl, segIdx, opIdx, op);
+          popup.remove();
+        }
       });
       popup.appendChild(btn);
     });
@@ -219,10 +238,125 @@
     groupEl.appendChild(popup);
   }
 
+  function showNormInput(popup, groupEl, segIdx, opIdx, op, classification, current) {
+    // Remove existing input area if any
+    var existingArea = popup.querySelector(".norm-input-area");
+    if (existingArea) existingArea.remove();
+
+    var area = document.createElement("div");
+    area.className = "norm-input-area";
+
+    var label = document.createElement("label");
+    label.textContent = "Normalised text:";
+    label.style.cssText = "display:block;font-size:0.75rem;margin:0.4rem 0.5rem 0.15rem;color:#666;";
+    area.appendChild(label);
+
+    var input = document.createElement("input");
+    input.type = "text";
+    input.className = "norm-input";
+
+    // Pre-fill: reading → etext words, normalisation → VV words
+    var prefill = "";
+    if (current && current.normalised) {
+      prefill = current.normalised;
+    } else if (classification === "reading") {
+      prefill = (op.et_words || []).join(" ");
+    } else if (classification === "normalisation") {
+      prefill = (op.vv_words || []).join(" ");
+    }
+    input.value = prefill;
+    area.appendChild(input);
+
+    var confirmBtn = document.createElement("button");
+    confirmBtn.className = "popup-item";
+    confirmBtn.textContent = "Apply";
+    confirmBtn.style.cssText = "font-weight:700;color:#2563eb;";
+    confirmBtn.addEventListener("click", function (e) {
+      e.stopPropagation();
+      var key = segIdx + "-" + opIdx;
+      var ann = { classification: classification };
+      if (input.value.trim()) {
+        ann.normalised = input.value.trim();
+      }
+      applyAnnotation(key, ann, groupEl, segIdx, opIdx, op);
+      popup.remove();
+    });
+    area.appendChild(confirmBtn);
+
+    popup.appendChild(area);
+    input.focus();
+
+    // Prevent popup from closing when clicking input
+    input.addEventListener("click", function (e) { e.stopPropagation(); });
+  }
+
+  function applyAnnotation(key, ann, groupEl, segIdx, opIdx, op) {
+    annotations[key] = ann;
+
+    // Re-render badge on the group
+    var existing = groupEl.querySelector(".class-badge");
+    if (existing) existing.remove();
+    appendBadge(groupEl, ann.classification);
+
+    // Auto-propagate to matching (vv_words, et_words) pairs
+    autopropagate(segIdx, opIdx, op, ann);
+  }
+
+  function autopropagate(sourceSegIdx, sourceOpIdx, sourceOp, ann) {
+    var srcVV = (sourceOp.vv_words || []).join(" ");
+    var srcET = (sourceOp.et_words || []).join(" ");
+
+    var affectedSegments = {};
+
+    segmentsData.forEach(function (seg) {
+      if (seg.boilerplate) return;
+      seg.diff_ops.forEach(function (op, opIdx) {
+        if (seg.index === sourceSegIdx && opIdx === sourceOpIdx) return;
+        var vv = (op.vv_words || []).join(" ");
+        var et = (op.et_words || []).join(" ");
+        if (vv === srcVV && et === srcET) {
+          var k = seg.index + "-" + opIdx;
+          annotations[k] = { classification: ann.classification };
+          if (ann.normalised) {
+            annotations[k].normalised = ann.normalised;
+          }
+          affectedSegments[seg.index] = true;
+        }
+      });
+    });
+
+    // Re-render affected segments
+    Object.keys(affectedSegments).forEach(function (segIdxStr) {
+      rerenderSegment(parseInt(segIdxStr, 10));
+    });
+  }
+
+  function rerenderSegment(segIdx) {
+    var seg = segmentsData[segIdx];
+    if (!seg || seg.boilerplate) return;
+    var segEl = segmentsEl.querySelector('.segment[data-seg-idx="' + segIdx + '"]');
+    if (!segEl) return;
+    var body = segEl.querySelector(".segment-body");
+    if (!body) return;
+    body.innerHTML = "";
+    var diffLine = document.createElement("div");
+    diffLine.className = "diff-line";
+    seg.diff_ops.forEach(function (op, opIdx) {
+      diffLine.appendChild(renderDiffOp(seg.index, opIdx, op));
+    });
+    body.appendChild(diffLine);
+  }
+
   function appendBadge(el, classification) {
     const badge = document.createElement("span");
     badge.className = "class-badge " + classification;
-    var labels = { asr: "ASR", reading: "READ", normalisation: "NORM" };
+    var labels = {
+      asr: "ASR",
+      reading: "READ",
+      normalisation: "NORM",
+      punctuation: "PUNCT",
+      dialect: "DIAL",
+    };
     badge.textContent = labels[classification] || classification;
     el.appendChild(badge);
   }
@@ -235,7 +369,7 @@
       const opIdx = parseInt(parts[1], 10);
       const seg = segmentsData[segIdx];
       var op = seg.diff_ops[opIdx];
-      list.push({
+      var entry = {
         segment_index: segIdx,
         start: seg.start,
         end: seg.end,
@@ -245,8 +379,12 @@
         op: op.op,
         vv_words: op.vv_words,
         et_words: op.et_words,
-        classification: annotations[key],
-      });
+        classification: annotations[key].classification,
+      };
+      if (annotations[key].normalised) {
+        entry.normalised = annotations[key].normalised;
+      }
+      list.push(entry);
     });
     list.sort(function (a, b) {
       return a.segment_index - b.segment_index || a.diff_op_index - b.diff_op_index;
@@ -282,6 +420,43 @@
     a.download = "annotations.json";
     a.click();
     URL.revokeObjectURL(url);
+  }
+
+  function doLoad() {
+    var file = loadInput.files[0];
+    if (!file) return;
+    var reader = new FileReader();
+    reader.onload = function (e) {
+      try {
+        var data = JSON.parse(e.target.result);
+        if (!Array.isArray(data)) {
+          setStatus("Load error: expected a JSON array");
+          return;
+        }
+        if (segmentsData.length > 0) {
+          applyLoadedAnnotations(data);
+          renderSegments();
+          setStatus("Loaded " + data.length + " annotations.");
+        } else {
+          pendingAnnotations = data;
+          setStatus("Annotations loaded; they will be applied after alignment.");
+        }
+      } catch (err) {
+        setStatus("Load error: " + err);
+      }
+    };
+    reader.readAsText(file);
+  }
+
+  function applyLoadedAnnotations(data) {
+    data.forEach(function (entry) {
+      var key = entry.segment_index + "-" + entry.diff_op_index;
+      var ann = { classification: entry.classification };
+      if (entry.normalised) {
+        ann.normalised = entry.normalised;
+      }
+      annotations[key] = ann;
+    });
   }
 
   function formatTime(seconds) {

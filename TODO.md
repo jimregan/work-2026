@@ -5,3 +5,13 @@ talman endast en kort kommentar till en funkt i herrarladsanförande han menade 
 Herr talman endast en kort kommentar till en punkt i Herr Arlats anförande. Han menade att vi reservanter inte hade tänkt på att det fanns för lite barn och för lite utbildade gymnastiklärare i Umeå med omnejd för att man skulle kunna få lägga gymnastik- och idrottslärareskolan dit.
 
 Herr talman! [Jag vill] endast [göra] en {eh} kort[fattad] kommentar till en punkt i herr Allards anförande. Han {eh} menade, att {vi} reservanter {eh} inte hade tänkt på att det i Umeå med omnejd kanske inte fanns tillräckligt med barn för övningsundervisning och att antalet utbildade gymnastiklärare var för ringa, för att man skulle kunna förlägga [en] gymnastik{- }och idrottshögskola dit.
+
+
+---
+
+
+[PolyIPA -- Multilingual Phoneme-to-Grapheme Conversion Model](https://arxiv.org/abs/2412.09102)
+
+---
+
+[Failed](https://www.kaggle.com/code/jimregan/train-segfeat-on-timit/) --- re-run

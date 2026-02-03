@@ -1,0 +1,8 @@
+ctc_segmentation
+transformers
+torch
+numpy
+rapidfuzz
+nltk
+pydub
+num2words

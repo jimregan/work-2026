@@ -13,7 +13,7 @@ categories: [links]
 
 [mmBERT: ModernBERT goes Multilingual](https://huggingface.co/blog/mmbert)
 
-[jhu-clsp/mmBERT](https://github.com/jhu-clsp/mmBERT)
+[jhu-clsp/mmBERT]()
 <!-- progressive addition of languages --- how does that work? -->
 
 [Finetuning ByT5 for GED](https://www.kaggle.com/code/asibrahman/finetuning-byt5-for-ged)

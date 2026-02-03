@@ -15,3 +15,9 @@ Herr talman! [Jag vill] endast [göra] en {eh} kort[fattad] kommentar till en pu
 ---
 
 [Failed](https://www.kaggle.com/code/jimregan/train-segfeat-on-timit/) --- re-run
+
+
+Librivox API information: https://librivox.org/api/info
+
+Searching for "Version 2": https://librivox.org/search?q=version%202&search_form=advanced
+Gives 37 pages of results.

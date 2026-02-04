@@ -113,20 +113,21 @@ and leads to bugs like the normalization issue above.
 
 Suggested unified pipeline (single script or notebook with clear stages):
 
-1. **Load**: Read `braxen-sv.tsv`, skip comments, parse ID/word/transcript/language fields.
-   Keep accent markers. Work from a copy if corrections are needed.
-2. **Correct**: Apply any language tag corrections by ID (from graphone filtering / manual
-   review). This is where misclassified items get fixed.
-3. **Split by language**: Produce per-language word/transcript pairs. Filter numerics.
-4. **Validate**: Hunspell spell-check per language. Nordic normalization for lookup only,
+1. **Load**: Read `braxen-sv.tsv` (or a corrected copy), skip comments, parse
+   ID/word/transcript/language fields. Keep accent markers.
+2. **Split by language**: Produce per-language word/transcript pairs. Filter numerics.
+3. **Validate**: Hunspell spell-check per language. Nordic normalization for lookup only,
    never modifying the source word. Record OK/MISS/suggestions as metadata, don't discard
    entries yet.
-5. **Filter**: Apply minimum entry thresholds, keep only Hunspell-OK words (+ configurable
+4. **Filter**: Apply minimum entry thresholds, keep only Hunspell-OK words (+ configurable
    exceptions like known-good proper names). Output filtered per-language files.
-6. **Train/test split**: Consistent, reproducible splits.
-7. **Train models**: Phonetisaurus (WL, MWL, RAW), DeepPhonemizer, (ByT5).
+5. **Train/test split**: Consistent, reproducible splits.
+6. **Train models**: Phonetisaurus (WL, MWL, RAW), DeepPhonemizer, (ByT5).
    Two variants: with and without accent markers.
-8. **Evaluate**: PER calculation against held-out test sets. Output results tables.
+7. **Evaluate**: PER calculation against held-out test sets. Output results tables.
+
+Language tag corrections are a separate process (see "Filter by graphone" above);
+the pipeline takes a corrected copy of `braxen-sv.tsv` as input.
 
 Benefits:
 - Single source of truth (the corrected Braxen copy).

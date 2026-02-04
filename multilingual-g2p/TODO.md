@@ -91,6 +91,49 @@ Original plan: ByT5-based model. Fallback baseline: Phonetisaurus. Intermediate:
 Items 3, 5, and 6 are directly relevant to the current paper. Items 1, 2, and 4 are
 relevant if/when extending to DeepPhonemizer/ByT5.
 
+### Nordic spelling normalization bug
+- **`2025-10-23-check-braxen-multilingual-entries.ipynb`** (cell `6deb0d1f`):
+  Does `w.replace("ö","ø").replace("Ö","Ø")` before spell-checking for `{"nor","dan"}`,
+  but uses the wrong code (`"nor"` instead of `"nob"`), so it never fires for Norwegian
+  Bokmål. Also incomplete — doesn't do `ä→æ` or `ae→æ`.
+- **`2025-10-25-filter-braxen-hunspell.ipynb`** (cell `487ef0c1` / `d096145a`):
+  `check_nobdan()` does full normalization (ae→æ, ä→æ, ö→ø, etc.) and writes the
+  **normalized native spelling** to the output, replacing the original Swedish-convention
+  spelling. This is the problem: the word can no longer be traced back to the Braxen entry,
+  and the G2P training data now has the native spelling where Braxen had the Swedish spelling,
+  so the model learns a different grapheme-to-phoneme mapping than what Braxen intended.
+- **Fix**: normalization should only be used for Hunspell lookup, never written to output.
+  The output should keep the original Braxen spelling. If native-spelling variants are
+  needed, they should be a separate column/annotation, not a replacement.
+
+### Pipeline unification
+The current pipeline is fragmented across 6 notebooks + Kaggle, with intermediate files
+landing in `/tmp`, hardcoded paths, and no clear ordering. This makes it hard to re-run
+and leads to bugs like the normalization issue above.
+
+Suggested unified pipeline (single script or notebook with clear stages):
+
+1. **Load**: Read `braxen-sv.tsv`, skip comments, parse ID/word/transcript/language fields.
+   Keep accent markers. Work from a copy if corrections are needed.
+2. **Correct**: Apply any language tag corrections by ID (from graphone filtering / manual
+   review). This is where misclassified items get fixed.
+3. **Split by language**: Produce per-language word/transcript pairs. Filter numerics.
+4. **Validate**: Hunspell spell-check per language. Nordic normalization for lookup only,
+   never modifying the source word. Record OK/MISS/suggestions as metadata, don't discard
+   entries yet.
+5. **Filter**: Apply minimum entry thresholds, keep only Hunspell-OK words (+ configurable
+   exceptions like known-good proper names). Output filtered per-language files.
+6. **Train/test split**: Consistent, reproducible splits.
+7. **Train models**: Phonetisaurus (WL, MWL, RAW), DeepPhonemizer, (ByT5).
+   Two variants: with and without accent markers.
+8. **Evaluate**: PER calculation against held-out test sets. Output results tables.
+
+Benefits:
+- Single source of truth (the corrected Braxen copy).
+- Re-runnable end to end when data or corrections change.
+- Accent marker stripping becomes a flag, not a one-way data loss.
+- Nordic normalization is isolated to the validation step.
+
 ### Compound language identification
 - Determine the language of each part of a compound word.
 - Approach: build a reverse phone-to-word mapping, skipping entries with subword joiners;

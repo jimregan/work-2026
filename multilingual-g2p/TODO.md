@@ -25,6 +25,12 @@ Original plan: ByT5-based model. Fallback baseline: Phonetisaurus. Intermediate:
 
 ### Accent markers
 - Accent/stress markers were stripped (ASR habit); need to be restored for TTS use.
+- **Blocking**: all current PER results in the paper are based on accent-stripped data.
+  Must restore accents first, then re-run the entire pipeline (filtering, training, evaluation)
+  before any results are publishable.
+- Keep the accent-stripped results as a comparison: the numbers are strong (Swedish <1% PER)
+  and the with/without accent comparison is itself informative (shows the cost of including
+  stress marking for TTS). Doubles the number of experiments but worth it.
 
 ### English data
 - Current English data from Braxen is small (~19,700 tokens); reviewers will reject without more.
@@ -35,6 +41,55 @@ Original plan: ByT5-based model. Fallback baseline: Phonetisaurus. Intermediate:
 - Need to identify and fix language misattributions in the lexicon.
 - Some notebooks already identified misclassified items, but nothing was done with the results.
 - Correct approach: update a copy of the original Braxen lexicon by ID field with corrected language tags, then re-run the split/filter pipeline.
+
+### Paper
+- Location: `/Users/joregan/Playing/lrec-g2p/LREC2026 Author's kit/lrec2026-example.tex`
+- Old ByT5/pivot draft preserved as `junk.tex` (includes discussion comments with JE).
+- Target: LREC 2026
+- Current state: rewritten to focus on Phonetisaurus/WFST multilingual G2P.
+  - Intro: framing around loanwords in TTS, SSML language tags. Done.
+  - Background: end-to-end TTS limitations, phoneset mapping. Done.
+  - Data/Braxen: MTM context, language tag errors (lat/lav/lit), Nordic spelling normalization. Done.
+  - Method: character filtering (too noisy) → Hunspell filtering (limitations noted), 3 Phonetisaurus configs (WL, MWL, WLM, RAW). Done.
+  - Results: PER table present. Needs prose.
+  - Discussion: empty.
+  - Conclusion: empty.
+- Still TODO for paper: results prose, discussion, conclusion; add DeepPhonemizer results; add English data results.
+- The WFST-based multilingual G2P approach is novel — no prior work does exactly this.
+
+### Ideas from junk.tex worth keeping
+
+1. **Pivot/bridge language analogy from MT**: The connection to pivot languages in
+   SMT/RBMT (Forcada, Kumar et al.), and Google NMT's implicit interlingua via shared
+   modules + language token. Good framing for the ByT5 version — the language prefix
+   in Phonetisaurus is essentially the same mechanism as the prepended token in Google NMT.
+
+2. **T5 prompt design**: `g2p|lang=sv` extended to `g2p|lang=sv|from=en`, plus explicit
+   pivot task `ipa2ipa|from=X|to=Y`. Open research question: are both needed?
+
+3. **Compound splitting (JE, supervisor)**: JE's view is that compound splitting should be
+   preprocessing, not baked into the G2P task — "baking segmentation into the G2P task is
+   an at least relatively bad idea. Similar to baking language detection into it."
+   **Disagree**: the point of multitask learning in ByT5 is that auxiliary NLP tasks
+   (compound splitting, POS tagging, etc.) share representations with the primary G2P
+   task and reinforce each other. JE's objection likely stems from unfamiliarity with
+   multitask learning rather than a fundamental issue with the approach.
+
+4. **"Zero-shot G2P" critique**: Producing arbitrary IPA for unknown languages is useless
+   for TTS because output must be bounded to the speaker's phoneme inventory. The non-goal
+   statement is well-articulated and could go in a related work section.
+
+5. **NST lexicon compound information**: Compounds in NST are split with linkers; the
+   linking 's' matters for syllabification (Östermalmstorg → Östermalms + torg, not
+   Östermalm + *storg). Limitation: Braxen lacks compound markers, so nested compounds
+   (Östermalm = öster + malm) can't be recovered.
+
+6. **The core use case**: "a mechanism that can be plugged into the text processing layer
+   of a TTS system that can be specifically told 'X is an English word, pronounce it as
+   a Swede would'."
+
+Items 3, 5, and 6 are directly relevant to the current paper. Items 1, 2, and 4 are
+relevant if/when extending to DeepPhonemizer/ByT5.
 
 ### Compound language identification
 - Determine the language of each part of a compound word.

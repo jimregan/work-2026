@@ -12,6 +12,17 @@ The approach is inspired by the zero-shot dysfluency detection system in
 the "error" paths in the WFST are reinterpreted as **variation paths** that
 capture legitimate phonetic differences rather than disfluencies.
 
+The system serves three goals:
+1. **Lexicon validation**: check whether a phonetic lexicon's transcriptions
+   match what speakers actually produce, flagging entries where the acoustic
+   evidence consistently disagrees with the citation form.
+2. **Rule validation**: test whether phonetic rules (implemented via
+   cdrewrite) accurately predict observed variation -- rules whose predicted
+   variants are never selected by the decoder may be wrong or inapplicable;
+   variation that the decoder finds but no rule predicts reveals missing rules.
+3. **Variation analysis**: characterise phonetic variation in speech corpora
+   by speaking rate, dialect, or speaker.
+
 Two feature sources are used:
 - **Wav2Vec2 CTC** log-probabilities (frame-level phoneme posteriors)
 - **Praat/Parselmouth** acoustic features (pitch, formants, intensity, etc.)
@@ -570,7 +581,200 @@ and `<trans>` markers. The detection algorithm:
 
 ---
 
-## 8. Praat/Parselmouth feature integration
+## 8. Lexicon and rule validation
+
+The WFST decoding pipeline can be used to validate both the phonetic
+lexicon and the phonetic rules by comparing what the lexicon/rules
+predict against what the acoustic model actually hears.
+
+### 8.1 Lexicon validation
+
+**Goal**: find lexicon entries whose citation-form transcription does not
+match the acoustic evidence, suggesting the transcription is wrong.
+
+#### Method: decode with citation form only (no variation arcs)
+
+Run the decoder with `sub=False, skip=False, back=False` so only the
+exact citation-form path is available. Compare the lattice score (total
+path cost) against a threshold:
+
+```python
+# Decode with no variation allowed -- forces citation form
+lattice_strict, ref_phones = build_lattice(
+    emission, length, ref_text,
+    beta=5, back=False, skip=False, sub=False, num_beam=25
+)
+strict_score = lattice_strict.get_tot_scores(
+    log_semiring=True, use_double_scores=True
+)
+
+# Decode with full variation -- lets the decoder find the best match
+lattice_free, _ = build_lattice(
+    emission, length, ref_text,
+    beta=2, back=True, skip=True, sub=True, num_beam=25
+)
+free_score = lattice_free.get_tot_scores(
+    log_semiring=True, use_double_scores=True
+)
+
+# Large gap => citation form is a poor match; lexicon entry may be wrong
+score_gap = free_score - strict_score
+```
+
+#### Method: forced alignment comparison
+
+Alternatively, compare two forced alignments:
+1. Force-align against the **lexicon transcription**
+2. Force-align against an **unconstrained CTC decoding** (greedy or beam)
+
+Where the two consistently disagree at the same position across multiple
+utterances of the same word, the lexicon entry is suspect.
+
+#### Aggregation across utterances
+
+For each lexicon entry, collect results across all utterances containing
+that word. Flag entries where:
+- The citation-form score is consistently poor (high cost)
+- The same substitution is selected by the decoder in a majority of
+  occurrences (suggests a systematic transcription error, not variation)
+- The decoded phoneme at a given position never matches the lexicon
+  phoneme (even across different speakers/rates)
+
+```python
+from collections import Counter
+
+# Per-word, per-position: what does the decoder choose?
+word_position_counts = defaultdict(lambda: defaultdict(Counter))
+
+for result in all_results:
+    word = result["word"]
+    for item in result["dys_detect"]:
+        pos = item["start_state"]
+        decoded = item["phoneme"]
+        expected = ref_phones[pos]
+        word_position_counts[word][pos][decoded] += 1
+
+# Flag positions where the most common decoded phoneme != expected
+for word, positions in word_position_counts.items():
+    for pos, counts in positions.items():
+        most_common = counts.most_common(1)[0]
+        if most_common[0] != expected_phones[word][pos]:
+            print(f"Suspect: {word} pos {pos}: lexicon has "
+                  f"{expected_phones[word][pos]}, "
+                  f"decoder prefers {most_common[0]} "
+                  f"({most_common[1]} times)")
+```
+
+### 8.2 Rule validation
+
+**Goal**: test whether each cdrewrite rule correctly predicts observed
+variation, and find variation that no rule covers.
+
+#### Testing individual rules
+
+For each rule, build two decoder configurations:
+1. **With the rule** applied to the pronunciation lattice
+2. **Without the rule** (citation form only, or all rules except this one)
+
+Compare the lattice scores:
+
+```python
+def test_rule(utterances, lexicon_fst, all_rules, rule_to_test):
+    """Compare decoding with and without a specific rule."""
+    # All rules except the one under test
+    other_rules = compose_all_except(all_rules, rule_to_test)
+
+    results = {"with_rule": [], "without_rule": []}
+    for utt in utterances:
+        # Pronunciation lattice WITH the rule
+        pron_with = pynini.compose(
+            lexicon_fst, pynini.compose(other_rules, rule_to_test)
+        )
+        score_with = decode_and_score(utt, pron_with)
+
+        # Pronunciation lattice WITHOUT the rule
+        pron_without = pynini.compose(lexicon_fst, other_rules)
+        score_without = decode_and_score(utt, pron_without)
+
+        results["with_rule"].append(score_with)
+        results["without_rule"].append(score_without)
+
+    return results
+```
+
+#### Rule validation outcomes
+
+| Outcome | Interpretation |
+|---------|---------------|
+| Rule path selected, score improves | Rule correctly predicts observed variation |
+| Rule path available but never selected | Rule may be wrong, or context doesn't arise in the data |
+| No rule covers observed variation | Missing rule -- decoder uses fallback substitution arcs instead |
+| Rule path selected but score worsens | Rule applies in wrong context -- check left/right context constraints |
+
+#### Detecting missing rules
+
+When the decoder consistently selects a **fallback substitution arc**
+(from the similarity-based arcs in Section 3) at the same phoneme
+position, this suggests a systematic phonetic process not captured by
+any existing rule:
+
+```python
+# Collect fallback substitutions (not covered by cdrewrite rules)
+missing_patterns = defaultdict(Counter)
+
+for result in all_results:
+    for item in result["dys_detect"]:
+        if item["dysfluency_type"] == "substitution":
+            pos = item["start_state"]
+            expected = ref_phones[pos]
+            actual = item["phoneme"]
+            # Check if any rule predicts this substitution
+            if not any_rule_predicts(expected, actual, context):
+                missing_patterns[(expected, actual)][context] += 1
+
+# Frequent uncovered patterns suggest new rules to write
+for (src, tgt), contexts in missing_patterns.items():
+    total = sum(contexts.values())
+    if total >= threshold:
+        print(f"Possible missing rule: {src} -> {tgt} "
+              f"({total} occurrences)")
+        for ctx, count in contexts.most_common(3):
+            print(f"  context: {ctx} ({count}x)")
+```
+
+### 8.3 Joint validation workflow
+
+```
+                    ┌──────────────────┐
+                    │  Speech corpus   │
+                    └────────┬─────────┘
+                             │
+              ┌──────────────┼──────────────┐
+              ▼              ▼              ▼
+        Decode with    Decode with    Decode with
+        citation only  rules applied  rules + fallback
+              │              │              │
+              ▼              ▼              ▼
+        Strict scores  Rule scores    Free scores
+              │              │              │
+              └──────┬───────┘              │
+                     ▼                      │
+              Compare: does the      Compare: does the
+              rule improve fit?      fallback find more?
+                     │                      │
+                     ▼                      ▼
+              Rule validation        Missing rule detection
+                     │
+              ┌──────┴──────┐
+              ▼              ▼
+        Lexicon entries    Rules that
+        never match        never fire
+        (fix lexicon)      (fix rules)
+```
+
+---
+
+## 9. Praat/Parselmouth feature integration
 
 Parselmouth provides a second source of acoustic evidence that can
 complement the wav2vec2 posteriors and help disambiguate variation types.
@@ -639,7 +843,7 @@ before intersection.
 
 ---
 
-## 9. Weighted Phoneme Error Rate (WPER)
+## 10. Weighted Phoneme Error Rate (WPER)
 
 (May be useful as an evaluation metric for how far a realisation
 deviates from citation form.)
@@ -657,7 +861,7 @@ This operates on CMU (ARPAbet) phoneme strings using the 41x41 matrix.
 
 ---
 
-## 10. Key parameters
+## 11. Key parameters
 
 | Parameter  | Default | Effect |
 |------------|---------|--------|
@@ -669,7 +873,7 @@ This operates on CMU (ARPAbet) phoneme strings using the 41x41 matrix.
 
 ---
 
-## 11. Acoustic model
+## 12. Acoustic model
 
 The system uses a Wav2Vec2-based CTC model. Audio is resampled to 16 kHz
 before inference. The model produces a `(1, T, C)` tensor where T is the

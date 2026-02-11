@@ -102,19 +102,151 @@ are how the decoder tracks state jumps for dysfluency detection later.
 In pynini, add them to the output `SymbolTable` as you build arcs
 (see Section 3).
 
-### 1.3 Phoneme mapping for reference text
+### 1.3 Phoneme lexicon and phonetic rules (Swedish)
 
-The reference text must be converted to the same phoneme set as the
-model's vocabulary. How this is done depends on the model:
+Rather than using CMUdict, reference text is converted to phonemes via
+an existing **Swedish phonetic lexicon** (IPA-based). The lexicon gives
+citation-form pronunciations. Phonetic variation is then modelled by
+applying **phonetic rules** implemented as context-dependent rewrite
+rules using `pynini.cdrewrite`.
 
-- **IPA model**: Use CMUdict to get ARPAbet, then convert to IPA using a
-  mapping like `config/ipa2cmu.json` (which maps IPA -> CMU; invert it).
-- **ARPAbet model**: Use CMUdict directly, strip stress markers (digits).
-- **Character model**: No phoneme conversion needed; use characters directly.
-- **Other phoneme set**: Write or find an appropriate mapping.
+#### Lexicon as an FST
 
-The key requirement is that the phoneme IDs used to build the reference
-FST are indices into the model's output vocabulary.
+Compile the phonetic lexicon into a string-map transducer:
+
+```python
+# lexicon_entries: list of (orthographic, phonemic) tuples
+# e.g. [("huset", "h ʉː s ə t"), ("gata", "ɡ ɑː t a"), ...]
+lexicon_fst = pynini.string_map(
+    lexicon_entries,
+    input_token_type="utf8",
+    output_token_type=phone_syms,  # SymbolTable of phonemes
+)
+```
+
+Or, if the lexicon is large, build it from a text file using
+`pynini.string_file`.
+
+#### Phonetic rules with cdrewrite
+
+Each phonetic rule is a context-dependent rewrite rule compiled with
+`pynini.cdrewrite`. The signature is:
+
+```python
+rule = pynini.cdrewrite(
+    tau,      # the transduction: what changes (e.g. "ɡ" -> "ɣ")
+    lam,      # left context
+    rho,      # right context
+    sigma_star,  # closure over the alphabet
+    direction="ltr",   # left-to-right (default) or "rtl" or "sim"
+    mode="obl",        # obligatory (default) or "opt" for optional
+)
+```
+
+**Use `mode="opt"` for variation modelling**: this creates a transducer
+that non-deterministically either applies or skips the rule, so both
+the citation form and the variant survive in the output lattice.
+
+Example Swedish phonetic rules:
+
+```python
+sigma_star = pynini.union(
+    *[pynini.escape(s) for s in all_phonemes + ["[BOS]", "[EOS]"]]
+).closure().optimize()
+
+vowel = pynini.union(*[pynini.escape(v) for v in vowels])
+voiced = pynini.union(*[pynini.escape(c) for c in voiced_consonants])
+
+# Retroflexion: /r/ + dental -> retroflex
+#   /r n/ -> /ɳ/, /r d/ -> /ɖ/, /r t/ -> /ʈ/, /r s/ -> /ʂ/, /r l/ -> /ɭ/
+retroflex_n = pynini.cdrewrite(
+    pynini.cross("r n", "ɳ"), "", "", sigma_star, mode="opt"
+)
+retroflex_d = pynini.cdrewrite(
+    pynini.cross("r d", "ɖ"), "", "", sigma_star, mode="opt"
+)
+retroflex_t = pynini.cdrewrite(
+    pynini.cross("r t", "ʈ"), "", "", sigma_star, mode="opt"
+)
+retroflex_s = pynini.cdrewrite(
+    pynini.cross("r s", "ʂ"), "", "", sigma_star, mode="opt"
+)
+retroflex_l = pynini.cdrewrite(
+    pynini.cross("r l", "ɭ"), "", "", sigma_star, mode="opt"
+)
+
+# Voiced stop lenition: /ɡ/ -> [ɣ] between vowels
+g_lenition = pynini.cdrewrite(
+    pynini.cross("ɡ", "ɣ"), vowel, vowel, sigma_star, mode="opt"
+)
+
+# Schwa deletion in unstressed syllables (fast speech)
+schwa_del = pynini.cdrewrite(
+    pynini.cross("ə", ""), "", "", sigma_star, mode="opt"
+)
+
+# Compose rules into a single cascade
+rules = pynini.compose(
+    retroflex_n,
+    pynini.compose(retroflex_d,
+    pynini.compose(retroflex_t,
+    pynini.compose(retroflex_s,
+    pynini.compose(retroflex_l,
+    pynini.compose(g_lenition,
+                   schwa_del)))))
+).optimize()
+```
+
+#### Applying rules to the lexicon
+
+Compose the lexicon with the rule cascade to get a transducer that maps
+orthographic forms to all phonetically plausible surface realisations:
+
+```python
+varied_lexicon = pynini.compose(lexicon_fst, rules).optimize()
+```
+
+For a single utterance, look up the word sequence and compose with rules:
+
+```python
+def get_pronunciation_lattice(words, lexicon_fst, rules, phone_syms):
+    """Return an FSA over phone_syms containing citation and variant forms."""
+    word_fsts = []
+    for word in words:
+        # Look up word in lexicon
+        word_input = pynini.escape(word)
+        word_pron = pynini.compose(word_input, lexicon_fst)
+        # Apply optional phonetic rules
+        word_varied = pynini.compose(word_pron, rules)
+        word_fsts.append(word_varied.project("output"))
+    # Concatenate word pronunciations
+    utt_fst = word_fsts[0]
+    for wf in word_fsts[1:]:
+        utt_fst = pynini.concat(utt_fst, wf)
+    return utt_fst.optimize()
+```
+
+This pronunciation lattice replaces the linear reference FSA from the
+original system. It already encodes variation, so the reference FST
+(Section 3) can be built from **paths through this lattice** rather
+than from a single phoneme sequence. Alternatively, compose this
+lattice directly into the decoding pipeline in place of the linear
+reference.
+
+#### Interaction with the reference FST variation arcs
+
+There are two complementary sources of variation:
+
+1. **Rule-based** (cdrewrite): known, linguistically motivated phonetic
+   processes (retroflexion, lenition, elision, etc.)
+2. **Data-driven** (substitution/skip/back arcs in the reference FST):
+   catches variation not covered by explicit rules, based on acoustic
+   similarity
+
+These can be combined: apply the rule cascade first to expand the
+pronunciation lattice, then build the reference FST with additional
+substitution/skip arcs on top. This way, known rules get preferred
+paths (lower cost) while the similarity-based arcs serve as a fallback.
 
 ### 1.4 Phoneme similarity matrix for substitution arcs
 

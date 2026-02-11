@@ -188,9 +188,10 @@
 
     var options;
     if (op.op === "equal") {
-      // Equal words only get a reduced menu
+      // Equal words get a reduced menu
       options = [
         { value: "reading", label: "Reading error" },
+        { value: "normalisation", label: "Normalisation" },
       ];
     } else {
       options = [
@@ -363,31 +364,30 @@
 
   function buildAnnotationsList() {
     const list = [];
-    Object.keys(annotations).forEach(function (key) {
-      const parts = key.split("-");
-      const segIdx = parseInt(parts[0], 10);
-      const opIdx = parseInt(parts[1], 10);
-      const seg = segmentsData[segIdx];
-      var op = seg.diff_ops[opIdx];
-      var entry = {
-        segment_index: segIdx,
-        start: seg.start,
-        end: seg.end,
-        vibevoice: seg.vibevoice,
-        etext: seg.etext,
-        diff_op_index: opIdx,
-        op: op.op,
-        vv_words: op.vv_words,
-        et_words: op.et_words,
-        classification: annotations[key].classification,
-      };
-      if (annotations[key].normalised) {
-        entry.normalised = annotations[key].normalised;
-      }
-      list.push(entry);
-    });
-    list.sort(function (a, b) {
-      return a.segment_index - b.segment_index || a.diff_op_index - b.diff_op_index;
+    segmentsData.forEach(function (seg) {
+      seg.diff_ops.forEach(function (op, opIdx) {
+        var key = seg.index + "-" + opIdx;
+        var ann = annotations[key] || null;
+        var entry = {
+          segment_index: seg.index,
+          start: seg.start,
+          end: seg.end,
+          vibevoice: seg.vibevoice,
+          etext: seg.etext,
+          boilerplate: seg.boilerplate || false,
+          diff_op_index: opIdx,
+          op: op.op,
+          vv_words: op.vv_words,
+          et_words: op.et_words,
+        };
+        if (ann) {
+          entry.classification = ann.classification;
+          if (ann.normalised) {
+            entry.normalised = ann.normalised;
+          }
+        }
+        list.push(entry);
+      });
     });
     return list;
   }
@@ -433,14 +433,28 @@
           setStatus("Load error: expected a JSON array");
           return;
         }
-        if (segmentsData.length > 0) {
-          applyLoadedAnnotations(data);
-          renderSegments();
-          setStatus("Loaded " + data.length + " annotations.");
-        } else {
-          pendingAnnotations = data;
-          setStatus("Annotations loaded; they will be applied after alignment.");
-        }
+        setStatus("Loading annotations...");
+        // Send to server to reconstruct segments with diff_ops
+        fetch("/load", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(data),
+        })
+          .then(function (r) { return r.json(); })
+          .then(function (res) {
+            if (res.error) {
+              setStatus("Load error: " + res.error);
+              return;
+            }
+            segmentsData = res.segments;
+            annotations = {};
+            applyLoadedAnnotations(data, res.index_map || {});
+            renderSegments();
+            saveBtn.disabled = false;
+            exportBtn.disabled = false;
+            setStatus("Loaded " + data.length + " annotations across " + segmentsData.length + " segments.");
+          })
+          .catch(function (err) { setStatus("Load failed: " + err); });
       } catch (err) {
         setStatus("Load error: " + err);
       }
@@ -448,9 +462,33 @@
     reader.readAsText(file);
   }
 
-  function applyLoadedAnnotations(data) {
+  function applyLoadedAnnotations(data, indexMap) {
     data.forEach(function (entry) {
-      var key = entry.segment_index + "-" + entry.diff_op_index;
+      var origIdx = entry.segment_index;
+      // Map original segment index to the new re-indexed position
+      var segIdx = indexMap && indexMap[String(origIdx)] !== undefined
+        ? indexMap[String(origIdx)]
+        : origIdx;
+      var seg = segmentsData[segIdx];
+      if (!seg) return;
+
+      // Find the diff_op that matches by content, not by index,
+      // since recomputed diff_ops may have different indices.
+      var entryVV = (entry.vv_words || []).join(" ");
+      var entryET = (entry.et_words || []).join(" ");
+      var matchIdx = -1;
+      for (var i = 0; i < seg.diff_ops.length; i++) {
+        var op = seg.diff_ops[i];
+        if (op.op === entry.op &&
+            (op.vv_words || []).join(" ") === entryVV &&
+            (op.et_words || []).join(" ") === entryET) {
+          matchIdx = i;
+          break;
+        }
+      }
+      if (matchIdx === -1) return;
+
+      var key = segIdx + "-" + matchIdx;
       var ann = { classification: entry.classification };
       if (entry.normalised) {
         ann.normalised = entry.normalised;

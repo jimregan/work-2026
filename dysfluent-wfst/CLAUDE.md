@@ -1,12 +1,20 @@
-# Recreating the Dysfluency Detection WFST with OpenFST/Pynini
+# Detecting Phonetic Variation with WFSTs (OpenFST/Pynini + k2)
 
-This document describes how to reimplement the zero-shot speech dysfluency
-detection system from this repository using **pynini** (the Python wrapper for
-OpenFst) for graph construction, and then importing the text-format FSTs into
-**k2** only for the dense-lattice intersection step (which has no OpenFst
-equivalent because it operates on neural-network posteriors).
+This document describes how to build a system for finding phonetic variations
+in speech -- due to speaking rate, dialectal differences, or other sources --
+using **pynini** (the Python wrapper for OpenFst) for graph construction, and
+then importing the text-format FSTs into **k2** for the dense-lattice
+intersection step (which has no OpenFst equivalent because it operates on
+neural-network posteriors).
 
-Reference paper: <https://arxiv.org/abs/2505.16351> (Interspeech 2025).
+The approach is inspired by the zero-shot dysfluency detection system in
+<https://arxiv.org/abs/2505.16351> (Interspeech 2025), but adapted:
+the "error" paths in the WFST are reinterpreted as **variation paths** that
+capture legitimate phonetic differences rather than disfluencies.
+
+Two feature sources are used:
+- **Wav2Vec2 CTC** log-probabilities (frame-level phoneme posteriors)
+- **Praat/Parselmouth** acoustic features (pitch, formants, intensity, etc.)
 
 ---
 
@@ -14,23 +22,29 @@ Reference paper: <https://arxiv.org/abs/2505.16351> (Interspeech 2025).
 
 ```
 Audio ──► Wav2Vec2 CTC ──► log-probabilities (T×C tensor)
-                                    │
-Reference text ──► CMUdict ──► phoneme IDs
+  │                                 │
+  ├──► Parselmouth ──► Praat features (pitch, formants, ...)
+  │                         │
+  │                    [optional: combine / augment posteriors]
+  │                         │
+Reference text ──► G2P ──► phoneme IDs
                                     │
                         ┌───────────┘
                         ▼
-              Build reference FST   (pynini)
-              Build CTC topology    (pynini)
-              Compose them          (pynini)
+              Build reference FST        (pynini)
+                with variation paths
+              Build CTC topology         (pynini)
+              Compose them               (pynini)
               Export to text format
                         │
                         ▼
-              Import into k2        (k2.Fsa.from_str)
-              Intersect with dense  (k2.intersect_dense)
-              Shortest path         (k2.shortest_path)
+              Import into k2             (k2.Fsa.from_str)
+              Intersect with dense       (k2.intersect_dense)
+              Shortest path / N-best     (k2.shortest_path)
                         │
                         ▼
-              Detect dysfluencies from state trajectory
+              Analyse variation from state trajectory
+              Cross-reference with Praat features
 ```
 
 ## Dependencies
@@ -39,8 +53,9 @@ Reference text ──► CMUdict ──► phoneme IDs
 - `k2` -- for dense-lattice intersection with CTC posteriors
 - `torch`, `torchaudio` -- audio I/O and Wav2Vec2
 - `transformers` -- Wav2Vec2ForCTC model
-- `cmudict` -- grapheme-to-phoneme
-- `numpy` -- phoneme similarity matrix
+- `parselmouth` -- Python wrapper for Praat; acoustic feature extraction
+- `cmudict` (or other G2P) -- grapheme-to-phoneme
+- `numpy` -- phoneme similarity matrix and feature arrays
 
 ---
 
@@ -177,9 +192,19 @@ def build_ctc_topo(num_tokens, syms):
 
 ## 3. Reference FSA graph (pynini)
 
-This is the core graph that encodes the expected phoneme sequence plus
-all allowed disfluency paths. Given a phoneme-ID sequence
-`phones = [p0, p1, ..., pL-1]` of length L:
+This is the core graph that encodes the expected (citation-form) phoneme
+sequence plus all allowed **variation paths**. In the original dysfluency
+system these model repetitions, deletions, etc.; here they model
+legitimate phonetic variation:
+
+- **Substitution arcs** = phoneme realisations that differ from citation
+  form (e.g. dialect-specific vowel shifts, flapping, lenition)
+- **Skip/deletion arcs** = phoneme elision due to fast speech or dialect
+  (e.g. consonant cluster simplification, schwa deletion)
+- **Back/repetition arcs** = can still model hesitation repetitions if
+  desired, but may also capture gemination or lengthening effects
+
+Given a phoneme-ID sequence `phones = [p0, p1, ..., pL-1]` of length L:
 
 ### States
 
@@ -382,7 +407,7 @@ output_labels = shortest[0].aux_labels[:-1].tolist()
 
 ---
 
-## 7. Dysfluency detection from state trajectory
+## 7. Variation detection from state trajectory
 
 After decoding, the output label sequence contains a mix of phoneme IDs
 and `<trans>` markers. The detection algorithm:
@@ -398,17 +423,94 @@ and `<trans>` markers. The detection algorithm:
    `<trans>` token updates the current state to its destination. Each
    phoneme token occupies `(current_state, current_state+1)`.
 
-4. **Classify each phoneme**:
-   - **Repetition**: `start_state` already appeared in state history
-   - **Insertion**: `start_state < min(state_history)` (went before any
-     previously seen state)
-   - **Deletion**: `start_state > prev_end + 1` (skipped states); emit a
-     `<del>` marker for the gap, then the phoneme as normal
-   - **Normal**: otherwise
+4. **Classify each phoneme** (reinterpreted for variation analysis):
+   - **Substitution**: the decoded phoneme differs from the citation-form
+     phoneme at this position -- indicates a dialectal or rate-related
+     variant (e.g. vowel shift, flapping, lenition)
+   - **Deletion/elision**: `start_state > prev_end + 1` (skipped states) --
+     phonemes dropped due to fast speech or dialect (consonant cluster
+     simplification, unstressed vowel deletion, etc.)
+   - **Repetition/lengthening**: `start_state` already appeared in state
+     history -- may indicate gemination, emphasis, or hesitation
+   - **Insertion**: `start_state < min(state_history)` -- epenthetic
+     segments (e.g. intrusive /r/, vowel epenthesis)
+   - **Normal**: canonical realisation matching citation form
 
 ---
 
-## 8. Weighted Phoneme Error Rate (WPER)
+## 8. Praat/Parselmouth feature integration
+
+Parselmouth provides a second source of acoustic evidence that can
+complement the wav2vec2 posteriors and help disambiguate variation types.
+
+### 8.1 Extracting features
+
+```python
+import parselmouth
+from parselmouth.praat import call
+
+snd = parselmouth.Sound("utterance.wav")
+
+# Pitch (F0) -- speaking rate correlate, intonation
+pitch = snd.to_pitch()
+f0_values = pitch.selected_array["frequency"]  # per-frame F0
+
+# Formants -- vowel quality / dialect variation
+formants = snd.to_formant_burg()
+# Extract F1-F3 at each time step:
+times = [formants.get_time_from_frame_number(i+1)
+         for i in range(formants.get_number_of_frames())]
+f1 = [formants.get_value_at_time(1, t) for t in times]
+f2 = [formants.get_value_at_time(2, t) for t in times]
+f3 = [formants.get_value_at_time(3, t) for t in times]
+
+# Intensity -- stress patterns, reduction
+intensity = snd.to_intensity()
+
+# Duration / speaking rate
+# Can be derived from the WFST alignment: phoneme durations in frames
+```
+
+### 8.2 Integration strategies
+
+There are several ways to combine Praat features with the WFST output:
+
+#### (a) Post-hoc annotation
+Run the WFST decoder first, then use the frame-level alignment to
+extract Praat features for each decoded phoneme segment. This enriches
+each phoneme with acoustic measurements (F0, formants, intensity,
+duration) for downstream analysis. No changes to the WFST itself.
+
+#### (b) Augmenting the dense FSA scores
+Combine wav2vec2 log-probabilities with Praat-derived scores before
+building the `DenseFsaVec`. For example, adjust the posteriors of
+vowel classes based on formant evidence:
+
+```python
+# Resample Praat features to match wav2vec2 frame rate
+# Then modify log_probs before creating DenseFsaVec:
+log_probs[:, :, vowel_indices] += formant_based_adjustment
+```
+
+#### (c) Praat-informed variation weights
+Use Praat features to dynamically adjust the weights on variation arcs
+in the reference FST. For instance, if speech rate is high (short
+syllable durations, compressed F0 range), lower the cost of deletion
+arcs; if formant measurements suggest a particular vowel shift, lower
+the cost of the corresponding substitution arc.
+
+#### (d) Separate feature streams
+Build a second dense score matrix from Praat features (e.g. a simple
+GMM or lookup-table mapping formant values to phoneme likelihoods)
+and combine it with the wav2vec2 dense FSA via log-linear interpolation
+before intersection.
+
+---
+
+## 9. Weighted Phoneme Error Rate (WPER)
+
+(May be useful as an evaluation metric for how far a realisation
+deviates from citation form.)
 
 Standard edit-distance but with a weighted substitution cost:
 
@@ -423,19 +525,19 @@ This operates on CMU (ARPAbet) phoneme strings using the 41x41 matrix.
 
 ---
 
-## 9. Key parameters
+## 10. Key parameters
 
 | Parameter  | Default | Effect |
 |------------|---------|--------|
-| `beta`     | 5       | Error tolerance. `alpha = 1 - 10^(-beta)`. Higher = stricter alignment. |
+| `beta`     | 5       | Variation tolerance. `alpha = 1 - 10^(-beta)`. Lower values allow more variation from citation form. For phonetic variation work, values of 2-4 may be more appropriate than the original default of 5. |
 | `num_beam` | 25      | Beam width for `k2.intersect_dense`. |
-| `back`     | True    | Allow backward arcs (repetition detection). Max 2-state jump back. |
-| `skip`     | False   | Allow skip arcs (deletion detection). Max 3-phoneme skip. |
-| `sub`      | True    | Allow substitution arcs using top-2 similar phonemes. |
+| `back`     | True    | Allow backward arcs (repetition/gemination). Max 2-state jump back. |
+| `skip`     | False   | Allow skip arcs (elision/deletion). Max 3-phoneme skip. **Consider enabling for fast-speech analysis.** |
+| `sub`      | True    | Allow substitution arcs using top-N similar phonemes. Consider increasing from top-2 to top-3 or more for dialect work where larger phonemic shifts are expected. |
 
 ---
 
-## 10. Acoustic model
+## 11. Acoustic model
 
 The system uses a Wav2Vec2-based CTC model. Audio is resampled to 16 kHz
 before inference. The model produces a `(1, T, C)` tensor where T is the
@@ -463,4 +565,5 @@ to drive all downstream symbol table construction.
 | Arc sorting | `k2.arc_sort()` | `fst.arcsort()` |
 | Dense intersection | `k2.intersect_dense()` | **k2** (no pynini equivalent) |
 | Shortest path | `k2.shortest_path()` | **k2** (operates on dense lattice) |
-| Dysfluency detection | Python post-processing | Python post-processing (unchanged) |
+| Variation detection | Python post-processing | Python post-processing (adapted) |
+| Praat features | N/A | `parselmouth` (new) |

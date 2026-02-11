@@ -268,6 +268,49 @@ def align():
     return jsonify({"segments": segments})
 
 
+@app.route("/load", methods=["POST"])
+def load():
+    """Reconstruct segments from a previously exported annotations JSON."""
+    data = request.get_json()
+    if not data or not isinstance(data, list):
+        return jsonify({"error": "Expected a JSON array of annotations"}), 400
+
+    # Group annotations by segment_index and extract segment metadata
+    seg_map = {}
+    for entry in data:
+        si = entry.get("segment_index")
+        if si is None:
+            continue
+        if si not in seg_map:
+            seg_map[si] = {
+                "start": entry.get("start", 0),
+                "end": entry.get("end", 0),
+                "vibevoice": entry.get("vibevoice", ""),
+                "etext": entry.get("etext", ""),
+            }
+
+    # Build segments with recomputed diff_ops, re-indexed from 0
+    # Keep a mapping from original index to new index for the client
+    sorted_keys = sorted(seg_map.keys())
+    segments = []
+    index_map = {}  # original_index → new_index
+    for new_idx, si in enumerate(sorted_keys):
+        info = seg_map[si]
+        diff_ops = compute_word_diff(info["etext"], info["vibevoice"])
+        segments.append({
+            "index": new_idx,
+            "start": info["start"],
+            "end": info["end"],
+            "vibevoice": info["vibevoice"],
+            "etext": info["etext"],
+            "boilerplate": False,
+            "diff_ops": diff_ops,
+        })
+        index_map[si] = new_idx
+
+    return jsonify({"segments": segments, "index_map": {str(k): v for k, v in index_map.items()}})
+
+
 @app.route("/save", methods=["POST"])
 def save():
     data = request.get_json()

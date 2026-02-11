@@ -48,9 +48,19 @@ Reference text ──► CMUdict ──► phoneme IDs
 
 ### 1.1 Phoneme inventory (input symbols)
 
-The acoustic model uses a 277-symbol IPA-based phoneme inventory stored in
-`config/lexicon.json`. Index 0 is `<pad>` and doubles as the CTC blank.
-Build a pynini `SymbolTable` from this list:
+The input symbol table must match the vocabulary of the wav2vec2 CTC model
+being used. Extract it from the model's tokenizer/processor:
+
+```python
+from transformers import AutoProcessor
+processor = AutoProcessor.from_pretrained("your-wav2vec2-model")
+vocab = processor.tokenizer.get_vocab()
+# vocab is a dict like {"<pad>": 0, "a": 1, "b": 2, ...}
+```
+
+Build a pynini `SymbolTable` from the model's vocabulary. Index 0 is
+typically `<pad>` and doubles as the CTC blank. The indices **must**
+match the model's output indices exactly:
 
 ```python
 import pynini
@@ -58,34 +68,43 @@ import pynini
 input_syms = pynini.SymbolTable()
 input_syms.add_symbol("<eps>", 0)  # OpenFst convention: 0 = epsilon
 
-# Index the phoneme inventory starting at 1, but keep the original
-# indices from lexicon.json because the CTC model emits those indices.
-# Since lexicon[0] = "<pad>" which is CTC blank, map it to 0.
-for idx, phone in enumerate(lexicon):
+for symbol, idx in sorted(vocab.items(), key=lambda x: x[1]):
     if idx == 0:
         continue  # already have epsilon / blank at 0
-    input_syms.add_symbol(phone, idx)
+    input_syms.add_symbol(symbol, idx)
 ```
+
+The original repo uses a 277-symbol IPA inventory from
+`config/lexicon.json`, but any CTC phoneme or character model will work
+as long as the symbol table matches.
 
 ### 1.2 Output symbols
 
-The output symbol table is the same as the input table, but extended at
-runtime with transition-marker symbols of the form `{i}<trans>{j}` that
-encode source and destination states. These markers are how the decoder
-tracks state jumps for dysfluency detection later. In pynini, add them
-to the output `SymbolTable` as you build arcs (see Section 3).
+The output symbol table starts as a copy of the input table, but is
+extended at runtime with transition-marker symbols of the form
+`{i}<trans>{j}` that encode source and destination states. These markers
+are how the decoder tracks state jumps for dysfluency detection later.
+In pynini, add them to the output `SymbolTable` as you build arcs
+(see Section 3).
 
-### 1.3 CMU-to-IPA mapping
+### 1.3 Phoneme mapping for reference text
 
-`config/ipa2cmu.json` maps IPA symbols to ARPAbet (CMU) symbols.
-The inverse mapping is needed to go from CMUdict output back to the
-IPA labels used by the acoustic model. Some IPA symbols map to two
-CMU symbols (e.g. `ʃ` -> `SH CH`); only the first is used.
+The reference text must be converted to the same phoneme set as the
+model's vocabulary. How this is done depends on the model:
 
-### 1.4 CMU phoneme-to-index map (for similarity matrix)
+- **IPA model**: Use CMUdict to get ARPAbet, then convert to IPA using a
+  mapping like `config/ipa2cmu.json` (which maps IPA -> CMU; invert it).
+- **ARPAbet model**: Use CMUdict directly, strip stress markers (digits).
+- **Character model**: No phoneme conversion needed; use characters directly.
+- **Other phoneme set**: Write or find an appropriate mapping.
 
-A separate 41-symbol ARPAbet index is used to look up the 41x41
-phoneme similarity matrix (`utils/rule_sim_matrix.npy`):
+The key requirement is that the phoneme IDs used to build the reference
+FST are indices into the model's output vocabulary.
+
+### 1.4 Phoneme similarity matrix for substitution arcs
+
+The substitution arcs need a phoneme similarity matrix. The original
+uses a 41x41 ARPAbet matrix (`utils/rule_sim_matrix.npy`) indexed by:
 
 ```
 "|":0  OW:1  UW:2  EY:3  AW:4  AH:5  AO:6  AY:7  EH:8  K:9
@@ -94,6 +113,11 @@ R:20   TH:21 AE:22 D:23  Z:24  OY:25 DH:26 IY:27 B:28  W:29
 S:30   T:31  SH:32 ZH:33 ER:34 V:35  Y:36  N:37  G:38  P:39
 "-":40
 ```
+
+If the new model uses a different phoneme set, you will need to either:
+- Map model phonemes to ARPAbet to index into this matrix, or
+- Build a new similarity matrix for the model's phoneme set (e.g. based
+  on articulatory features or acoustic confusability)
 
 ---
 
@@ -413,12 +437,19 @@ This operates on CMU (ARPAbet) phoneme strings using the 41x41 matrix.
 
 ## 10. Acoustic model
 
-The system uses a Wav2Vec2-based CTC model that outputs logits over the
-277-symbol IPA phoneme inventory. Audio is resampled to 16 kHz before
-inference. The model produces a `(1, T, 272)` tensor where T is the
-number of frames (roughly 50 per second of audio) and 272 is the
-vocabulary size (277 symbols minus some unused slots, depending on the
-specific model checkpoint).
+The system uses a Wav2Vec2-based CTC model. Audio is resampled to 16 kHz
+before inference. The model produces a `(1, T, C)` tensor where T is the
+number of frames (roughly 50 per second of audio) and C is the vocabulary
+size.
+
+The choice of wav2vec2 checkpoint determines:
+- **C** (vocabulary size) and therefore the symbol table dimensions
+- Whether the output labels are IPA, ARPAbet, characters, or something else
+- How reference text must be converted to match the output vocabulary
+- Whether the existing similarity matrix applies or a new one is needed
+
+Extract the vocab from the model's processor (see Section 1.1) and use it
+to drive all downstream symbol table construction.
 
 ---
 

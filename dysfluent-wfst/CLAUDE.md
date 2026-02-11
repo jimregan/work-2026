@@ -779,45 +779,145 @@ for (src, tgt), contexts in missing_patterns.items():
 Parselmouth provides a second source of acoustic evidence that can
 complement the wav2vec2 posteriors and help disambiguate variation types.
 
-### 8.1 Extracting features
+**The Praat analysis is designed to run independently of the WFST
+decoding pipeline.** The two stages communicate through serialised
+intermediate results (alignment files), so they can run at different
+times, on different machines, or be iterated independently.
+
+### 9.1 Decoupled architecture
+
+```
+ Stage 1: WFST decoding (can run first, produces alignment)
+ ──────────────────────────────────────────────────────────
+  Audio + Text ──► WFST pipeline ──► alignment JSON
+                                      (per-phoneme: label, start/end
+                                       frame, variation type, scores)
+                         │
+                         ▼
+                    Save to disk
+                    (one JSON per utterance, or a single JSONL/CSV)
+
+
+ Stage 2: Praat analysis (can run later, reads alignment)
+ ──────────────────────────────────────────────────────────
+  Audio + alignment JSON ──► Parselmouth ──► enriched results
+                                              (alignment + acoustic
+                                               measurements per segment)
+```
+
+### 9.2 Alignment output format
+
+The WFST decoder should serialise enough information for Praat to
+work without re-running decoding. At minimum, per utterance:
+
+```json
+{
+  "utterance_id": "spk01_utt042",
+  "audio_path": "data/audio/spk01_utt042.wav",
+  "ref_text": "huset är stort",
+  "sample_rate": 16000,
+  "frame_shift_ms": 20.0,
+  "segments": [
+    {
+      "phoneme": "h",
+      "ref_phoneme": "h",
+      "start_frame": 5,
+      "end_frame": 9,
+      "start_time_s": 0.10,
+      "end_time_s": 0.18,
+      "variation_type": "normal",
+      "ref_state": 0,
+      "lattice_score": -1.23
+    },
+    {
+      "phoneme": "ʉː",
+      "ref_phoneme": "ʉː",
+      "start_frame": 9,
+      "end_frame": 15,
+      "start_time_s": 0.18,
+      "end_time_s": 0.30,
+      "variation_type": "normal",
+      "ref_state": 1,
+      "lattice_score": -0.87
+    }
+  ]
+}
+```
+
+Frame-to-time conversion: `time_s = start_frame * frame_shift_ms / 1000`.
+The frame shift depends on the wav2vec2 model (typically 20 ms).
+
+### 9.3 Extracting Praat features per segment
 
 ```python
 import parselmouth
-from parselmouth.praat import call
+import json
+import numpy as np
 
-snd = parselmouth.Sound("utterance.wav")
+def enrich_with_praat(alignment_path):
+    """Load a saved alignment and add Praat measurements to each segment."""
+    with open(alignment_path) as f:
+        alignment = json.load(f)
 
-# Pitch (F0) -- speaking rate correlate, intonation
-pitch = snd.to_pitch()
-f0_values = pitch.selected_array["frequency"]  # per-frame F0
+    snd = parselmouth.Sound(alignment["audio_path"])
+    pitch = snd.to_pitch()
+    formants = snd.to_formant_burg()
+    intensity = snd.to_intensity()
 
-# Formants -- vowel quality / dialect variation
-formants = snd.to_formant_burg()
-# Extract F1-F3 at each time step:
-times = [formants.get_time_from_frame_number(i+1)
-         for i in range(formants.get_number_of_frames())]
-f1 = [formants.get_value_at_time(1, t) for t in times]
-f2 = [formants.get_value_at_time(2, t) for t in times]
-f3 = [formants.get_value_at_time(3, t) for t in times]
+    for seg in alignment["segments"]:
+        t0 = seg["start_time_s"]
+        t1 = seg["end_time_s"]
+        tmid = (t0 + t1) / 2
 
-# Intensity -- stress patterns, reduction
-intensity = snd.to_intensity()
+        # Duration
+        seg["duration_s"] = t1 - t0
 
-# Duration / speaking rate
-# Can be derived from the WFST alignment: phoneme durations in frames
+        # Pitch (F0) -- mean and range over the segment
+        f0_vals = [pitch.get_value_at_time(t)
+                   for t in np.arange(t0, t1, 0.005)
+                   if pitch.get_value_at_time(t)]
+        f0_vals = [v for v in f0_vals if v and v > 0]
+        seg["f0_mean"] = float(np.mean(f0_vals)) if f0_vals else None
+        seg["f0_range"] = float(np.ptp(f0_vals)) if f0_vals else None
+
+        # Formants at midpoint (most relevant for vowels)
+        seg["f1"] = formants.get_value_at_time(1, tmid)
+        seg["f2"] = formants.get_value_at_time(2, tmid)
+        seg["f3"] = formants.get_value_at_time(3, tmid)
+
+        # Intensity
+        seg["intensity_mean"] = intensity.get_average(
+            from_time=t0, to_time=t1
+        )
+
+    return alignment
 ```
 
-### 8.2 Integration strategies
+### 9.4 Uses of Praat features in validation and analysis
 
-There are several ways to combine Praat features with the WFST output:
+Once the Praat-enriched results are available, they support several
+analyses without re-running the WFST:
 
-#### (a) Post-hoc annotation
-Run the WFST decoder first, then use the frame-level alignment to
-extract Praat features for each decoded phoneme segment. This enriches
-each phoneme with acoustic measurements (F0, formants, intensity,
-duration) for downstream analysis. No changes to the WFST itself.
+- **Vowel quality validation**: for segments labelled as a specific
+  vowel, check whether F1/F2 fall in the expected region. A lexicon
+  entry transcribed as /ʉː/ but whose F1/F2 consistently lands in
+  /uː/ territory is suspect.
+- **Duration-based rate estimation**: mean segment duration gives a
+  per-utterance speaking rate estimate. Correlate with variation
+  frequency (more elisions at higher rate = expected).
+- **Formant-based substitution confirmation**: when the WFST decoder
+  selects a vowel substitution, check if the formants agree with the
+  substituted vowel rather than the citation vowel.
+- **Rule context acoustics**: for each rule application, collect the
+  acoustic profile of the context (e.g. for lenition: is the preceding
+  vowel long? is intensity low?) to refine rule contexts.
 
-#### (b) Augmenting the dense FSA scores
+### 9.5 Integration strategies (optional, for tighter coupling)
+
+If at some point you want to feed Praat features back into the WFST
+pipeline rather than just using them post-hoc:
+
+#### (a) Augmenting the dense FSA scores
 Combine wav2vec2 log-probabilities with Praat-derived scores before
 building the `DenseFsaVec`. For example, adjust the posteriors of
 vowel classes based on formant evidence:
@@ -828,14 +928,14 @@ vowel classes based on formant evidence:
 log_probs[:, :, vowel_indices] += formant_based_adjustment
 ```
 
-#### (c) Praat-informed variation weights
+#### (b) Praat-informed variation weights
 Use Praat features to dynamically adjust the weights on variation arcs
 in the reference FST. For instance, if speech rate is high (short
 syllable durations, compressed F0 range), lower the cost of deletion
 arcs; if formant measurements suggest a particular vowel shift, lower
 the cost of the corresponding substitution arc.
 
-#### (d) Separate feature streams
+#### (c) Separate feature streams
 Build a second dense score matrix from Praat features (e.g. a simple
 GMM or lookup-table mapping formant values to phoneme likelihoods)
 and combine it with the wav2vec2 dense FSA via log-linear interpolation

@@ -113,32 +113,76 @@ are how the decoder tracks state jumps for dysfluency detection later.
 In pynini, add them to the output `SymbolTable` as you build arcs
 (see Section 3).
 
-### 1.3 Phoneme lexicon and phonetic rules (Swedish)
+### 1.3 Phoneme lexicons
 
-Rather than using CMUdict, reference text is converted to phonemes via
-an existing **Swedish phonetic lexicon** (IPA-based). The lexicon gives
-citation-form pronunciations. Phonetic variation is then modelled by
-applying **phonetic rules** implemented as context-dependent rewrite
-rules using `pynini.cdrewrite`.
+There are two lexicons available:
 
-#### Lexicon as an FST
+#### (a) Citation-form lexicon
 
-Compile the phonetic lexicon into a string-map transducer:
+A Swedish phonetic lexicon (IPA-based) giving canonical/citation-form
+pronunciations. Phonetic variation is modelled on top of this by
+applying phonetic rules (see below).
+
+#### (b) Acoustically validated lexicon
+
+A second lexicon derived from a CTC-based pipeline: an orthographic
+CTC model and a phonetic CTC model (same base model, different
+fine-tuning) were run over a speech corpus, and their outputs were
+aligned by timestamp. Where the orthographic model's word-level
+timestamps matched the phonetic model's output, the phonetic
+transcription was taken as the pronunciation for that word. This gives
+pronunciations that reflect **actual observed realisations** rather than
+citation forms.
+
+This validated lexicon can serve as:
+- **Ground truth for lexicon validation** (Section 8.1): compare the
+  citation-form lexicon against it to find entries that disagree
+- **An alternative reference for WFST decoding**: using validated
+  pronunciations as the reference means the decoder is aligning
+  against what speakers actually produce, so any remaining variation
+  the decoder finds is genuinely unexpected
+- **Training data for rule induction**: differences between citation
+  and validated forms are examples of phonetic processes that the
+  rules should capture
+
+#### Building lexicon FSTs
+
+Compile either lexicon into a string-map transducer:
 
 ```python
 # lexicon_entries: list of (orthographic, phonemic) tuples
 # e.g. [("huset", "h ʉː s ə t"), ("gata", "ɡ ɑː t a"), ...]
-lexicon_fst = pynini.string_map(
-    lexicon_entries,
+citation_fst = pynini.string_map(
+    citation_entries,
     input_token_type="utf8",
     output_token_type=phone_syms,  # SymbolTable of phonemes
+)
+
+validated_fst = pynini.string_map(
+    validated_entries,
+    input_token_type="utf8",
+    output_token_type=phone_syms,
 )
 ```
 
 Or, if the lexicon is large, build it from a text file using
 `pynini.string_file`.
 
-#### Phonetic rules with cdrewrite
+Words may have multiple validated pronunciations (from different
+utterances). These naturally become multiple paths in the FST,
+which is desirable -- the decoder picks the best-matching one.
+
+#### Choosing which lexicon to use
+
+| Task | Lexicon |
+|------|---------|
+| Validate citation-form entries | Decode with citation, compare against validated |
+| Validate phonetic rules | Decode with citation + rules, compare against validated |
+| Find unexpected variation | Decode with validated as reference |
+| Build pronunciation lattice with rules | Citation + cdrewrite (Section 1.4) |
+| Build pronunciation lattice without rules | Validated (already reflects real speech) |
+
+### 1.4 Phonetic rules with cdrewrite
 
 Each phonetic rule is a context-dependent rewrite rule compiled with
 `pynini.cdrewrite`. The signature is:
@@ -259,7 +303,7 @@ pronunciation lattice, then build the reference FST with additional
 substitution/skip arcs on top. This way, known rules get preferred
 paths (lower cost) while the similarity-based arcs serve as a fallback.
 
-### 1.4 Phoneme similarity matrix for substitution arcs
+### 1.5 Phoneme similarity matrix for substitution arcs
 
 The substitution arcs need a phoneme similarity matrix. The original
 uses a 41x41 ARPAbet matrix (`utils/rule_sim_matrix.npy`) indexed by:
@@ -621,14 +665,48 @@ free_score = lattice_free.get_tot_scores(
 score_gap = free_score - strict_score
 ```
 
+#### Method: comparison against the validated lexicon
+
+Since an acoustically validated lexicon already exists (Section 1.3b),
+a direct comparison is possible without re-decoding. For each word
+present in both lexicons, align the citation-form and validated
+transcriptions (e.g. via edit distance) and flag positions that differ:
+
+```python
+def compare_lexicons(citation_lex, validated_lex):
+    """Find words where citation and validated pronunciations disagree."""
+    mismatches = []
+    for word in citation_lex:
+        if word not in validated_lex:
+            continue
+        cit = citation_lex[word]       # e.g. ["h", "ʉː", "s", "ə", "t"]
+        val = validated_lex[word]      # may be a list of variant prons
+        for val_pron in val:
+            ops = edit_operations(cit, val_pron)
+            if any(op != "match" for op in ops):
+                mismatches.append({
+                    "word": word,
+                    "citation": cit,
+                    "validated": val_pron,
+                    "operations": ops,
+                })
+    return mismatches
+```
+
+Where the validated lexicon consistently disagrees at the same position
+across multiple speakers/utterances, the citation-form entry is suspect.
+Where only some speakers show the difference, it is likely genuine
+variation rather than a lexicon error.
+
 #### Method: forced alignment comparison
 
 Alternatively, compare two forced alignments:
-1. Force-align against the **lexicon transcription**
-2. Force-align against an **unconstrained CTC decoding** (greedy or beam)
+1. Force-align against the **citation-form lexicon transcription**
+2. Force-align against the **validated lexicon transcription**
+   (or an unconstrained CTC decoding)
 
 Where the two consistently disagree at the same position across multiple
-utterances of the same word, the lexicon entry is suspect.
+utterances of the same word, the citation-form entry is suspect.
 
 #### Aggregation across utterances
 
@@ -670,7 +748,45 @@ for word, positions in word_position_counts.items():
 **Goal**: test whether each cdrewrite rule correctly predicts observed
 variation, and find variation that no rule covers.
 
-#### Testing individual rules
+#### Offline validation against the validated lexicon
+
+Since the validated lexicon (Section 1.3b) already contains observed
+pronunciations, rules can be tested without any audio decoding at all:
+apply the rule cascade to citation-form entries and check whether the
+validated pronunciation appears among the outputs.
+
+```python
+def validate_rules_offline(citation_lex, validated_lex, rules, phone_syms):
+    """Check which validated pronunciations are reachable via the rules."""
+    reachable = 0
+    unreachable = []
+    for word in citation_lex:
+        if word not in validated_lex:
+            continue
+        # Apply rules to citation form -> lattice of possible variants
+        cit_fst = pynini.accep(
+            citation_lex[word], token_type=phone_syms
+        )
+        varied = pynini.compose(cit_fst, rules).optimize()
+        # Check each validated pronunciation
+        for val_pron in validated_lex[word]:
+            val_fst = pynini.accep(val_pron, token_type=phone_syms)
+            intersection = pynini.intersect(varied, val_fst)
+            if intersection.start() != pynini.NO_STATE_ID:
+                reachable += 1
+            else:
+                unreachable.append({
+                    "word": word,
+                    "citation": citation_lex[word],
+                    "validated": val_pron,
+                })
+    return reachable, unreachable
+```
+
+Unreachable validated pronunciations indicate either missing rules or
+rules with overly restrictive contexts.
+
+#### Testing individual rules with audio
 
 For each rule, build two decoder configurations:
 1. **With the rule** applied to the pronunciation lattice

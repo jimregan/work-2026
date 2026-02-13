@@ -233,15 +233,22 @@ def align():
     try:
         vv_data = json.loads(vv_text)
     except json.JSONDecodeError as e:
-        return jsonify({"error": f"Invalid VibeVoice JSON: {e}"}), 400
+        return jsonify({"error": f"Invalid JSON: {e}"}), 400
 
-    # Parse chunks
+    # Parse chunks - detect format (VibeVoice array vs WhisperX object)
     try:
         def _get(item, *keys):
             for k in keys:
                 if k in item:
                     return item[k]
             raise KeyError(f"Missing key (tried {keys}) in {list(item.keys())}")
+
+        # WhisperX format: {"segments": [...], ...}
+        if isinstance(vv_data, dict) and "segments" in vv_data:
+            items = vv_data["segments"]
+        else:
+            # VibeVoice format: [...]
+            items = vv_data
 
         chunks = [
             Chunk(
@@ -250,10 +257,10 @@ def align():
                 speaker=item.get("Speaker", item.get("speaker", item.get("speaker_id", 0))),
                 content=_get(item, "Content", "content", "text"),
             )
-            for item in vv_data
+            for item in items
         ]
     except Exception as e:
-        return jsonify({"error": f"Failed to parse VibeVoice data: {e}"}), 400
+        return jsonify({"error": f"Failed to parse transcript data: {e}"}), 400
 
     # Align chunks to etext
     try:

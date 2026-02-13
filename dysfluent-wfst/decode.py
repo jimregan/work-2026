@@ -26,7 +26,7 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     parser.add_argument(
         "--rules",
         default=None,
-        help="Optional path to a Python rules module exporting build_rules()",
+        help="Optional path to YAML phonetic rules file (MFA format)",
     )
     parser.add_argument(
         "--sim-matrix",

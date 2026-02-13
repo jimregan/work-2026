@@ -36,8 +36,8 @@ class Decoder:
     Args:
         model_id: HuggingFace model ID for the wav2vec2 CTC model.
         lexicon_path: Path to the TSV lexicon file.
-        rules_path: Optional path to a Python module exporting
-            ``build_rules(sigma_star) -> pynini.Fst``.
+        rules_path: Optional path to a YAML phonetic rules file
+            (MFA format: segment, replacement, contexts).
         sim_matrix_path: Optional path to a numpy phoneme similarity
             matrix file (``.npy``).
         device: Torch device string (``"cpu"`` or ``"cuda"``).

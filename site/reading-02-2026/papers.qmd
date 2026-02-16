@@ -17,3 +17,6 @@ bibliography: refs.bib
 ## [alibaba/zvec](https://github.com/alibaba/zvec)
 - [Home](https://zvec.org/en/)
 - [Docs](https://zvec.org/en/docs/)
+
+## [Crowdsourced high-quality UK and Ireland English Dialect speech data set](https://www.openslr.org/83/) [@demirsahin-etal-2020-open]
+- Midlands, Northern, Southern English, Scottish, Welsh, Irish

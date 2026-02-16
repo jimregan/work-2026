@@ -36,7 +36,9 @@ class DummyEmbedder(Module):
     def forward(self, features, **kwargs):
         tokens = features["input_ids"]
         batch_size = tokens.shape[0]
-        features["sentence_embedding"] = torch.randn(batch_size, self.dim)
+        features["sentence_embedding"] = torch.randn(
+            batch_size, self.dim, device=tokens.device
+        )
         return features
 
     def save(self, output_path, *args, safe_serialization=True, **kwargs):

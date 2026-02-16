@@ -30,3 +30,7 @@ bibliography: refs.bib
 ## [Dysfluent WFST: A Framework for Zero-Shot Speech Dysfluency Transcription and Detection](https://www.isca-archive.org/interspeech_2025/guo25d_interspeech.html) [@guo25d_interspeech]
 - [code](https://github.com/Berkeley-Speech-Group/DysfluentWFST) --- no licence
 - [arXiv](https://arxiv.org/abs/2505.16351)
+
+## [Coding Speech Through Vocal Tract Kinematics](https://ieeexplore.ieee.org/document/10759573) [@cho24_coding]
+- [arXiv](https://arxiv.org/abs/2406.12998)
+- [code](https://github.com/Berkeley-Speech-Group/Speech-Articulatory-Coding) --- MIT

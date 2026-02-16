@@ -18,7 +18,7 @@ bibliography: refs.bib
 - [Home](https://zvec.org/en/)
 - [Docs](https://zvec.org/en/docs/)
 
-## [Crowdsourced high-quality UK and Ireland English Dialect speech data set](https://www.openslr.org/83/) [@demirsahin-etal-2020-open]
+## [Crowdsourced high-quality UK and Ireland English Dialect speech data set](https://www.openslr.org/83/) [@demirsahin-etal-2020-open]
 - Midlands, Northern, Southern English, Scottish, Welsh, Irish
 - [Rainbow passage](https://www.dialectsarchive.com/the-rainbow-passage)
 

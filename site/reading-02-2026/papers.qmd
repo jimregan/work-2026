@@ -7,6 +7,7 @@ bibliography: refs.bib
 - [Poster](https://neurips.cc/virtual/2025/loc/san-diego/poster/121597)
 - [Code](https://github.com/google-research/mseb) --- Apache 2.0
 - [SVQ dataset](https://huggingface.co/datasets/google/svq)
+- [SVQ blog post](https://research.google/blog/speech-to-retrieval-s2r-a-new-approach-to-voice-search/)
 - [Google Research](https://research.google/pubs/massive-sound-embedding-benchmark-mseb/)
 
 ## [MASSIVE: A 1M-Example Multilingual Natural Language Understanding Dataset with 51 Typologically-Diverse Languages](https://aclanthology.org/2023.acl-long.235/) [@fitzgerald-etal-2023-massive]

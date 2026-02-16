@@ -34,14 +34,9 @@ class BraxenEntry:
     transcript: str
     language: str
     pos: str = ""
-    # Validation metadata (populated in stage 3)
     hunspell_ok: Optional[bool] = None
     hunspell_suggestions: list = field(default_factory=list)
 
-
-# =============================================================================
-# Stage 1: Load
-# =============================================================================
 
 def load_braxen(braxen_path: Path) -> list[BraxenEntry]:
     """
@@ -81,10 +76,6 @@ def load_braxen(braxen_path: Path) -> list[BraxenEntry]:
     return entries
 
 
-# =============================================================================
-# Stage 2: Split by language
-# =============================================================================
-
 def has_digits(word: str) -> bool:
     """Check if word contains digits."""
     return bool(re.search(r"[0-9]", word))
@@ -115,10 +106,6 @@ def split_by_language(entries: list[BraxenEntry],
 
     return dict(by_language)
 
-
-# =============================================================================
-# Stage 3: Validate (Hunspell)
-# =============================================================================
 
 # Mapping from Braxen language codes to Hunspell dictionary codes
 CODE2DICT = {
@@ -258,10 +245,6 @@ def validate_entries(entries_by_lang: dict[str, list[BraxenEntry]],
 
     return entries_by_lang
 
-
-# =============================================================================
-# Stage 4: Filter
-# =============================================================================
 
 def filter_entries(entries_by_lang: dict[str, list[BraxenEntry]],
                    min_entries: int = 100,

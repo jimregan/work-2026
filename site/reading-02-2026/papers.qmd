@@ -1,0 +1,6 @@
+---
+title: "Papers, February 2026"
+bibliography: refs.bib
+---
+
+## [MASSIVE: A 1M-Example Multilingual Natural Language Understanding Dataset with 51 Typologically-Diverse Languages](https://aclanthology.org/2023.acl-long.235/) [@fitzgerald-etal-2023-massive]

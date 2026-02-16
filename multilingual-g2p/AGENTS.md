@@ -1,9 +1,3 @@
-Here is a clean, implementation-oriented **AGENTS.md** specification reflecting the full strategy we’ve developed in this conversation.
-
-You can drop this directly into your repository.
-
----
-
 # AGENTS.md
 
 ## Project: Multi-Axis Speech-to-Speech Similarity Benchmark
@@ -300,8 +294,4 @@ In speech-to-speech retrieval:
 * They are retrieval-relevant dimensions.
 
 This project formalizes and evaluates that claim.
-
----
-
-End of AGENTS.md
 

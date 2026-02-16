@@ -13,3 +13,7 @@ bibliography: refs.bib
 ## [MASSIVE: A 1M-Example Multilingual Natural Language Understanding Dataset with 51 Typologically-Diverse Languages](https://aclanthology.org/2023.acl-long.235/) [@fitzgerald-etal-2023-massive]
 - Cited (indirectly) by [@heigold2025massive]
 - [code](https://github.com/alexa/massive) --- Apache 2.0
+
+## [alibaba/zvec](https://github.com/alibaba/zvec)
+- [Home](https://zvec.org/en/)
+- [Docs](https://zvec.org/en/docs/)

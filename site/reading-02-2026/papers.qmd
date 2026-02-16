@@ -20,4 +20,4 @@ bibliography: refs.bib
 
 ## [Crowdsourced high-quality UK and Ireland English Dialect speech data set](https://www.openslr.org/83/) [@demirsahin-etal-2020-open]
 - Midlands, Northern, Southern English, Scottish, Welsh, Irish
-- [Rainbow passage](http://web.archive.org/web/20230401020905/https://www.dialectsarchive.com/the-rainbow-passage)
+- [Rainbow passage](https://www.dialectsarchive.com/the-rainbow-passage)

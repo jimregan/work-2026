@@ -32,24 +32,6 @@ categories: [links]
 [Carraig na Blaodhaighe](https://gaeilgechonamara.com/carraig-na-blaodhaighe-transcription/),
 [audio](https://repository.dri.ie/catalog/9593zf89x)
 
-# Lexicon adaptation papers
-
-[Pronunciation modeling and lexicon adaptation](https://pascal-francis.inist.fr/vibad/index.php?action=getRecordDetail&idt=16844695)
-
-Fosler-Lussier, E., W. Byrne, and D. Jurafsky. "Pronunciation Modeling and Lexicon Adaptation." Speech communication 46.2 (2005).
-
-[An international English speech corpus for longitudinal study of accent development](https://www.isca-archive.org/interspeech_2011/orr11_interspeech.html)
-
-[Pronunciation modeling for speech technology](https://ieeexplore.ieee.org/document/1458347)
-
-[A corpus-based study of English pronunciation variations](https://www.isca-archive.org/interspeech_2011/kim11e_interspeech.html)
-
-[Pronunciation dependent language models](https://www.isca-archive.org/interspeech_2006/ljolje06b_interspeech.html)
-
-[Dynamic Pronunciation Models for Automatic Speech Recognition](https://citeseerx.ist.psu.edu/document?repid=rep1&type=pdf&doi=71ac19c6febbfc401043ef4983705990826c8474)
-
-[Articulatory feature-based pronunciation modeling](https://www.sciencedirect.com/science/article/pii/S0885230815000686)
-
 # Dependency tree editing
 
 [DepEdit](https://gucorpling.org/depedit/) --- a tool for manipulating dependency trees
@@ -66,39 +48,6 @@ Fosler-Lussier, E., W. Byrne, and D. Jurafsky. "Pronunciation Modeling and Lexic
 
 [kokoro](https://github.com/hexgrad/kokoro),
 [model](https://huggingface.co/hexgrad/Kokoro-82M)
-
-# ASR
-
-[Pronunciation modeling for large vocabulary conversational speech recognition](https://www.isca-archive.org/icslp_1998/ma98_icslp.html)
-
-```bibtex
-@inproceedings{ma98_icslp,
-  title     = {Pronunciation modeling for large vocabulary conversational speech recognition},
-  author    = {Kristine Ma and George Zavaliagkos and Rukmini Iyer},
-  year      = {1998},
-  booktitle = {5th International Conference on Spoken Language Processing (ICSLP 1998)},
-  pages     = {paper 0866},
-  doi       = {10.21437/ICSLP.1998-655},
-  issn      = {2958-1796},
-}
-```
-
-> As was found by other researchers, over-generating multiple pronunciations in the dictionary increases word confusability during recognition, often nullifying the advantages of modeling pronunciation variability.
-
-[Phonological level wav2vec2-based Mispronunciation Detection and Diagnosis method](https://www.sciencedirect.com/science/article/pii/S0167639325000640)
-
-```bibtex
-@article{shahin2025phonological,
-    title = {Phonological level wav2vec2-based Mispronunciation Detection and Diagnosis method},
-    journal = {Speech Communication},
-    volume = {173},
-    pages = {103249},
-    year = {2025},
-    issn = {0167-6393},
-    doi = {https://doi.org/10.1016/j.specom.2025.103249},
-    author = {Mostafa Shahin and Julien Epps and Beena Ahmed},
-}
-```
 
 # Hungarian
 

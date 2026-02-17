@@ -25,7 +25,7 @@ bibliography: refs.bib
 - [code](https://github.com/facebookresearch/omnilingual-asr) --- code & models Apache 2.0
 - [space](https://huggingface.co/spaces/facebook/omniasr-transcriptions)
 
-### [Phoneme Boundary Detection Using Learnable Segmental Features](https://ieeexplore.ieee.org/document/9053053) [@kreuk2020phoneme]
+### [Phoneme Boundary Detection Using Learnable Segmental Features](https://ieeexplore.ieee.org/document/9053053) [@kreuk2020phoneme]
 - [arXiv](https://arxiv.org/abs/2002.04992)
 - [code](https://github.com/felixkreuk/SegFeat)
 
@@ -37,3 +37,18 @@ bibliography: refs.bib
 ### [Bridging the gap: A comparative exploration of Speech-LLM and end-to-end architecture for multilingual conversational ASR](https://arxiv.org/abs/2601.01461)
 - [code](https://github.com/YuCeong-May/MLC-SLM)
 - [models](https://huggingface.co/YuCeong-May/MLC-SLM)
+
+### [Phonological level wav2vec2-based Mispronunciation Detection and Diagnosis method](https://www.sciencedirect.com/science/article/pii/S0167639325000640) [@shahin2025phonological]
+
+- Separable CTC with Shared Blank (SCTC-SB)
+- Outputs phonological features
+- See also: [@shahin24_interspeech], [@han25_slate]
+- [Code?](https://github.com/mostafashahin/MCTC-Speech-Attribute)
+- Mostafa Shahin: [huggingface](https://huggingface.co/mostafaashahin), [github](https://github.com/mostafashahin)
+
+### [Pronunciation modeling for large vocabulary conversational speech recognition](https://www.isca-archive.org/icslp_1998/ma98_icslp.html) [@ma98_icslp]
+
+> As was found by other researchers, over-generating multiple pronunciations in the dictionary increases word confusability during recognition, often nullifying the advantages of modeling pronunciation variability.
+
+- rules + decision trees
+- rules based on [@finke97_eurospeech] and [@ostendorf1996modeling]

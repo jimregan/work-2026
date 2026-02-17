@@ -80,11 +80,7 @@ categories: [links]
 [MimicTalk: Mimicking a personalized and expressive 3D talking face in few minutes](https://openreview.net/forum?id=gjEzL0bamb),
 [code](https://github.com/yerfor/MimicTalk)
 
-[yerfor/Real3DPortrait](https://github.com/yerfor/Real3DPortrait)
-
 [sprakradet/swedia_test_set](https://github.com/sprakradet/swedia_test_set)
-
-[ByteDance-Seed/Seed-OSS-36B-Instruct](https://huggingface.co/ByteDance-Seed/Seed-OSS-36B-Instruct)
 
 [Identity-Preserving Talking Face Generation with Landmark and Appearance Priors](https://www.computer.org/csdl/proceedings-article/cvpr/2023/012900j729/1POPw2eqT7y),
 [code](https://github.com/Weizhi-Zhong/IP_LAP)
@@ -100,11 +96,6 @@ categories: [links]
 [Add Harvest algorithm as an option for F0 extraction #6083](https://github.com/espnet/espnet/pull/6083)
 
 [Create a ESPnet bootcamp recipe for proyecto-nahuatl-asr #6066](https://github.com/espnet/espnet/pull/6066)
-
-[TalkingGaussian: Structure-Persistent 3D Talking Head Synthesis via Gaussian Splatting](https://arxiv.org/abs/2404.15264)
-
-[GeneFace: Generalized and High-Fidelity Audio-Driven 3D Talking Face Synthesis](https://arxiv.org/abs/2301.13430),
-[code](https://github.com/yerfor/GeneFace)
 
 [AD-NeRF: Audio Driven Neural Radiance Fields for Talking Head Synthesis](https://arxiv.org/abs/2103.11078),
 [code](https://github.com/YudongGuo/AD-NeRF)

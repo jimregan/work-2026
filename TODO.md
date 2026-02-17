@@ -98,4 +98,11 @@ https://github.com/jimregan/ClarinStudioKaldi/releases/tag/cmusphinx-0.1
 }
 ```
 
+-----
 
+https://librivox.org/an-sgealuidhe-gaedhealach-by-douglas-hyde/
+
+Reader attended this school, according to his CV:
+https://www.scoilfhursa.net/
+
+(i.e., non-native: this is a Gaelscoil in Galway city)

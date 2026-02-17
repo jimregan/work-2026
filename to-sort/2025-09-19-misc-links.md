@@ -16,62 +16,7 @@ categories: [links]
 [jhu-clsp/mmBERT]()
 <!-- progressive addition of languages --- how does that work? -->
 
-[Finetuning ByT5 for GED](https://www.kaggle.com/code/asibrahman/finetuning-byt5-for-ged)
 
-[NeMo T5](https://docs.nvidia.com/nemo-framework/user-guide/latest/llms/t5.html#t5)
-
-[spring-media/DeepPhonemizer](https://github.com/spring-media/DeepPhonemizer)
-
-[honzas83/t5s](https://github.com/honzas83/t5s)
-
-[PolyIPA -- Multilingual Phoneme-to-Grapheme Conversion Model](https://arxiv.org/abs/2412.09102)
-
-[Mitigating the Exposure Bias in Sentence-Level Grapheme-to-Phoneme (G2P) Transduction](https://www.isca-archive.org/interspeech_2023/yoon23d_interspeech.html)
-
-```bibtex
-@inproceedings{yoon23d_interspeech,
-  title     = {Mitigating the Exposure Bias in Sentence-Level {G}rapheme-to-{P}honeme ({G2P}) Transduction},
-  author    = {Eunseop Yoon and Hee Suk Yoon and Dhananjaya Gowda and SooHwan Eom and Daehyeok Kim and John Harvill and Heting Gao and Mark Hasegawa-Johnson and Chanwoo Kim and Chang D. Yoo},
-  year      = {2023},
-  booktitle = {Interspeech 2023},
-  pages     = {2028--2032},
-  doi       = {10.21437/Interspeech.2023-2336},
-  issn      = {2958-1796},
-}
-```
-
-[T5G2P: Using Text-to-Text Transfer Transformer for Grapheme-to-Phoneme Conversion](https://www.isca-archive.org/interspeech_2021/rezackova21_interspeech.html)
-
-```bibtex
-@inproceedings{rezackova21_interspeech,
-  title     = {T5G2P: Using Text-to-Text Transfer Transformer for Grapheme-to-Phoneme Conversion},
-  author    = {Markéta Řezáčková and Jan Švec and Daniel Tihelka},
-  year      = {2021},
-  booktitle = {Interspeech 2021},
-  pages     = {6--10},
-  doi       = {10.21437/Interspeech.2021-546},
-  issn      = {2958-1796},
-}
-```
-
-[T5G2P: Text-to-Text Transfer Transformer Based Grapheme-to-Phoneme Conversion](https://ieeexplore.ieee.org/document/10592637)
-
-```bibtex
-@ARTICLE{10592637,
-  author={Řezáčková, Markéta and Tihelka, Daniel and Matoušek, Jindřich},
-  journal={IEEE/ACM Transactions on Audio, Speech, and Language Processing}, 
-  title={T5G2P: Text-to-Text Transfer Transformer Based Grapheme-to-Phoneme Conversion}, 
-  year={2024},
-  volume={32},
-  number={},
-  pages={3466-3476},
-  doi={10.1109/TASLP.2024.3426332}
-}
-```
-
-[NeMo Grapheme-to-Phoneme Models](https://docs.nvidia.com/nemo-framework/user-guide/latest/nemotoolkit/tts/g2p.html)
-
-[NeMo G2P YAML](https://github.com/NVIDIA-NeMo/NeMo/blob/main/examples/tts/g2p/conf/g2p_t5.yaml)
 
 [The Oxford-BBC Lip Reading Sentences 2](https://www.robots.ox.ac.uk/~vgg/data/lip_reading/lrs2.html)
 
@@ -95,14 +40,10 @@ categories: [links]
 
 [Add Harvest algorithm as an option for F0 extraction #6083](https://github.com/espnet/espnet/pull/6083)
 
-[Create a ESPnet bootcamp recipe for proyecto-nahuatl-asr #6066](https://github.com/espnet/espnet/pull/6066)
-
 [AD-NeRF: Audio Driven Neural Radiance Fields for Talking Head Synthesis](https://arxiv.org/abs/2103.11078),
 [code](https://github.com/YudongGuo/AD-NeRF)
 
 [yenchenlin/nerf-pytorch](https://github.com/yenchenlin/nerf-pytorch)
-
-[XTXMarkets/ternfs](https://github.com/XTXMarkets/ternfs)
 
 [Qwen3-Omni: Natively Omni-Modal Foundation Models!](https://qwen.ai/blog?id=65f766fc2dcba7905c1cb69cc4cab90e94126bf4&from=research.latest-advancements-list),
 [code](https://github.com/QwenLM/Qwen3-Omni),

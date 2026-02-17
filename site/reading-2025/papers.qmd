@@ -88,3 +88,25 @@ bibliography: refs.bib
 - Sub-phonetic feature-based representations
 - feature set based on the vocal tract variables of articulatory phonology
 - represented as dynamic Bayesian networks
+
+# G2P
+
+### [Finetuning ByT5 for GED](https://www.kaggle.com/code/asibrahman/finetuning-byt5-for-ged)
+
+### [NeMo T5](https://docs.nvidia.com/nemo-framework/user-guide/latest/llms/t5.html#t5)
+
+### [spring-media/DeepPhonemizer](https://github.com/spring-media/DeepPhonemizer)
+
+### [honzas83/t5s](https://github.com/honzas83/t5s)
+
+### [PolyIPA -- Multilingual Phoneme-to-Grapheme Conversion Model](https://arxiv.org/abs/2412.09102) [@lauc2024polyipamultilingualphonemetographeme]
+
+### [Mitigating the Exposure Bias in Sentence-Level Grapheme-to-Phoneme (G2P) Transduction](https://www.isca-archive.org/interspeech_2023/yoon23d_interspeech.html) [@yoon23d_interspeech]
+
+### [T5G2P: Using Text-to-Text Transfer Transformer for Grapheme-to-Phoneme Conversion](https://www.isca-archive.org/interspeech_2021/rezackova21_interspeech.html) [@rezackova21_interspeech]
+
+### [T5G2P: Text-to-Text Transfer Transformer Based Grapheme-to-Phoneme Conversion](https://ieeexplore.ieee.org/document/10592637) [@rezackova2024t5g2p]
+
+### [NeMo Grapheme-to-Phoneme Models](https://docs.nvidia.com/nemo-framework/user-guide/latest/nemotoolkit/tts/g2p.html)
+
+### [NeMo G2P YAML](https://github.com/NVIDIA-NeMo/NeMo/blob/main/examples/tts/g2p/conf/g2p_t5.yaml)

@@ -110,8 +110,6 @@ categories: [links]
 
 [espnet/owsm_ctc_v4_1B](https://huggingface.co/espnet/owsm_ctc_v4_1B)
 
-[Phone-Level Pronunciation Scoring for L1 Using Weighted-Dynamic Time Warping](https://ieeexplore.ieee.org/abstract/document/10023182)
-
 [An Investigation of the Relation Between Grapheme Embeddings and Pronunciation for Tacotron-based Systems](https://arxiv.org/abs/2010.10694),
 [models](https://zenodo.org/records/6534268#.Ynn90C8RppQ)
 

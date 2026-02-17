@@ -53,11 +53,16 @@ bibliography: refs.bib
 - rules + decision trees
 - rules based on [@finke97_eurospeech] and [@ostendorf1996modeling]
 
+
+### [Phone-Level Pronunciation Scoring for L1 Using Weighted-Dynamic Time Warping](https://ieeexplore.ieee.org/abstract/document/10023182) [@sini2023phonelevel]
+
+- \begin{equation*}\text{WMPS}(u_{1..K,i}, v_{j})=\max_{k\in[1,K]}(p(u_{k,i})\times Lev(a_{u_{k,i}},a_{v_{j}}))\end{equation*}
+- \begin{gather*} s=Lev(a_{u_{k,i}},a_{v_{j}})\\ d=\begin{cases} p(u_{k,i}) & \text{if}\ s=1\\ p(u_{k,i})\times\alpha & \text{if}\ \beta\leq s < 1\\ 0 & \text{if}\ s < \beta\end{cases}\\ \text{WMPS}(u_{1..K,i},v_{j})=\max_{k\in[1,K]}(d)\end{gather*}
+
 # Lexicon adaptation papers
 
-### [Pronunciation modeling and lexicon adaptation](https://pascal-francis.inist.fr/vibad/index.php?action=getRecordDetail&idt=16844695)
-
-### Fosler-Lussier, E., W. Byrne, and D. Jurafsky. "Pronunciation Modeling and Lexicon Adaptation." Speech communication 46.2 (2005).
+### Fosler-Lussier, E., W. Byrne, and D. Jurafsky. (Eds) [Pronunciation Modeling and Lexicon Adaptation](https://www.sciencedirect.com/journal/speech-communication/vol/46/issue/2). Speech communication 46.2 (2005).
+- [Bib data](https://pascal-francis.inist.fr/vibad/index.php?action=getRecordDetail&idt=16844695)
 
 ### [An international English speech corpus for longitudinal study of accent development](https://www.isca-archive.org/interspeech_2011/orr11_interspeech.html) [@orr11_interspeech]
 
@@ -65,9 +70,12 @@ bibliography: refs.bib
 
 ### [A corpus-based study of English pronunciation variations](https://www.isca-archive.org/interspeech_2011/kim11e_interspeech.html)
 
-### [Pronunciation dependent language models](https://www.isca-archive.org/interspeech_2006/ljolje06b_interspeech.html)
+### [Pronunciation dependent language models](https://www.isca-archive.org/interspeech_2006/ljolje06b_interspeech.html) [@ljolje06b_interspeech]
 
-### [Dynamic Pronunciation Models for Automatic Speech Recognition](https://citeseerx.ist.psu.edu/document?repid=rep1&type=pdf&doi=71ac19c6febbfc401043ef4983705990826c8474)
+### [Dynamic Pronunciation Models for Automatic Speech Recognition](https://citeseerx.ist.psu.edu/document?repid=rep1&type=pdf&doi=71ac19c6febbfc401043ef4983705990826c8474) [@fosler1999dynamic]
 
 ### [Articulatory feature-based pronunciation modeling](https://www.sciencedirect.com/science/article/pii/S0885230815000686) [@LIVESCU2016212]
 
+- Sub-phonetic feature-based representations
+- feature set based on the vocal tract variables of articulatory phonology
+- represented as dynamic Bayesian networks

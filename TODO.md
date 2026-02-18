@@ -106,3 +106,9 @@ Reader attended this school, according to his CV:
 https://www.scoilfhursa.net/
 
 (i.e., non-native: this is a Gaelscoil in Galway city)
+
+-----
+
+>>> from mlx_audio.stt.utils import load
+>>> model = load("mlx-community/VibeVoice-ASR-bf16")
+>>> result = model.generate(audio="/tmp/wutheringheights_09_bronte.mp3", max_tokens=8192, temperature=0.0)

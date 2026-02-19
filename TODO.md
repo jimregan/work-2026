@@ -112,3 +112,22 @@ https://www.scoilfhursa.net/
 >>> from mlx_audio.stt.utils import load
 >>> model = load("mlx-community/VibeVoice-ASR-bf16")
 >>> result = model.generate(audio="/tmp/wutheringheights_09_bronte.mp3", max_tokens=8192, temperature=0.0)
+
+-----
+
+find /data/northanger-abbey -name '*.mp3'|awk 'BEGIN{FS=OFS="/"}{$NF="";print}'|uniq|while read i;do for m in $i/*mp3;do whisperx --language en --output_dir=$( echo $i|sed -e 's/\/data\//\/data\/whisperx\//') $m;done;done
+
+-----
+
+The difficulties in acquiring resources for under-resourced languages have a compounding effect: the fewer resources
+there are, the fewer there are likely to be. In purely commercial terms, a known small market with high risk of
+returns tends not to invite investment; 
+
+What we see with Irish is that while there is some uptake in terms of speech resources, it is often from well-intentioned
+L2 speakers. (Find citation) note that while Irish is one of the languages available from Mozilla Common Voice [cite],
+there are few if any examples recorded by native speakers.
+
+Google Fleurs is another typical example: while it seems that the recordings were sourced from professional users of Irish,
+it is typically the case that professional users tend to deal only in text -- the standard language is one with no native
+speakers, and the resulting speech lacks fluency.
+

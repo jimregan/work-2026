@@ -140,3 +140,70 @@ Uses `jaxtyping` for array shape annotations (e.g., `Float[Array, "N D"]`).
 | `generate_table.py` | Generate result tables |
 
 Scripts use `absl.flags` for configuration (`--task`, `--encoder`, `--batch_size`, etc.).
+
+---
+
+Perfect! The `InformationRetrievalEvaluator` is exactly what you need:
+
+**InformationRetrievalEvaluator Requirements:**
+- **Queries** (qid => question): Your query speech segments
+- **Corpus** (cid => document): Your full corpus of speech segments  
+- **Relevant documents** (qid => set[cid]): For each query, which corpus items are "correct"
+
+**Updated Checklist**
+
+## Use sentence_transformers.InformationRetrievalEvaluator
+
+### Per-Axis Setup
+
+#### Semantic Axis
+- [ ] Queries: all speech segments in test set
+- [ ] Corpus: all speech segments
+- [ ] Relevant docs: for each query, all segments with same semantic content (different speakers)
+- [ ] Create evaluator with axis='semantic'
+
+#### Speaker Identity Axis
+- [ ] Queries: all speech segments in test set
+- [ ] Corpus: all speech segments
+- [ ] Relevant docs: for each query, all segments from same speaker (different content)
+- [ ] Create evaluator with axis='speaker'
+
+#### Gender Axis
+- [ ] Queries: all speech segments in test set
+- [ ] Corpus: all speech segments
+- [ ] Relevant docs: for each query, all segments with same gender
+- [ ] Create evaluator with axis='gender'
+
+#### Accent Axis
+- [ ] Queries: all speech segments in test set
+- [ ] Corpus: all speech segments
+- [ ] Relevant docs: for each query, all segments with same accent
+- [ ] Create evaluator with axis='accent'
+
+#### Fluency Axis (if categorical)
+- [ ] Decide on fluency bins (e.g., high/medium/low)
+- [ ] Queries: all LibriVox segments in test set
+- [ ] Corpus: all LibriVox segments
+- [ ] Relevant docs: for each query, all segments in same fluency bin
+- [ ] Create evaluator with axis='fluency'
+
+#### Prosody Axis (if categorical)
+- [ ] Decide on prosody categories/bins
+- [ ] Queries: all LibriVox segments in test set
+- [ ] Corpus: all LibriVox segments
+- [ ] Relevant docs: for each query, all segments with similar prosody
+- [ ] Create evaluator with axis='prosody'
+
+## Implementation
+- [ ] Build query/corpus/relevant mappings per axis
+- [ ] Subclass or wrap InformationRetrievalEvaluator to handle axis selection
+- [ ] Verify it computes MAP, nDCG, Recall@K, etc. (check what metrics it reports by default)
+- [ ] Run evaluation per axis using model.encode(audio, axis='...')
+
+## Paper/Documentation
+- [ ] State: "We use InformationRetrievalEvaluator from sentence_transformers"
+- [ ] Define relevant documents for each axis
+- [ ] Report all metrics InformationRetrievalEvaluator provides
+- [ ] Note dataset statistics: avg. number of relevant docs per query per axis
+
+**Check what metrics InformationRetrievalEvaluator provides** - it likely already computes MAP, nDCG, Recall@K, etc. You might get everything you need out of the box!

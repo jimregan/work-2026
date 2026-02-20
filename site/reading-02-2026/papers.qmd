@@ -34,3 +34,12 @@ bibliography: refs.bib
 ## [Coding Speech Through Vocal Tract Kinematics](https://ieeexplore.ieee.org/document/10759573) [@cho24_coding]
 - [arXiv](https://arxiv.org/abs/2406.12998)
 - [code](https://github.com/Berkeley-Speech-Group/Speech-Articulatory-Coding) --- MIT
+
+## [LibriTTS: A Corpus Derived from LibriSpeech for Text-to-Speech](https://www.isca-archive.org/interspeech_2019/zen19_interspeech.html) [@zen19_interspeech]
+- [arXiv](https://arxiv.org/abs/1904.02882)
+- [OpenSLR](https://www.openslr.org/60/)
+
+## [FLEURS: FEW-Shot Learning Evaluation of Universal Representations of Speech](https://ieeexplore.ieee.org/document/10023141) [@conneau2023fleurs]
+- [arXiv](https://arxiv.org/abs/2205.12446)
+- [Huggingface](https://huggingface.co/datasets/google/fleurs)
+

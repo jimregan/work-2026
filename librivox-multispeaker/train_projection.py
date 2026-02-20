@@ -1,17 +1,18 @@
 """Training script for MultiAxisProjection heads.
 
-Encodes TTS audio with a frozen Whisper-large-v3 encoder, caches the
-embeddings, then trains lightweight per-axis projection heads with
-contrastive (InfoNCE) losses.
+Encodes audio with a frozen encoder (default: openai/whisper-large-v3),
+caches the embeddings, then trains lightweight per-axis projection heads
+with contrastive (InfoNCE) losses.
 
 Usage::
 
     python train_projection.py \
         --dataset_config datasets.json \
-        --cache_dir ./whisper_cache \
+        --encoder_model openai/whisper-large-v3 \
+        --cache_dir ./encoder_cache \
         --output_dir ./trained_projection \
         --axes content:256 speaker:256 accent:128 \
-        --hidden_dim 512 \
+        --hidden_dim 0 \
         --batch_size 256 \
         --epochs 20 \
         --lr 1e-3 \
@@ -127,7 +128,7 @@ def encode_and_cache(
     all_embeddings = []
     metadata = []
 
-    for i in tqdm(range(0, len(all_rows), batch_size), desc="Whisper encoding"):
+    for i in tqdm(range(0, len(all_rows), batch_size), desc="Encoding"):
         batch_rows = all_rows[i : i + batch_size]
         audios = []
         for row in batch_rows:

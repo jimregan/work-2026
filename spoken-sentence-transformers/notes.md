@@ -808,6 +808,281 @@ If you’d like, next I can:
 * Draft a concrete experiment order (what to implement first, second, third), or
 * Help you decide which encoder to extract first to maximize signal and minimize debugging.
 
+-----
+
+Good — now we’re at the architectural core.
+
+In **Sentence Transformers**, the typical pipeline is:
+
+```
+Transformer encoder
+   ↓
+Token embeddings
+   ↓
+Pooling (mean / CLS / max)
+   ↓
+(Optional) Dense layer
+   ↓
+Sentence embedding
+```
+
+You’re now asking:
+
+> In my speech case, where does the “feed-forward then pooling” live?
+
+Let’s untangle that carefully.
+
+---
+
+# 1️⃣ What Sentence Transformers Actually Do
+
+For text models like BERT:
+
+* The transformer already includes internal feed-forward layers.
+* SentenceTransformers adds:
+
+  * A pooling layer over token outputs
+  * Optionally a small dense projection layer
+
+So structurally:
+
+```
+Token embeddings (sequence)
+  → Pool
+  → Dense (optional)
+  → Final embedding
+```
+
+The dense layer is small.
+It reshapes the embedding space.
+
+That’s it.
+
+---
+
+# 2️⃣ Mapping This to Speech
+
+For speech encoders (HuBERT, wav2vec2, Whisper encoder):
+
+You already have:
+
+```
+Audio
+  → Encoder
+  → Frame-level embeddings (T × D)
+```
+
+So your equivalent choices are:
+
+### Option A — Pool then project (recommended)
+
+```
+Frame embeddings
+   ↓
+Pooling (mean over time)
+   ↓
+Base embedding z_base
+   ↓
+Axis-specific projection heads
+```
+
+This mirrors Sentence Transformers most closely.
+
+---
+
+### Option B — Project frames then pool
+
+```
+Frame embeddings
+   ↓
+Axis-specific projection
+   ↓
+Pooling per axis
+```
+
+This is more complex and less stable.
+
+Unless you have a reason, avoid it.
+
+---
+
+# 3️⃣ Why Pool First Is Cleaner
+
+Pooling first:
+
+* Reduces dimensionality early.
+* Simplifies training.
+* Keeps projection heads small.
+* Makes word-level adaptation easier.
+* Matches SentenceTransformer intuition.
+
+So your architecture becomes:
+
+```
+z_base = mean_pool(frames)
+
+z_content = W_c z_base
+z_speaker = W_s z_base
+z_accent = W_a z_base
+...
+```
+
+That’s clean.
+
+---
+
+# 4️⃣ Where the “Feed Forward” Lives in Your System
+
+The feed-forward part is:
+
+* The axis projection head.
+
+That’s your dense layer.
+
+In SentenceTransformers:
+
+```
+Dense(768 → 768)
+```
+
+In yours:
+
+```
+Dense(1024 → 256) per axis
+```
+
+Or even:
+
+```
+Linear(1024 → 256)
+```
+
+That’s enough.
+
+---
+
+# 5️⃣ Important Decision: Shared vs Separate Projection
+
+You could do:
+
+### Independent per axis
+
+Each axis has its own linear layer.
+
+Pros:
+
+* Clean axis separation.
+* Easier analysis.
+* Matches your conceptual model.
+
+### Shared pre-projection
+
+One shared reduction layer before axis heads.
+
+Pros:
+
+* Parameter efficient.
+* Slightly smoother training.
+
+Given your frozen encoder constraint:
+Independent is simpler and clearer.
+
+---
+
+# 6️⃣ Word-Level Case
+
+For word-level embeddings:
+
+You do the same pattern:
+
+```
+Frame embeddings
+   ↓
+Pool over word span
+   ↓
+Word-level z_base
+   ↓
+Axis projection
+```
+
+So pooling happens twice:
+
+* Once for full utterance
+* Once for word span
+
+Consistent and simple.
+
+---
+
+# 7️⃣ Don’t Overcomplicate Pooling
+
+Use:
+
+* Mean pooling first.
+* Maybe compare to attention pooling later.
+
+Do not invent new pooling layers yet.
+
+Pooling is not your contribution.
+
+Similarity geometry is.
+
+---
+
+# 8️⃣ One Subtle but Important Detail
+
+Normalize embeddings before computing cosine.
+
+Either:
+
+* L2 normalize z_axis
+  or
+* Use cosine similarity directly with normalization inside.
+
+Otherwise different axes may scale differently.
+
+---
+
+# 9️⃣ Minimal Final Architecture (Very Clean)
+
+For each encoder:
+
+```
+frames = encoder(audio)          # frozen
+z_base = mean_pool(frames)
+z_base = L2_norm(z_base)
+
+for each axis:
+    z_axis = Linear(z_base)
+    z_axis = L2_norm(z_axis)
+```
+
+Training happens only on Linear layers.
+
+That’s it.
+
+---
+
+# 🔟 Big Picture
+
+You are basically building:
+
+> Speech SentenceTransformer with multi-head projections.
+
+But using:
+
+* Frozen speech encoder instead of BERT.
+* Multi-axis heads instead of one.
+
+That’s coherent and technically solid.
+
+---
+
+If you’d like, next I can:
+
+* Help you choose the dimensionality for each axis head (important for stability), or
+* Help you reason about whether content axis should be lower-dimensional than speaker axis.
+
 
 -----
 [BEST-STD]

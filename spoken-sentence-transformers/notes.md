@@ -570,6 +570,244 @@ If you’d like, I can now:
 * Redesign your evaluation plan under a strictly frozen-encoder regime, or
 * Sketch the exact minimal projection-head architecture and training loop that keeps everything stable and simple.
 
+-----
+
+Yes.
+That’s the cleanest and most strategically sound decision you’ve made so far.
+
+Training on **stored embeddings only** is:
+
+* Technically simple
+* Computationally light
+* Fully reproducible
+* Compatible with multiple encoders
+* Immune to backbone instability
+* Cleanly separable from representation extraction
+
+And it reinforces your thesis:
+
+> We do not modify pretrained encoders; we expose multidimensional similarity through lightweight projection learning.
+
+That is elegant.
+
+---
+
+# 1️⃣ Final Architecture (Frozen + Stored)
+
+### Step 1 — Extract once
+
+For each encoder:
+
+* Utterance embeddings → save as `.npy`
+* (Optional) frame embeddings for word-level → save as `.npy`
+* Store metadata (speaker, accent, sentence ID, etc.)
+
+No gradients. No training. Just feature extraction.
+
+---
+
+### Step 2 — Train projection heads offline
+
+Model:
+
+```text
+z_base (D)
+   ↓
+Linear/MLP projection per axis
+   ↓
+z_axis (d)
+```
+
+Train only small heads on stored vectors.
+
+Fast.
+Stable.
+No GPU required after extraction.
+
+---
+
+# 2️⃣ Why This Is Methodologically Strong
+
+This separation lets you:
+
+* Compare encoders fairly (identical downstream training).
+* Show that differences come from backbone, not tuning.
+* Add new encoders easily later.
+* Reproduce experiments cheaply.
+
+It also makes your results more interpretable:
+
+If axis performance differs across encoders,
+that reflects representational geometry — not training tricks.
+
+---
+
+# 3️⃣ Minimal Projection Head Design
+
+Keep it extremely simple.
+
+### Option A (Recommended First Pass)
+
+For each axis:
+
+```python
+nn.Linear(D, d_axis)
+```
+
+No activation.
+No dropout.
+Just projection.
+
+Then:
+
+* Content head → contrastive loss
+* Speaker/accent/gender → cross-entropy
+* Fluency → cross-entropy (bins)
+
+That’s enough.
+
+---
+
+### Option B (If Linear Underfits)
+
+```python
+nn.Sequential(
+    nn.Linear(D, D),
+    nn.ReLU(),
+    nn.Linear(D, d_axis)
+)
+```
+
+But start linear.
+
+Linear projections keep the paper cleaner.
+
+---
+
+# 4️⃣ Training Strategy
+
+### Batch structure
+
+Sample mixed batches across datasets:
+
+Each sample includes:
+
+* embedding
+* axis labels (mask where unavailable)
+
+Loss masking:
+
+```python
+if accent_label is None:
+    skip accent loss
+```
+
+Keep it simple.
+
+---
+
+# 5️⃣ Mixed Retrieval Justification Experiment
+
+You must include this.
+
+Define a task where:
+
+Correct = same sentence OR same speaker.
+
+Evaluate:
+
+1. Scalar similarity (baseline)
+2. Vector similarity + simple weight (learned or fixed)
+
+Show vector wins.
+
+That justifies the whole paper.
+
+---
+
+# 6️⃣ Word-Level Under Stored Regime
+
+For word-level:
+
+* Store frame embeddings.
+* Precompute word-span pooled embeddings.
+* Train projection heads on those too (optional).
+
+Again, no encoder backprop.
+
+---
+
+# 7️⃣ How This Looks in the Paper
+
+Your Methods section becomes very clean:
+
+> Pretrained encoders are used in frozen mode. All axis-specific modeling is performed using lightweight projection layers trained on stored embeddings.
+
+Reviewers like that.
+
+It signals:
+
+* Controlled experiment
+* No overfitting
+* No compute theatrics
+
+---
+
+# 8️⃣ This Also Protects You Against Criticism
+
+If a reviewer says:
+
+> “Why not fine-tune?”
+
+You answer:
+
+We intentionally avoid encoder modification to isolate representation structure.
+
+That’s defensible.
+
+---
+
+# 9️⃣ What You Should Do First
+
+Before writing any training code:
+
+1. Extract embeddings for one encoder (HuBERT or Whisper).
+2. Compute:
+
+   * Content retrieval baseline
+   * Speaker retrieval baseline
+3. See how raw embeddings behave.
+
+That will guide whether projections are necessary.
+
+You might discover:
+
+* Some axes are already strong.
+* Others need projection help.
+
+---
+
+# 🔟 The Important Mental Shift
+
+Your contribution is not:
+
+> Training a new speech embedding model.
+
+It is:
+
+> Demonstrating that speech similarity is multi-axis and can be exposed through lightweight projection over frozen encoders.
+
+That’s tight.
+That’s focused.
+That’s publishable.
+
+---
+
+If you’d like, next I can:
+
+* Draft a concrete experiment order (what to implement first, second, third), or
+* Help you decide which encoder to extract first to maximize signal and minimize debugging.
+
 
 -----
 [BEST-STD]

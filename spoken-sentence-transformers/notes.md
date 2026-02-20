@@ -73,6 +73,288 @@ same works, though these are usually shorter items, such as poems.
 
 -----
 
+This checklist is very solid. The structure is right. What you need now is tightening and pruning so it doesn’t quietly explode into five papers.
+
+I’ll go through it axis by axis and mark:
+
+* ✅ Keep as core
+* ⚠️ Optional / exploratory
+* ❌ Dangerous scope creep
+* 🔧 Suggested refinement
+
+---
+
+# 1️⃣ Metrics
+
+Your metric set is good, but slightly overcomplete.
+
+## Recommended Core Set
+
+✅ **Recall@K (1, 5, 10)**
+This should be your primary metric.
+
+Why:
+
+* Intuitive
+* Retrieval-aligned
+* Works with multi-correct answers
+* Easy to explain
+
+✅ **nDCG@K**
+Very good for axes with multiple valid targets.
+
+This is especially important for:
+
+* Speaker
+* Gender
+* Accent
+* Fluency (if categorical)
+
+Optional:
+
+⚠️ **MAP**
+Fine, but redundant if you already have nDCG.
+
+⚠️ **MRR**
+Only include if you want comparability to speech-to-text retrieval literature.
+
+I would not report all five unless necessary. Reviewers prefer clarity over metric buffet.
+
+---
+
+# 2️⃣ Per-Axis Evaluation
+
+Now let’s tighten each axis.
+
+---
+
+## 🟢 Semantic Axis
+
+> Define "correct": same sentence/content, different speaker
+
+✅ Keep exactly as written.
+
+This is your cleanest axis.
+
+🔧 Important:
+Make sure:
+
+* Same sentence, same speaker is excluded for this axis.
+* Different sentence, same speaker is excluded.
+
+You want pure content similarity.
+
+This axis will anchor the whole paper.
+
+---
+
+## 🟢 Speaker Identity Axis
+
+> Define "correct": same speaker, different utterance
+
+✅ Keep.
+
+This is standard speaker retrieval.
+
+🔧 Important:
+Exclude:
+
+* Same utterance, same speaker
+* Otherwise trivial.
+
+This axis should clearly diverge from semantic axis.
+
+---
+
+## 🟢 Gender Axis
+
+This is good but be cautious.
+
+⚠️ Gender retrieval can become trivial if the encoder strongly clusters by speaker and speakers are gender-homogeneous.
+
+🔧 Suggestion:
+Use gender as:
+
+* A secondary analysis axis
+* Or clustering evaluation
+* Not a central claim
+
+You don’t want reviewers to think:
+
+> “This is just demographic clustering.”
+
+Keep it, but don’t overemphasize.
+
+---
+
+## 🟢 Accent Axis (TTS corpora only)
+
+✅ Strong axis on VCTK / GB&I.
+
+Important refinement:
+
+* Do not use LibriVox accent unless you have strong labels.
+* Keep accent evaluation to controlled corpora.
+
+Accent retrieval should:
+
+* Exclude same speaker
+* Exclude same utterance
+
+So it isolates accent from speaker.
+
+This is a strong, clean experimental axis.
+
+---
+
+## 🟡 Fluency Axis (LibriVox)
+
+This is where scope can explode.
+
+### Strong recommendation:
+
+Start with **categorical bins**, not continuous regression.
+
+Define bins using simple acoustic proxies:
+
+* Pause rate tertiles
+* Speech rate variance tertiles
+* Disfluency count bins
+
+Then:
+
+> "correct" = same bin, different speaker/utterance
+
+This keeps evaluation retrieval-style.
+
+Continuous correlation approaches:
+❌ Too messy for this paper.
+
+Keep it simple.
+
+---
+
+## 🟡 Prosody Axis
+
+Be careful here.
+
+Prosody is hard to operationalize without:
+
+* F0 extraction
+* Rhythm modeling
+* Style embedding
+
+This risks becoming a separate paper.
+
+### Recommendation:
+
+Either:
+
+* Merge prosody into fluency/production axis
+  OR
+* Make it exploratory only.
+
+Do not make it a full core axis in v1.
+
+---
+
+# 3️⃣ Implementation Notes
+
+Your checklist is good. Add these refinements:
+
+---
+
+## 🔧 Multi-Correct Handling
+
+Important for all non-semantic axes.
+
+For each query:
+
+* Precompute set of valid target IDs.
+* Ensure evaluator handles variable cardinality.
+* Validate on toy data first.
+
+This is essential.
+
+---
+
+## 🔧 Mixed Retrieval Task (Add This!)
+
+You are missing the key experiment that justifies vector similarity.
+
+Add:
+
+### Mixed Task:
+
+Define "correct" = same content OR same speaker.
+
+Now evaluate:
+
+* Scalar similarity
+* Vector similarity (weighted)
+
+Show:
+
+Scalar fails.
+Vector succeeds.
+
+This is the paper’s justification.
+
+---
+
+# 4️⃣ Paper Framing Improvements
+
+Add these explicit clarifications:
+
+* "Correct answers per axis may exceed one; therefore we use ranking-based multi-label retrieval metrics."
+* "All retrieval is speech-to-speech; text is used only for supervision."
+
+And very important:
+
+Include a small confusion matrix or correlation table showing:
+
+* Content axis similarity vs speaker axis similarity correlation
+
+This visually proves axes are distinct.
+
+---
+
+# 5️⃣ What To Cut (For Scope Safety)
+
+I would recommend:
+
+* Keep: Semantic, Speaker, Accent
+* Add: Fluency (simple bin version)
+* Defer: Prosody (unless trivial)
+
+Do not try to implement 6 fully polished axes in first submission.
+
+---
+
+# 6️⃣ Big Strategic Advice
+
+If this checklist is implemented exactly as written, you will have:
+
+* A legitimate retrieval benchmark
+* Axis-specific evaluation
+* Strong technical framing
+* Minimal architectural overhead
+
+But only if you keep:
+
+> Axes clean, metrics minimal, scope tight.
+
+---
+
+If you'd like, I can next:
+
+* Rewrite this checklist into a **final locked-down evaluation plan** (tight enough for Interspeech), or
+* Simulate a reviewer reading this checklist and tell you exactly where they’d push back hardest.
+
+
+-----
+[BEST-STD]
+
 This is very relevant to your **speech sentence embedding** direction — not because it *is* a sentence embedding model, but because it solves a closely related structural problem:
 
 > How do we turn speech into a sequence of discrete, speaker-invariant, semantically meaningful units that are efficient to index and compare?

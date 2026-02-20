@@ -340,16 +340,235 @@ If this checklist is implemented exactly as written, you will have:
 * Strong technical framing
 * Minimal architectural overhead
 
-But only if you keep:
+-----
 
-> Axes clean, metrics minimal, scope tight.
+Good.
+
+That simplifies things dramatically — and, honestly, makes your paper cleaner.
+
+If you commit to:
+
+> ❌ No fine-tuning of backbone encoders
+> ❌ No modifying codec models
+> ✅ Fully off-the-shelf feature extractors
+
+then your contribution becomes:
+
+> A multi-axis similarity formulation + projection layer + evaluation framework.
+
+That is much more defensible than half-fine-tuned encoders.
+
+Now let’s re-ground the plan around that constraint.
 
 ---
 
-If you'd like, I can next:
+# 1️⃣ Architecture Under “Frozen Encoder” Constraint
 
-* Rewrite this checklist into a **final locked-down evaluation plan** (tight enough for Interspeech), or
-* Simulate a reviewer reading this checklist and tell you exactly where they’d push back hardest.
+Your system becomes:
+
+```
+Audio
+  ↓
+Frozen encoder (HuBERT / Whisper encoder / wav2vec2 / codec LM)
+  ↓
+Pooling
+  ↓
+Shared embedding z_base
+  ↓
+Axis-specific projection heads
+```
+
+Important:
+
+The encoder is fixed.
+Only small projection heads are trainable.
+
+That’s very safe.
+
+---
+
+# 2️⃣ What This Means for “No Starting Point”
+
+You do have a starting point:
+
+The pretrained encoder representation space.
+
+Your job is not to learn speech representations.
+
+Your job is to:
+
+> Reorganize and expose what information is already there.
+
+That’s actually a very elegant thesis.
+
+---
+
+# 3️⃣ How Training Works Now
+
+You train only:
+
+* `W_content`
+* `W_speaker`
+* `W_accent`
+* `W_fluency`
+
+Each can be:
+
+* Linear layer (even better for stability)
+* Or small 2-layer MLP
+
+Losses:
+
+* Content → contrastive on projected embedding
+* Speaker → cross-entropy
+* Accent → cross-entropy
+* Fluency → cross-entropy or regression
+
+Encoder stays frozen.
+
+That dramatically reduces risk.
+
+---
+
+# 4️⃣ Why This Is Still Legitimate
+
+A reviewer might ask:
+
+> “If you don’t fine-tune the encoder, what are you contributing?”
+
+Your answer:
+
+We show that:
+
+* Existing encoders already encode multiple axes.
+* A simple axis-specific projection can expose them.
+* Similarity becomes vector-valued.
+* Speech-to-speech retrieval benefits.
+
+That is a representation analysis + modeling contribution.
+
+Perfectly acceptable at Interspeech.
+
+---
+
+# 5️⃣ Even Simpler Alternative (If You Want Maximum Safety)
+
+You could even:
+
+* Skip training projection heads.
+* Compute raw embedding once.
+* Compute axis similarity using supervised probes only.
+
+But that weakens the method section.
+
+I would recommend training small projection heads.
+
+They’re low-risk.
+
+---
+
+# 6️⃣ Why Frozen Encoders Are Strategically Smart
+
+Advantages:
+
+✔ No compute arms race
+✔ No instability
+✔ No reviewer complaints about insufficient fine-tuning
+✔ Easy reproducibility
+✔ Clear comparison across encoder families
+✔ Clean ablation: raw vs projected
+
+It keeps focus on:
+
+> Similarity geometry.
+
+---
+
+# 7️⃣ Practical Training Recipe (Low Risk)
+
+* Extract utterance-level embeddings for all data first.
+* Save to disk.
+* Train projection heads on saved embeddings.
+* No backprop through encoder.
+* Fast iteration.
+
+This also lets you:
+
+* Swap encoders easily.
+* Compare them fairly.
+* Avoid GPU memory issues.
+
+---
+
+# 8️⃣ This Makes Word-Level Easier Too
+
+For word-level:
+
+* Extract frame-level embeddings.
+* Freeze.
+* Pool spans.
+* Train projection heads on pooled span embeddings.
+
+No WhisperX gradients.
+No encoder tuning.
+
+Clean.
+
+---
+
+# 9️⃣ What Changes in Your Evaluation Framing
+
+You can now claim:
+
+> We do not modify pretrained encoders; instead, we analyze and reorganize their representations under a multi-axis similarity framework.
+
+That sounds careful and principled.
+
+---
+
+# 🔟 Important Conceptual Upgrade
+
+Your work becomes less about:
+
+> “Learning better speech embeddings”
+
+and more about:
+
+> “Revealing multidimensional similarity structure in existing speech encoders.”
+
+That is intellectually sharper.
+
+---
+
+# 11️⃣ You Just Removed 70% of the Risk
+
+No encoder fine-tuning means:
+
+* No catastrophic forgetting
+* No complex learning rate schedules
+* No delicate loss balancing
+* No exploding gradients
+* No compute surprises
+
+This is a good decision.
+
+---
+
+# 12️⃣ One Final Clarifying Question
+
+Under this frozen setup, are you comfortable:
+
+* Training projection heads on stored embeddings only?
+* Or do you prefer fully zero-training (pure evaluation)?
+
+Because training small heads is very safe — but zero-training is even safer.
+
+---
+
+If you’d like, I can now:
+
+* Redesign your evaluation plan under a strictly frozen-encoder regime, or
+* Sketch the exact minimal projection-head architecture and training loop that keeps everything stable and simple.
 
 
 -----

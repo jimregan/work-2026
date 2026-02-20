@@ -146,7 +146,13 @@ class MultiAxisProjection(Module):
         safe_serialization: bool = True,
         **kwargs,
     ) -> None:
-        self.save_config(output_path)
+        config = MultiAxisProjectionConfig(
+            in_features=self.in_features,
+            axes=self.axes,
+            hidden_dim=self.hidden_dim,
+            default_axis=self.default_axis,
+        )
+        config.save_pretrained(output_path)
         self.save_torch_weights(
             output_path, safe_serialization=safe_serialization
         )
@@ -162,6 +168,20 @@ class MultiAxisProjection(Module):
         local_files_only: bool = False,
         **kwargs,
     ) -> Self:
+        config = MultiAxisProjectionConfig.from_pretrained(
+            model_name_or_path,
+            subfolder=subfolder,
+            token=token,
+            cache_dir=cache_folder,
+            revision=revision,
+            local_files_only=local_files_only,
+        )
+        model = cls(
+            in_features=config.in_features,
+            axes=config.axes,
+            hidden_dim=config.hidden_dim,
+            default_axis=config.default_axis,
+        )
         hub_kwargs = {
             "subfolder": subfolder,
             "token": token,
@@ -169,10 +189,6 @@ class MultiAxisProjection(Module):
             "revision": revision,
             "local_files_only": local_files_only,
         }
-        config = cls.load_config(
-            model_name_or_path=model_name_or_path, **hub_kwargs
-        )
-        model = cls(**config)
         model = cls.load_torch_weights(
             model_name_or_path=model_name_or_path, model=model, **hub_kwargs
         )

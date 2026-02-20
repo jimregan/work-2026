@@ -65,26 +65,30 @@ def load_dataset_configs(path: str) -> list[DatasetConfig]:
 
 
 # ---------------------------------------------------------------------------
-# Whisper encoding + caching
+# Encoder + caching
 # ---------------------------------------------------------------------------
-
-WHISPER_HIDDEN_SIZE = 1280
 
 
 def encode_and_cache(
     configs: list[DatasetConfig],
     cache_dir: str,
     device: str,
+    encoder_model: str = "openai/whisper-large-v3",
     batch_size: int = 16,
 ) -> tuple[torch.Tensor, list[dict]]:
-    """Encode audio with Whisper-large-v3 encoder, caching results.
+    """Encode audio with a frozen encoder, caching results.
+
+    For seq2seq models (e.g. Whisper) only the encoder is used.
+    For encoder-only models (e.g. wav2vec2, HuBERT) the full model is used.
 
     Returns:
-        embeddings: Float tensor of shape [N, 1280].
-        metadata: List of dicts with keys speaker, accent, gender, text.
+        embeddings: Float tensor of shape [N, D] where D is the encoder
+            hidden size.
+        metadata: List of dicts keyed by axis name as defined by each
+            dataset config's ``axis_columns``.
     """
-    from datasets import concatenate_datasets, load_dataset
-    from transformers import WhisperFeatureExtractor, WhisperModel
+    from datasets import load_dataset
+    from transformers import AutoFeatureExtractor, AutoModel
 
     cache_path = Path(cache_dir)
     cache_path.mkdir(parents=True, exist_ok=True)
@@ -109,14 +113,16 @@ def encode_and_cache(
                 row_data[axis_name] = row.get(col, "")
             all_rows.append(row_data)
 
-    logger.info("Encoding %d samples with Whisper-large-v3", len(all_rows))
-    feature_extractor = WhisperFeatureExtractor.from_pretrained(
-        "openai/whisper-large-v3"
-    )
-    model = WhisperModel.from_pretrained("openai/whisper-large-v3")
-    encoder = model.encoder.to(device).eval()
-    del model.decoder
-    torch.cuda.empty_cache() if device.startswith("cuda") else None
+    logger.info("Encoding %d samples with %s", len(all_rows), encoder_model)
+    feature_extractor = AutoFeatureExtractor.from_pretrained(encoder_model)
+    full_model = AutoModel.from_pretrained(encoder_model)
+    # For seq2seq models use encoder only; for encoder-only models use as-is.
+    encoder = getattr(full_model, "encoder", full_model)
+    if encoder is not full_model:
+        del full_model
+        if device.startswith("cuda"):
+            torch.cuda.empty_cache()
+    encoder = encoder.to(device).eval()
 
     all_embeddings = []
     metadata = []
@@ -141,11 +147,11 @@ def encode_and_cache(
             return_tensors="pt",
             padding=True,
         )
-        input_features = inputs.input_features.to(device)
+        inputs = {k: v.to(device) for k, v in inputs.items()}
 
         with torch.no_grad():
-            outputs = encoder(input_features)
-            # Mean-pool over time dimension → [B, 1280]
+            outputs = encoder(**inputs)
+            # Mean-pool over time dimension → [B, D]
             hidden = outputs.last_hidden_state
             emb = hidden.mean(dim=1).cpu()
             all_embeddings.append(emb)
@@ -470,9 +476,14 @@ def main() -> None:
         help="JSON file with dataset column mappings.",
     )
     parser.add_argument(
+        "--encoder_model",
+        default="openai/whisper-large-v3",
+        help="HuggingFace model name or path for the frozen encoder.",
+    )
+    parser.add_argument(
         "--cache_dir",
-        default="./whisper_cache",
-        help="Directory for cached Whisper embeddings.",
+        default="./encoder_cache",
+        help="Directory for cached encoder embeddings.",
     )
     parser.add_argument(
         "--output_dir",
@@ -501,7 +512,7 @@ def main() -> None:
         "--encode_batch_size",
         type=int,
         default=16,
-        help="Batch size for Whisper encoding.",
+        help="Batch size for encoder inference.",
     )
     parser.add_argument(
         "--epochs",
@@ -538,6 +549,7 @@ def main() -> None:
         configs,
         cache_dir=args.cache_dir,
         device=args.device,
+        encoder_model=args.encoder_model,
         batch_size=args.encode_batch_size,
     )
 

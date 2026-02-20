@@ -1291,6 +1291,209 @@ If you’d like, next I can:
 * Help you design the exact first baseline experiment (minimal but revealing), or
 * Help you decide projection dimensionality so you don’t guess blindly.
 
+-----
+
+Yes. That’s the core idea. And it’s stronger than you might realise.
+
+You are not training:
+
+* multiple encoders
+* multiple embedding models
+* multiple separate retrieval systems
+
+You are learning:
+
+> Multiple geometric projections of the same frozen acoustic representation space.
+
+Let’s unpack that precisely, because this is the conceptual anchor of your paper.
+
+---
+
+# 1️⃣ One Acoustic Space, Many Geometries
+
+Your frozen encoder gives you:
+
+[
+z_\text{base}(x) \in \mathbb{R}^D
+]
+
+That space already contains:
+
+* content information
+* speaker information
+* accent cues
+* prosodic patterns
+* production variability
+
+But all entangled.
+
+You are not creating new information.
+
+You are learning linear maps:
+
+[
+z^{(a)}(x) = W_a , z_\text{base}(x)
+]
+
+Each (W_a) defines a new geometry.
+
+---
+
+# 2️⃣ What a Projection Actually Does Geometrically
+
+A linear projection:
+
+* Stretches some directions
+* Compresses others
+* Rotates the space
+* Potentially discards dimensions
+
+So for the content axis:
+
+* Directions that correlate with lexical/semantic variation are amplified.
+* Speaker-dominated directions are suppressed.
+
+For the speaker axis:
+
+* Identity-dominated directions are amplified.
+* Content-dominated directions are suppressed.
+
+You are not disentangling in a generative sense.
+
+You are **re-weighting the geometry**.
+
+That’s much cleaner and more defensible.
+
+---
+
+# 3️⃣ Why This Is Conceptually Elegant
+
+Many papers try to:
+
+* Remove speaker information (invariance)
+* Remove accent information
+* Disentangle latent factors
+
+You are doing something simpler and more honest:
+
+> The space contains many factors. We learn projections that emphasize different relational structures.
+
+No claim of full disentanglement.
+No claim of factor independence.
+Just geometric reshaping.
+
+---
+
+# 4️⃣ Why Frozen Encoder Makes This Stronger
+
+If you fine-tuned the encoder:
+
+* The geometry itself would change.
+* Hard to know what’s backbone vs projection.
+
+With frozen encoder:
+
+* The base space is fixed.
+* Differences across axes come purely from learned projections.
+* Differences across encoders reflect representational bias.
+
+That’s very clean experimentally.
+
+---
+
+# 5️⃣ This Is Not Just “Multi-Task Learning”
+
+Multi-task learning says:
+
+> Train different heads for different tasks.
+
+You are saying:
+
+> Each head defines a different similarity metric over the same acoustic space.
+
+That’s a much sharper formulation.
+
+Your output is not:
+
+* class labels.
+
+Your output is:
+
+* a vector of similarity scores.
+
+That’s distinctive.
+
+---
+
+# 6️⃣ This Also Explains Why K Doesn’t Get Divided
+
+Because:
+
+Each axis projection is applied to the same batch.
+
+Each projection defines its own metric.
+
+The negative pool is the same underlying data.
+
+You are learning multiple metrics on one dataset.
+
+Not partitioning data across metrics.
+
+---
+
+# 7️⃣ How to Phrase This in the Paper
+
+Something like:
+
+> We treat pretrained speech encoders as providing a shared acoustic representation space. Rather than enforcing invariance to non-semantic factors, we learn axis-specific linear projections that induce distinct similarity geometries over this shared space.
+
+That sounds precise and confident.
+
+---
+
+# 8️⃣ What This Implies for Your Design Choices
+
+Because the story is geometric:
+
+* Linear projections are preferable to deep MLPs.
+* Mean pooling is preferable to complex attention.
+* Frozen backbone is preferable to fine-tuning.
+* Clean sampling is crucial.
+
+Everything aligns with that philosophy.
+
+---
+
+# 9️⃣ This Is Actually a Strong Theoretical Position
+
+You are implicitly arguing:
+
+> Speech similarity is not scalar but vector-valued because acoustic representation spaces contain multiple relational substructures.
+
+That’s a deep claim.
+
+But your implementation is simple.
+
+That combination is powerful.
+
+---
+
+# 🔟 The Next Important Design Question
+
+If each axis is a projection of the same base space:
+
+Do you want to:
+
+A) Allow projections to be completely independent?
+or
+B) Encourage orthogonality between projections?
+
+Orthogonality constraints would reinforce the “distinct geometries” story — but add complexity.
+
+For v1, I’d keep them independent.
+
+If you’d like, we can now think through whether adding an orthogonality regularizer strengthens or overcomplicates your first submission.
+
 
 -----
 [BEST-STD]

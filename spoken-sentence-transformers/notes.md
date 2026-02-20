@@ -1083,6 +1083,214 @@ If you’d like, next I can:
 * Help you choose the dimensionality for each axis head (important for stability), or
 * Help you reason about whether content axis should be lower-dimensional than speaker axis.
 
+-----
+
+That’s exactly the right kind of constraint: start with what you already have working and what MSEB already wraps cleanly.
+
+Between **Whisper encoder** and **wav2vec2**, here’s how I’d think about it strategically.
+
+---
+
+# 1️⃣ Whisper vs wav2vec2: What Signal Do You Want First?
+
+## 🟢 Whisper (encoder only)
+
+Training objective:
+
+* Supervised ASR
+* Optimized for transcription
+
+What it tends to encode strongly:
+
+* Content / lexical information
+* Some speaker info (but less emphasized)
+* Less raw acoustic detail than SSL models
+
+What that means for you:
+
+* Likely strong on **semantic axis**
+* Possibly weaker on **speaker/accent axis**
+* Good contrast against wav2vec2
+
+If your first experiment is:
+
+> Does scalar similarity privilege content?
+
+Whisper is a very good starting point.
+
+---
+
+## 🟢 wav2vec2 (SSL)
+
+Training objective:
+
+* Self-supervised acoustic modeling
+
+What it tends to encode strongly:
+
+* Acoustic structure
+* Speaker characteristics
+* Phonetic information
+* Possibly accent cues
+
+What that means for you:
+
+* Likely stronger on **speaker**
+* Likely decent on **accent**
+* Possibly weaker on long-range semantic abstraction
+
+If your first experiment is:
+
+> Do encoders distribute axes differently?
+
+wav2vec2 is a strong candidate.
+
+---
+
+# 2️⃣ Which Is Better as the Very First Run?
+
+Given your goals:
+
+* Speech-to-speech retrieval
+* Multi-axis similarity
+* No fine-tuning
+* Clean geometry
+
+I would start with:
+
+> **wav2vec2 first**
+
+Why?
+
+1. It’s architecturally simpler.
+2. It outputs frame embeddings naturally.
+3. It doesn’t require decoder context.
+4. It’s very compatible with mean pooling.
+5. It is less entangled with text supervision.
+
+Whisper can come second as contrast.
+
+---
+
+# 3️⃣ Clean Experimental Order (Very Important)
+
+Don’t try both immediately.
+
+Do this:
+
+### Phase 1
+
+* wav2vec2
+* Extract embeddings
+* Run:
+
+  * Semantic retrieval baseline
+  * Speaker retrieval baseline
+
+Just see how raw embeddings behave.
+
+This gives you intuition.
+
+---
+
+### Phase 2
+
+* Add projection heads
+* Train content + speaker axes
+* Evaluate again
+
+Now you see what projection training adds.
+
+---
+
+### Phase 3
+
+* Add accent axis (on TTS corpora)
+
+---
+
+### Phase 4
+
+* Introduce Whisper encoder for comparison
+
+Now you can make strong cross-encoder claims.
+
+---
+
+# 4️⃣ Why Not Start with Whisper?
+
+You absolutely can.
+
+But Whisper has:
+
+* Different temporal resolution
+* More preprocessing steps
+* More architectural complexity
+* Potential decoder entanglement confusion
+
+wav2vec2 is a cleaner first sandbox.
+
+---
+
+# 5️⃣ Using MSEB Code
+
+Since you already have:
+
+* Encoder wrappers
+* Batching
+* Embedding extraction code
+
+You should:
+
+* Fork just the encoder part.
+* Strip out task logic.
+* Build your own evaluator.
+
+Do not inherit their task abstraction.
+
+Keep your axis abstraction separate.
+
+---
+
+# 6️⃣ Important Conceptual Test
+
+After extracting wav2vec2 embeddings, ask:
+
+Do raw embeddings already:
+
+* Cluster strongly by speaker?
+* Show weak semantic alignment?
+* Show accent grouping?
+
+That observation will shape your whole paper.
+
+Sometimes the raw geometry is already very telling.
+
+---
+
+# 7️⃣ Final Recommendation
+
+Start with:
+
+> wav2vec2 + mean pooling + raw cosine retrieval.
+
+Don’t even train projection heads yet.
+
+See what the space looks like.
+
+That will:
+
+* Clarify axis difficulty.
+* Prevent overengineering.
+* Guide projection dimensionality choices.
+
+---
+
+If you’d like, next I can:
+
+* Help you design the exact first baseline experiment (minimal but revealing), or
+* Help you decide projection dimensionality so you don’t guess blindly.
+
 
 -----
 [BEST-STD]

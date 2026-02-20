@@ -1,7 +1,5 @@
 from __future__ import annotations
 
-import json
-import os
 from typing import Any
 
 try:
@@ -11,9 +9,34 @@ except ImportError:
 
 import torch
 from torch import Tensor, nn
+from transformers import PretrainedConfig
 
 from sentence_transformers.models.Module import Module
-from sentence_transformers.util import load_file_path
+
+
+class MultiAxisProjectionConfig(PretrainedConfig):
+    """HuggingFace-compatible config for :class:`MultiAxisProjection`.
+
+    Storing axes in ``config.json`` makes projection heads loadable via
+    ``AutoConfig.from_pretrained`` and pushable to the Hub without any
+    custom code on the loading side.
+    """
+
+    model_type = "multi_axis_projection"
+
+    def __init__(
+        self,
+        in_features: int = 0,
+        axes: dict[str, int] | None = None,
+        hidden_dim: int | None = None,
+        default_axis: str | None = None,
+        **kwargs,
+    ) -> None:
+        super().__init__(**kwargs)
+        self.in_features = in_features
+        self.axes = axes or {}
+        self.hidden_dim = hidden_dim
+        self.default_axis = default_axis
 
 
 class MultiAxisProjection(Module):

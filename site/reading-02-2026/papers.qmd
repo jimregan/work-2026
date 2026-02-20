@@ -43,3 +43,15 @@ bibliography: refs.bib
 - [arXiv](https://arxiv.org/abs/2205.12446)
 - [Huggingface](https://huggingface.co/datasets/google/fleurs)
 
+## [BEST-STD2.0: Balanced and Efficient Speech Tokenizer for Spoken Term Detection](https://arxiv.org/abs/2512.16395)
+
+## [Scaling Open Discrete Audio Foundation Models with Interleaved Semantic, Acoustic, and Text Tokens](https://arxiv.org/abs/2602.16687)
+
+## [facebookresearch/eb_jepa](https://github.com/facebookresearch/eb_jepa)
+
+## [Language-Agnostic Speech Tokenizer for Spoken Term Detection with Efficient Retrieval](https://www.isca-archive.org/interspeech_2025/singh25d_interspeech.html) [@singh25d_interspeech]
+- [word alignments](https://zenodo.org/records/15502222)
+- [code](https://github.com/anupsingh15/LAST) --- MIT
+
+## [BEST-STD: Bidirectional Mamba-Enhanced Speech Tokenization for Spoken Term Detection](https://ieeexplore.ieee.org/abstract/document/10889633) [@singh25beststd]
+- [code](https://github.com/anupsingh15/BEST-STD) --- MIT

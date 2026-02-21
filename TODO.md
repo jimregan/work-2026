@@ -131,3 +131,22 @@ Google Fleurs is another typical example: while it seems that the recordings wer
 it is typically the case that professional users tend to deal only in text -- the standard language is one with no native
 speakers, and the resulting speech lacks fluency.
 
+-----
+
+'''Neve Adrianne Campbell''' ({{IPAc-en|ˈ|n|ɛ|v}}
+https://www.wikidata.org/wiki/Q193482
+Neve Campbell
+
+'''Mark Ermanno Dukutoko Nawaqanitawase''' ({{IPA|fj|nawaŋanitaˈwaze|lang}} {{respell|na|wong|ah|nee|taw|WAW|zay}};
+
+http://web.archive.org/web/20240917093615/https://www.smh.com.au/sport/nrl/on-your-marky-marks-who-is-the-nrl-s-new-rookie-and-how-do-you-pronounce-that-surname-20240905-p5k80m.html
+So it’s: “Nuh – Wonga – Knee – Tar – Wahsee”.
+Nuhwonga – Kneetar – Wahsee.
+
+https://wallabies.rugby/players/mark-ermanno-dukutoko-nawaqanitawase
+Mark Nawaqanitawase (Nah-WANG-gah-KNEE-tah-WAH-zay)
+
+A '''segue''' ({{IPAc-en|audio=En-us-segue.ogg|ˈ|s|ɛ|ɡ|w|eɪ}} {{respell|SEG|way}}, {{IPA|it|ˈseːɡwe|lang}};
+
+'''Aeschylus''' ({{IPAc-en|UK|ˈ|iː|s|k|ɪ|l|ə|s}},<ref>Jones, Daniel; Roach, Peter, James Hartman and Jane Setter, eds. ''Cambridge English Pronouncing Dictionary''. 17th edition. Cambridge UP, 2006.</ref> {{IPAc-en|US|ˈ|ɛ|s|k|ɪ|l|ə|s}};<ref>[https://www.collinsdictionary.com/dictionary/english/aeschylus "Aeschylus"]. ''[[Webster's New World College Dictionary]]''.</ref> {{langx|grc|[[wikt:Αἰσχύλος|Αἰσχύλος]]}} {{transliteration|grc|Aischýlos}};
+

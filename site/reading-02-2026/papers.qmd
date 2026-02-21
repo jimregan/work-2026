@@ -55,3 +55,17 @@ bibliography: refs.bib
 
 ## [BEST-STD: Bidirectional Mamba-Enhanced Speech Tokenization for Spoken Term Detection](https://ieeexplore.ieee.org/abstract/document/10889633) [@singh25beststd]
 - [code](https://github.com/anupsingh15/BEST-STD) --- MIT
+
+## [CC-G2PnP: Streaming Grapheme-to-Phoneme and prosody with Conformer-CTC for unsegmented languages](https://arxiv.org/abs/2602.17157)
+
+## [Investigation of Japanese PnG BERT Language Model in Text-to-Speech Synthesis for Pitch Accent Language](https://ieeexplore.ieee.org/document/9829304) [@yasuda2022pngbert]
+
+- G2P + pitch
+- BERT Base: 12 Transformer layers with 768 hidden
+- trained up to 11.63 M steps with 20 batch size and learning rate with linear decay started from 5.0×10−5 with the Adam optimizer with L2 regularization
+- randomly selected 25% words in a sentence for MLM:
+  a. both graphemes and phonemes are masked for 48% random words
+  b. character part is masked for 8% random words
+  c. phoneme part is masked for 8% random words
+  d. both characters and phonemes are randomly replaced with other phonemes or characters for 10% random words
+- b and c not present in original PnG BERT

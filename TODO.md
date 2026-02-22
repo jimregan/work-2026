@@ -150,3 +150,13 @@ A '''segue''' ({{IPAc-en|audio=En-us-segue.ogg|ˈ|s|ɛ|ɡ|w|eɪ}} {{respell|SEG|
 
 '''Aeschylus''' ({{IPAc-en|UK|ˈ|iː|s|k|ɪ|l|ə|s}},<ref>Jones, Daniel; Roach, Peter, James Hartman and Jane Setter, eds. ''Cambridge English Pronouncing Dictionary''. 17th edition. Cambridge UP, 2006.</ref> {{IPAc-en|US|ˈ|ɛ|s|k|ɪ|l|ə|s}};<ref>[https://www.collinsdictionary.com/dictionary/english/aeschylus "Aeschylus"]. ''[[Webster's New World College Dictionary]]''.</ref> {{langx|grc|[[wikt:Αἰσχύλος|Αἰσχύλος]]}} {{transliteration|grc|Aischýlos}};
 
+-----
+
+https://www.sciencedirect.com/journal/speech-communication/publish/guide-for-authors
+- Subject Coverage:
+  - Models and tools for language learning: functional organisation and developmental models of human language capabilities; acquisition and rehabilitation of spoken language; speech & hearing defects and aids.
+  - Basics of oral communication and dialogue: modelling of production and perception processes; phonetics and phonology; syntax; semantics and pragmatics of speech communication; cognitive aspects.
+  - Models for automatic speech communication: speech recognition; language identification; speaker recognition; speech synthesis; oral dialogue.
+- https://www.sciencedirect.com/journal/speech-communication/publish/open-access-options
+  - 3000 USD
+- [Archive](https://dl.acm.org/loi/spco)

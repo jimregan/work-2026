@@ -79,3 +79,5 @@ bibliography: refs.bib
 
 > Word embedding is mainly used to improve prosody of synthetic speech in TTS [28], [41]–​[46].
 
+## [Combining multilingual resources to enhance end-to-end speech recognition systems for Scandinavian languages](https://www.sciencedirect.com/science/article/pii/S0167639325000366) [@MATEJU2025103221]
+

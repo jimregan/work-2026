@@ -58,6 +58,13 @@ bibliography: refs.bib
 
 ## [CC-G2PnP: Streaming Grapheme-to-Phoneme and prosody with Conformer-CTC for unsegmented languages](https://arxiv.org/abs/2602.17157)
 
+## [Rethinking InfoNCE: How Many Negative Samples Do You Need?](https://www.ijcai.org/proceedings/2022/348) [@ijcai2022p348]
+
+- "propose a probabilistic model to analyze the influence of the negative sampling ratio K on training sample informativeness."
+- "design a training effectiveness function to measure the overall influence of training samples based on their informativeness"
+- "estimate the optimal negative sampling ratio using the K value that maximizes the training effectiveness function"
+- "further propose an adaptive negative sampling method that can dynamically adjust the negative sampling ratio to improve InfoNCE-based model training"
+
 ## [Investigation of Japanese PnG BERT Language Model in Text-to-Speech Synthesis for Pitch Accent Language](https://ieeexplore.ieee.org/document/9829304) [@yasuda2022pngbert]
 
 - G2P + pitch
@@ -69,3 +76,6 @@ bibliography: refs.bib
   c. phoneme part is masked for 8% random words
   d. both characters and phonemes are randomly replaced with other phonemes or characters for 10% random words
 - b and c not present in original PnG BERT
+
+> Word embedding is mainly used to improve prosody of synthetic speech in TTS [28], [41]–​[46].
+

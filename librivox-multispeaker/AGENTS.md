@@ -24,28 +24,19 @@ This is intended for publication at **Interspeech**.
 
 Speech similarity is not unidimensional.
 
-Two speech segments may be similar along distinct axes:
-
-* Content (same text)
-* Speaker identity
-* Accent
-* Production / fluency / articulation stability
+Two speech segments may be similar along distinct axes — the specific axes depend on what supervision a given dataset provides. The set of axes is not fixed; it is configured per-dataset and stored in a HuggingFace-compatible `config.json`.
 
 Current embedding approaches collapse these into a single scalar similarity score.
 
 This project formalizes similarity as:
 
-[
-\mathbf{s}(x_i, x_j) =
-[
-s_content,
-s_speaker,
-s_accent,
-s_production
-]
-]
+```
+s(x_i, x_j) = [s_{a_1}, s_{a_2}, ..., s_{a_n}]
+```
 
-Each component is computed independently and exposed explicitly.
+where the axes `a_1 ... a_n` are dataset-specific. Each component is computed independently and exposed explicitly.
+
+**Axes are specified in the `MultiAxisProjection` constructor as a `dict[str, int]` (axis name → output dimension) and serialized to `config.json` — they are not hardcoded anywhere in the implementation.**
 
 ---
 
@@ -165,36 +156,44 @@ Do NOT:
 
 ## 7. Axis Definitions
 
-Axes must be defined using metadata, not model behavior.
+Axes must be defined using metadata or acoustic proxies, not model behavior. **The axis set differs between the TTS subset and the LibriVox subset.** Axes may be revised as the project develops.
 
-### Content
+### 7.1 TTS Subset Axes (CMU ARCTIC / VCTK / Google Britain & Ireland)
 
-Positive pairs:
+These corpora provide clean labels for the following axes:
 
-* Same sentence text across speakers.
+**content**
+Positive pairs: same sentence text, different speaker.
 
-### Speaker
+**speaker**
+Positive pairs: same speaker ID, different sentence.
 
-Positive pairs:
+**accent**
+Positive pairs: same accent label (from corpus metadata), different speaker.
 
-* Same speaker across different sentences.
+### 7.2 LibriVox Subset Axes
 
-### Accent (TTS corpora only)
+LibriVox provides same-text recordings across many voluntary readers. Available axes (subject to revision):
 
-Positive pairs:
+**content**
+Positive pairs: same source text / passage, different speaker.
 
-* Same accent label.
+**speaker**
+Positive pairs: same reader ID, different recording.
 
-### Production / Fluency (LibriVox)
-
+**fluency** (acoustic proxy)
 Use acoustic proxies only:
-
 * Pause density
 * Duration variance
 * Disfluency rate (if extractable)
 * Stability across repeated takes
 
 Avoid manual annotation.
+
+**prosody** (acoustic proxy)
+Use acoustic proxies such as pitch range, speech rate, and energy contour statistics. Avoid manual annotation.
+
+> Note: Accent labels for LibriVox readers are available via the LibriVox Accents Table but are self-reported and incomplete. Accent is therefore not included as a LibriVox axis unless coverage is sufficient.
 
 ---
 

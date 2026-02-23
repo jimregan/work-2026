@@ -86,3 +86,13 @@ bibliography: refs.bib
 - "Using visual information as a cue for target speaker extraction."
 - "Effectively mitigate semantic and modal gaps between audio and visual modalities"
 - "MC-Mamba structure process long-sequence speech signal in the time domain"
+
+## [LibriTTS-P: A Corpus with Speaking Style and Speaker Identity Prompts for Text-to-Speech and Style Captioning](https://www.isca-archive.org/interspeech_2024/kawamura24_interspeech.html) [@kawamura24_interspeech]
+- [arXiv](https://arxiv.org/abs/2406.07969)
+- [data](https://github.com/line/LibriTTS-P) --- CC BY 4.0
+- "slightly calm,slightly sexy,slightly strict" o__O
+- loudness: https://www.itu.int/rec/R-REC-BS.1770
+- No mention of how F0 is extracted or how syllable rate is calculated
+
+## [Coding Speech through Vocal Tract Kinematics](https://ieeexplore.ieee.org/document/10759573) [@cho24_coding]
+- [arXiv](https://arxiv.org/abs/2406.12998)

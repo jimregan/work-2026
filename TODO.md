@@ -160,3 +160,13 @@ https://www.sciencedirect.com/journal/speech-communication/publish/guide-for-aut
 - https://www.sciencedirect.com/journal/speech-communication/publish/open-access-options
   - 3000 USD
 - [Archive](https://dl.acm.org/loi/spco)
+
+
+-----
+
+https://librivox.org/hamlet-version-4-by-william-shakespeare/
+
+-----
+
+https://www.overleaf.com/project/699b6ce59e17d53b18d0b5ff
+

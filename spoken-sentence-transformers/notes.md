@@ -1752,3 +1752,485 @@ If you'd like, I can:
 * Or map this onto your SPEAKABLE / SIGUL positioning
 
 Where do you want to go next?
+
+-----
+
+This is actually perfect timing to clean this up.
+
+I’ve looked through your notes file  and here’s the honest assessment:
+
+* The LibriVox framing is strong.
+* The multi-axis checklist is structurally solid.
+* What’s missing is:
+
+  * A sharper articulation of *why* multi-axis similarity matters.
+  * The frozen-encoder + projection geometry framing.
+  * A clear separation between identity detection / STD / fingerprinting and your task.
+  * A scoped v1 plan.
+
+Right now the notes read like a good experimental checklist, but not yet like a coherent research program.
+
+Let’s fix that.
+
+---
+
+# 1️⃣ Update the Conceptual Core (Add This to Your Notes)
+
+You need a short thesis block at the top of the file.
+
+Something like:
+
+---
+
+## Core Thesis
+
+Pretrained speech encoders produce entangled representations that encode multiple relational factors (content, speaker identity, accent, production quality). Rather than enforcing invariance or disentanglement within the encoder, we learn axis-specific projection heads that induce distinct similarity geometries over a shared frozen acoustic representation space. This yields vector-valued speech similarity rather than a single scalar similarity measure.
+
+---
+
+This one paragraph will prevent future you from drifting into DTW, lexical sets, etc.
+
+---
+
+# 2️⃣ Update the LibriVox Section
+
+Right now your LibriVox section just describes the corpus .
+
+It should explicitly state why it’s uniquely valuable for multi-axis work.
+
+Add something like:
+
+---
+
+### Why LibriVox is Structurally Unique
+
+* Multiple independent recordings of identical texts.
+* Wide accent diversity (uncontrolled).
+* Volunteer-driven → natural variation in fluency and prosody.
+* Front matter often repeated by the same speaker across works.
+* Some works exist in multiple translations.
+
+This enables:
+
+* Content invariance testing.
+* Speaker invariance testing.
+* Accent clustering.
+* Fluency/prosody exploratory axes.
+
+---
+
+That connects corpus → research question.
+
+---
+
+# 3️⃣ Tighten the Multi-Axis Checklist
+
+Your checklist is good, but it currently implies 6 fully-developed axes.
+
+That’s too much for v1.
+
+Refactor it into:
+
+---
+
+## Phase 1 Axes (Core)
+
+* Semantic (same sentence, different speaker)
+* Speaker (same speaker, different sentence)
+
+## Phase 2 Axes (Controlled Corpora)
+
+* Accent (VCTK / GB&I)
+* Gender
+
+## Phase 3 Axes (Exploratory, LibriVox)
+
+* Fluency (categorical bins)
+* Prosody (defer unless trivial)
+
+---
+
+This makes it look intentional rather than sprawling.
+
+---
+
+# 4️⃣ Add the Frozen Encoder Decision Explicitly
+
+You must record this decision or future-you will forget and drift into fine-tuning.
+
+Add:
+
+---
+
+## Encoder Policy
+
+* Encoders remain frozen.
+* No fine-tuning of backbone.
+* Axis modeling is performed via lightweight projection heads trained on stored embeddings.
+* This isolates representational structure from encoder optimization.
+
+---
+
+That’s a methodological anchor.
+
+---
+
+# 5️⃣ Add a Similarity Taxonomy Section
+
+Given how much time you’ve spent thinking about STD, DTW, fingerprinting, etc., you need a clear taxonomy in your notes so you stop revisiting the same rabbit hole.
+
+Add:
+
+---
+
+## Types of Speech Similarity
+
+1. Acoustic identity similarity
+   (Audio fingerprinting; invariant to noise/reverb; timestamp localization)
+
+2. Lexical occurrence similarity
+   (Spoken term detection; subsequence alignment; DTW/WFST)
+
+3. Semantic / relational similarity
+   (Sentence-level meaning; speaker similarity; accent similarity)
+
+This project targets (3).
+
+---
+
+That one section will prevent 80% of conceptual drift.
+
+---
+
+# 6️⃣ Add a Concrete v1 Experimental Plan
+
+Right now the checklist is evaluation-heavy, but not staged.
+
+Add:
+
+---
+
+## v1 Experimental Plan
+
+1. Extract frozen wav2vec2 embeddings (sentence-level).
+2. Evaluate raw cosine similarity for:
+
+   * Semantic retrieval
+   * Speaker retrieval
+3. Train linear projection heads for:
+
+   * Semantic axis (contrastive)
+   * Speaker axis (classification or contrastive)
+4. Re-evaluate.
+5. Compare scalar similarity vs vector similarity on mixed retrieval task.
+
+Only after this:
+6. Add accent axis.
+7. Add additional encoders (Whisper).
+
+---
+
+This makes the roadmap explicit.
+
+---
+
+# 7️⃣ Add the “Why Vector Similarity” Justification
+
+This is currently implicit in your checklist but not explicit.
+
+Add:
+
+---
+
+## Why Vector-Valued Similarity?
+
+Scalar cosine similarity conflates multiple relational factors.
+Vector similarity allows:
+
+* Independent weighting of content and speaker similarity.
+* Structured retrieval queries (e.g., similar content but different speaker).
+* Analysis of representational substructure.
+
+---
+
+That’s the intellectual payoff.
+
+---
+
+# 8️⃣ What to Remove or Deprioritize
+
+Based on everything you’ve discussed:
+
+Defer for now:
+
+* Lexical sets indexing.
+* Trigram indexing.
+* Parliamentary-scale ANN infrastructure.
+* Orthogonality regularizers.
+* Frame-level alignment.
+* Discrete token indexing.
+
+These are all valid future threads — but they obscure v1.
+
+---
+
+# 9️⃣ The Real Structural Change
+
+Your notes currently look like:
+
+“List of evaluation tasks.”
+
+They need to look like:
+
+“Coherent geometric modeling proposal.”
+
+Once you add:
+
+* Core thesis
+* Encoder policy
+* Similarity taxonomy
+* Phased axes
+* v1 roadmap
+
+the document becomes much stronger.
+
+---
+
+# 10️⃣ If You Want, I Can
+
+* Rewrite your notes.md into a clean v1 research blueprint.
+* Or condense everything into a 1-page project overview suitable for supervisor discussion.
+* Or stress-test whether your current VCTK experiment actually answers the refined RQs cleanly.
+
+Where do you want to tighten next?
+
+-----
+
+That’s a very defensible choice — and strategically cleaner than wav2vec2.
+
+Let’s examine why WavLM is actually a *better* fit for your multi-axis geometry framing.
+
+---
+
+# 1️⃣ Why WavLM Is Conceptually Aligned With Your Axes
+
+WavLM was trained with:
+
+* Masked prediction (like wav2vec2)
+* **Denoising objective**
+* Multi-task robustness design
+* Strong performance on SUPERB tasks:
+
+  * Speaker verification
+  * Speaker identification
+  * Emotion recognition
+  * ASR
+  * Keyword spotting
+
+That means:
+
+> Its latent space already supports multiple relational axes.
+
+That’s exactly what you need.
+
+You are not trying to invent semantics from scratch.
+You are trying to probe and re-weight a rich entangled space.
+
+WavLM is explicitly trained to preserve both:
+
+* Content
+* Speaker-related information
+
+That’s perfect.
+
+---
+
+# 2️⃣ Why the Denoising Objective Actually Helps You
+
+This is subtle but important.
+
+Because WavLM is trained to reconstruct masked/noisy inputs:
+
+* It learns invariance to corruption.
+* It preserves robust acoustic cues.
+* It doesn’t overfit to brittle surface patterns.
+
+For your semantic axis:
+
+* Robustness to small acoustic variation is good.
+
+For your speaker axis:
+
+* Speaker identity is preserved because denoising does not remove speaker structure.
+
+For your “don’t artificially add noise” instinct:
+
+* You don’t need to inject noise augmentation.
+* The encoder already encodes robustness.
+
+That simplifies training and avoids unnecessary complexity.
+
+---
+
+# 3️⃣ Why This Strengthens the Frozen-Encoder Argument
+
+You can now cleanly argue:
+
+> We select WavLM because it performs strongly across multiple paralinguistic tasks (e.g., speaker recognition, emotion classification) while also supporting ASR, making it a suitable backbone for multi-axis similarity modeling.
+
+You’re leveraging:
+
+* Empirical evidence (SUPERB)
+* Architectural design (denoising)
+* Multi-task robustness
+
+Without modifying the encoder.
+
+Very clean.
+
+---
+
+# 4️⃣ What This Implies for Your Experimental Expectations
+
+Based on WavLM’s design:
+
+I would expect:
+
+* Strong speaker clustering in raw embeddings.
+* Decent phonetic grouping.
+* Moderate semantic separation at sentence level.
+* Accent information likely present.
+* Prosodic signal present.
+
+Meaning:
+
+Your projection heads will likely need to:
+
+* Suppress speaker directions for semantic axis.
+* Amplify speaker directions for identity axis.
+
+That’s exactly your geometric thesis.
+
+---
+
+# 5️⃣ This Also Simplifies Your First Baseline
+
+Now your first experiment becomes:
+
+### Step 1 — Extract WavLM embeddings.
+
+### Step 2 — Mean pool.
+
+### Step 3 — L2 normalize.
+
+### Step 4 — Evaluate:
+
+* Same sentence across speakers.
+* Same speaker across sentences.
+
+No projection heads yet.
+
+Just observe raw geometry.
+
+That observation will be very informative.
+
+---
+
+# 6️⃣ Important: Which Layer?
+
+You now need to decide:
+
+WavLM outputs multiple layers.
+
+Common practice:
+
+* Middle-to-upper layers often encode phonetic + speaker info.
+* Very top layers sometimes overfit to masked prediction objective.
+
+I would start with:
+
+* Final layer.
+* Then maybe average last 4 layers.
+
+But start simple: final layer.
+
+Do not over-engineer initially.
+
+---
+
+# 7️⃣ Why Not Whisper First?
+
+Whisper is:
+
+* Heavily ASR-supervised.
+* Biased toward textual reconstruction.
+* Potentially suppresses speaker variability.
+
+That’s good for semantic axis,
+but less ideal for demonstrating multi-axis structure.
+
+WavLM is more neutral and acoustically rich.
+
+Better first choice.
+
+---
+
+# 8️⃣ Updated Core Narrative (Now Cleaner)
+
+Your paper can now say:
+
+> We investigate whether a single frozen WavLM encoder supports multiple relational similarity axes through lightweight projection learning.
+
+That’s very sharp.
+
+---
+
+# 9️⃣ One Very Important Early Diagnostic
+
+After extracting embeddings, compute:
+
+For a batch:
+
+* Average cosine similarity between:
+
+  * Same speaker, different sentence.
+  * Same sentence, different speaker.
+  * Different speaker, different sentence.
+
+This simple table will immediately tell you:
+
+* Which factor dominates raw geometry.
+
+Do this before training any projections.
+
+It will shape your story.
+
+---
+
+# 🔟 You’ve Now Stabilized the Core
+
+With:
+
+* Frozen WavLM
+* Mean pooling
+* Projection heads
+* Multi-axis evaluation
+
+You have:
+
+* Minimal architecture
+* Clear thesis
+* Strong baseline
+* Low implementation risk
+
+This is a very stable starting point.
+
+---
+
+If you’d like, next we can:
+
+* Decide projection dimensionality (important for axis separation),
+* Or design the exact contrastive sampling strategy for the content axis under WavLM.
+
+Which direction do you want to refine first?
+

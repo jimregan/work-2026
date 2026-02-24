@@ -8,6 +8,7 @@ except ImportError:
     from typing_extensions import Self
 
 import torch
+import torch.nn.functional as F
 from torch import Tensor, nn
 from transformers import PretrainedConfig
 
@@ -108,7 +109,7 @@ class MultiAxisProjection(Module):
 
         projections: dict[str, Tensor] = {}
         for name, head in self.heads.items():
-            proj = head(embedding)
+            proj = F.normalize(head(embedding), p=2, dim=-1)
             projections[name] = proj
             features[f"embedding_{name}"] = proj
 

@@ -44,15 +44,27 @@ class MultiAxisProjection(Module):
     """Projects a pooled embedding into multiple named axes.
 
     Each axis gets its own linear head (or 2-layer MLP if ``hidden_dim``
-    is set).  The module writes ``embedding_{axis_name}`` into the
-    features dict for every axis, and sets ``sentence_embedding`` to
-    either a single requested axis, the ``default_axis``, or the
-    concatenation of all axes.
+    is set).  Every axis output is **L2-normalised to unit norm** before
+    being stored as ``embedding_{axis_name}`` and before concatenation.
+    This gives a factor-partitioned embedding whose subspaces each live
+    on a unit hypersphere.
+
+    The module sets ``sentence_embedding`` to either a single requested
+    axis, the ``default_axis``, or the concatenation of all axes.
+
+    **Geometry note**: because each block is unit-normalised, cosine
+    similarity over the full concatenated vector equals the unweighted
+    mean of per-axis cosines (full vector norm = √A where A = number of
+    axes).  Axis *dimensionality* controls representational capacity, not
+    similarity weight.  For weighted retrieval, use
+    :meth:`~MultiAxisSentenceTransformer.encode_all_axes` and combine
+    per-axis cosines explicitly.
 
     Args:
         in_features: Dimension of the incoming ``sentence_embedding``.
         axes: Mapping of axis name to output dimension,
-            e.g. ``{"content": 256, "speaker": 256}``.
+            e.g. ``{"content": 256, "speaker": 256}``.  Keys are sorted
+            alphabetically on init so save/load order is stable.
         hidden_dim: If set, use a 2-layer MLP (Linear → ReLU → Linear)
             per axis instead of a single Linear.
         default_axis: Axis whose projection becomes the default

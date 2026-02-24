@@ -24,13 +24,13 @@ class MultiAxisSentenceTransformer(SentenceTransformer):
 
     @property
     def axes(self) -> list[str]:
-        """Return axis names from the MultiAxisProjection module."""
-        for module in self.modules():
-            if isinstance(module, MultiAxisProjection):
-                return list(module.axes.keys())
-        raise ValueError(
-            "No MultiAxisProjection module found in the model."
-        )
+        """Return axis names in declaration order."""
+        return self._get_projection_module().axis_names
+
+    @property
+    def axis_slices(self) -> dict[str, tuple[int, int]]:
+        """Return {axis: (start, end)} byte offsets into the concatenated embedding."""
+        return self._get_projection_module().axis_slices
 
     def _get_projection_module(self) -> MultiAxisProjection:
         for module in self.modules():

@@ -102,6 +102,17 @@ class MultiAxisProjection(Module):
         self.hidden_dim = hidden_dim
         self.default_axis = default_axis
 
+        # Explicit geometry: names in declaration order, per-axis dims, and
+        # (start, end) slice boundaries into the concatenated embedding.
+        # Computed once here so downstream code never has to reconstruct them.
+        self.axis_names: list[str] = list(self.axes.keys())
+        self.axis_dims: list[int] = list(self.axes.values())
+        offset = 0
+        self.axis_slices: dict[str, tuple[int, int]] = {}
+        for name, dim in self.axes.items():
+            self.axis_slices[name] = (offset, offset + dim)
+            offset += dim
+
         if default_axis is not None and default_axis not in axes:
             raise ValueError(
                 f"default_axis {default_axis!r} not in axes {list(axes)}"

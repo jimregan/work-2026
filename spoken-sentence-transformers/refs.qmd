@@ -34,7 +34,15 @@ bibliography: refs.bib
   - Acoustic word embeddings
      - [Audio Word2Vec: Unsupervised Learning of Audio Segment Representations Using Sequence-to-Sequence Autoencoder](https://www.isca-archive.org/interspeech_2016/chung16_interspeech.html) [@chung16_interspeech]
      - [Multi-view Recurrent Neural Acoustic Word Embeddings](https://arxiv.org/abs/1611.04496) [@he2017multiviewrecurrentneuralacoustic]
-     - 
+     - [Deep convolutional acoustic word embeddings using word-pair side information](https://ieeexplore.ieee.org/document/7472619) [@kamper2016acousticwordembeddings]
+     - [Acoustic Span Embeddings for Multilingual Query-by-Example Search](https://ieeexplore.ieee.org/abstract/document/9383545) [@hu2021acousticspanembeddings]
+     - [Attention-based audio embeddings for query-by-example](https://zenodo.org/records/7316592) [@anup_singh_2022_7316592]
+     - [FlowHash: Accelerating Audio Search With Balanced Hashing via Normalizing Flow](https://dl.acm.org/doi/10.1109/TASLP.2024.3486227) [@10.1109/TASLP.2024.3486227]
+     - [Simultaneously Learning Robust Audio Embeddings and Balanced Hash Codes for Query-by-Example](https://ieeexplore.ieee.org/document/10096103) [@singh2023simultaneously]
+  - Speech tokenisers
+     - [HuBERT: Self-Supervised Speech Representation Learning by Masked Prediction of Hidden Units](https://dl.acm.org/doi/10.1109/TASLP.2021.3122291) [@10.1109/TASLP.2021.3122291]
+     - [WavLM: Large-Scale Self-Supervised Pre-Training for Full Stack Speech Processing](https://ieeexplore.ieee.org/document/9814838) [@chen2022wavlm]
+     - [SpeechTokenizer: Unified Speech Tokenizer for Speech Language Models](https://openreview.net/forum?id=AF9Q8Vip84) [@zhang2024speechtokenizer]
 
 # MSEB: Cascade encoding
 
@@ -61,7 +69,9 @@ bibliography: refs.bib
 ## [Query-by-example Spoken Term Detection Evaluation on Low-resource Languages](https://www.fit.vut.cz/research/result/c111585/) [@BUT111585]
  - [challenge dataset](https://speech.fit.vut.cz/software/sws-2013-multilingual-database-query-by-example-keyword-spotting)
 
- ## [Spoken Word2Vec: Learning Skipgram Embeddings from Speech](https://www.isca-archive.org/interspeech_2024/sayeed24_interspeech.html) [@sayeed24_interspeech]
+## [Spoken Word2Vec: Learning Skipgram Embeddings from Speech](https://www.isca-archive.org/interspeech_2024/sayeed24_interspeech.html) [@sayeed24_interspeech]
  - [code](https://github.com/rainmaker29/SpokenWord2Vec) --- no licence
  - [arXiv](https://arxiv.org/abs/2311.09319)
+
+## [An introduction to voice search](https://ieeexplore.ieee.org/document/4490199) [@wang2008introduction]
 

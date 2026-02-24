@@ -77,7 +77,8 @@ class MultiAxisProjection(Module):
     ) -> None:
         super().__init__()
         self.in_features = in_features
-        self.axes = axes
+        # Sort axes so that save/load (which sorts JSON keys alphabetically) is idempotent.
+        self.axes = dict(sorted(axes.items()))
         self.hidden_dim = hidden_dim
         self.default_axis = default_axis
 
@@ -87,7 +88,7 @@ class MultiAxisProjection(Module):
             )
 
         self.heads = nn.ModuleDict()
-        for name, out_dim in axes.items():
+        for name, out_dim in self.axes.items():
             if hidden_dim is not None:
                 self.heads[name] = nn.Sequential(
                     nn.Linear(in_features, hidden_dim),

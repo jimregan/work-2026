@@ -6,7 +6,7 @@ of shape ``[B, T, H]`` — including WavLM, wav2vec2, HuBERT, and Whisper
 
 Pipeline position::
 
-    AcousticEncoder → Pooling → [MultiAxisProjection]
+    HFAcousticEncoder → Pooling → [MultiAxisProjection]
     sets                sets
     "token_embeddings"  "sentence_embedding"
 
@@ -38,10 +38,10 @@ import torch
 from torch import Tensor
 from transformers import AutoFeatureExtractor, AutoModel
 
-from sentence_transformers.models.Module import Module
+from .base import AcousticEncoder
 
 
-class AcousticEncoder(Module):
+class HFAcousticEncoder(AcousticEncoder):
     """SentenceTransformer module wrapping a HuggingFace audio encoder.
 
     Designed for models that consume raw waveforms (WavLM, wav2vec2, HuBERT)
@@ -148,7 +148,7 @@ class AcousticEncoder(Module):
             encoder_inputs = {"input_features": features["input_features"]}
         else:
             raise ValueError(
-                f"AcousticEncoder.forward: expected 'input_values' or "
+                f"HFAcousticEncoder.forward: expected 'input_values' or "
                 f"'input_features' in features; got {list(features.keys())}"
             )
 
@@ -215,7 +215,7 @@ class AcousticEncoder(Module):
 
     def __repr__(self) -> str:
         return (
-            f"AcousticEncoder("
+            f"HFAcousticEncoder("
             f"model='{self.model_name_or_path}', "
             f"sampling_rate={self.sampling_rate}, "
             f"hidden_size={self.get_word_embedding_dimension()})"

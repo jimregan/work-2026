@@ -35,7 +35,7 @@ import torch.nn.functional as F
 from torch.utils.data import DataLoader, Dataset
 from tqdm import tqdm
 
-from multi_axis_projection import MultiAxisProjection
+from spoken_sentence_transformers import MultiAxisProjection
 
 logger = logging.getLogger(__name__)
 

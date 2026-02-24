@@ -39,7 +39,7 @@ import torch.nn.functional as F
 from torch import Tensor, nn
 
 if TYPE_CHECKING:
-    from multi_axis_sentence_transformer import MultiAxisSentenceTransformer
+    from .sentence_transformer import MultiAxisSentenceTransformer
 
 
 class MultiAxisInfoNCELoss(nn.Module):

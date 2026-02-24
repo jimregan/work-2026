@@ -1,0 +1,26 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "spoken-sentence-transformers"
+version = "0.1.0"
+description = "Multi-axis speech-to-speech similarity via SentenceTransformers"
+requires-python = ">=3.9"
+dependencies = [
+    "sentence-transformers",
+    "torch",
+    "numpy",
+    "transformers",
+]
+
+[project.optional-dependencies]
+audio = ["librosa"]
+dev   = ["pytest"]
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["spoken_sentence_transformers*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

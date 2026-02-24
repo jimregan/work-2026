@@ -154,6 +154,95 @@ Do NOT:
 
 ---
 
+## 6a. Implementation
+
+The following files implement the technical contribution.
+
+### `multi_axis_projection.py` — `MultiAxisProjection`
+
+A `sentence_transformers.models.Module` subclass.  Sits at the end of the
+`SentenceTransformer` pipeline after `Transformer → Pooling`.
+
+* Constructor: `MultiAxisProjection(in_features, axes: dict[str, int], hidden_dim=None, default_axis=None)`
+* `axes` is a `dict[str, int]` (axis name → output dimension).  Not hardcoded.
+* Serialised to HuggingFace-compatible `config.json` via `MultiAxisProjectionConfig(PretrainedConfig)`.
+* `forward()` reads `features["sentence_embedding"]`, writes `features["embedding_{axis}"]` for every axis, and sets `features["sentence_embedding"]` to the requested/default/concatenated projection.
+* `forward_kwargs = {"axis"}` — callers can pass `axis=` to `encode()`.
+
+### `multi_axis_sentence_transformer.py` — `MultiAxisSentenceTransformer`
+
+Subclasses `SentenceTransformer`.  Adds:
+
+* `encode_axis(sentences, axis)` — returns embeddings for one axis.
+* `encode_all_axes(sentences)` — returns `dict[axis, np.ndarray]`.
+* `similarity_vector(a, b)` — returns `dict[axis, Tensor]` of per-axis similarity matrices.
+
+Standard `encode()` and all built-in evaluators continue to work unchanged.
+
+### `multi_axis_trainer.py` — `MultiAxisProjectionTrainer`
+
+Adapted copy of `SentenceTransformerTrainer`.  Removed: model card, prompts,
+router, `_include_prompt_length`, default `CoSENTLoss`.  Key changes:
+
+* **`collect_features(inputs)`** returns `dict[str, dict[str, Tensor]]` keyed
+  by role (`"anchor"`, `"content_pos"`, `"speaker_pos"`, …) instead of a flat
+  `list[dict]`.  This lets the loss function construct axis-specific views of
+  the batch independently.
+* **`_input_features`** suffix added for Whisper-style audio columns alongside
+  the existing `_input_ids`, `_sentence_embedding`, `_pixel_values`.
+* Loss is **required** — no default is applied.
+
+Dataset column naming convention:
+
+```
+anchor_{suffix}        — anchor example
+{axis}_pos_{suffix}    — positive for each axis
+```
+
+where `{suffix}` ∈ `{sentence_embedding, input_features, input_ids}`.
+
+### `multi_axis_sampler.py` — `MultiAxisNoDuplicatesBatchSampler`
+
+Batch sampler that prevents false negatives at the data level.
+
+For each axis, maintains a set of labels already present in the batch being
+assembled.  A candidate sample is admitted only if its label for **every** axis
+is absent from those sets.  This guarantees that every off-diagonal entry in
+each axis's B×B InfoNCE similarity matrix is a true negative.
+
+The dataset must contain `{axis}_label` columns (e.g. `content_label`,
+`speaker_label`).  Pass them as `valid_label_columns` in the training
+arguments:
+
+```python
+args = SentenceTransformerTrainingArguments(
+    batch_sampler=MultiAxisNoDuplicatesBatchSampler,
+    ...
+)
+# pass valid_label_columns=["content_label", "speaker_label"] to the trainer
+```
+
+### `multi_axis_loss.py` — `MultiAxisInfoNCELoss`
+
+Per-axis InfoNCE loss.
+
+* Anchor is run through the model **once** — all axis projections are computed
+  simultaneously by `MultiAxisProjection`.
+* Each axis's positives are run through the model once; only that axis's
+  projection is extracted.
+* For axis *k*: `logits = anchor_k_proj @ pos_k_proj.T / τ`, targets = diagonal.
+* Cross-axis contamination is structurally impossible: the content-axis
+  comparison never sees speaker-axis positives, and vice versa.
+* Returns `dict[str, Tensor]` (per-axis scalar losses).  The trainer sums
+  these for backprop and logs each component individually.
+
+```python
+loss = MultiAxisInfoNCELoss(model, temperature=0.05, axis_weights={"content": 1.0, "speaker": 1.0})
+trainer = MultiAxisProjectionTrainer(model=model, loss=loss, ...)
+```
+
+---
+
 ## 7. Axis Definitions
 
 Axes must be defined using metadata or acoustic proxies, not model behavior. **The axis set differs between the TTS subset and the LibriVox subset.** Axes may be revised as the project develops.

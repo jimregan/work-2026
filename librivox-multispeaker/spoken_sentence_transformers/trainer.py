@@ -68,7 +68,7 @@ from sentence_transformers.training_args import (
 )
 from sentence_transformers.util import disable_logging, is_datasets_available, is_training_available
 
-from multi_axis_sentence_transformer import MultiAxisSentenceTransformer
+from .sentence_transformer import MultiAxisSentenceTransformer
 
 if is_datasets_available():
     from datasets import Dataset, DatasetDict, IterableDataset, IterableDatasetDict, Value

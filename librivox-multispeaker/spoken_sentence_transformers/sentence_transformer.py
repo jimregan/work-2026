@@ -8,7 +8,7 @@ from torch import Tensor
 
 from sentence_transformers import SentenceTransformer
 
-from multi_axis_projection import MultiAxisProjection
+from .projection import MultiAxisProjection
 
 
 class MultiAxisSentenceTransformer(SentenceTransformer):

@@ -2404,3 +2404,101 @@ Would you like to reason through dimensionality allocation next?
 
 That decision will shape both performance and how convincingly “factorised” the embedding really is.
 
+-----
+
+Good. If it’s keeping insertion order, then you’re safe.
+
+In Python ≥3.7, regular dicts preserve insertion order by default, so as long as:
+
+* You iterate directly over `axes.items()`
+* You do not call `sorted()`
+* You do not reconstruct via something that reorders keys
+
+then your block layout matches config order.
+
+That’s exactly what you want.
+
+---
+
+## One Thing You Should Still Do (Even If Order Is Preserved)
+
+Even if order is preserved implicitly, make it **explicitly stored in the model**.
+
+Inside `MultiAxisProjection.__init__`, you should have something like:
+
+```python
+self.axis_names = list(axes.keys())
+self.axis_dims = [axes[name] for name in self.axis_names]
+```
+
+And ideally:
+
+```python
+self.axis_slices = {
+    name: (start, end)
+}
+```
+
+computed once at init.
+
+Why?
+
+Because:
+
+* It prevents downstream slicing bugs.
+* It decouples retrieval logic from assumptions about ordering.
+* It future-proofs the architecture.
+
+Right now your sanity script reconstructs slices externally. That’s fragile.
+
+Better if the model knows its own geometry.
+
+---
+
+## Conceptual Check: Your Architecture Is Now Clean
+
+You now have:
+
+* Frozen WavLM backbone
+* Hard-partitioned axis heads
+* Per-axis unit normalization
+* Explicit concatenation order
+* Default equal-weight cosine
+* Optional weighted similarity via per-axis cosines
+
+That is a geometrically coherent factorised embedding model.
+
+You are no longer “kind of multi-head.”
+You are actually implementing structured similarity geometry.
+
+---
+
+## Important Subtlety (Worth Thinking About Soon)
+
+Now that normalization and ordering are correct, the next real design question is:
+
+Should axes be allowed to “leak” information into each other?
+
+Right now:
+
+* Each axis head is independent.
+* Nothing prevents semantic head from encoding speaker info.
+* Nothing prevents speaker head from encoding semantic info.
+
+You are not enforcing orthogonality.
+
+That’s fine for v1.
+
+But it means your factorisation is:
+
+> supervised separation, not structural disentanglement.
+
+That’s a completely defensible stance — just be clear about it.
+
+---
+
+If you want, next we can reason about:
+
+* Whether you need any weak cross-axis regularization (probably not for v1),
+* Or how to design the mixed-retrieval experiment that proves controllable weighting actually matters.
+

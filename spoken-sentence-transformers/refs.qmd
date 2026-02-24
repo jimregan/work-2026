@@ -15,11 +15,26 @@ bibliography: refs.bib
 
 ## [BEST-STD: Bidirectional Mamba-Enhanced Speech Tokenization for Spoken Term Detection](https://ieeexplore.ieee.org/document/10889633) [@singh25beststd]
 - Background
-  - ASR-based approaches:
+  - Usefulness
     - [An audio indexing system for election video material](https://ieeexplore.ieee.org/document/4960723) [@alberti2009audio]
     - [Podcastle: collaborative training of acoustic models on the basis of wisdom of crowds for podcast transcription
 ](https://www.isca-archive.org/interspeech_2009/ogata09_interspeech.html) [@ogata09_interspeech]
-  -  
+  -  ASR-based approaches
+     - [Vocabulary independent spoken term detection](https://dl.acm.org/doi/10.1145/1277741.1277847) [@mamou2007vocabulary]
+     - [Rapid and accurate spoken term detection](https://www.isca-archive.org/interspeech_2007/miller07_interspeech.html) [@miller07_interspeech]
+     - [A comparison of phone and grapheme-based spoken term detection](https://ieeexplore.ieee.org/document/4518773) [@dong2008phone]
+  - Lattice-based approaches ("varying acoustic conditions")
+     - [Lattice-Based Search for Spoken Utterance Retrieval](https://aclanthology.org/N04-1017/) [@saraclar-sproat-2004-lattice]
+     - [Lattice Indexing for Spoken Term Detection](https://ieeexplore.ieee.org/document/5752829) [@can2011lattice]
+  - Segmental DWT
+     - [Neural Network Based End-to-End Query by Example Spoken Term Detection](https://ieeexplore.ieee.org/document/9072650) [@ram2020neural]
+     - [CNN Based Query by Example Spoken Term Detection](https://www.isca-archive.org/interspeech_2018/ram18_interspeech.html) [@ram18_interspeech]
+     - [Segmental Dtw: A Parallelizable Alternative to Dynamic Time Warping](https://ieeexplore.ieee.org/document/9413827) [@Tsai21segmentalDTW]
+        - [code](https://github.com/tjtsai/SegmentalDTW) --- MIT
+  - Acoustic word embeddings
+     - [Audio Word2Vec: Unsupervised Learning of Audio Segment Representations Using Sequence-to-Sequence Autoencoder](https://www.isca-archive.org/interspeech_2016/chung16_interspeech.html) [@chung16_interspeech]
+     - [Multi-view Recurrent Neural Acoustic Word Embeddings](https://arxiv.org/abs/1611.04496) [@he2017multiviewrecurrentneuralacoustic]
+     - 
 
 # MSEB: Cascade encoding
 
@@ -39,3 +54,14 @@ bibliography: refs.bib
 > The idea is to decompose the space into a Cartesian product of low-dimensional subspaces and to quantize each subspace separately.
 
 > A vector is represented by a short code composed of its subspace quantization indices.
+
+
+## [The Cascade Equivalence Hypothesis: When Do Speech LLMs Behave Like ASR→LLM Pipelines?](https://arxiv.org/abs/2602.17598)
+
+## [Query-by-example Spoken Term Detection Evaluation on Low-resource Languages](https://www.fit.vut.cz/research/result/c111585/) [@BUT111585]
+ - [challenge dataset](https://speech.fit.vut.cz/software/sws-2013-multilingual-database-query-by-example-keyword-spotting)
+
+ ## [Spoken Word2Vec: Learning Skipgram Embeddings from Speech](https://www.isca-archive.org/interspeech_2024/sayeed24_interspeech.html) [@sayeed24_interspeech]
+ - [code](https://github.com/rainmaker29/SpokenWord2Vec) --- no licence
+ - [arXiv](https://arxiv.org/abs/2311.09319)
+

@@ -84,6 +84,12 @@ except ImportError:
 class MultiAxisProjectionTrainer(Trainer):
     """Training loop for :class:`MultiAxisSentenceTransformer` models.
 
+    The class attribute :attr:`DEFAULT_FEATURE_SUFFIXES` lists the dataset
+    column suffixes recognised by :meth:`collect_features`.  Override it in
+    a subclass, or pass ``feature_suffixes`` to ``__init__``, to support
+    additional encoder input types (e.g. ``"_codec_tokens"`` for a codec
+    encoder).
+
     Wraps the HuggingFace :class:`~transformers.Trainer` with the same
     batch-sampler, dataloader, and evaluator hooks as
     ``SentenceTransformerTrainer``, but removes text-specific machinery
@@ -117,7 +123,17 @@ class MultiAxisProjectionTrainer(Trainer):
             hyper-parameter search.
         callbacks: Additional :class:`~transformers.TrainerCallback` instances.
         optimizers: ``(optimizer, scheduler)`` tuple.
+        feature_suffixes: Column suffixes that :meth:`collect_features` will
+            recognise as encoder inputs.  Extends or replaces
+            :attr:`DEFAULT_FEATURE_SUFFIXES`.  ``None`` uses the class default.
     """
+
+    DEFAULT_FEATURE_SUFFIXES: tuple[str, ...] = (
+        "_input_ids",
+        "_input_features",
+        "_sentence_embedding",
+        "_pixel_values",
+    )
 
     def __init__(
         self,
@@ -140,7 +156,10 @@ class MultiAxisProjectionTrainer(Trainer):
         callbacks: list[TrainerCallback] | None = None,
         optimizers: tuple[torch.optim.Optimizer, torch.optim.lr_scheduler.LambdaLR] = (None, None),
         preprocess_logits_for_metrics: Callable[[torch.Tensor, torch.Tensor], torch.Tensor] | None = None,
+        feature_suffixes: tuple[str, ...] | None = None,
     ) -> None:
+        self.feature_suffixes = feature_suffixes if feature_suffixes is not None else self.DEFAULT_FEATURE_SUFFIXES
+
         if not is_training_available():
             raise RuntimeError(
                 "To train a MultiAxisSentenceTransformer model, you need the `accelerate` and "
@@ -436,20 +455,23 @@ class MultiAxisProjectionTrainer(Trainer):
         axis comparison select its own pool, presenting a different view of
         the batch to each loss term.
 
-        Recognised column suffixes:
+        Recognised column suffixes are those in :attr:`feature_suffixes`
+        (defaults to :attr:`DEFAULT_FEATURE_SUFFIXES`):
 
         * ``_input_ids``          — tokenised text
         * ``_input_features``     — audio (e.g. Whisper mel spectrogram)
         * ``_sentence_embedding`` — pre-cached pooled embedding
         * ``_pixel_values``       — image (CLIP-style)
-        """
-        _SUFFIXES = ("_input_ids", "_input_features", "_sentence_embedding", "_pixel_values")
 
+        Additional suffixes can be registered by passing ``feature_suffixes``
+        to the constructor or overriding :attr:`DEFAULT_FEATURE_SUFFIXES` in
+        a subclass.
+        """
         # Collect all role prefixes (e.g. "anchor", "content_pos", "speaker_pos")
         # preserving insertion order so anchor comes first when columns are ordered.
         roles: dict[str, dict[str, torch.Tensor]] = {}
         for column in inputs:
-            for suffix in _SUFFIXES:
+            for suffix in self.feature_suffixes:
                 if column.endswith(suffix):
                     role = column[: -len(suffix)].rstrip("_")
                     if role not in roles:

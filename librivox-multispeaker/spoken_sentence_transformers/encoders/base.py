@@ -1,5 +1,10 @@
 from abc import abstractmethod
 
+try:
+    from typing import Self
+except ImportError:
+    from typing_extensions import Self
+
 import numpy as np
 from torch import Tensor
 
@@ -14,7 +19,8 @@ class AcousticEncoder(Module):
 
         AcousticEncoder → Pooling → [MultiAxisProjection]
 
-    Must implement: tokenize(), forward(), get_word_embedding_dimension().
+    Must implement: tokenize(), forward(), get_word_embedding_dimension(),
+    save(), load().
     """
 
     @abstractmethod
@@ -25,3 +31,10 @@ class AcousticEncoder(Module):
 
     @abstractmethod
     def get_word_embedding_dimension(self) -> int: ...
+
+    @abstractmethod
+    def save(self, output_path: str, *args, safe_serialization: bool = True, **kwargs) -> None: ...
+
+    @classmethod
+    @abstractmethod
+    def load(cls, model_name_or_path: str, **kwargs) -> Self: ...

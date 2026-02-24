@@ -1,0 +1,14 @@
+---
+title: References for spoken similarity search
+bibliography: refs.bib
+---
+
+## [Billion-Scale Similarity Search with GPUs](https://www.computer.org/csdl/journal/bd/2021/03/08733051/1aFvgKKpjoc) [@Johnson2021billion]
+- [arXiv](https://arxiv.org/abs/1702.08734)
+- MSEB: "we adopted a cascade encoding approach, which remains the state-of-the-art for current industrial voice search systems"
+
+## [Searching in one billion vectors: Re-rank with source coding](https://ieeexplore.ieee.org/document/5946540) [@jegou2011searching]
+- Related to [@Johnson2021billion]
+
+## [Product Quantization for Nearest Neighbor Search](https://ieeexplore.ieee.org/document/5432202) [@jegou2011product]
+> The idea is to decompose the space into a Cartesian product of low-dimensional subspaces and to quantize each subspace separately.

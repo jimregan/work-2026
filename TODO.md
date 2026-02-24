@@ -170,3 +170,13 @@ https://librivox.org/hamlet-version-4-by-william-shakespeare/
 
 https://www.overleaf.com/project/699b6ce59e17d53b18d0b5ff
 
+
+-----
+
+Fonetik 2026: https://konferens.ht.lu.se/fonetik2026/submissions/
+
+Nordic Prosody CfP: https://npxiv.nordicprosody.org/cfp/2026-npxiv-cfp-1.pdf
+
+Interspeech 2026 paper kit: https://drive.google.com/file/d/1Nq1j_1AfOtadLkBx71-vLVLxZOaiAnzs/view
+
+Interspeech checklist: https://interspeech2026.org/en-AU/pages/author-resources/author-checklist

@@ -2234,3 +2234,173 @@ If you’d like, next we can:
 
 Which direction do you want to refine first?
 
+-----
+
+Good — this is now geometrically coherent.
+
+Let me sanity-check the logic carefully, because there is one subtle but very important implication hidden in what the agent wrote.
+
+---
+
+# ✅ What Is Now Correct
+
+You now have:
+
+For each axis ( a ):
+
+[
+z^{(a)} = \frac{W_a z_\text{base}}{|W_a z_\text{base}|_2}
+]
+
+And final embedding:
+
+[
+z = [z^{(1)} ; || ; z^{(2)} ; || \dots ]
+]
+
+So:
+
+* Each block has norm ≈ 1.
+* Concatenated norm ≈ √(number_of_axes).
+* Training and inference geometry match.
+
+That’s structurally correct.
+
+---
+
+# ⚠️ One Important Clarification About Weighting
+
+The coding agent says:
+
+> Cosine similarity over the full vector is equivalent to a weighted sum of per-axis cosines where the weight is determined by the dimensionality allocation.
+
+This is **almost** right, but we need to be precise.
+
+If you compute cosine similarity over the full concatenated vector **without global normalization**, then:
+
+[
+\cos(z_x, z_y)
+==============
+
+\frac{\sum_a z_x^{(a)} \cdot z_y^{(a)}}{|z_x| |z_y|}
+]
+
+Because:
+
+[
+|z_x| = \sqrt{A}
+]
+
+(where A = number of axes, since each block norm ≈ 1)
+
+Then:
+
+[
+\cos(z_x, z_y)
+==============
+
+\frac{1}{A}
+\sum_a \cos(z_x^{(a)}, z_y^{(a)})
+]
+
+So:
+
+👉 **Each axis contributes equally**, independent of dimensionality.
+
+Dimensionality does **not** determine weight if each block is normalized to unit norm.
+
+Dimensionality only matters if blocks are not normalized.
+
+---
+
+# 🎯 What This Means For You
+
+Right now your system implements:
+
+> Equal weighting across axes by default.
+
+Which is actually very clean.
+
+If you want weighted similarity:
+
+You must compute it explicitly:
+
+[
+\text{sim}(x,y)
+===============
+
+\sum_a w_a \cos(z_x^{(a)}, z_y^{(a)})
+]
+
+Do not rely on dimensionality to weight axes.
+That would silently re-entangle things.
+
+---
+
+# 🧠 Why This Is Actually Better
+
+Equal norm per block gives you:
+
+* Clean factor semantics
+* No implicit bias
+* True “controllable similarity” via explicit weights
+* Dimensionality used only for capacity, not weighting
+
+This is exactly what you want for a principled factorised embedding.
+
+---
+
+# 📌 One Sanity Check You Should Run
+
+After the fix, compute:
+
+For a random batch:
+
+* Norm of each axis block → ≈1
+* Norm of full vector → ≈√(num_axes)
+* Full cosine similarity
+* Mean of per-axis cosines
+
+Verify:
+
+[
+\cos_\text{full}
+≈
+\frac{1}{A}
+\sum_a \cos_a
+]
+
+If that holds, your geometry is behaving exactly as intended.
+
+---
+
+# 🔥 This Is Now Architecturally Clean
+
+You have:
+
+* Hard partitioning ✔
+* Per-axis unit sphere ✔
+* No accidental magnitude bias ✔
+* Explicit weighting possible ✔
+* Training/inference contract preserved ✔
+
+This is a solid foundation.
+
+---
+
+# The Next Important Question
+
+Now that normalization is correct, the most important design choice becomes:
+
+### How many dimensions per axis?
+
+Because:
+
+* Dimensionality affects capacity
+* But not weighting anymore
+* And too many dims can allow axes to “cheat” and leak information
+
+Would you like to reason through dimensionality allocation next?
+
+That decision will shape both performance and how convincingly “factorised” the embedding really is.
+

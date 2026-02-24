@@ -159,7 +159,9 @@ class TestMultiAxisProjection:
             assert os.path.exists(config_path)
             with open(config_path) as f:
                 saved_config = json.load(f)
-            assert saved_config["axes"] == AXES
+            # axes are saved as ordered list of [name, dim] pairs
+            assert dict(saved_config["axes"]) == AXES
+            assert list(dict(saved_config["axes"]).keys()) == list(AXES.keys())
             assert saved_config["hidden_dim"] == 64
 
             # Check weights file was written
@@ -181,6 +183,18 @@ class TestMultiAxisProjection:
                 original_out[f"embedding_{name}"],
                 loaded_out[f"embedding_{name}"],
             )
+
+    def test_save_preserves_axis_order(self):
+        """User-specified axis order must survive a save/load roundtrip."""
+        axes = {"semantic": 32, "speaker_id": 32, "gender": 16}
+        proj = MultiAxisProjection(in_features=IN_FEATURES, axes=axes)
+        assert list(proj.axes.keys()) == ["semantic", "speaker_id", "gender"]
+
+        with tempfile.TemporaryDirectory() as tmpdir:
+            proj.save(tmpdir)
+            loaded = MultiAxisProjection.load(tmpdir)
+
+        assert list(loaded.axes.keys()) == ["semantic", "speaker_id", "gender"]
 
     def test_repr(self):
         proj = self._make_module()
@@ -214,7 +228,7 @@ class TestMultiAxisSentenceTransformer:
         return MultiAxisSentenceTransformer(modules=[embedder, projection])
 
     def test_axes_property(self, model):
-        assert model.axes == sorted(AXES.keys())
+        assert model.axes == list(AXES.keys())
 
     def test_encode_returns_concatenated(self, model):
         emb = model.encode(["hello", "world"])

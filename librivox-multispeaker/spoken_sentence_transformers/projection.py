@@ -28,14 +28,20 @@ class MultiAxisProjectionConfig(PretrainedConfig):
     def __init__(
         self,
         in_features: int = 0,
-        axes: dict[str, int] | None = None,
+        axes: dict[str, int] | list[list] | None = None,
         hidden_dim: int | None = None,
         default_axis: str | None = None,
         **kwargs,
     ) -> None:
         super().__init__(**kwargs)
         self.in_features = in_features
-        self.axes = axes or {}
+        # Store as ordered list of [name, dim] pairs so that
+        # PretrainedConfig's sort_keys=True JSON serialization does not
+        # reorder the axes.  A JSON array preserves insertion order.
+        if isinstance(axes, dict):
+            self.axes = list(axes.items())
+        else:
+            self.axes = axes or []
         self.hidden_dim = hidden_dim
         self.default_axis = default_axis
 
@@ -63,8 +69,8 @@ class MultiAxisProjection(Module):
     Args:
         in_features: Dimension of the incoming ``sentence_embedding``.
         axes: Mapping of axis name to output dimension,
-            e.g. ``{"content": 256, "speaker": 256}``.  Keys are sorted
-            alphabetically on init so save/load order is stable.
+            e.g. ``{"semantic": 256, "speaker_id": 256}``.
+            Insertion order is preserved through save/load.
         hidden_dim: If set, use a 2-layer MLP (Linear → ReLU → Linear)
             per axis instead of a single Linear.
         default_axis: Axis whose projection becomes the default
@@ -90,8 +96,9 @@ class MultiAxisProjection(Module):
     ) -> None:
         super().__init__()
         self.in_features = in_features
-        # Sort axes so that save/load (which sorts JSON keys alphabetically) is idempotent.
-        self.axes = dict(sorted(axes.items()))
+        # Preserve user-specified axis order.  Accept both dict and list-of-pairs
+        # (the latter is returned by MultiAxisProjectionConfig on load).
+        self.axes: dict[str, int] = dict(axes) if not isinstance(axes, dict) else axes
         self.hidden_dim = hidden_dim
         self.default_axis = default_axis
 
@@ -190,9 +197,11 @@ class MultiAxisProjection(Module):
             revision=revision,
             local_files_only=local_files_only,
         )
+        # config.axes is a list of [name, dim] pairs; dict() preserves order.
+        axes = dict(config.axes) if not isinstance(config.axes, dict) else config.axes
         model = cls(
             in_features=config.in_features,
-            axes=config.axes,
+            axes=axes,
             hidden_dim=config.hidden_dim,
             default_axis=config.default_axis,
         )

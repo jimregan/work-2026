@@ -1,6 +1,6 @@
 # AGENTS.md
 
-## Project: Multi-Axis Speech-to-Speech Similarity Benchmark
+## Project: Multi-Axis Speech-to-Speech Similarity
 
 ---
 
@@ -12,9 +12,9 @@ Unlike speech-to-text retrieval systems (e.g., CLIP-style or S2R-style alignment
 
 The core contribution is:
 
-* A **vector-valued similarity formulation** for speech embeddings.
+* A **factor-partitioned speech embedding** whose subspaces correspond to distinct relational axes (content, speaker, accent, …).
 * A controlled evaluation framework across multiple speech corpora.
-* A minimal extension to the SentenceTransformers framework that returns similarity vectors instead of a single scalar.
+* A minimal, installable extension to the SentenceTransformers framework (`spoken_sentence_transformers`).
 
 This is intended for publication at **Interspeech**.
 
@@ -24,19 +24,25 @@ This is intended for publication at **Interspeech**.
 
 Speech similarity is not unidimensional.
 
-Two speech segments may be similar along distinct axes — the specific axes depend on what supervision a given dataset provides. The set of axes is not fixed; it is configured per-dataset and stored in a HuggingFace-compatible `config.json`.
+Two speech segments may be similar along distinct axes — the specific axes depend on what supervision a given dataset provides. The set of axes is not fixed; it is configured at training time and stored in a HuggingFace-compatible `config.json`.
 
-Current embedding approaches collapse these into a single scalar similarity score.
-
-This project formalizes similarity as:
+The architecture produces a **concatenated, factor-partitioned embedding**:
 
 ```
-s(x_i, x_j) = [s_{a_1}, s_{a_2}, ..., s_{a_n}]
+z = [ z_semantic || z_speaker_id || z_gender || ... ]
 ```
 
-where the axes `a_1 ... a_n` are dataset-specific. Each component is computed independently and exposed explicitly.
+where each block `z_a = W_a · z_base / ‖W_a · z_base‖` is the L2-normalised projection onto axis `a`'s hypersphere.
 
-**Axes are specified in the `MultiAxisProjection` constructor as a `dict[str, int]` (axis name → output dimension) and serialized to `config.json` — they are not hardcoded anywhere in the implementation.**
+Key geometric properties:
+* Each block has norm ≈ 1 (unit sphere per axis).
+* Full vector norm ≈ √A (A = number of axes).
+* Cosine similarity over the full vector = **unweighted mean** of per-axis cosines (independent of dimensionality).
+* Weighted retrieval requires computing per-axis cosines explicitly and summing with explicit weights — do NOT rely on dimensionality to weight axes.
+
+**This is supervised subspace separation, not disentanglement.** Nothing prevents axes from sharing information; we make no claims of statistical independence. We claim only that the projection heads are trained to make each subspace useful for its declared relational axis.
+
+**Axes are specified in the `MultiAxisProjection` constructor as a `dict[str, int]` (axis name → output dimension) and serialised to `config.json`. They are not hardcoded anywhere in the implementation. Declaration order is preserved through save/load.**
 
 ---
 
@@ -54,7 +60,7 @@ NOT:
 
 Both query and index are acoustic.
 
-Text may be used only for supervision/label definition, not for final retrieval.
+Text may be used for supervision/label definition (e.g. pre-cached sentence transformer embeddings as content-axis positives) — not for final retrieval.
 
 ---
 
@@ -105,7 +111,7 @@ LibriVox enables:
 
 * Production/fluency axis
 * Delivery variability analysis
-* Real-world embedding behavior
+* Real-world embedding behaviour
 
 LibriVox is not the sole experimental base. It complements controlled TTS data.
 
@@ -119,7 +125,7 @@ No new encoder architectures.
 
 Recommended minimal set:
 
-* 1 SSL encoder (HuBERT or wav2vec2)
+* 1 SSL encoder (HuBERT or WavLM)
 * 1 ASR encoder (Whisper encoder states)
 * Optional: 1 codec-LM encoder (if trivial to extract)
 
@@ -136,10 +142,11 @@ Avoid model zoo explosion.
 
 Minimum acceptable contribution:
 
-* New SentenceTransformer-compatible class:
+* Installable package `spoken_sentence_transformers`:
 
-  * `encode()` returns multiple projection vectors.
-  * `similarity()` returns a vector instead of scalar.
+  * `encode()` returns a single structured embedding.
+  * `encode_axis()` / `encode_all_axes()` expose per-axis vectors.
+  * `similarity_vector()` returns per-axis cosine matrices.
 
 Preferred stronger version:
 
@@ -156,103 +163,165 @@ Do NOT:
 
 ## 6a. Implementation
 
-The following files implement the technical contribution.
+Install:
 
-### `multi_axis_projection.py` — `MultiAxisProjection`
+```bash
+pip install -e ".[dev]"
+```
+
+### Package layout
+
+```
+spoken_sentence_transformers/
+    __init__.py                  ← public API re-exports
+    projection.py                ← MultiAxisProjection, MultiAxisProjectionConfig
+    sentence_transformer.py      ← MultiAxisSentenceTransformer
+    trainer.py                   ← MultiAxisProjectionTrainer
+    sampler.py                   ← MultiAxisNoDuplicatesBatchSampler
+    loss.py                      ← MultiAxisInfoNCELoss
+    encoders/
+        __init__.py
+        base.py                  ← AcousticEncoder (abstract)
+        hf.py                    ← HFAcousticEncoder
+tests/
+    test_projection.py
+docs/
+    adding-a-dataset.md
+    adding-an-encoder.md
+    adding-a-loss.md
+```
+
+---
+
+### `projection.py` — `MultiAxisProjection`
 
 A `sentence_transformers.models.Module` subclass.  Sits at the end of the
-`SentenceTransformer` pipeline after `Transformer → Pooling`.
+`SentenceTransformer` pipeline after `Encoder → Pooling`.
 
 * Constructor: `MultiAxisProjection(in_features, axes: dict[str, int], hidden_dim=None, default_axis=None)`
-* `axes` is a `dict[str, int]` (axis name → output dimension).  Not hardcoded.
-* Serialised to HuggingFace-compatible `config.json` via `MultiAxisProjectionConfig(PretrainedConfig)`.
-* `forward()` reads `features["sentence_embedding"]`, writes `features["embedding_{axis}"]` for every axis, and sets `features["sentence_embedding"]` to the requested/default/concatenated projection.
+* `axes` keys are preserved in declaration order through save/load (stored as
+  an ordered list of `[name, dim]` pairs in `config.json`; a JSON array is not
+  subject to `sort_keys`).
+* `forward()` reads `features["sentence_embedding"]`, **L2-normalises** each
+  head output, writes `features["embedding_{axis}"]` for every axis, and sets
+  `features["sentence_embedding"]` to the requested/default/concatenated projection.
+* Explicit geometry attributes computed at init:
+  * `axis_names: list[str]` — declaration-order axis names
+  * `axis_dims: list[int]` — output dimension per axis
+  * `axis_slices: dict[str, tuple[int, int]]` — `(start, end)` into the concat vector
 * `forward_kwargs = {"axis"}` — callers can pass `axis=` to `encode()`.
 
-### `multi_axis_sentence_transformer.py` — `MultiAxisSentenceTransformer`
+---
+
+### `sentence_transformer.py` — `MultiAxisSentenceTransformer`
 
 Subclasses `SentenceTransformer`.  Adds:
 
-* `encode_axis(sentences, axis)` — returns embeddings for one axis.
-* `encode_all_axes(sentences)` — returns `dict[axis, np.ndarray]`.
-* `similarity_vector(a, b)` — returns `dict[axis, Tensor]` of per-axis similarity matrices.
+* `axes` property — axis names in declaration order.
+* `axis_slices` property — delegates to the projection module.
+* `encode_axis(sentences, axis)` — embeddings for one axis.
+* `encode_all_axes(sentences)` — `dict[axis, np.ndarray]`.
+* `similarity_vector(a, b)` — `dict[axis, Tensor]` of per-axis cosine matrices.
 
 Standard `encode()` and all built-in evaluators continue to work unchanged.
 
-### `multi_axis_trainer.py` — `MultiAxisProjectionTrainer`
+---
 
-Adapted copy of `SentenceTransformerTrainer`.  Removed: model card, prompts,
-router, `_include_prompt_length`, default `CoSENTLoss`.  Key changes:
+### `trainer.py` — `MultiAxisProjectionTrainer`
+
+Adapted copy of `SentenceTransformerTrainer`.  Key changes:
 
 * **`collect_features(inputs)`** returns `dict[str, dict[str, Tensor]]` keyed
-  by role (`"anchor"`, `"content_pos"`, `"speaker_pos"`, …) instead of a flat
-  `list[dict]`.  This lets the loss function construct axis-specific views of
-  the batch independently.
-* **`_input_features`** suffix added for Whisper-style audio columns alongside
-  the existing `_input_ids`, `_sentence_embedding`, `_pixel_values`.
+  by role (`"anchor"`, `"semantic_pos"`, `"speaker_id_pos"`, …) instead of a
+  flat list.  Loss functions receive axis-specific views with no cross-axis
+  contamination.
+* **`DEFAULT_FEATURE_SUFFIXES`** class attribute lists recognised input column
+  suffixes.  Extend per-instance via the `feature_suffixes` constructor
+  parameter, or globally by subclassing:
+
+  ```python
+  trainer = MultiAxisProjectionTrainer(
+      ...,
+      feature_suffixes=MultiAxisProjectionTrainer.DEFAULT_FEATURE_SUFFIXES
+          + ("pitch_values",),
+  )
+  ```
+
 * Loss is **required** — no default is applied.
 
 Dataset column naming convention:
 
 ```
-anchor_{suffix}        — anchor example
-{axis}_pos_{suffix}    — positive for each axis
+anchor_{suffix}          — anchor example
+{axis}_pos_{suffix}      — positive for each axis
+{axis}_label             — label for batch sampler duplicate detection
 ```
 
-where `{suffix}` ∈ `{sentence_embedding, input_features, input_ids}`.
+where `{suffix}` ∈ `{sentence_embedding, input_features, input_ids, pixel_values}`.
 
-### `multi_axis_sampler.py` — `MultiAxisNoDuplicatesBatchSampler`
+See `docs/adding-a-dataset.md` for a full example including text-encoder-derived
+content positives.
 
-Batch sampler that prevents false negatives at the data level.
+---
 
-For each axis, maintains a set of labels already present in the batch being
-assembled.  A candidate sample is admitted only if its label for **every** axis
-is absent from those sets.  This guarantees that every off-diagonal entry in
-each axis's B×B InfoNCE similarity matrix is a true negative.
+### `sampler.py` — `MultiAxisNoDuplicatesBatchSampler`
 
-The dataset must contain `{axis}_label` columns (e.g. `content_label`,
-`speaker_label`).  Pass them as `valid_label_columns` in the training
-arguments:
+Prevents false negatives at the data level.  For each axis, maintains a set of
+labels already present in the batch.  A candidate sample is admitted only if its
+label for **every** axis is absent.
 
-```python
-args = SentenceTransformerTrainingArguments(
-    batch_sampler=MultiAxisNoDuplicatesBatchSampler,
-    ...
-)
-# pass valid_label_columns=["content_label", "speaker_label"] to the trainer
-```
+Dataset must contain `{axis}_label` columns.
 
-### `multi_axis_loss.py` — `MultiAxisInfoNCELoss`
+---
+
+### `loss.py` — `MultiAxisInfoNCELoss`
 
 Per-axis InfoNCE loss.
 
-* Anchor is run through the model **once** — all axis projections are computed
-  simultaneously by `MultiAxisProjection`.
-* Each axis's positives are run through the model once; only that axis's
-  projection is extracted.
-* For axis *k*: `logits = anchor_k_proj @ pos_k_proj.T / τ`, targets = diagonal.
-* Cross-axis contamination is structurally impossible: the content-axis
-  comparison never sees speaker-axis positives, and vice versa.
-* Returns `dict[str, Tensor]` (per-axis scalar losses).  The trainer sums
-  these for backprop and logs each component individually.
+* Anchor is run through the model **once** — all axis projections computed simultaneously.
+* Each axis's positives run through the model once.
+* Embeddings (`embedding_{axis}`) are already L2-normalised unit vectors — do not normalise again.
+* Returns `dict[str, Tensor]` (per-axis scalar losses).  Trainer sums for backprop, logs individually.
 
 ```python
-loss = MultiAxisInfoNCELoss(model, temperature=0.05, axis_weights={"content": 1.0, "speaker": 1.0})
-trainer = MultiAxisProjectionTrainer(model=model, loss=loss, ...)
+loss = MultiAxisInfoNCELoss(model, temperature=0.05,
+                            axis_weights={"semantic": 1.0, "speaker_id": 1.0})
 ```
+
+---
+
+### `encoders/base.py` — `AcousticEncoder`
+
+Abstract base for all acoustic encoders.  Five abstract methods:
+
+* `tokenize(audio_list)` → feature dict
+* `forward(features)` → feature dict (must write `token_embeddings` [B,T,H] and `attention_mask` [B,T])
+* `get_word_embedding_dimension()` → int
+* `save(output_path, ...)` → None
+* `load(model_name_or_path, ...)` → Self
+
+See `docs/adding-an-encoder.md` for a full `CodecEncoder` skeleton and a
+`PitchAugmentedEncoder` pattern.
+
+### `encoders/hf.py` — `HFAcousticEncoder`
+
+Wraps any HuggingFace audio encoder (WavLM, wav2vec2, HuBERT, Whisper encoder).
+Uses `AutoFeatureExtractor` + `AutoModel`.  For seq2seq models, only the encoder
+half is used.
 
 ---
 
 ## 7. Axis Definitions
 
-Axes must be defined using metadata or acoustic proxies, not model behavior. **The axis set differs between the TTS subset and the LibriVox subset.** Axes may be revised as the project develops.
+Axes must be defined using metadata or acoustic proxies, not model behaviour.
+**The axis set differs between the TTS subset and the LibriVox subset.**
 
 ### 7.1 TTS Subset Axes (CMU ARCTIC / VCTK / Google Britain & Ireland)
 
-These corpora provide clean labels for the following axes:
-
-**content**
+**content / semantic**
 Positive pairs: same sentence text, different speaker.
+Recommended: use a text sentence transformer (e.g. `all-MiniLM-L6-v2`) to
+pre-compute transcript embeddings as `semantic_pos_sentence_embedding`.
 
 **speaker**
 Positive pairs: same speaker ID, different sentence.
@@ -262,8 +331,6 @@ Positive pairs: same accent label (from corpus metadata), different speaker.
 
 ### 7.2 LibriVox Subset Axes
 
-LibriVox provides same-text recordings across many voluntary readers. Available axes (subject to revision):
-
 **content**
 Positive pairs: same source text / passage, different speaker.
 
@@ -271,18 +338,13 @@ Positive pairs: same source text / passage, different speaker.
 Positive pairs: same reader ID, different recording.
 
 **fluency** (acoustic proxy)
-Use acoustic proxies only:
-* Pause density
-* Duration variance
-* Disfluency rate (if extractable)
-* Stability across repeated takes
-
-Avoid manual annotation.
+Pause density, duration variance, disfluency rate.  Avoid manual annotation.
 
 **prosody** (acoustic proxy)
-Use acoustic proxies such as pitch range, speech rate, and energy contour statistics. Avoid manual annotation.
+Pitch range, speech rate, energy contour statistics.
 
-> Note: Accent labels for LibriVox readers are available via the LibriVox Accents Table but are self-reported and incomplete. Accent is therefore not included as a LibriVox axis unless coverage is sufficient.
+> Note: Accent labels for LibriVox readers are available via the LibriVox
+> Accents Table but are self-reported and incomplete.
 
 ---
 
@@ -292,21 +354,33 @@ Use acoustic proxies such as pitch range, speech rate, and energy contour statis
 
 For each axis:
 
-* Compute Recall@K
-* Compute MRR
+* Recall@K
+* MRR
+* (Speaker axis) Equal Error Rate against classical speaker embedding baselines
 
-### 8.2 Mixed Retrieval Task
+### 8.2 Classical Speaker Embedding Comparison
 
-Define a composite task:
+Reviewers will expect comparison against x-vectors / ECAPA-TDNN / WavLM-based
+speaker embeddings.
 
-* Retrieve items similar by content OR speaker.
+* Extract `model.encode_axis(utterances, axis="speaker_id")`.
+* Compare EER against SpeechBrain ECAPA-TDNN on the same test set.
+* Framing: we are not claiming to beat dedicated speaker systems; we are showing
+  that the speaker axis of a multi-axis embedding matches them *while
+  simultaneously encoding other axes*.  That is the actual claim.
+* `SpeakerAlignmentLoss` in `docs/adding-a-loss.md` shows how to use a
+  classical system as training supervision.
+
+### 8.3 Mixed Retrieval Task
+
+Define a composite task: retrieve items similar by content OR speaker.
 
 Demonstrate:
 
 * Scalar similarity fails or trades off axes.
-* Vector similarity + simple weighting succeeds.
+* Per-axis cosines + explicit weighting succeeds.
 
-This is essential to justify the vector interface.
+This is essential to justify the structured embedding interface.
 
 ---
 
@@ -317,28 +391,28 @@ Position clearly:
 This work is NOT:
 
 * A speech-to-text retrieval system.
+* A disentanglement paper (no claims of latent independence or orthogonality).
 * A replacement for ASR cascades.
 * A universal sound benchmark.
-* A disentanglement paper.
 
 This work IS:
 
-* A formulation of multidimensional speech similarity.
+* A **supervised subspace separation** approach: each axis head is trained
+  directly from relational labels; information may overlap across axes.
+* A **factor-partitioned embedding** architecture enabling controllable weighted retrieval.
 * A speech-to-speech retrieval study.
-* An evaluation of embedding geometry across axes.
-* A demonstration that acoustic properties are retrieval-relevant.
+* A demonstration that acoustic properties are retrieval-relevant dimensions,
+  not nuisance factors to be normalised away.
 
 ---
 
 ## 10. Scope Constraints
 
-To avoid project explosion:
-
 * Maximum 3 encoders.
 * Maximum 3 datasets (ARCTIC, VCTK/GB&I, LibriVox subset).
 * No large-scale hyperparameter search.
 * No full benchmark suite like MSEB.
-* No exhaustive accent modeling.
+* No exhaustive accent modelling.
 
 Focus on clarity over scale.
 
@@ -348,27 +422,23 @@ Focus on clarity over scale.
 
 Minimum for publication:
 
-1. Vector similarity interface.
+1. Installable `spoken_sentence_transformers` package.
 2. Controlled TTS experiments showing axis separability.
 3. LibriVox stress-test results.
-4. Mixed retrieval experiment demonstrating need for vector similarity.
-5. Clear speech-to-speech framing.
-
-Optional enhancement:
-
-* Light multi-head projection training.
+4. Mixed retrieval experiment demonstrating need for structured similarity.
+5. Speaker axis comparison against at least one classical baseline.
+6. Clear speech-to-speech framing.
 
 ---
 
 ## 12. Non-Goals
 
-This project does NOT aim to:
-
 * Beat CLIP/CLAP-style cross-modal models.
 * Replace MSEB.
-* Achieve state-of-the-art semantic retrieval.
+* Achieve SOTA semantic retrieval.
 * Solve accent recognition.
 * Build a production system.
+* Prove statistical disentanglement.
 
 ---
 
@@ -376,10 +446,11 @@ This project does NOT aim to:
 
 Speech similarity is inherently multidimensional.
 
-In speech-to-speech retrieval:
+In speech-to-speech retrieval, acoustic properties — speaker identity, accent,
+prosody, fluency — are not nuisance factors to be normalised away.  They are
+retrieval-relevant dimensions in their own right.
 
-* Acoustic properties are not nuisance factors.
-* They are retrieval-relevant dimensions.
-
-This project formalizes and evaluates that claim.
-
+The structured embedding constructed here makes that claim operationally precise:
+each axis occupies its own unit-sphere subspace, comparison is explicit and
+controllable, and the geometry is preserved end-to-end from training through
+retrieval.

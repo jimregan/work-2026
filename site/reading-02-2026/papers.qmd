@@ -124,3 +124,9 @@ bibliography: refs.bib
 
 ## [T5G2P: Using Text-to-Text Transfer Transformer for Grapheme-to-Phoneme Conversion](https://www.isca-archive.org/interspeech_2021/rezackova21_interspeech.html) [@rezackova21_interspeech]
 
+## [Aligning Ground Truth Text with OCR Degraded Text](https://link.springer.com/chapter/10.1007/978-3-030-22871-2_58) [@10.1007/978-3-030-22871-2_58]
+
+## [Automated OCR Ground Truth Generation](https://ieeexplore.ieee.org/document/4669952) [@Beusekom2008automated]
+
+[hocr-tools](https://github.com/stefan6419846/hocr-tools)
+

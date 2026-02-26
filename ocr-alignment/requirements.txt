@@ -1,0 +1,4 @@
+# No required dependencies — uses only the Python standard library.
+
+# Optional: improves dictionary checking (step 1)
+# pyenchant>=3.2

@@ -117,9 +117,10 @@ bibliography: refs.bib
 - [code](https://github.com/hlt-mt/fbk-fairseq)
 - [paper card](https://github.com/hlt-mt/FBK-fairseq/blob/master/fbk_works/PERSON_NAMES_IWSLT2022.md)
 
-## [Turning Whisper into Real-Time Transcription System](https://aclanthology.org/2023.ijcnlp-demo.3/) [@machacek-etal-2023-turning]
+## [Turning Whisper into Real-Time Transcription System](https://aclanthology.org/2023.ijcnlp-demo.3/) [@machacek-etal-2023-turning]
 - [arXiv](https://arxiv.org/abs/2307.14743)
 - [code](https://github.com/ufal/whisper_streaming) --- MIT
 - replaced by [@machacek-polak-2025-simultaneous]
 
 ## [T5G2P: Using Text-to-Text Transfer Transformer for Grapheme-to-Phoneme Conversion](https://www.isca-archive.org/interspeech_2021/rezackova21_interspeech.html) [@rezackova21_interspeech]
+

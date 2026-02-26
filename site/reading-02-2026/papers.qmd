@@ -99,3 +99,26 @@ bibliography: refs.bib
 - [code](https://github.com/Berkeley-Speech-Group/Speech-Articulatory-Coding)
 
 ## [An Overview of Voice Conversion and Its Challenges: From Statistical Modeling to Deep Learning](https://dl.acm.org/doi/10.1109/TASLP.2020.3038524) [@sisman2020overview]
+
+## [Simultaneous Translation with Offline Speech and LLM Models in CUNI Submission to IWSLT 2025](https://aclanthology.org/2025.iwslt-1.41/) [@machacek-polak-2025-simultaneous]
+- [utter-project/EuroLLM-9B-Instruct](https://huggingface.co/utter-project/EuroLLM-9B-Instruct)
+- [SimulStreaming](https://github.com/ufal/SimulStreaming) --- MIT
+- Builds on AlignAtt [@papi23_interspeech]
+
+## [Attention as a Guide for Simultaneous Speech Translation](https://aclanthology.org/2023.acl-long.745/) [@papi-etal-2023-attention]
+- [code](https://github.com/hlt-mt/fbk-fairseq)
+- [paper card](https://github.com/hlt-mt/FBK-fairseq/blob/master/fbk_works/EDATT_SIMULST_AGENT_ACL2023.md)
+
+## [AlignAtt: Using Attention-based Audio-Translation Alignments as a Guide for Simultaneous Speech Translation](https://www.isca-archive.org/interspeech_2023/papi23_interspeech.html) [@papi23_interspeech]
+- [code](https://github.com/hlt-mt/fbk-fairseq)
+- [paper card](https://github.com/hlt-mt/FBK-fairseq/blob/master/fbk_works/ALIGNATT_SIMULST_AGENT_INTERSPEECH2023.md)
+
+## [Who Are We Talking About? Handling Person Names in Speech Translation](https://aclanthology.org/2022.iwslt-1.6/) [@gaido-etal-2022-talking]
+- [code](https://github.com/hlt-mt/fbk-fairseq)
+- [paper card](https://github.com/hlt-mt/FBK-fairseq/blob/master/fbk_works/PERSON_NAMES_IWSLT2022.md)
+
+## [Turning Whisper into Real-Time Transcription System](https://aclanthology.org/2023.ijcnlp-demo.3/) [@machacek-etal-2023-turning]
+- [arXiv](https://arxiv.org/abs/2307.14743)
+- [code](https://github.com/ufal/whisper_streaming) --- MIT
+- replaced by [@machacek-polak-2025-simultaneous]
+

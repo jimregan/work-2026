@@ -12,28 +12,68 @@ import json
 import re
 import warnings
 from dataclasses import asdict, dataclass
-from typing import List, Optional, Set
+from typing import List, Optional, Set, Tuple
+
+from rapidfuzz.distance import Levenshtein as _Lev
+
+levenshtein = _Lev.distance
 
 
 # ---------------------------------------------------------------------------
-# Edit distance
+# hOCR support
 # ---------------------------------------------------------------------------
 
-def levenshtein(a: str, b: str) -> int:
-    """Levenshtein edit distance between two strings."""
-    if a == b:
-        return 0
-    if len(a) < len(b):
-        a, b = b, a
-    if not b:
-        return len(a)
-    prev = list(range(len(b) + 1))
-    for ca in a:
-        curr = [prev[0] + 1]
-        for j, cb in enumerate(b, 1):
-            curr.append(min(prev[j] + 1, curr[-1] + 1, prev[j - 1] + (ca != cb)))
-        prev = curr
-    return prev[-1]
+@dataclass
+class HocrWord:
+    """A single word extracted from an hOCR file."""
+    text: str
+    word_id: Optional[str] = None
+    page_num: int = 1
+    bbox: Optional[Tuple[int, int, int, int]] = None  # x1, y1, x2, y2
+    x_wconf: Optional[int] = None                     # OCR confidence 0–100
+
+
+def parse_hocr(path: str) -> List[HocrWord]:
+    """Parse an hOCR file and return all words in document order.
+
+    Requires ``beautifulsoup4`` and ``lxml``.
+    """
+    try:
+        from bs4 import BeautifulSoup  # type: ignore
+    except ImportError as exc:
+        raise ImportError(
+            "beautifulsoup4 is required for hOCR support: pip install beautifulsoup4 lxml"
+        ) from exc
+
+    _BBOX = re.compile(r"bbox\s+(\d+)\s+(\d+)\s+(\d+)\s+(\d+)")
+    _WCONF = re.compile(r"x_wconf\s+(\d+)")
+
+    with open(path, encoding="utf-8") as fh:
+        soup = BeautifulSoup(fh, "lxml")
+
+    words: List[HocrWord] = []
+    page_num = 0
+
+    for page in soup.find_all(class_="ocr_page"):
+        page_num += 1
+        # ocrx_word is the standard Tesseract word element;
+        # fall back to ocr_word for other engines
+        for span in page.find_all(class_=re.compile(r"ocrx_word|ocr_word")):
+            text = span.get_text(strip=True)
+            if not text:
+                continue
+            title = span.get("title", "")
+            bbox_m = _BBOX.search(title)
+            wconf_m = _WCONF.search(title)
+            words.append(HocrWord(
+                text=text,
+                word_id=span.get("id"),
+                page_num=page_num,
+                bbox=tuple(int(x) for x in bbox_m.groups()) if bbox_m else None,
+                x_wconf=int(wconf_m.group(1)) if wconf_m else None,
+            ))
+
+    return words
 
 
 # ---------------------------------------------------------------------------
@@ -326,8 +366,12 @@ def main(argv: Optional[List[str]] = None) -> None:
     parser = argparse.ArgumentParser(
         description="Align OCR'd text to a reference/ground-truth text.",
     )
-    parser.add_argument("ocr_file", help="File containing OCR'd text")
-    parser.add_argument("ref_file", help="File containing reference/ground-truth text")
+    parser.add_argument("ocr_file", help="File containing OCR'd text (plain text or hOCR)")
+    parser.add_argument("ref_file", help="File containing reference/ground-truth text (plain text)")
+    parser.add_argument(
+        "--hocr", action="store_true",
+        help="Parse ocr_file as hOCR rather than plain text",
+    )
     parser.add_argument(
         "--wordlist", metavar="FILE",
         help="Plain-text word list (one word per line) for dictionary check",
@@ -355,8 +399,14 @@ def main(argv: Optional[List[str]] = None) -> None:
     )
     args = parser.parse_args(argv)
 
-    with open(args.ocr_file, encoding="utf-8") as fh:
-        ocr_words = tokenise(fh.read())
+    hocr_words: Optional[List[HocrWord]] = None
+    if args.hocr:
+        hocr_words = parse_hocr(args.ocr_file)
+        ocr_words = [w.text for w in hocr_words]
+    else:
+        with open(args.ocr_file, encoding="utf-8") as fh:
+            ocr_words = tokenise(fh.read())
+
     with open(args.ref_file, encoding="utf-8") as fh:
         ref_words = tokenise(fh.read())
 
@@ -376,14 +426,32 @@ def main(argv: Optional[List[str]] = None) -> None:
     results = aligner.align(ocr_words)
 
     if args.output_format == "json":
-        print(json.dumps([asdict(r) for r in results], ensure_ascii=False, indent=2))
+        rows = []
+        for i, r in enumerate(results):
+            row = asdict(r)
+            if hocr_words is not None:
+                hw = hocr_words[i]
+                row["bbox"] = list(hw.bbox) if hw.bbox else None
+                row["x_wconf"] = hw.x_wconf
+                row["word_id"] = hw.word_id
+                row["page_num"] = hw.page_num
+            rows.append(row)
+        print(json.dumps(rows, ensure_ascii=False, indent=2))
     else:
-        print("ocr_word\tref_word\tref_position\tconfidence\tfailed")
-        for r in results:
-            print(
+        header = "ocr_word\tref_word\tref_position\tconfidence\tfailed"
+        if hocr_words is not None:
+            header += "\tbbox\tx_wconf"
+        print(header)
+        for i, r in enumerate(results):
+            line = (
                 f"{r.ocr_word}\t{r.ref_word or ''}\t{r.ref_position}"
                 f"\t{r.confidence:.3f}\t{r.failed}"
             )
+            if hocr_words is not None:
+                hw = hocr_words[i]
+                bbox_str = " ".join(str(x) for x in hw.bbox) if hw.bbox else ""
+                line += f"\t{bbox_str}\t{hw.x_wconf if hw.x_wconf is not None else ''}"
+            print(line)
 
 
 if __name__ == "__main__":

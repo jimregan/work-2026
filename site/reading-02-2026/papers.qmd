@@ -122,3 +122,4 @@ bibliography: refs.bib
 - [code](https://github.com/ufal/whisper_streaming) --- MIT
 - replaced by [@machacek-polak-2025-simultaneous]
 
+## [T5G2P: Using Text-to-Text Transfer Transformer for Grapheme-to-Phoneme Conversion](https://www.isca-archive.org/interspeech_2021/rezackova21_interspeech.html) [@rezackova21_interspeech]

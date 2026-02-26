@@ -107,6 +107,10 @@ https://www.scoilfhursa.net/
 
 (i.e., non-native: this is a Gaelscoil in Galway city)
 
+https://archive.org/details/ansgealuidhegae00hydegoog
+
+http://corpas.ria.ie/index.php?fsg_function=3&fsg_id=436
+
 -----
 
 >>> from mlx_audio.stt.utils import load

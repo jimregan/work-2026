@@ -118,15 +118,8 @@ def _extract_page_text(
     include_rect: Optional[PDFRect] = None,
 ) -> str:
     """Extract text from a PyMuPDF page, clipped to include_rect if provided."""
-    words = page.get_text("words")  # (x0, y0, x1, y1, word, block, line, word_idx)
-    result_words: list[str] = []
-    ir = _fitz_rect(include_rect) if include_rect else None
-    for w in words:
-        wx0, wy0, wx1, wy1, word = w[0], w[1], w[2], w[3], w[4]
-        if ir is not None and not fitz.Rect(wx0, wy0, wx1, wy1).intersects(ir):
-            continue
-        result_words.append(word)
-    return " ".join(result_words)
+    clip = _fitz_rect(include_rect) if include_rect else None
+    return page.get_text("text", clip=clip).strip()
 
 
 # ---------------------------------------------------------------------------

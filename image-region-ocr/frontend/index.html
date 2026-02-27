@@ -163,34 +163,29 @@ button.danger:hover { background: #922b21; }
           <span id="page-indicator">—</span>
           <button id="btn-next-page">&#8594;</button>
         </div>
-        <div class="tmpl-row">
-          <span style="color:#aaa;font-size:12px;margin-right:4px">Template:</span>
-          <button class="active" data-tmpl="odd">Odd</button>
-          <button data-tmpl="even">Even</button>
-          <button data-tmpl="first">First</button>
-          <button data-tmpl="last">Last</button>
+        <div id="page-rect-info" style="font-size:12px;color:#aaa;margin:6px 0;min-height:2em">
+          No PDF loaded.
         </div>
         <div class="tmpl-row">
-          <label><input type="checkbox" id="chk-first"> Enable First override</label>
-          <label><input type="checkbox" id="chk-last"> Enable Last override</label>
+          <button id="btn-clear-page-rect" class="danger" disabled>Clear This Page</button>
         </div>
-        <div style="font-size:12px;color:#aaa;margin-top:4px">
-          Drag to add exclusion rect. Click rect to select (Del to remove).
+        <div style="font-size:11px;color:#666;margin:8px 0 4px">Copy this region to:</div>
+        <div class="tmpl-row">
+          <button id="btn-apply-odd"  disabled>All Odd</button>
+          <button id="btn-apply-even" disabled>All Even</button>
+          <button id="btn-apply-all"  disabled>All Pages</button>
         </div>
+        <div id="coverage-status" style="font-size:12px;color:#aaa;margin-top:8px">—</div>
       </div>
 
-      <div class="rect-list" id="rect-list">
-        <div style="color:#aaa;font-size:12px">No rectangles yet.</div>
+      <div class="rect-list" id="page-overview">
+        <div style="color:#aaa;font-size:12px">No PDF loaded.</div>
       </div>
 
       <div class="pdf-actions">
         <div class="btn-row">
-          <button id="btn-clear-rects" class="danger" style="flex:1">Clear Template Rects</button>
-          <button id="btn-delete-rect" class="danger" disabled>Delete Selected</button>
-        </div>
-        <div class="btn-row">
-          <button id="btn-extract-page" disabled style="flex:1">Extract This Page</button>
-          <button id="btn-extract-all" disabled style="flex:1">Export All Pages</button>
+          <button id="btn-extract-page" disabled style="flex:1">Preview This Page</button>
+          <button id="btn-extract-all"  disabled style="flex:1">Export All Pages</button>
         </div>
         <div class="btn-row">
           <button id="btn-save-config" disabled style="flex:1">Save Config JSON</button>
@@ -235,15 +230,7 @@ const state = {
     scale: 1.5,
     pageWidth: 0, pageHeight: 0,  // rendered canvas size (px)
     pdfPointW: 0, pdfPointH: 0,  // PDF page size in points
-    activeTemplate: 'odd',
-    enableFirst: false, enableLast: false,
-    templates: {
-      odd:  { exclude: [] },
-      even: { exclude: [] },
-      first: { exclude: [] },
-      last:  { exclude: [] },
-    },
-    selectedRectIndex: -1,
+    pageRects: {},       // { [pageIndex]: {x0,y0,x1,y1} }  — include regions
   },
   // Shared drawing
   draw: {
@@ -639,36 +626,35 @@ $('btn-next-page').addEventListener('click', () => {
   if (state.pdf.currentPage < state.pdf.pageCount - 1) { state.pdf.currentPage++; renderPDFPage(); }
 });
 
-// Template buttons
-document.querySelectorAll('[data-tmpl]').forEach(btn => {
-  btn.addEventListener('click', () => {
-    document.querySelectorAll('[data-tmpl]').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-    state.pdf.activeTemplate = btn.dataset.tmpl;
-    state.pdf.selectedRectIndex = -1;
-    drawPDFOverlay();
-    updateRectList();
-    updateDeleteBtn();
-  });
+$('btn-clear-page-rect').addEventListener('click', () => {
+  delete state.pdf.pageRects[state.pdf.currentPage];
+  drawPDFOverlay(); updatePageRectStatus(); updateCoverage(); updatePageOverview();
 });
 
-$('chk-first').addEventListener('change', e => { state.pdf.enableFirst = e.target.checked; });
-$('chk-last').addEventListener('change',  e => { state.pdf.enableLast  = e.target.checked; });
-
-$('btn-clear-rects').addEventListener('click', () => {
-  getActiveTemplate().exclude = [];
-  state.pdf.selectedRectIndex = -1;
-  drawPDFOverlay(); updateRectList(); updateDeleteBtn();
+$('btn-apply-odd').addEventListener('click', () => {
+  const r = state.pdf.pageRects[state.pdf.currentPage];
+  if (!r) return;
+  for (let i = 0; i < state.pdf.pageCount; i++)
+    if ((i + 1) % 2 === 1) state.pdf.pageRects[i] = { ...r };
+  updateCoverage(); updatePageOverview();
+  setStatus('Applied to all odd pages.');
 });
 
-$('btn-delete-rect').addEventListener('click', () => {
-  const i = state.pdf.selectedRectIndex;
-  const excl = getActiveTemplate().exclude;
-  if (i >= 0 && i < excl.length) {
-    excl.splice(i, 1);
-    state.pdf.selectedRectIndex = -1;
-    drawPDFOverlay(); updateRectList(); updateDeleteBtn();
-  }
+$('btn-apply-even').addEventListener('click', () => {
+  const r = state.pdf.pageRects[state.pdf.currentPage];
+  if (!r) return;
+  for (let i = 0; i < state.pdf.pageCount; i++)
+    if ((i + 1) % 2 === 0) state.pdf.pageRects[i] = { ...r };
+  updateCoverage(); updatePageOverview();
+  setStatus('Applied to all even pages.');
+});
+
+$('btn-apply-all').addEventListener('click', () => {
+  const r = state.pdf.pageRects[state.pdf.currentPage];
+  if (!r) return;
+  for (let i = 0; i < state.pdf.pageCount; i++) state.pdf.pageRects[i] = { ...r };
+  updateCoverage(); updatePageOverview();
+  setStatus('Applied to all pages.');
 });
 
 $('btn-extract-page').addEventListener('click', extractPage);
@@ -681,18 +667,89 @@ $('btn-save-text').addEventListener('click', () => {
   if (txt) saveBlob(txt, 'extracted.txt');
 });
 
-// Delete key to remove selected rect
+// Delete key removes current page rect
 document.addEventListener('keydown', e => {
-  if ((e.key === 'Delete' || e.key === 'Backspace') && state.pdf.selectedRectIndex >= 0
+  if ((e.key === 'Delete' || e.key === 'Backspace')
+      && state.pdf.pdfDoc
       && document.activeElement.tagName !== 'INPUT'
       && document.activeElement.tagName !== 'TEXTAREA') {
-    $('btn-delete-rect').click();
+    $('btn-clear-page-rect').click();
   }
 });
 
-function getActiveTemplate() {
-  return state.pdf.templates[state.pdf.activeTemplate];
+// ── Per-page rect helpers ────────────────────────────────────────────────────
+
+function updatePageRectStatus() {
+  const r = state.pdf.pageRects[state.pdf.currentPage];
+  const hasRect = !!r;
+  $('page-rect-info').textContent = hasRect
+    ? `Region: (${r.x0.toFixed(0)}, ${r.y0.toFixed(0)}) → (${r.x1.toFixed(0)}, ${r.y1.toFixed(0)})`
+    : 'No region — this page will be skipped.';
+  $('btn-clear-page-rect').disabled = !hasRect;
+  ['btn-apply-odd', 'btn-apply-even', 'btn-apply-all'].forEach(id => $(id).disabled = !hasRect);
 }
+
+function updateCoverage() {
+  const n = Object.keys(state.pdf.pageRects).length;
+  $('coverage-status').textContent = `${n} / ${state.pdf.pageCount} pages have regions`;
+}
+
+function updatePageOverview() {
+  const container = $('page-overview');
+  container.innerHTML = '';
+  for (let i = 0; i < state.pdf.pageCount; i++) {
+    const r = state.pdf.pageRects[i];
+    const isCurrent = i === state.pdf.currentPage;
+    const div = document.createElement('div');
+    div.className = 'rect-item' + (isCurrent ? ' selected' : '');
+    div.style.cursor = 'pointer';
+    div.innerHTML = `
+      <span class="rect-label" style="color:${isCurrent?'#e94560':'#aaa'}">p.${i + 1}</span>
+      <span style="flex:1;overflow:hidden;text-overflow:ellipsis;color:${r ? '#eee' : '#555'}">
+        ${r ? `(${r.x0.toFixed(0)},${r.y0.toFixed(0)})–(${r.x1.toFixed(0)},${r.y1.toFixed(0)})` : 'skipped'}
+      </span>
+      ${r ? `<button data-clr="${i}" class="danger" style="padding:1px 5px;font-size:11px">✕</button>` : ''}`;
+    div.addEventListener('click', async e => {
+      if (e.target.dataset.clr !== undefined) {
+        delete state.pdf.pageRects[parseInt(e.target.dataset.clr)];
+        updateCoverage(); updatePageOverview();
+        if (parseInt(e.target.dataset.clr) === state.pdf.currentPage) {
+          drawPDFOverlay(); updatePageRectStatus();
+        }
+      } else {
+        state.pdf.currentPage = i;
+        await renderPDFPage();
+      }
+    });
+    container.appendChild(div);
+  }
+}
+
+// ── Canvas helpers ───────────────────────────────────────────────────────────
+
+function rectPdfToCanvas(r) {
+  const s = state.pdf.scale;
+  return { x: r.x0 * s, y: r.y0 * s, w: (r.x1 - r.x0) * s, h: (r.y1 - r.y0) * s };
+}
+function rectCanvasToPdf(r) {
+  const s = 1 / state.pdf.scale;
+  return { x0: r.x * s, y0: r.y * s, x1: (r.x + r.w) * s, y1: (r.y + r.h) * s };
+}
+
+function drawPDFOverlay() {
+  const ctx = pdfOverlay.getContext('2d');
+  ctx.clearRect(0, 0, pdfOverlay.width, pdfOverlay.height);
+  const r = state.pdf.pageRects[state.pdf.currentPage];
+  if (r) drawRect(ctx, rectPdfToCanvas(r), 'rgb(71,183,132)', true);
+  // in-progress
+  if (state.draw.dragState?.type === 'draw' && state.draw.currentCanvasRect) {
+    const d = state.draw.currentCanvasRect;
+    ctx.strokeStyle = '#4fc3f7'; ctx.lineWidth = 1.5;
+    ctx.setLineDash([5, 3]); ctx.strokeRect(d.x, d.y, d.w, d.h); ctx.setLineDash([]);
+  }
+}
+
+// ── Upload & render ──────────────────────────────────────────────────────────
 
 async function uploadPDF(file) {
   setStatus('Uploading PDF…');
@@ -705,19 +762,18 @@ async function uploadPDF(file) {
     state.pdf.backendId = data.pdf_id;
     state.pdf.pageCount = data.page_count;
     state.pdf.pageSizes = data.page_sizes;
+    state.pdf.pageRects = {};
     $('pdf-info').textContent = `${data.page_count} pages`;
 
-    // Also load with PDF.js for rendering
     const bytes = await file.arrayBuffer();
     state.pdf.pdfDoc = await pdfjsLib.getDocument({ data: bytes }).promise;
     state.pdf.currentPage = 0;
-    state.pdf.selectedRectIndex = -1;
     await renderPDFPage();
 
     $('btn-extract-page').disabled = false;
     $('btn-extract-all').disabled = false;
     $('btn-save-config').disabled = false;
-    setStatus('PDF loaded.');
+    setStatus('PDF loaded. Draw a region on each page you want to extract.');
   } catch (e) { setStatus('Error: ' + e.message); console.error(e); }
 }
 
@@ -728,200 +784,88 @@ async function renderPDFPage() {
   $('btn-prev-page').disabled = p === 0;
   $('btn-next-page').disabled = p === state.pdf.pageCount - 1;
 
-  const page = await state.pdf.pdfDoc.getPage(p + 1); // PDF.js is 1-based
+  const page = await state.pdf.pdfDoc.getPage(p + 1);
   const vp = page.getViewport({ scale: state.pdf.scale });
-
   state.pdf.pageWidth  = Math.round(vp.width);
   state.pdf.pageHeight = Math.round(vp.height);
-  state.pdf.pdfPointW  = vp.width  / state.pdf.scale;
-  state.pdf.pdfPointH  = vp.height / state.pdf.scale;
 
-  pdfCanvas.width  = state.pdf.pageWidth;
-  pdfCanvas.height = state.pdf.pageHeight;
-  pdfOverlay.width  = state.pdf.pageWidth;
-  pdfOverlay.height = state.pdf.pageHeight;
+  pdfCanvas.width  = state.pdf.pageWidth;  pdfCanvas.height = state.pdf.pageHeight;
+  pdfOverlay.width = state.pdf.pageWidth;  pdfOverlay.height = state.pdf.pageHeight;
 
-  const ctx = pdfCanvas.getContext('2d');
-  await page.render({ canvasContext: ctx, viewport: vp }).promise;
+  await page.render({ canvasContext: pdfCanvas.getContext('2d'), viewport: vp }).promise;
   drawPDFOverlay();
-  updateRectList();
+  updatePageRectStatus();
+  updateCoverage();
+  updatePageOverview();
 }
 
-// Convert canvas px ↔ PDF points
-function canvasToPdfPt(cx, cy) {
-  return { x: cx / state.pdf.scale, y: cy / state.pdf.scale };
-}
-function pdfPtToCanvas(px, py) {
-  return { x: px * state.pdf.scale, y: py * state.pdf.scale };
-}
-function rectPdfToCanvas(r) {
-  // r is {x0,y0,x1,y1} in PDF points
-  const tl = pdfPtToCanvas(r.x0, r.y0);
-  const br = pdfPtToCanvas(r.x1, r.y1);
-  return { x: tl.x, y: tl.y, w: br.x - tl.x, h: br.y - tl.y };
-}
-function rectCanvasToPdf(r) {
-  // r is {x,y,w,h} in canvas px
-  const p1 = canvasToPdfPt(r.x, r.y);
-  const p2 = canvasToPdfPt(r.x + r.w, r.y + r.h);
-  return { x0: p1.x, y0: p1.y, x1: p2.x, y1: p2.y };
-}
+// ── PDF canvas mouse events ───────────────────────────────────────────────────
 
-function drawPDFOverlay() {
-  const ctx = pdfOverlay.getContext('2d');
-  ctx.clearRect(0, 0, pdfOverlay.width, pdfOverlay.height);
-
-  const excl = getActiveTemplate().exclude;
-  excl.forEach((r, i) => {
-    const cr = rectPdfToCanvas(r);
-    const sel = i === state.pdf.selectedRectIndex;
-    drawRect(ctx, cr, 'rgb(233,69,96)', sel);
-  });
-
-  // Draw in-progress rect
-  if (state.draw.dragState && state.draw.dragState.type === 'draw' && state.draw.mode === 'pdf') {
-    const r = state.draw.currentCanvasRect;
-    if (r) {
-      ctx.strokeStyle = '#4fc3f7';
-      ctx.lineWidth = 1.5;
-      ctx.setLineDash([5, 3]);
-      ctx.strokeRect(r.x, r.y, r.w, r.h);
-      ctx.setLineDash([]);
-    }
-  }
-}
-
-function updateRectList() {
-  const excl = getActiveTemplate().exclude;
-  const container = $('rect-list');
-  if (excl.length === 0) {
-    container.innerHTML = '<div style="color:#aaa;font-size:12px">No rectangles. Drag to add.</div>';
-    return;
-  }
-  container.innerHTML = '';
-  excl.forEach((r, i) => {
-    const div = document.createElement('div');
-    div.className = 'rect-item' + (i === state.pdf.selectedRectIndex ? ' selected' : '');
-    div.innerHTML = `
-      <span class="rect-label">#${i + 1}</span>
-      <span style="flex:1;overflow:hidden;text-overflow:ellipsis">
-        (${r.x0.toFixed(0)},${r.y0.toFixed(0)})–(${r.x1.toFixed(0)},${r.y1.toFixed(0)})
-      </span>
-      <button data-idx="${i}" class="del-rect danger">✕</button>`;
-    div.addEventListener('click', e => {
-      if (e.target.classList.contains('del-rect')) {
-        const idx = parseInt(e.target.dataset.idx);
-        excl.splice(idx, 1);
-        if (state.pdf.selectedRectIndex >= excl.length) state.pdf.selectedRectIndex = excl.length - 1;
-        drawPDFOverlay(); updateRectList(); updateDeleteBtn();
-      } else {
-        state.pdf.selectedRectIndex = i;
-        drawPDFOverlay(); updateRectList(); updateDeleteBtn();
-      }
-    });
-    container.appendChild(div);
-  });
-}
-
-function updateDeleteBtn() {
-  $('btn-delete-rect').disabled = state.pdf.selectedRectIndex < 0;
-}
-
-// PDF canvas mouse events
 function pdfEvent(type, e) {
   const bb = pdfOverlay.getBoundingClientRect();
   const cx = e.clientX - bb.left;
   const cy = e.clientY - bb.top;
-  const excl = getActiveTemplate().exclude;
 
   if (type === 'down') {
-    // Check handles/body of selected rect first
-    if (state.pdf.selectedRectIndex >= 0) {
-      const selR = excl[state.pdf.selectedRectIndex];
-      if (selR) {
-        const cr = rectPdfToCanvas(selR);
-        const h = hitHandle(cr, cx, cy);
-        if (h) {
-          state.draw.dragState = { type: 'handle', handle: h, rectIndex: state.pdf.selectedRectIndex, origRect: { ...selR } };
-          state.draw.startX = cx; state.draw.startY = cy;
-          state.draw.mode = 'pdf';
-          return;
-        }
-        if (hitBody(cr, cx, cy)) {
-          state.draw.dragState = { type: 'move', rectIndex: state.pdf.selectedRectIndex, origRect: { ...selR } };
-          state.draw.startX = cx; state.draw.startY = cy;
-          state.draw.mode = 'pdf';
-          return;
-        }
-      }
-    }
-    // Check if clicking on any other rect
-    for (let i = excl.length - 1; i >= 0; i--) {
-      const cr = rectPdfToCanvas(excl[i]);
-      if (hitBody(cr, cx, cy)) {
-        state.pdf.selectedRectIndex = i;
-        state.draw.dragState = { type: 'move', rectIndex: i, origRect: { ...excl[i] } };
+    const r = state.pdf.pageRects[state.pdf.currentPage];
+    if (r) {
+      const cr = rectPdfToCanvas(r);
+      const h = hitHandle(cr, cx, cy);
+      if (h) {
+        state.draw.dragState = { type: 'handle', handle: h, origRect: { ...r } };
         state.draw.startX = cx; state.draw.startY = cy;
-        state.draw.mode = 'pdf';
-        drawPDFOverlay(); updateRectList(); updateDeleteBtn();
+        return;
+      }
+      if (hitBody(cr, cx, cy)) {
+        state.draw.dragState = { type: 'move', origRect: { ...r } };
+        state.draw.startX = cx; state.draw.startY = cy;
         return;
       }
     }
-    // Start drawing new rect
-    state.pdf.selectedRectIndex = -1;
     state.draw.dragState = { type: 'draw' };
     state.draw.currentCanvasRect = null;
     state.draw.startX = cx; state.draw.startY = cy;
-    state.draw.mode = 'pdf';
-    drawPDFOverlay(); updateRectList(); updateDeleteBtn();
   }
 
   if (type === 'move' && state.draw.dragState) {
     const ds = state.draw.dragState;
-    const dx = cx - state.draw.startX;
-    const dy = cy - state.draw.startY;
+    const dx = cx - state.draw.startX, dy = cy - state.draw.startY;
+    const s = 1 / state.pdf.scale;
 
     if (ds.type === 'draw') {
       state.draw.currentCanvasRect = normalizeRect(state.draw.startX, state.draw.startY, cx, cy);
-      drawPDFOverlay();
     } else if (ds.type === 'move') {
-      const s = 1 / state.pdf.scale;
-      excl[ds.rectIndex] = {
+      state.pdf.pageRects[state.pdf.currentPage] = {
         x0: ds.origRect.x0 + dx * s, y0: ds.origRect.y0 + dy * s,
         x1: ds.origRect.x1 + dx * s, y1: ds.origRect.y1 + dy * s,
       };
-      drawPDFOverlay(); updateRectList();
+      updatePageRectStatus(); updatePageOverview();
     } else if (ds.type === 'handle') {
-      const s = 1 / state.pdf.scale;
       let { x0, y0, x1, y1 } = ds.origRect;
-      const ddx = dx * s, ddy = dy * s;
-      if (ds.handle.includes('l')) x0 += ddx;
-      if (ds.handle.includes('r')) x1 += ddx;
-      if (ds.handle.includes('t')) y0 += ddy;
-      if (ds.handle.includes('b')) y1 += ddy;
-      // Keep x0<x1, y0<y1
-      excl[ds.rectIndex] = {
+      if (ds.handle.includes('l')) x0 += dx * s;
+      if (ds.handle.includes('r')) x1 += dx * s;
+      if (ds.handle.includes('t')) y0 += dy * s;
+      if (ds.handle.includes('b')) y1 += dy * s;
+      state.pdf.pageRects[state.pdf.currentPage] = {
         x0: Math.min(x0, x1), y0: Math.min(y0, y1),
         x1: Math.max(x0, x1), y1: Math.max(y0, y1),
       };
-      drawPDFOverlay(); updateRectList();
+      updatePageRectStatus(); updatePageOverview();
     }
+    drawPDFOverlay();
   }
 
   if (type === 'up' && state.draw.dragState) {
-    const ds = state.draw.dragState;
-    if (ds.type === 'draw') {
-      const r = normalizeRect(state.draw.startX, state.draw.startY, cx, cy);
-      if (r.w > 4 && r.h > 4) {
-        const pdfR = rectCanvasToPdf(r);
-        excl.push(pdfR);
-        state.pdf.selectedRectIndex = excl.length - 1;
+    if (state.draw.dragState.type === 'draw') {
+      const drawn = normalizeRect(state.draw.startX, state.draw.startY, cx, cy);
+      if (drawn.w > 4 && drawn.h > 4) {
+        state.pdf.pageRects[state.pdf.currentPage] = rectCanvasToPdf(drawn);
+        updatePageRectStatus(); updateCoverage(); updatePageOverview();
       }
       state.draw.currentCanvasRect = null;
-      drawPDFOverlay(); updateRectList(); updateDeleteBtn();
     }
+    drawPDFOverlay();
     state.draw.dragState = null;
-    state.draw.mode = null;
   }
 }
 
@@ -930,25 +874,18 @@ pdfOverlay.addEventListener('mousemove', e => { if (state.draw.active) pdfEvent(
 pdfOverlay.addEventListener('mouseup',   e => { pdfEvent('up', e); state.draw.active = false; });
 pdfOverlay.addEventListener('mouseleave',e => { if (state.draw.active) { pdfEvent('up', e); state.draw.active = false; } });
 
-function buildTemplatesPayload() {
-  const t = state.pdf.templates;
-  return {
-    odd:   { exclude: t.odd.exclude },
-    even:  { exclude: t.even.exclude },
-    first: state.pdf.enableFirst ? { exclude: t.first.exclude } : null,
-    last:  state.pdf.enableLast  ? { exclude: t.last.exclude  } : null,
-  };
-}
+// ── Extract & export ─────────────────────────────────────────────────────────
 
 async function extractPage() {
   if (!state.pdf.backendId) return;
-  setStatus('Extracting page…');
-  const tmpl = getActiveTemplate();
+  const r = state.pdf.pageRects[state.pdf.currentPage];
+  if (!r) { setStatus('No region set for this page — draw one first.'); return; }
+  setStatus('Extracting…');
   try {
     const data = await apiPost('/api/pdf/extract_page', {
       pdf_id: state.pdf.backendId,
       page_index: state.pdf.currentPage,
-      exclude_rects: tmpl.exclude,
+      include_rect: r,
     });
     $('pdf-text-output').value = data.text;
     $('btn-save-text').disabled = false;
@@ -958,28 +895,23 @@ async function extractPage() {
 
 async function extractAll() {
   if (!state.pdf.backendId) return;
+  const pageRects = Object.entries(state.pdf.pageRects)
+    .map(([idx, rect]) => ({ page_index: parseInt(idx), rect }));
+  if (pageRects.length === 0) { setStatus('No regions set — draw regions on pages first.'); return; }
   setStatus('Extracting all pages…');
   try {
     const data = await apiPost('/api/pdf/extract_all', {
       pdf_id: state.pdf.backendId,
-      templates: buildTemplatesPayload(),
+      page_rects: pageRects,
     });
     $('pdf-text-output').value = data.combined;
     $('btn-save-text').disabled = false;
-    setStatus(`Extracted ${data.pages.length} pages.`);
+    setStatus(`Extracted ${data.pages.length} of ${state.pdf.pageCount} pages.`);
   } catch (e) { setStatus('Error: ' + e.message); }
 }
 
 function saveConfig() {
-  const cfg = {
-    units: 'pdf_points',
-    templates: {
-      odd:   { exclude: state.pdf.templates.odd.exclude },
-      even:  { exclude: state.pdf.templates.even.exclude },
-      first: state.pdf.enableFirst ? { exclude: state.pdf.templates.first.exclude } : null,
-      last:  state.pdf.enableLast  ? { exclude: state.pdf.templates.last.exclude  } : null,
-    },
-  };
+  const cfg = { units: 'pdf_points', page_rects: state.pdf.pageRects };
   saveBlob(JSON.stringify(cfg, null, 2), 'region-config.json', 'application/json');
 }
 
@@ -987,14 +919,13 @@ async function loadConfig(file) {
   if (!file) return;
   try {
     const cfg = JSON.parse(await file.text());
-    if (cfg.templates) {
-      const t = cfg.templates;
-      if (t.odd)  state.pdf.templates.odd.exclude  = t.odd.exclude  || [];
-      if (t.even) state.pdf.templates.even.exclude = t.even.exclude || [];
-      if (t.first) { state.pdf.templates.first.exclude = t.first.exclude || []; state.pdf.enableFirst = true; $('chk-first').checked = true; }
-      if (t.last)  { state.pdf.templates.last.exclude  = t.last.exclude  || []; state.pdf.enableLast  = true; $('chk-last').checked  = true; }
+    if (cfg.page_rects) {
+      // keys are strings when JSON-parsed; normalise to integers
+      state.pdf.pageRects = {};
+      for (const [k, v] of Object.entries(cfg.page_rects))
+        state.pdf.pageRects[parseInt(k)] = v;
     }
-    drawPDFOverlay(); updateRectList();
+    drawPDFOverlay(); updatePageRectStatus(); updateCoverage(); updatePageOverview();
     setStatus('Config loaded.');
   } catch (e) { setStatus('Error loading config: ' + e.message); }
 }

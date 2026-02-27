@@ -20,7 +20,10 @@ UPLOAD_DIR = "uploads"
 os.makedirs(UPLOAD_DIR, exist_ok=True)
 
 _HERE = os.path.dirname(os.path.abspath(__file__))
+# In Docker the Dockerfile copies frontend/ alongside main.py; locally it's ../frontend/
 FRONTEND_INDEX = os.path.join(_HERE, "frontend", "index.html")
+if not os.path.exists(FRONTEND_INDEX):
+    FRONTEND_INDEX = os.path.join(_HERE, "..", "frontend", "index.html")
 
 app = FastAPI(title="Image Region OCR / PDF Extractor")
 
@@ -70,25 +73,17 @@ class PDFRect(BaseModel):
 class ExtractPageRequest(BaseModel):
     pdf_id: str
     page_index: int
-    include_rects: list[PDFRect] = []
-    exclude_rects: list[PDFRect] = []
-
-
-class PDFTemplate(BaseModel):
-    exclude: list[PDFRect] = []
     include_rect: Optional[PDFRect] = None
 
 
-class Templates(BaseModel):
-    odd: PDFTemplate = PDFTemplate()
-    even: PDFTemplate = PDFTemplate()
-    first: Optional[PDFTemplate] = None
-    last: Optional[PDFTemplate] = None
+class PageRectEntry(BaseModel):
+    page_index: int
+    rect: PDFRect
 
 
 class ExtractAllRequest(BaseModel):
     pdf_id: str
-    templates: Templates
+    page_rects: list[PageRectEntry]  # only listed pages are extracted; others skipped
 
 
 class PdftotextRegionRequest(BaseModel):
@@ -114,52 +109,23 @@ def _crop(img: Image.Image, rect: Rect) -> Image.Image:
     return img.crop((x, y, x + w, y + h))
 
 
-def _pdf_template_for_page(
-    templates: Templates, page_index: int, total_pages: int
-) -> PDFTemplate:
-    if page_index == 0 and templates.first is not None:
-        return templates.first
-    if page_index == total_pages - 1 and templates.last is not None:
-        return templates.last
-    # page_index is 0-based; (page_index+1) gives 1-based page number
-    if (page_index + 1) % 2 == 1:
-        return templates.odd
-    return templates.even
-
-
 def _fitz_rect(r: PDFRect) -> fitz.Rect:
     return fitz.Rect(r.x0, r.y0, r.x1, r.y1)
 
 
 def _extract_page_text(
     page: fitz.Page,
-    include_rects: list[PDFRect],
-    exclude_rects: list[PDFRect],
+    include_rect: Optional[PDFRect] = None,
 ) -> str:
-    """Extract text from a PyMuPDF page respecting include/exclude rects."""
+    """Extract text from a PyMuPDF page, clipped to include_rect if provided."""
     words = page.get_text("words")  # (x0, y0, x1, y1, word, block, line, word_idx)
     result_words: list[str] = []
+    ir = _fitz_rect(include_rect) if include_rect else None
     for w in words:
         wx0, wy0, wx1, wy1, word = w[0], w[1], w[2], w[3], w[4]
-        word_rect = fitz.Rect(wx0, wy0, wx1, wy1)
-
-        # Filter by include rects (if any)
-        if include_rects:
-            inside_include = any(
-                word_rect.intersects(_fitz_rect(ir)) for ir in include_rects
-            )
-            if not inside_include:
-                continue
-
-        # Filter out words in excluded rects
-        excluded = any(
-            word_rect.intersects(_fitz_rect(er)) for er in exclude_rects
-        )
-        if excluded:
+        if ir is not None and not fitz.Rect(wx0, wy0, wx1, wy1).intersects(ir):
             continue
-
         result_words.append(word)
-
     return " ".join(result_words)
 
 
@@ -318,38 +284,34 @@ async def pdf_page_render(pdf_id: str, page: int = 0, scale: float = 1.5):
 
 @app.post("/api/pdf/extract_page")
 async def pdf_extract_page(req: ExtractPageRequest):
-    """Extract text from one page with include/exclude rectangles."""
+    """Extract text from one page, clipped to include_rect if given."""
     if req.pdf_id not in pdf_store:
         raise HTTPException(404, "pdf_id not found")
     doc = fitz.open(pdf_store[req.pdf_id]["path"])
     if req.page_index < 0 or req.page_index >= len(doc):
         raise HTTPException(400, "page_index out of range")
     page = doc[req.page_index]
-    text = _extract_page_text(page, req.include_rects, req.exclude_rects)
+    text = _extract_page_text(page, req.include_rect)
     doc.close()
     return {"page_index": req.page_index, "text": text}
 
 
 @app.post("/api/pdf/extract_all")
 async def pdf_extract_all(req: ExtractAllRequest):
-    """Extract text from all pages using odd/even/first/last templates."""
+    """Extract text from pages that have a rect; skip the rest."""
     if req.pdf_id not in pdf_store:
         raise HTTPException(404, "pdf_id not found")
     doc = fitz.open(pdf_store[req.pdf_id]["path"])
-    total = len(doc)
-    pages_text: list[str] = []
-    for i in range(total):
-        tmpl = _pdf_template_for_page(req.templates, i, total)
-        page = doc[i]
-        text = _extract_page_text(
-            page,
-            [tmpl.include_rect] if tmpl.include_rect else [],
-            tmpl.exclude,
-        )
-        pages_text.append(text)
+    rect_map: dict[int, PDFRect] = {e.page_index: e.rect for e in req.page_rects}
+    extracted: list[dict] = []
+    for i, page in enumerate(doc):
+        if i not in rect_map:
+            continue
+        text = _extract_page_text(page, rect_map[i])
+        extracted.append({"page_index": i, "text": text})
     doc.close()
-    combined = "\n\f\n".join(pages_text)
-    return {"pages": pages_text, "combined": combined}
+    combined = "\n\f\n".join(e["text"] for e in extracted)
+    return {"pages": extracted, "combined": combined}
 
 
 @app.post("/api/pdf/pdftotext_region")

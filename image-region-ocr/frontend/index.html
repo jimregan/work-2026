@@ -876,38 +876,56 @@ pdfOverlay.addEventListener('mouseleave',e => { if (state.draw.active) { pdfEven
 
 // ── Extract & export ─────────────────────────────────────────────────────────
 
+function setPdfOutput(text) {
+  // Setting value="" makes the textarea show its placeholder, which is
+  // indistinguishable from "nothing ran". Use a sentinel instead.
+  $('pdf-text-output').value = text || '';
+  $('pdf-text-output').placeholder = text
+    ? 'Extracted text appears here…'
+    : '(no text found — PDF may be image-based, or the selected region contains no text layer)';
+}
+
 async function extractPage() {
-  if (!state.pdf.backendId) return;
+  if (!state.pdf.backendId) { setStatus('PDF not uploaded — re-select the file.'); return; }
   const r = state.pdf.pageRects[state.pdf.currentPage];
   if (!r) { setStatus('No region set for this page — draw one first.'); return; }
   setStatus('Extracting…');
   try {
+    console.log('extract_page →', { pdf_id: state.pdf.backendId, page_index: state.pdf.currentPage, include_rect: r });
     const data = await apiPost('/api/pdf/extract_page', {
       pdf_id: state.pdf.backendId,
       page_index: state.pdf.currentPage,
       include_rect: r,
     });
-    $('pdf-text-output').value = data.text;
-    $('btn-save-text').disabled = false;
-    setStatus(`Page ${state.pdf.currentPage + 1} extracted.`);
-  } catch (e) { setStatus('Error: ' + e.message); }
+    console.log('extract_page ←', data);
+    setPdfOutput(data.text);
+    $('btn-save-text').disabled = !data.text;
+    setStatus(data.text
+      ? `Page ${state.pdf.currentPage + 1} extracted (${data.text.split(/\s+/).length} words).`
+      : `Page ${state.pdf.currentPage + 1}: no text found in region.`);
+  } catch (e) { setStatus('Error: ' + e.message); console.error(e); }
 }
 
 async function extractAll() {
-  if (!state.pdf.backendId) return;
+  if (!state.pdf.backendId) { setStatus('PDF not uploaded — re-select the file.'); return; }
   const pageRects = Object.entries(state.pdf.pageRects)
     .map(([idx, rect]) => ({ page_index: parseInt(idx), rect }));
   if (pageRects.length === 0) { setStatus('No regions set — draw regions on pages first.'); return; }
   setStatus('Extracting all pages…');
   try {
+    console.log('extract_all →', { pdf_id: state.pdf.backendId, page_rects: pageRects });
     const data = await apiPost('/api/pdf/extract_all', {
       pdf_id: state.pdf.backendId,
       page_rects: pageRects,
     });
-    $('pdf-text-output').value = data.combined;
-    $('btn-save-text').disabled = false;
-    setStatus(`Extracted ${data.pages.length} of ${state.pdf.pageCount} pages.`);
-  } catch (e) { setStatus('Error: ' + e.message); }
+    console.log('extract_all ←', data);
+    setPdfOutput(data.combined);
+    $('btn-save-text').disabled = !data.combined;
+    const words = data.combined ? data.combined.split(/\s+/).length : 0;
+    setStatus(words
+      ? `Extracted ${data.pages.length} of ${state.pdf.pageCount} pages (${words} words).`
+      : `Extracted ${data.pages.length} pages but found no text — PDF may be image-based.`);
+  } catch (e) { setStatus('Error: ' + e.message); console.error(e); }
 }
 
 function saveConfig() {

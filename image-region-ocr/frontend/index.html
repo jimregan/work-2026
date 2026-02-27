@@ -1,0 +1,1018 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Region OCR / PDF Extractor</title>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: system-ui, sans-serif; font-size: 14px; background: #1a1a2e; color: #e0e0e0; height: 100vh; display: flex; flex-direction: column; overflow: hidden; }
+
+header { background: #16213e; padding: 10px 16px; display: flex; align-items: center; gap: 16px; border-bottom: 1px solid #0f3460; flex-shrink: 0; }
+header h1 { font-size: 16px; font-weight: 600; color: #e94560; }
+
+.mode-tabs { display: flex; gap: 4px; }
+.mode-tab { padding: 5px 14px; border: 1px solid #0f3460; background: transparent; color: #aaa; border-radius: 4px; cursor: pointer; font-size: 13px; }
+.mode-tab.active { background: #0f3460; color: #fff; }
+
+#app { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
+
+.mode-panel { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
+
+.toolbar { padding: 8px 12px; background: #16213e; border-bottom: 1px solid #0f3460; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; flex-shrink: 0; }
+.toolbar input[type="text"] { flex: 1; min-width: 200px; padding: 4px 8px; background: #0f3460; border: 1px solid #334; color: #eee; border-radius: 4px; }
+.toolbar input[type="file"] { color: #aaa; font-size: 13px; }
+.toolbar label { display: flex; align-items: center; gap: 6px; }
+
+button { padding: 4px 10px; background: #0f3460; border: 1px solid #1a5276; color: #eee; border-radius: 4px; cursor: pointer; font-size: 13px; }
+button:hover { background: #1a5276; }
+button:disabled { opacity: 0.4; cursor: default; }
+button.active { background: #e94560; border-color: #e94560; color: #fff; }
+button.danger { background: #6e1a1a; border-color: #c0392b; }
+button.danger:hover { background: #922b21; }
+
+.workspace { flex: 1; display: grid; grid-template-columns: 1fr 340px; overflow: hidden; }
+
+.canvas-area { position: relative; overflow: auto; background: #111; display: flex; align-items: flex-start; justify-content: flex-start; padding: 12px; }
+.canvas-wrapper { position: relative; display: inline-block; line-height: 0; }
+.canvas-wrapper canvas { display: block; }
+.overlay-canvas { position: absolute; top: 0; left: 0; cursor: crosshair; }
+
+.sidebar { background: #16213e; border-left: 1px solid #0f3460; display: flex; flex-direction: column; overflow: hidden; }
+
+.tab-bar { display: flex; border-bottom: 1px solid #0f3460; flex-shrink: 0; }
+.tab-btn { flex: 1; padding: 8px; background: transparent; border: none; color: #aaa; cursor: pointer; font-size: 13px; border-bottom: 2px solid transparent; }
+.tab-btn.active { color: #fff; border-bottom-color: #e94560; }
+
+.tab-content { flex: 1; overflow-y: auto; padding: 12px; }
+.tab-content.hidden { display: none; }
+
+.info-block { background: #0f3460; border-radius: 6px; padding: 10px; margin-bottom: 10px; font-family: monospace; font-size: 12px; line-height: 1.7; }
+.info-block .label { color: #aaa; font-size: 11px; text-transform: uppercase; margin-bottom: 4px; }
+
+.ocr-text { background: #0a0a1a; border: 1px solid #334; border-radius: 4px; padding: 10px; font-family: monospace; font-size: 13px; white-space: pre-wrap; min-height: 80px; }
+.word-table { width: 100%; border-collapse: collapse; font-size: 12px; margin-top: 8px; }
+.word-table th, .word-table td { padding: 3px 6px; border: 1px solid #334; text-align: left; }
+.word-table th { background: #0f3460; color: #aaa; font-weight: normal; }
+.conf-bar { height: 8px; border-radius: 4px; background: #334; display: inline-block; width: 50px; vertical-align: middle; margin-right: 4px; }
+.conf-fill { height: 100%; border-radius: 4px; background: #27ae60; }
+
+.spinner { display: inline-block; width: 14px; height: 14px; border: 2px solid #334; border-top-color: #e94560; border-radius: 50%; animation: spin 0.7s linear infinite; vertical-align: middle; }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* PDF sidebar */
+.pdf-sidebar { display: flex; flex-direction: column; overflow: hidden; }
+.pdf-controls { padding: 10px 12px; border-bottom: 1px solid #0f3460; flex-shrink: 0; }
+.page-nav { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
+.page-nav span { flex: 1; text-align: center; color: #aaa; font-size: 13px; }
+.tmpl-row { display: flex; gap: 4px; flex-wrap: wrap; margin-bottom: 8px; }
+.tmpl-row label { color: #aaa; font-size: 12px; display: flex; align-items: center; gap: 4px; margin-right: 8px; }
+
+.rect-list { flex: 1; overflow-y: auto; padding: 10px 12px; }
+.rect-item { display: flex; align-items: center; gap: 6px; padding: 5px 8px; background: #0f3460; border-radius: 4px; margin-bottom: 4px; font-size: 12px; font-family: monospace; }
+.rect-item .rect-label { color: #aaa; font-size: 11px; min-width: 40px; }
+.rect-item button { padding: 2px 6px; font-size: 11px; }
+.rect-item.selected { outline: 1px solid #e94560; }
+
+.pdf-actions { padding: 10px 12px; border-top: 1px solid #0f3460; display: flex; flex-direction: column; gap: 6px; flex-shrink: 0; }
+.pdf-actions .btn-row { display: flex; gap: 6px; }
+
+#pdf-text-output { width: 100%; height: 160px; background: #0a0a1a; border: 1px solid #334; color: #eee; border-radius: 4px; padding: 8px; font-family: monospace; font-size: 12px; resize: vertical; }
+
+.status-bar { padding: 4px 12px; background: #0f3460; font-size: 11px; color: #aaa; flex-shrink: 0; }
+
+.copy-block { display: flex; align-items: center; gap: 6px; background: #0a0a1a; border: 1px solid #334; border-radius: 4px; padding: 5px 8px; font-family: monospace; font-size: 12px; margin-bottom: 6px; }
+.copy-block code { flex: 1; word-break: break-all; color: #7ec8e3; }
+.copy-block .copy-label { font-size: 10px; color: #666; text-transform: uppercase; min-width: 60px; }
+.copy-block button { padding: 2px 7px; font-size: 11px; flex-shrink: 0; }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Region OCR / PDF Extractor</h1>
+  <div class="mode-tabs">
+    <button class="mode-tab active" id="tab-image">Image</button>
+    <button class="mode-tab" id="tab-pdf">PDF</button>
+  </div>
+</header>
+
+<!-- ═══════════════════ IMAGE MODE ═══════════════════ -->
+<div id="panel-image" class="mode-panel">
+  <div class="toolbar">
+    <label>File: <input type="file" id="img-file" accept="image/*,image/webp"></label>
+    <span style="color:#aaa">or URL:</span>
+    <input type="text" id="img-url" placeholder="https://example.com/image.jpg">
+    <button id="btn-load-url">Load URL</button>
+    <button id="btn-clear-rect" disabled>Clear Selection</button>
+    <label>Lang: <input type="text" id="ocr-lang" placeholder="gle" value="" style="width:55px;flex:none" title="Tesseract language code, e.g. gle, deu, fra, hin"></label>
+    <button id="btn-run-ocr" disabled>Run OCR</button>
+  </div>
+
+  <div class="workspace">
+    <div class="canvas-area" id="img-canvas-area">
+      <div class="canvas-wrapper" id="img-wrapper">
+        <canvas id="img-canvas"></canvas>
+        <canvas id="img-overlay" class="overlay-canvas"></canvas>
+      </div>
+    </div>
+
+    <div class="sidebar">
+      <div class="tab-bar">
+        <button class="tab-btn active" data-for="img-tab-coords">Coords</button>
+        <button class="tab-btn" data-for="img-tab-ocr">OCR Result</button>
+        <button class="tab-btn" data-for="img-tab-words">Words</button>
+      </div>
+      <div id="img-tab-coords" class="tab-content">
+        <div id="coords-display" style="color:#aaa;font-size:13px">Draw a rectangle on the image.</div>
+      </div>
+      <div id="img-tab-ocr" class="tab-content hidden">
+        <div id="ocr-status" style="color:#aaa;font-size:13px;margin-bottom:8px">No result yet.</div>
+        <div id="ocr-text" class="ocr-text" style="display:none"></div>
+      </div>
+      <div id="img-tab-words" class="tab-content hidden">
+        <div id="words-display" style="color:#aaa;font-size:13px">No result yet.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════ PDF MODE ═══════════════════ -->
+<div id="panel-pdf" class="mode-panel" style="display:none">
+  <div class="toolbar">
+    <label>PDF: <input type="file" id="pdf-file" accept=".pdf,application/pdf"></label>
+    <span id="pdf-info" style="color:#aaa"></span>
+    <label style="margin-left:auto">Scale:
+      <input type="range" id="pdf-scale" min="0.5" max="3" step="0.25" value="1.5" style="width:80px">
+      <span id="pdf-scale-label">1.5×</span>
+    </label>
+  </div>
+
+  <div class="workspace" style="grid-template-columns: 1fr 360px;">
+    <div class="canvas-area" id="pdf-canvas-area">
+      <div class="canvas-wrapper" id="pdf-wrapper">
+        <canvas id="pdf-canvas"></canvas>
+        <canvas id="pdf-overlay" class="overlay-canvas"></canvas>
+      </div>
+    </div>
+
+    <div class="sidebar pdf-sidebar">
+      <div class="pdf-controls">
+        <div class="page-nav">
+          <button id="btn-prev-page">&#8592;</button>
+          <span id="page-indicator">—</span>
+          <button id="btn-next-page">&#8594;</button>
+        </div>
+        <div class="tmpl-row">
+          <span style="color:#aaa;font-size:12px;margin-right:4px">Template:</span>
+          <button class="active" data-tmpl="odd">Odd</button>
+          <button data-tmpl="even">Even</button>
+          <button data-tmpl="first">First</button>
+          <button data-tmpl="last">Last</button>
+        </div>
+        <div class="tmpl-row">
+          <label><input type="checkbox" id="chk-first"> Enable First override</label>
+          <label><input type="checkbox" id="chk-last"> Enable Last override</label>
+        </div>
+        <div style="font-size:12px;color:#aaa;margin-top:4px">
+          Drag to add exclusion rect. Click rect to select (Del to remove).
+        </div>
+      </div>
+
+      <div class="rect-list" id="rect-list">
+        <div style="color:#aaa;font-size:12px">No rectangles yet.</div>
+      </div>
+
+      <div class="pdf-actions">
+        <div class="btn-row">
+          <button id="btn-clear-rects" class="danger" style="flex:1">Clear Template Rects</button>
+          <button id="btn-delete-rect" class="danger" disabled>Delete Selected</button>
+        </div>
+        <div class="btn-row">
+          <button id="btn-extract-page" disabled style="flex:1">Extract This Page</button>
+          <button id="btn-extract-all" disabled style="flex:1">Export All Pages</button>
+        </div>
+        <div class="btn-row">
+          <button id="btn-save-config" disabled style="flex:1">Save Config JSON</button>
+          <button id="btn-load-config" style="flex:1">Load Config JSON</button>
+          <input type="file" id="config-file" accept=".json" style="display:none">
+        </div>
+        <textarea id="pdf-text-output" placeholder="Extracted text appears here…" readonly></textarea>
+        <div class="btn-row">
+          <button id="btn-save-text" disabled style="flex:1">Save as .txt</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="status-bar" id="status">Ready.</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script>
+'use strict';
+
+// ─── Config ───────────────────────────────────────────────────────────────────
+// When served from the FastAPI backend (Docker / uvicorn) use relative URLs.
+// When opened as a local file, fall back to localhost:8000.
+const API = location.protocol === 'file:' ? 'http://localhost:8000' : '';
+pdfjsLib.GlobalWorkerOptions.workerSrc =
+  'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+
+// ─── State ────────────────────────────────────────────────────────────────────
+const state = {
+  // Image mode
+  img: {
+    id: null, width: 0, height: 0, scale: 1,
+    rect: null,          // {x,y,w,h} in image pixels
+    ocrResult: null,
+  },
+  // PDF mode
+  pdf: {
+    backendId: null, pageCount: 0, pageSizes: [],
+    pdfDoc: null,        // PDF.js document
+    currentPage: 0,      // 0-based
+    scale: 1.5,
+    pageWidth: 0, pageHeight: 0,  // rendered canvas size (px)
+    pdfPointW: 0, pdfPointH: 0,  // PDF page size in points
+    activeTemplate: 'odd',
+    enableFirst: false, enableLast: false,
+    templates: {
+      odd:  { exclude: [] },
+      even: { exclude: [] },
+      first: { exclude: [] },
+      last:  { exclude: [] },
+    },
+    selectedRectIndex: -1,
+  },
+  // Shared drawing
+  draw: {
+    active: false, mode: null,  // 'image'|'pdf'
+    startX: 0, startY: 0,
+    dragState: null,   // {type:'draw'|'move'|'handle', handle?:string, rectIndex?:number, ox:number, oy:number, origRect?:{}}
+  },
+};
+
+// ─── DOM refs ─────────────────────────────────────────────────────────────────
+const $ = id => document.getElementById(id);
+const imgCanvas  = $('img-canvas');
+const imgOverlay = $('img-overlay');
+const pdfCanvas  = $('pdf-canvas');
+const pdfOverlay = $('pdf-overlay');
+const statusBar  = $('status');
+
+// ─── Utility ──────────────────────────────────────────────────────────────────
+function setStatus(msg) { statusBar.textContent = msg; }
+
+function normalizeRect(x1, y1, x2, y2) {
+  return { x: Math.min(x1, x2), y: Math.min(y1, y2),
+           w: Math.abs(x2 - x1), h: Math.abs(y2 - y1) };
+}
+
+function rectToXY(r) { return { x0: r.x, y0: r.y, x1: r.x + r.w, y1: r.y + r.h }; }
+
+function clampRect(r, maxW, maxH) {
+  const x = Math.max(0, Math.min(r.x, maxW - 1));
+  const y = Math.max(0, Math.min(r.y, maxH - 1));
+  const w = Math.max(1, Math.min(r.w, maxW - x));
+  const h = Math.max(1, Math.min(r.h, maxH - y));
+  return { x, y, w, h };
+}
+
+async function apiPost(path, data) {
+  const res = await fetch(API + path, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(data),
+  });
+  if (!res.ok) {
+    const err = await res.json().catch(() => ({ detail: res.statusText }));
+    throw new Error(err.detail || res.statusText);
+  }
+  return res.json();
+}
+
+function saveBlob(content, filename, type = 'text/plain') {
+  const blob = new Blob([content], { type });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = filename;
+  a.click();
+  URL.revokeObjectURL(a.href);
+}
+
+// ─── Mode switching ───────────────────────────────────────────────────────────
+$('tab-image').addEventListener('click', () => switchMode('image'));
+$('tab-pdf').addEventListener('click', () => switchMode('pdf'));
+
+function switchMode(mode) {
+  $('panel-image').style.display = mode === 'image' ? '' : 'none';
+  $('panel-pdf').style.display   = mode === 'pdf'   ? '' : 'none';
+  $('tab-image').classList.toggle('active', mode === 'image');
+  $('tab-pdf').classList.toggle('active',   mode === 'pdf');
+}
+
+// ─── Tab switching (sidebar) ──────────────────────────────────────────────────
+document.querySelectorAll('.tab-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const forId = btn.dataset.for;
+    const bar = btn.closest('.tab-bar');
+    bar.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    // Hide all sibling tab-contents then show target
+    bar.parentElement.querySelectorAll('.tab-content').forEach(tc => tc.classList.add('hidden'));
+    $(forId).classList.remove('hidden');
+  });
+});
+
+// ─── Canvas handle drawing ────────────────────────────────────────────────────
+const HANDLE = 7;
+
+function getHandles(r) {
+  return [
+    { id: 'tl', x: r.x,          y: r.y },
+    { id: 'tr', x: r.x + r.w,    y: r.y },
+    { id: 'bl', x: r.x,          y: r.y + r.h },
+    { id: 'br', x: r.x + r.w,    y: r.y + r.h },
+  ];
+}
+
+function hitHandle(r, mx, my) {
+  for (const h of getHandles(r)) {
+    if (Math.abs(mx - h.x) <= HANDLE && Math.abs(my - h.y) <= HANDLE) return h.id;
+  }
+  return null;
+}
+
+function hitBody(r, mx, my) {
+  return mx > r.x && mx < r.x + r.w && my > r.y && my < r.y + r.h;
+}
+
+function drawRect(ctx, r, color, selected) {
+  ctx.strokeStyle = color;
+  ctx.lineWidth = selected ? 2 : 1.5;
+  ctx.fillStyle = color.replace(')', ',0.08)').replace('rgb', 'rgba');
+  ctx.fillRect(r.x, r.y, r.w, r.h);
+  ctx.strokeRect(r.x, r.y, r.w, r.h);
+  if (selected) {
+    ctx.fillStyle = color;
+    for (const h of getHandles(r)) {
+      ctx.fillRect(h.x - HANDLE/2, h.y - HANDLE/2, HANDLE, HANDLE);
+    }
+  }
+}
+
+// ─── IMAGE MODE ───────────────────────────────────────────────────────────────
+$('img-file').addEventListener('change', e => {
+  const file = e.target.files[0];
+  if (!file) return;
+  uploadImage(file);
+});
+
+$('btn-load-url').addEventListener('click', async () => {
+  const url = $('img-url').value.trim();
+  if (!url) return;
+  setStatus('Fetching image from URL…');
+  try {
+    const res = await apiPost('/api/image/load_url', { url });
+    onImageLoaded(res);
+    setStatus('Image loaded.');
+  } catch (e) { setStatus('Error: ' + e.message); }
+});
+
+$('btn-clear-rect').addEventListener('click', () => {
+  state.img.rect = null;
+  drawImageOverlay();
+  updateCoordsDisplay();
+  $('btn-clear-rect').disabled = true;
+  $('btn-run-ocr').disabled = true;
+});
+
+$('btn-run-ocr').addEventListener('click', runOCR);
+
+async function uploadImage(file) {
+  setStatus('Uploading image…');
+  const fd = new FormData();
+  fd.append('file', file);
+  try {
+    const res = await fetch(API + '/api/image/load', { method: 'POST', body: fd });
+    if (!res.ok) throw new Error((await res.json()).detail);
+    const data = await res.json();
+    onImageLoaded(data);
+    setStatus('Image uploaded.');
+  } catch (e) { setStatus('Error: ' + e.message); }
+}
+
+async function onImageLoaded(data) {
+  state.img.id = data.image_id;
+  state.img.width = data.width;
+  state.img.height = data.height;
+  state.img.rect = null;
+  state.img.ocrResult = null;
+
+  // Load preview into img-canvas
+  const url = `${API}/api/image/preview/${data.image_id}`;
+  const img = new Image();
+  img.onload = () => {
+    // Scale to fit within 1200×900
+    const maxW = Math.min(1200, img.naturalWidth);
+    const maxH = Math.min(900,  img.naturalHeight);
+    const scale = Math.min(maxW / img.naturalWidth, maxH / img.naturalHeight, 1);
+    const dispW = Math.round(img.naturalWidth  * scale);
+    const dispH = Math.round(img.naturalHeight * scale);
+    state.img.scale = img.naturalWidth / dispW; // image pixels per canvas pixel
+
+    imgCanvas.width  = dispW;
+    imgCanvas.height = dispH;
+    imgOverlay.width  = dispW;
+    imgOverlay.height = dispH;
+
+    const ctx = imgCanvas.getContext('2d');
+    ctx.drawImage(img, 0, 0, dispW, dispH);
+    drawImageOverlay();
+    $('btn-clear-rect').disabled = false;
+    updateCoordsDisplay();
+  };
+  img.src = url;
+}
+
+// Convert canvas px → image px
+function canvasToImg(cx, cy) {
+  return { x: cx * state.img.scale, y: cy * state.img.scale };
+}
+function imgToCanvas(ix, iy) {
+  return { x: ix / state.img.scale, y: iy / state.img.scale };
+}
+function rectImgToCanvas(r) {
+  const s = 1 / state.img.scale;
+  return { x: r.x * s, y: r.y * s, w: r.w * s, h: r.h * s };
+}
+
+function drawImageOverlay() {
+  const ctx = imgOverlay.getContext('2d');
+  ctx.clearRect(0, 0, imgOverlay.width, imgOverlay.height);
+  if (!state.img.rect) return;
+  const cr = rectImgToCanvas(state.img.rect);
+  drawRect(ctx, cr, 'rgb(233,69,96)', true);
+}
+
+function copyBlock(label, value) {
+  const safe = value.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/"/g,'&quot;');
+  return `<div class="copy-block">
+    <span class="copy-label">${label}</span>
+    <code>${safe}</code>
+    <button data-copy="${safe}">Copy</button>
+  </div>`;
+}
+
+function updateCoordsDisplay() {
+  const r = state.img.rect;
+  if (!r) {
+    $('coords-display').innerHTML = '<span style="color:#aaa">Draw a rectangle on the image.</span>';
+    return;
+  }
+  const x = Math.round(r.x), y = Math.round(r.y), w = Math.round(r.w), h = Math.round(r.h);
+  const ih = state.img.height;
+  const spaceSep   = `${x} ${y} ${w} ${h}`;
+  const jsonArr    = `[${x}, ${y}, ${w}, ${h}]`;
+  const jsonObj    = `{"x": ${x}, "y": ${y}, "w": ${w}, "h": ${h}}`;
+  const tessBoxes  = `${x} ${ih-y-h} ${x+w} ${ih-y}`;
+
+  $('coords-display').innerHTML = `
+    <div class="info-block" style="margin-bottom:10px">
+      <div class="label">Copyable formats</div>
+      ${copyBlock('space-sep', spaceSep)}
+      ${copyBlock('JSON array', jsonArr)}
+      ${copyBlock('JSON obj', jsonObj)}
+      ${copyBlock('tess boxes', tessBoxes)}
+    </div>
+    <div class="info-block">
+      <div class="label">Image pixels (top-left origin)</div>
+      x: ${x}, y: ${y} &nbsp; w: ${w}, h: ${h}<br>
+      x2: ${x+w}, y2: ${y+h}
+    </div>
+    <div class="info-block">
+      <div class="label">Tesseract image_to_boxes (bottom-left)</div>
+      x1: ${x}, y1: ${ih-y-h}, x2: ${x+w}, y2: ${ih-y}
+    </div>
+    <div class="info-block">
+      <div class="label">Image dimensions</div>
+      ${state.img.width} × ${state.img.height} px
+    </div>`;
+}
+
+async function runOCR() {
+  if (!state.img.id || !state.img.rect) return;
+  setStatus('Running OCR…');
+  $('btn-run-ocr').disabled = true;
+  $('ocr-status').innerHTML = '<span class="spinner"></span> Running OCR…';
+  $('ocr-text').style.display = 'none';
+  try {
+    const lang = $('ocr-lang').value.trim() || 'eng';
+    const data = await apiPost('/api/image/ocr', {
+      image_id: state.img.id,
+      rect: state.img.rect,
+      lang,
+    });
+    state.img.ocrResult = data;
+    $('ocr-status').style.display = 'none';
+    $('ocr-text').textContent = data.text || '(no text detected)';
+    $('ocr-text').style.display = 'block';
+
+    // Words table
+    if (data.words && data.words.length > 0) {
+      let html = `<table class="word-table"><thead><tr>
+        <th>Word</th><th>Conf %</th><th>l</th><th>t</th><th>w</th><th>h</th>
+        </tr></thead><tbody>`;
+      for (const w of data.words) {
+        const pct = Math.max(0, w.conf);
+        html += `<tr>
+          <td>${w.word}</td>
+          <td>
+            <span class="conf-bar"><span class="conf-fill" style="width:${pct}%"></span></span>
+            ${pct}
+          </td>
+          <td>${w.left}</td><td>${w.top}</td><td>${w.width}</td><td>${w.height}</td>
+          </tr>`;
+      }
+      html += '</tbody></table>';
+      $('words-display').innerHTML = html;
+    } else {
+      $('words-display').innerHTML = '<span style="color:#aaa">No words detected.</span>';
+    }
+    setStatus('OCR complete.');
+  } catch (e) {
+    $('ocr-status').textContent = 'Error: ' + e.message;
+    setStatus('OCR error.');
+  }
+  $('btn-run-ocr').disabled = false;
+}
+
+// Image canvas mouse events
+function imgEvent(type, e) {
+  const bb = imgOverlay.getBoundingClientRect();
+  const cx = e.clientX - bb.left;
+  const cy = e.clientY - bb.top;
+
+  if (type === 'down') {
+    // Check if clicking on handle or body of existing rect
+    if (state.img.rect) {
+      const cr = rectImgToCanvas(state.img.rect);
+      const h = hitHandle(cr, cx, cy);
+      if (h) {
+        state.draw.dragState = { type: 'handle', handle: h, origRect: { ...state.img.rect } };
+        state.draw.startX = cx; state.draw.startY = cy;
+        return;
+      }
+      if (hitBody(cr, cx, cy)) {
+        state.draw.dragState = { type: 'move', origRect: { ...state.img.rect } };
+        state.draw.startX = cx; state.draw.startY = cy;
+        return;
+      }
+    }
+    // Start new rect
+    state.draw.dragState = { type: 'draw' };
+    state.draw.startX = cx; state.draw.startY = cy;
+  }
+
+  if (type === 'move' && state.draw.dragState) {
+    const ds = state.draw.dragState;
+    const dx = cx - state.draw.startX;
+    const dy = cy - state.draw.startY;
+    const s = state.img.scale;
+
+    if (ds.type === 'draw') {
+      const p1 = canvasToImg(state.draw.startX, state.draw.startY);
+      const p2 = canvasToImg(cx, cy);
+      state.img.rect = clampRect(normalizeRect(p1.x, p1.y, p2.x, p2.y), state.img.width, state.img.height);
+    } else if (ds.type === 'move') {
+      state.img.rect = clampRect({
+        x: ds.origRect.x + dx * s, y: ds.origRect.y + dy * s,
+        w: ds.origRect.w, h: ds.origRect.h
+      }, state.img.width, state.img.height);
+    } else if (ds.type === 'handle') {
+      let { x, y, w, h } = ds.origRect;
+      const ddx = dx * s, ddy = dy * s;
+      if (ds.handle.includes('l')) { x += ddx; w -= ddx; }
+      if (ds.handle.includes('r')) { w += ddx; }
+      if (ds.handle.includes('t')) { y += ddy; h -= ddy; }
+      if (ds.handle.includes('b')) { h += ddy; }
+      if (w < 1) w = 1; if (h < 1) h = 1;
+      state.img.rect = clampRect({ x, y, w, h }, state.img.width, state.img.height);
+    }
+    drawImageOverlay();
+    updateCoordsDisplay();
+  }
+
+  if (type === 'up' && state.draw.dragState) {
+    if (state.img.rect && state.img.rect.w > 2 && state.img.rect.h > 2) {
+      $('btn-clear-rect').disabled = false;
+      $('btn-run-ocr').disabled = !state.img.id;
+    }
+    state.draw.dragState = null;
+  }
+}
+
+imgOverlay.addEventListener('mousedown', e => { if (state.img.id) { state.draw.active = true; imgEvent('down', e); } });
+imgOverlay.addEventListener('mousemove', e => { if (state.draw.active && state.draw.dragState) imgEvent('move', e); });
+imgOverlay.addEventListener('mouseup',   e => { imgEvent('up', e); state.draw.active = false; });
+imgOverlay.addEventListener('mouseleave',e => { if (state.draw.active) { imgEvent('up', e); state.draw.active = false; } });
+
+// ─── PDF MODE ────────────────────────────────────────────────────────────────
+
+$('pdf-file').addEventListener('change', e => {
+  const file = e.target.files[0];
+  if (!file) return;
+  uploadPDF(file);
+});
+
+$('pdf-scale').addEventListener('input', () => {
+  state.pdf.scale = parseFloat($('pdf-scale').value);
+  $('pdf-scale-label').textContent = state.pdf.scale.toFixed(2) + '×';
+  if (state.pdf.pdfDoc) renderPDFPage();
+});
+
+$('btn-prev-page').addEventListener('click', () => {
+  if (state.pdf.currentPage > 0) { state.pdf.currentPage--; renderPDFPage(); }
+});
+$('btn-next-page').addEventListener('click', () => {
+  if (state.pdf.currentPage < state.pdf.pageCount - 1) { state.pdf.currentPage++; renderPDFPage(); }
+});
+
+// Template buttons
+document.querySelectorAll('[data-tmpl]').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('[data-tmpl]').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    state.pdf.activeTemplate = btn.dataset.tmpl;
+    state.pdf.selectedRectIndex = -1;
+    drawPDFOverlay();
+    updateRectList();
+    updateDeleteBtn();
+  });
+});
+
+$('chk-first').addEventListener('change', e => { state.pdf.enableFirst = e.target.checked; });
+$('chk-last').addEventListener('change',  e => { state.pdf.enableLast  = e.target.checked; });
+
+$('btn-clear-rects').addEventListener('click', () => {
+  getActiveTemplate().exclude = [];
+  state.pdf.selectedRectIndex = -1;
+  drawPDFOverlay(); updateRectList(); updateDeleteBtn();
+});
+
+$('btn-delete-rect').addEventListener('click', () => {
+  const i = state.pdf.selectedRectIndex;
+  const excl = getActiveTemplate().exclude;
+  if (i >= 0 && i < excl.length) {
+    excl.splice(i, 1);
+    state.pdf.selectedRectIndex = -1;
+    drawPDFOverlay(); updateRectList(); updateDeleteBtn();
+  }
+});
+
+$('btn-extract-page').addEventListener('click', extractPage);
+$('btn-extract-all').addEventListener('click', extractAll);
+$('btn-save-config').addEventListener('click', saveConfig);
+$('btn-load-config').addEventListener('click', () => $('config-file').click());
+$('config-file').addEventListener('change', e => loadConfig(e.target.files[0]));
+$('btn-save-text').addEventListener('click', () => {
+  const txt = $('pdf-text-output').value;
+  if (txt) saveBlob(txt, 'extracted.txt');
+});
+
+// Delete key to remove selected rect
+document.addEventListener('keydown', e => {
+  if ((e.key === 'Delete' || e.key === 'Backspace') && state.pdf.selectedRectIndex >= 0
+      && document.activeElement.tagName !== 'INPUT'
+      && document.activeElement.tagName !== 'TEXTAREA') {
+    $('btn-delete-rect').click();
+  }
+});
+
+function getActiveTemplate() {
+  return state.pdf.templates[state.pdf.activeTemplate];
+}
+
+async function uploadPDF(file) {
+  setStatus('Uploading PDF…');
+  const fd = new FormData();
+  fd.append('file', file);
+  try {
+    const res = await fetch(API + '/api/pdf/load', { method: 'POST', body: fd });
+    if (!res.ok) throw new Error((await res.json()).detail);
+    const data = await res.json();
+    state.pdf.backendId = data.pdf_id;
+    state.pdf.pageCount = data.page_count;
+    state.pdf.pageSizes = data.page_sizes;
+    $('pdf-info').textContent = `${data.page_count} pages`;
+
+    // Also load with PDF.js for rendering
+    const bytes = await file.arrayBuffer();
+    state.pdf.pdfDoc = await pdfjsLib.getDocument({ data: bytes }).promise;
+    state.pdf.currentPage = 0;
+    state.pdf.selectedRectIndex = -1;
+    await renderPDFPage();
+
+    $('btn-extract-page').disabled = false;
+    $('btn-extract-all').disabled = false;
+    $('btn-save-config').disabled = false;
+    setStatus('PDF loaded.');
+  } catch (e) { setStatus('Error: ' + e.message); console.error(e); }
+}
+
+async function renderPDFPage() {
+  if (!state.pdf.pdfDoc) return;
+  const p = state.pdf.currentPage;
+  $('page-indicator').textContent = `Page ${p + 1} / ${state.pdf.pageCount}`;
+  $('btn-prev-page').disabled = p === 0;
+  $('btn-next-page').disabled = p === state.pdf.pageCount - 1;
+
+  const page = await state.pdf.pdfDoc.getPage(p + 1); // PDF.js is 1-based
+  const vp = page.getViewport({ scale: state.pdf.scale });
+
+  state.pdf.pageWidth  = Math.round(vp.width);
+  state.pdf.pageHeight = Math.round(vp.height);
+  state.pdf.pdfPointW  = vp.width  / state.pdf.scale;
+  state.pdf.pdfPointH  = vp.height / state.pdf.scale;
+
+  pdfCanvas.width  = state.pdf.pageWidth;
+  pdfCanvas.height = state.pdf.pageHeight;
+  pdfOverlay.width  = state.pdf.pageWidth;
+  pdfOverlay.height = state.pdf.pageHeight;
+
+  const ctx = pdfCanvas.getContext('2d');
+  await page.render({ canvasContext: ctx, viewport: vp }).promise;
+  drawPDFOverlay();
+  updateRectList();
+}
+
+// Convert canvas px ↔ PDF points
+function canvasToPdfPt(cx, cy) {
+  return { x: cx / state.pdf.scale, y: cy / state.pdf.scale };
+}
+function pdfPtToCanvas(px, py) {
+  return { x: px * state.pdf.scale, y: py * state.pdf.scale };
+}
+function rectPdfToCanvas(r) {
+  // r is {x0,y0,x1,y1} in PDF points
+  const tl = pdfPtToCanvas(r.x0, r.y0);
+  const br = pdfPtToCanvas(r.x1, r.y1);
+  return { x: tl.x, y: tl.y, w: br.x - tl.x, h: br.y - tl.y };
+}
+function rectCanvasToPdf(r) {
+  // r is {x,y,w,h} in canvas px
+  const p1 = canvasToPdfPt(r.x, r.y);
+  const p2 = canvasToPdfPt(r.x + r.w, r.y + r.h);
+  return { x0: p1.x, y0: p1.y, x1: p2.x, y1: p2.y };
+}
+
+function drawPDFOverlay() {
+  const ctx = pdfOverlay.getContext('2d');
+  ctx.clearRect(0, 0, pdfOverlay.width, pdfOverlay.height);
+
+  const excl = getActiveTemplate().exclude;
+  excl.forEach((r, i) => {
+    const cr = rectPdfToCanvas(r);
+    const sel = i === state.pdf.selectedRectIndex;
+    drawRect(ctx, cr, 'rgb(233,69,96)', sel);
+  });
+
+  // Draw in-progress rect
+  if (state.draw.dragState && state.draw.dragState.type === 'draw' && state.draw.mode === 'pdf') {
+    const r = state.draw.currentCanvasRect;
+    if (r) {
+      ctx.strokeStyle = '#4fc3f7';
+      ctx.lineWidth = 1.5;
+      ctx.setLineDash([5, 3]);
+      ctx.strokeRect(r.x, r.y, r.w, r.h);
+      ctx.setLineDash([]);
+    }
+  }
+}
+
+function updateRectList() {
+  const excl = getActiveTemplate().exclude;
+  const container = $('rect-list');
+  if (excl.length === 0) {
+    container.innerHTML = '<div style="color:#aaa;font-size:12px">No rectangles. Drag to add.</div>';
+    return;
+  }
+  container.innerHTML = '';
+  excl.forEach((r, i) => {
+    const div = document.createElement('div');
+    div.className = 'rect-item' + (i === state.pdf.selectedRectIndex ? ' selected' : '');
+    div.innerHTML = `
+      <span class="rect-label">#${i + 1}</span>
+      <span style="flex:1;overflow:hidden;text-overflow:ellipsis">
+        (${r.x0.toFixed(0)},${r.y0.toFixed(0)})–(${r.x1.toFixed(0)},${r.y1.toFixed(0)})
+      </span>
+      <button data-idx="${i}" class="del-rect danger">✕</button>`;
+    div.addEventListener('click', e => {
+      if (e.target.classList.contains('del-rect')) {
+        const idx = parseInt(e.target.dataset.idx);
+        excl.splice(idx, 1);
+        if (state.pdf.selectedRectIndex >= excl.length) state.pdf.selectedRectIndex = excl.length - 1;
+        drawPDFOverlay(); updateRectList(); updateDeleteBtn();
+      } else {
+        state.pdf.selectedRectIndex = i;
+        drawPDFOverlay(); updateRectList(); updateDeleteBtn();
+      }
+    });
+    container.appendChild(div);
+  });
+}
+
+function updateDeleteBtn() {
+  $('btn-delete-rect').disabled = state.pdf.selectedRectIndex < 0;
+}
+
+// PDF canvas mouse events
+function pdfEvent(type, e) {
+  const bb = pdfOverlay.getBoundingClientRect();
+  const cx = e.clientX - bb.left;
+  const cy = e.clientY - bb.top;
+  const excl = getActiveTemplate().exclude;
+
+  if (type === 'down') {
+    // Check handles/body of selected rect first
+    if (state.pdf.selectedRectIndex >= 0) {
+      const selR = excl[state.pdf.selectedRectIndex];
+      if (selR) {
+        const cr = rectPdfToCanvas(selR);
+        const h = hitHandle(cr, cx, cy);
+        if (h) {
+          state.draw.dragState = { type: 'handle', handle: h, rectIndex: state.pdf.selectedRectIndex, origRect: { ...selR } };
+          state.draw.startX = cx; state.draw.startY = cy;
+          state.draw.mode = 'pdf';
+          return;
+        }
+        if (hitBody(cr, cx, cy)) {
+          state.draw.dragState = { type: 'move', rectIndex: state.pdf.selectedRectIndex, origRect: { ...selR } };
+          state.draw.startX = cx; state.draw.startY = cy;
+          state.draw.mode = 'pdf';
+          return;
+        }
+      }
+    }
+    // Check if clicking on any other rect
+    for (let i = excl.length - 1; i >= 0; i--) {
+      const cr = rectPdfToCanvas(excl[i]);
+      if (hitBody(cr, cx, cy)) {
+        state.pdf.selectedRectIndex = i;
+        state.draw.dragState = { type: 'move', rectIndex: i, origRect: { ...excl[i] } };
+        state.draw.startX = cx; state.draw.startY = cy;
+        state.draw.mode = 'pdf';
+        drawPDFOverlay(); updateRectList(); updateDeleteBtn();
+        return;
+      }
+    }
+    // Start drawing new rect
+    state.pdf.selectedRectIndex = -1;
+    state.draw.dragState = { type: 'draw' };
+    state.draw.currentCanvasRect = null;
+    state.draw.startX = cx; state.draw.startY = cy;
+    state.draw.mode = 'pdf';
+    drawPDFOverlay(); updateRectList(); updateDeleteBtn();
+  }
+
+  if (type === 'move' && state.draw.dragState) {
+    const ds = state.draw.dragState;
+    const dx = cx - state.draw.startX;
+    const dy = cy - state.draw.startY;
+
+    if (ds.type === 'draw') {
+      state.draw.currentCanvasRect = normalizeRect(state.draw.startX, state.draw.startY, cx, cy);
+      drawPDFOverlay();
+    } else if (ds.type === 'move') {
+      const s = 1 / state.pdf.scale;
+      excl[ds.rectIndex] = {
+        x0: ds.origRect.x0 + dx * s, y0: ds.origRect.y0 + dy * s,
+        x1: ds.origRect.x1 + dx * s, y1: ds.origRect.y1 + dy * s,
+      };
+      drawPDFOverlay(); updateRectList();
+    } else if (ds.type === 'handle') {
+      const s = 1 / state.pdf.scale;
+      let { x0, y0, x1, y1 } = ds.origRect;
+      const ddx = dx * s, ddy = dy * s;
+      if (ds.handle.includes('l')) x0 += ddx;
+      if (ds.handle.includes('r')) x1 += ddx;
+      if (ds.handle.includes('t')) y0 += ddy;
+      if (ds.handle.includes('b')) y1 += ddy;
+      // Keep x0<x1, y0<y1
+      excl[ds.rectIndex] = {
+        x0: Math.min(x0, x1), y0: Math.min(y0, y1),
+        x1: Math.max(x0, x1), y1: Math.max(y0, y1),
+      };
+      drawPDFOverlay(); updateRectList();
+    }
+  }
+
+  if (type === 'up' && state.draw.dragState) {
+    const ds = state.draw.dragState;
+    if (ds.type === 'draw') {
+      const r = normalizeRect(state.draw.startX, state.draw.startY, cx, cy);
+      if (r.w > 4 && r.h > 4) {
+        const pdfR = rectCanvasToPdf(r);
+        excl.push(pdfR);
+        state.pdf.selectedRectIndex = excl.length - 1;
+      }
+      state.draw.currentCanvasRect = null;
+      drawPDFOverlay(); updateRectList(); updateDeleteBtn();
+    }
+    state.draw.dragState = null;
+    state.draw.mode = null;
+  }
+}
+
+pdfOverlay.addEventListener('mousedown', e => { if (state.pdf.pdfDoc) { state.draw.active = true; pdfEvent('down', e); } });
+pdfOverlay.addEventListener('mousemove', e => { if (state.draw.active) pdfEvent('move', e); });
+pdfOverlay.addEventListener('mouseup',   e => { pdfEvent('up', e); state.draw.active = false; });
+pdfOverlay.addEventListener('mouseleave',e => { if (state.draw.active) { pdfEvent('up', e); state.draw.active = false; } });
+
+function buildTemplatesPayload() {
+  const t = state.pdf.templates;
+  return {
+    odd:   { exclude: t.odd.exclude },
+    even:  { exclude: t.even.exclude },
+    first: state.pdf.enableFirst ? { exclude: t.first.exclude } : null,
+    last:  state.pdf.enableLast  ? { exclude: t.last.exclude  } : null,
+  };
+}
+
+async function extractPage() {
+  if (!state.pdf.backendId) return;
+  setStatus('Extracting page…');
+  const tmpl = getActiveTemplate();
+  try {
+    const data = await apiPost('/api/pdf/extract_page', {
+      pdf_id: state.pdf.backendId,
+      page_index: state.pdf.currentPage,
+      exclude_rects: tmpl.exclude,
+    });
+    $('pdf-text-output').value = data.text;
+    $('btn-save-text').disabled = false;
+    setStatus(`Page ${state.pdf.currentPage + 1} extracted.`);
+  } catch (e) { setStatus('Error: ' + e.message); }
+}
+
+async function extractAll() {
+  if (!state.pdf.backendId) return;
+  setStatus('Extracting all pages…');
+  try {
+    const data = await apiPost('/api/pdf/extract_all', {
+      pdf_id: state.pdf.backendId,
+      templates: buildTemplatesPayload(),
+    });
+    $('pdf-text-output').value = data.combined;
+    $('btn-save-text').disabled = false;
+    setStatus(`Extracted ${data.pages.length} pages.`);
+  } catch (e) { setStatus('Error: ' + e.message); }
+}
+
+function saveConfig() {
+  const cfg = {
+    units: 'pdf_points',
+    templates: {
+      odd:   { exclude: state.pdf.templates.odd.exclude },
+      even:  { exclude: state.pdf.templates.even.exclude },
+      first: state.pdf.enableFirst ? { exclude: state.pdf.templates.first.exclude } : null,
+      last:  state.pdf.enableLast  ? { exclude: state.pdf.templates.last.exclude  } : null,
+    },
+  };
+  saveBlob(JSON.stringify(cfg, null, 2), 'region-config.json', 'application/json');
+}
+
+async function loadConfig(file) {
+  if (!file) return;
+  try {
+    const cfg = JSON.parse(await file.text());
+    if (cfg.templates) {
+      const t = cfg.templates;
+      if (t.odd)  state.pdf.templates.odd.exclude  = t.odd.exclude  || [];
+      if (t.even) state.pdf.templates.even.exclude = t.even.exclude || [];
+      if (t.first) { state.pdf.templates.first.exclude = t.first.exclude || []; state.pdf.enableFirst = true; $('chk-first').checked = true; }
+      if (t.last)  { state.pdf.templates.last.exclude  = t.last.exclude  || []; state.pdf.enableLast  = true; $('chk-last').checked  = true; }
+    }
+    drawPDFOverlay(); updateRectList();
+    setStatus('Config loaded.');
+  } catch (e) { setStatus('Error loading config: ' + e.message); }
+}
+
+// ─── Copy-to-clipboard delegation ────────────────────────────────────────────
+document.addEventListener('click', e => {
+  const val = e.target.dataset.copy;
+  if (val === undefined) return;
+  // data-copy HTML-encodes &quot; back to "
+  const text = val.replace(/&quot;/g, '"').replace(/&amp;/g, '&').replace(/&lt;/g, '<');
+  navigator.clipboard.writeText(text).then(() => {
+    const prev = e.target.textContent;
+    e.target.textContent = 'Copied!';
+    setTimeout(() => { e.target.textContent = prev; }, 1200);
+  });
+});
+
+setStatus('Ready. Upload an image or PDF to begin.');
+</script>
+</body>
+</html>

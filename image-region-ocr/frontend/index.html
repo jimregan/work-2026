@@ -184,7 +184,7 @@ button.danger:hover { background: #922b21; }
 
       <div class="pdf-actions">
         <div class="btn-row">
-          <button id="btn-extract-page" disabled style="flex:1">Preview This Page</button>
+          <button id="btn-extract-page" disabled style="flex:1">Get Page Text</button>
           <button id="btn-extract-all"  disabled style="flex:1">Export All Pages</button>
         </div>
         <div class="btn-row">
@@ -192,6 +192,10 @@ button.danger:hover { background: #922b21; }
           <button id="btn-load-config" style="flex:1">Load Config JSON</button>
           <input type="file" id="config-file" accept=".json" style="display:none">
         </div>
+        <details id="debug-details" style="margin-bottom:6px">
+          <summary style="font-size:11px;color:#666;cursor:pointer">Debug state</summary>
+          <pre id="debug-pre" style="font-size:10px;color:#7ec8e3;background:#0a0a1a;padding:6px;border-radius:4px;overflow:auto;max-height:120px;margin-top:4px;white-space:pre-wrap"></pre>
+        </details>
         <textarea id="pdf-text-output" placeholder="Extracted text appears here…" readonly></textarea>
         <div class="btn-row">
           <button id="btn-save-text" disabled style="flex:1">Save as .txt</button>
@@ -797,6 +801,7 @@ async function renderPDFPage() {
   updatePageRectStatus();
   updateCoverage();
   updatePageOverview();
+  updateDebug();
 }
 
 // ── PDF canvas mouse events ───────────────────────────────────────────────────
@@ -860,7 +865,7 @@ function pdfEvent(type, e) {
       const drawn = normalizeRect(state.draw.startX, state.draw.startY, cx, cy);
       if (drawn.w > 4 && drawn.h > 4) {
         state.pdf.pageRects[state.pdf.currentPage] = rectCanvasToPdf(drawn);
-        updatePageRectStatus(); updateCoverage(); updatePageOverview();
+        updatePageRectStatus(); updateCoverage(); updatePageOverview(); updateDebug();
       }
       state.draw.currentCanvasRect = null;
     }
@@ -876,6 +881,18 @@ pdfOverlay.addEventListener('mouseleave',e => { if (state.draw.active) { pdfEven
 
 // ── Extract & export ─────────────────────────────────────────────────────────
 
+function updateDebug(extra) {
+  const r = state.pdf.pageRects[state.pdf.currentPage];
+  const info = {
+    backend_id: state.pdf.backendId || '(none — PDF not uploaded to backend)',
+    page: state.pdf.currentPage,
+    rect_this_page: r || '(none drawn)',
+    pages_with_rects: Object.keys(state.pdf.pageRects).length,
+    ...(extra || {}),
+  };
+  $('debug-pre').textContent = JSON.stringify(info, null, 2);
+}
+
 function setPdfOutput(text) {
   // Setting value="" makes the textarea show its placeholder, which is
   // indistinguishable from "nothing ran". Use a sentinel instead.
@@ -886,46 +903,49 @@ function setPdfOutput(text) {
 }
 
 async function extractPage() {
+  updateDebug();
   if (!state.pdf.backendId) { setStatus('PDF not uploaded — re-select the file.'); return; }
   const r = state.pdf.pageRects[state.pdf.currentPage];
   if (!r) { setStatus('No region set for this page — draw one first.'); return; }
   setStatus('Extracting…');
+  const req = { pdf_id: state.pdf.backendId, page_index: state.pdf.currentPage, include_rect: r };
+  updateDebug({ last_request: req });
   try {
-    console.log('extract_page →', { pdf_id: state.pdf.backendId, page_index: state.pdf.currentPage, include_rect: r });
-    const data = await apiPost('/api/pdf/extract_page', {
-      pdf_id: state.pdf.backendId,
-      page_index: state.pdf.currentPage,
-      include_rect: r,
-    });
-    console.log('extract_page ←', data);
+    const data = await apiPost('/api/pdf/extract_page', req);
+    updateDebug({ last_request: req, last_response: data });
     setPdfOutput(data.text);
     $('btn-save-text').disabled = !data.text;
     setStatus(data.text
-      ? `Page ${state.pdf.currentPage + 1} extracted (${data.text.split(/\s+/).length} words).`
+      ? `Page ${state.pdf.currentPage + 1} extracted (${data.text.split(/\s+/).filter(Boolean).length} words).`
       : `Page ${state.pdf.currentPage + 1}: no text found in region.`);
-  } catch (e) { setStatus('Error: ' + e.message); console.error(e); }
+  } catch (e) {
+    updateDebug({ last_error: e.message });
+    setStatus('Error: ' + e.message);
+  }
 }
 
 async function extractAll() {
+  updateDebug();
   if (!state.pdf.backendId) { setStatus('PDF not uploaded — re-select the file.'); return; }
   const pageRects = Object.entries(state.pdf.pageRects)
     .map(([idx, rect]) => ({ page_index: parseInt(idx), rect }));
   if (pageRects.length === 0) { setStatus('No regions set — draw regions on pages first.'); return; }
   setStatus('Extracting all pages…');
+  const req = { pdf_id: state.pdf.backendId, page_rects: pageRects };
+  updateDebug({ last_request: req });
   try {
-    console.log('extract_all →', { pdf_id: state.pdf.backendId, page_rects: pageRects });
-    const data = await apiPost('/api/pdf/extract_all', {
-      pdf_id: state.pdf.backendId,
-      page_rects: pageRects,
-    });
-    console.log('extract_all ←', data);
+    const data = await apiPost('/api/pdf/extract_all', req);
+    updateDebug({ last_request: req, last_response: { pages: data.pages.length, combined_length: data.combined.length } });
     setPdfOutput(data.combined);
     $('btn-save-text').disabled = !data.combined;
-    const words = data.combined ? data.combined.split(/\s+/).length : 0;
+    const words = data.combined ? data.combined.split(/\s+/).filter(Boolean).length : 0;
     setStatus(words
       ? `Extracted ${data.pages.length} of ${state.pdf.pageCount} pages (${words} words).`
       : `Extracted ${data.pages.length} pages but found no text — PDF may be image-based.`);
-  } catch (e) { setStatus('Error: ' + e.message); console.error(e); }
+  } catch (e) {
+    updateDebug({ last_error: e.message });
+    setStatus('Error: ' + e.message);
+  }
 }
 
 function saveConfig() {

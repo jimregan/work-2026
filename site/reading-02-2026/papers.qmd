@@ -130,3 +130,4 @@ bibliography: refs.bib
 
 [hocr-tools](https://github.com/stefan6419846/hocr-tools)
 
+## [Diachronic Parsing of Pre-Standard Irish](https://aclanthology.org/2022.cltw-1.2/) [@scannell-2022-diachronic]

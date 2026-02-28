@@ -131,3 +131,6 @@ bibliography: refs.bib
 [hocr-tools](https://github.com/stefan6419846/hocr-tools)
 
 ## [Diachronic Parsing of Pre-Standard Irish](https://aclanthology.org/2022.cltw-1.2/) [@scannell-2022-diachronic]
+
+## [Irish Treebanking and Parsing: A Preliminary Evaluation](https://aclanthology.org/L12-1189/) [@lynn-etal-2012-irish]
+

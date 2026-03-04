@@ -55,6 +55,15 @@ class DatasetConfig:
     axis_columns: dict[str, str] = field(default_factory=dict)
     # Maps axis name → dataset column name.
     # e.g. {"content": "text", "speaker": "speaker_id", "accent": "accent"}
+    include_values: dict[str, list[str]] = field(default_factory=dict)
+    # Keep only rows where column value is in the list.
+    # e.g. {"speaker_id": ["p225", "p226"]}
+    exclude_values: dict[str, list[str]] = field(default_factory=dict)
+    # Drop rows where column value is in the list.
+    # e.g. {"speaker_id": ["bdl"]}
+    audio_path_contains: str | None = None
+    # Keep only rows whose audio path contains this substring.
+    # e.g. "mic1" to select one microphone set in VCTK.
 
 
 def load_dataset_configs(path: str) -> list[DatasetConfig]:
@@ -108,11 +117,38 @@ def encode_and_cache(
     for cfg in configs:
         logger.info("Loading dataset %s (split=%s)", cfg.name, cfg.split)
         ds = load_dataset(cfg.name, split=cfg.split)
+        n_skipped = 0
         for row in ds:
+            # Audio path filter (e.g. VCTK mic selection)
+            if cfg.audio_path_contains is not None:
+                audio = row[cfg.audio_column]
+                path = audio.get("path", "") if isinstance(audio, dict) else ""
+                if cfg.audio_path_contains not in path:
+                    n_skipped += 1
+                    continue
+
+            # Column value filters
+            skip = False
+            for col, vals in cfg.include_values.items():
+                if str(row.get(col, "")) not in vals:
+                    skip = True
+                    break
+            if not skip:
+                for col, vals in cfg.exclude_values.items():
+                    if str(row.get(col, "")) in vals:
+                        skip = True
+                        break
+            if skip:
+                n_skipped += 1
+                continue
+
             row_data: dict = {"audio": row[cfg.audio_column]}
             for axis_name, col in cfg.axis_columns.items():
                 row_data[axis_name] = row.get(col, "")
             all_rows.append(row_data)
+
+        if n_skipped:
+            logger.info("Skipped %d rows from %s after filtering", n_skipped, cfg.name)
 
     logger.info("Encoding %d samples with %s", len(all_rows), encoder_model)
     feature_extractor = AutoFeatureExtractor.from_pretrained(encoder_model)

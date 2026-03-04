@@ -1,8 +1,12 @@
 # Adding a Dataset
 
 Datasets are HuggingFace `Dataset` objects with columns that follow a naming
-convention.  The trainer does not care what the data *means* — it only looks at
-column names to decide how to route tensors to the model.
+convention.  The trainer does not interpret the semantics of the data — it only
+inspects column names to determine how tensors should be routed to the model.
+
+Each dataset row represents a **single anchor example** plus optional positive
+samples for different axes.  The dataset is not symmetric; each row is
+anchor-centric.
 
 ---
 
@@ -10,10 +14,21 @@ column names to decide how to route tensors to the model.
 
 Every column name has the form `{role}_{suffix}`:
 
-| Part | Values | Meaning |
-|---|---|---|
-| `role` | `anchor`, `{axis}_pos` | Which position in the contrastive pair |
-| `suffix` | `input_features`, `input_ids`, `sentence_embedding` | How the data is encoded |
+```
+{role}_{suffix}
+
+role:    anchor
+         {axis}_pos
+
+suffix:  input_features       (raw audio / mel spectrogram)
+         input_ids            (tokenised text)
+         sentence_embedding   (pre-computed dense vector)
+```
+
+`{axis}_pos` means a sample that **shares the value of that axis with the
+anchor**.  For example, `speaker_id_pos_input_features` is an utterance spoken
+by the same speaker as the anchor; `semantic_pos_sentence_embedding` is an
+embedding whose text matches the anchor's transcript.
 
 Examples for a model with axes `semantic`, `speaker_id`, `gender`:
 
@@ -24,16 +39,34 @@ Examples for a model with axes `semantic`, `speaker_id`, `gender`:
 | `speaker_id_pos_input_features` | Mel spectrogram of a different utterance by the same speaker |
 | `gender_pos_sentence_embedding` | Pre-cached embedding of an utterance with the same gender label |
 
-All roles for a given suffix must be present for a training step to work.  You
-do not need a positive for every axis in every row — `MultiAxisInfoNCELoss`
-skips axes whose `{axis}_pos` key is absent.
+For each suffix used in a row (e.g. `input_features`), the corresponding
+`anchor_*` column must be present.  Positives are optional — axes whose
+`{axis}_pos_*` columns are missing in a row are skipped for that example.
+Other axes still contribute to the loss.
+
+---
+
+## How columns are routed
+
+The suffix determines how a tensor reaches the projection module:
+
+```
+anchor_input_features          → encoder → pooling → projection
+semantic_pos_sentence_embedding → projection          (skips encoder)
+speaker_id_pos_input_features  → encoder → pooling → projection
+```
+
+`_sentence_embedding` columns bypass the acoustic encoder entirely and are fed
+directly into the `MultiAxisProjection`.  This is the recommended path for
+pre-computed content positives (see below).
 
 ---
 
 ## Label columns (for the batch sampler)
 
-`MultiAxisNoDuplicatesBatchSampler` needs one label column per axis to avoid
-false negatives in a batch.  Name them `{axis}_label`:
+`MultiAxisNoDuplicatesBatchSampler` prevents false negatives by ensuring that
+two samples with the same `{axis}_label` never appear in the same batch unless
+they are explicitly paired as positives.  Name label columns `{axis}_label`:
 
 ```python
 dataset = dataset.add_column("semantic_label",   transcript_ids)
@@ -44,7 +77,7 @@ dataset = dataset.add_column("gender_label",     gender_labels)
 Pass these to the trainer:
 
 ```python
-from sentence_transformers.training_args import SentenceTransformerTrainingArguments, BatchSamplers
+from sentence_transformers.training_args import SentenceTransformerTrainingArguments
 from spoken_sentence_transformers import MultiAxisNoDuplicatesBatchSampler
 
 args = SentenceTransformerTrainingArguments(
@@ -63,11 +96,10 @@ trainer = MultiAxisProjectionTrainer(
 
 ## Using pre-cached text embeddings for semantic content
 
-The cleanest way to supply semantic content labels is to run transcripts through
-a text sentence transformer offline and store the result as
+The cleanest way to supply semantic content positives is to run transcripts
+through a text sentence transformer offline and store the result as
 `semantic_pos_sentence_embedding`.  This bypasses the acoustic encoder entirely
-for that column — the trainer routes `_sentence_embedding` columns directly to
-the projection module.
+for that column.
 
 ```python
 from sentence_transformers import SentenceTransformer
@@ -78,17 +110,20 @@ text_model = SentenceTransformer("all-MiniLM-L6-v2")
 transcripts = dataset["transcript"]
 text_embs = text_model.encode(transcripts, batch_size=256, show_progress_bar=True)
 
-dataset = dataset.add_column("anchor_input_features",         audio_features)
+dataset = dataset.add_column("anchor_input_features",          audio_features)
 dataset = dataset.add_column("semantic_pos_sentence_embedding", text_embs.tolist())
-dataset = dataset.add_column("semantic_label",                transcripts)   # text = content ID
-dataset = dataset.add_column("speaker_id_pos_input_features", same_speaker_features)
-dataset = dataset.add_column("speaker_id_label",              speaker_ids)
+dataset = dataset.add_column("semantic_label",                 transcripts)   # text = content ID
+dataset = dataset.add_column("speaker_id_pos_input_features",  same_speaker_features)
+dataset = dataset.add_column("speaker_id_label",               speaker_ids)
 ```
 
-The pre-computed embedding dimension must match the `in_features` of the
-`MultiAxisProjection` (i.e. the output of the acoustic encoder + pooling), since
-both paths feed into the same projection heads.  If dimensions differ, add a
-linear adapter or choose a text model whose output matches.
+> **Important**
+>
+> `_sentence_embedding` columns bypass the encoder and are fed directly into
+> the projection module.  Therefore the embedding dimension **must match the
+> projection input dimension** (`in_features` of `MultiAxisProjection`, i.e.
+> the output of the acoustic encoder + pooling).  If dimensions differ, add a
+> linear adapter or choose a text model whose output dimension matches.
 
 ---
 
@@ -113,7 +148,7 @@ Then name your columns `anchor_pitch_values`, `semantic_pos_pitch_values`, etc.
 ## Minimal working example
 
 ```python
-import torch
+import numpy as np
 from datasets import Dataset
 from spoken_sentence_transformers import (
     MultiAxisProjection,
@@ -122,27 +157,24 @@ from spoken_sentence_transformers import (
     MultiAxisProjectionTrainer,
     MultiAxisNoDuplicatesBatchSampler,
 )
-from sentence_transformers import SentenceTransformer
 from sentence_transformers.models import Pooling
 from spoken_sentence_transformers.encoders import HFAcousticEncoder
-from sentence_transformers.training_args import (
-    SentenceTransformerTrainingArguments, BatchSamplers,
-)
+from sentence_transformers.training_args import SentenceTransformerTrainingArguments
 
 AXES = {"semantic": 256, "speaker_id": 128}
 ENCODER_DIM = 1024  # e.g. WavLM-large hidden size
 
-encoder  = HFAcousticEncoder("microsoft/wavlm-large")
+encoder = HFAcousticEncoder("microsoft/wavlm-large")
 pooling  = Pooling(ENCODER_DIM, pooling_mode="mean")
 proj     = MultiAxisProjection(in_features=ENCODER_DIM, axes=AXES)
 model    = MultiAxisSentenceTransformer(modules=[encoder, pooling, proj])
 
 dataset = Dataset.from_dict({
-    "anchor_input_features":           [...],  # list of np.ndarray waveforms
-    "semantic_pos_sentence_embedding": [...],  # list of float lists (text embs)
-    "speaker_id_pos_input_features":   [...],  # same-speaker waveforms
-    "semantic_label":                  [...],  # transcript strings (content IDs)
-    "speaker_id_label":                [...],  # speaker ID strings
+    "anchor_input_features":           [...],  # list of np.ndarray, shape (samples,)
+    "semantic_pos_sentence_embedding": [...],  # list of list[float], length ENCODER_DIM
+    "speaker_id_pos_input_features":   [...],  # list of np.ndarray, shape (samples,)
+    "semantic_label":                  [...],  # list of str  — transcript text
+    "speaker_id_label":                [...],  # list of str  — speaker ID
 })
 
 loss = MultiAxisInfoNCELoss(model)

@@ -184,3 +184,45 @@ Nordic Prosody CfP: https://npxiv.nordicprosody.org/cfp/2026-npxiv-cfp-1.pdf
 Interspeech 2026 paper kit: https://drive.google.com/file/d/1Nq1j_1AfOtadLkBx71-vLVLxZOaiAnzs/view
 
 Interspeech checklist: https://interspeech2026.org/en-AU/pages/author-resources/author-checklist
+
+-----
+
+$ CUDA_VISIBLE_DEVICES=1,2,3 python train_wavlm.py --dataset_dir ./merged_dataset --output_dir  ./output/wavlm-multiaxis
+ --model_id    microsoft/wavlm-base-plus --encoder_dim 768                      
+Loading dataset from ./merged_dataset ...                                       
+Loading dataset from disk: 100%|████████████| 34/34 [00:00<00:00, 111848.11it/s]
+Building model: microsoft/wavlm-base-plus, axes={'semantic': 256, 'speaker_id': 
+128, 'dialect': 64, 'gender': 32}                                               
+preprocessor_config.json: 100%|████████████████| 215/215 [00:00<00:00, 23.1kB/s]
+config.json: 2.23kB [00:00, 6.29MB/s]                                           
+pytorch_model.bin: 100%|██████████████████████| 378M/378M [00:03<00:00, 121MB/s]
+Traceback (most recent call last):                                              
+  File "/home/joregan/merged_tts/train_wavlm.py", line 133, in <module>         
+    main()                                                                      
+  File "/home/joregan/merged_tts/train_wavlm.py", line 100, in main             
+    encoder = HFAcousticEncoder(args.model_id)                                  
+  File "/home/joregan/merged_tts/spoken-sentence-transformers/spoken_sentence_tr
+ansformers/encoders/hf.py", line 74, in __init__                                
+    _model = AutoModel.from_pretrained(model_name_or_path)                      
+  File "/home/joregan/miniconda3/envs/hfnew/lib/python3.9/site-packages/transfor
+mers/models/auto/auto_factory.py", line 604, in from_pretrained                 
+    return model_class.from_pretrained(
+  File "/home/joregan/miniconda3/envs/hfnew/lib/python3.9/site-packages/transfor
+mers/modeling_utils.py", line 277, in _wrapper
+    return func(*args, **kwargs)
+  File "/home/joregan/miniconda3/envs/hfnew/lib/python3.9/site-packages/transfor
+mers/modeling_utils.py", line 5048, in from_pretrained
+    ) = cls._load_pretrained_model(
+  File "/home/joregan/miniconda3/envs/hfnew/lib/python3.9/site-packages/transfor
+mers/modeling_utils.py", line 5316, in _load_pretrained_model
+    load_state_dict(checkpoint_files[0], map_location="meta", weights_only=weigh
+ts_only).keys()
+  File "/home/joregan/miniconda3/envs/hfnew/lib/python3.9/site-packages/transfor
+mers/modeling_utils.py", line 508, in load_state_dict
+    check_torch_load_is_safe()
+  File "/home/joregan/miniconda3/envs/hfnew/lib/python3.9/site-packages/transfor
+mers/utils/import_utils.py", line 1647, in check_torch_load_is_safe
+    raise ValueError(
+ValueError: Due to a serious vulnerability issue in `torch.load`, even with `weights_only=True`, we now require users to upgrade torch to at least v2.6 in order to use the function. This version restriction does not apply when loading files with safetensors.
+See the vulnerability report here https://nvd.nist.gov/vuln/detail/CVE-2025-32434
+model.safetensors: 100%|██████████████████████| 378M/378M [00:03<00:00, 119MB/s]

@@ -38,6 +38,51 @@ from spoken_sentence_transformers import (
 from spoken_sentence_transformers.encoders import HFAcousticEncoder
 
 
+class AudioDataCollator:
+    """Data collator for datasets with HF Audio dicts and pre-computed embeddings.
+
+    Converts ``anchor_input_features`` Audio dicts to tensors via the encoder's
+    tokenize method, stacks pre-computed ``*_sentence_embedding`` columns, and
+    passes ``*_label`` columns through as lists for the batch sampler.
+    """
+
+    def __init__(self, tokenize_fn, valid_label_columns: list[str]) -> None:
+        self.tokenize_fn = tokenize_fn
+        self.valid_label_columns = valid_label_columns
+        self._skip = {"text", "utterance_id"}
+
+    def __call__(self, features: list[dict]) -> dict:
+        batch: dict = {}
+        keys = features[0].keys()
+        label_set = set(self.valid_label_columns)
+
+        for col in keys:
+            if col in self._skip:
+                continue
+            values = [f[col] for f in features]
+            if col in label_set:
+                batch[col] = values
+            elif isinstance(values[0], dict) and "array" in values[0]:
+                # Audio column: tokenize → {"input_values": tensor, ...}
+                # Output as "anchor_input_features" so collect_features routes it.
+                tokenized = self.tokenize_fn(values)
+                role = col[: col.rfind("_input_features")]
+                batch[f"{role}_input_features"] = tokenized[
+                    next(iter(tokenized))  # first key, e.g. input_values
+                ]
+                if "attention_mask" in tokenized:
+                    batch[f"{role}_attention_mask"] = tokenized["attention_mask"]
+            elif isinstance(values[0], (list, tuple)):
+                batch[col] = torch.tensor(values)
+            else:
+                try:
+                    batch[col] = torch.tensor(values)
+                except (TypeError, ValueError):
+                    batch[col] = values
+
+        return batch
+
+
 def parse_axes(specs: list[str]) -> dict[str, int]:
     """Parse 'name:dim' axis specs, e.g. 'semantic:256 speaker_id:128'."""
     result = {}
@@ -116,11 +161,15 @@ def main() -> None:
         logging_steps=args.logging_steps,
     )
 
+    label_cols = [c for c in dataset.column_names if c.endswith("_label")]
+    collator = AudioDataCollator(tokenize_fn=model.tokenize, valid_label_columns=label_cols)
+
     trainer = MultiAxisProjectionTrainer(
         model=model,
         args=training_args,
         train_dataset=dataset,
         loss=loss,
+        data_collator=collator,
     )
 
     print("Training ...")

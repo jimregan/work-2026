@@ -187,7 +187,6 @@ Interspeech checklist: https://interspeech2026.org/en-AU/pages/author-resources/
 
 -----
 
-Loading dataset from disk: 100%|█████████████| 34/34 [00:00<00:00, 45677.88it/s]
 Building model: microsoft/wavlm-base-plus, axes={'semantic': 256, 'speaker_id': 
 128, 'dialect': 64, 'gender': 32}                                               
 Currently using DataParallel (DP) for multi-gpu training, while DistributedDataP
@@ -205,65 +204,26 @@ mers/trainer.py", line 2325, in train
     return inner_training_loop(                                                 
   File "/home/joregan/miniconda3/envs/hfnew/lib/python3.9/site-packages/transfor
 mers/trainer.py", line 2674, in _inner_training_loop                            
-    tr_loss_step = self.training_step(model, inputs, num_items_in_batch)        
+    tr_loss_step = self.training_step(model, inputs, num_items_in_batch)
   File "/home/joregan/miniconda3/envs/hfnew/lib/python3.9/site-packages/transfor
 mers/trainer.py", line 4020, in training_step
     loss = self.compute_loss(model, inputs, num_items_in_batch=num_items_in_batc
-h)                                                                              
+h)
   File "/home/joregan/merged_tts/spoken-sentence-transformers/spoken_sentence_tr
-ansformers/trainer.py", line 375, in compute_loss                               
-    loss = loss_fn(named_features, labels)                                      
+ansformers/trainer.py", line 375, in compute_loss
+    loss = loss_fn(named_features, labels)
   File "/home/joregan/miniconda3/envs/hfnew/lib/python3.9/site-packages/torch/nn
-/modules/module.py", line 1511, in _wrapped_call_impl                           
-    return self._call_impl(*args, **kwargs)                                     
-  File "/home/joregan/miniconda3/envs/hfnew/lib/python3.9/site-packages/torch/nn
-/modules/module.py", line 1520, in _call_impl                                   
-    return forward_call(*args, **kwargs)                                        
-  File "/home/joregan/merged_tts/spoken-sentence-transformers/spoken_sentence_tr
-ansformers/loss.py", line 112, in forward                                       
-    anchor_out = self.model(named_features["anchor"])                           
-  File "/home/joregan/miniconda3/envs/hfnew/lib/python3.9/site-packages/torch/nn
-/modules/module.py", line 1511, in _wrapped_call_impl                           
-    return self._call_impl(*args, **kwargs)                                     
-  File "/home/joregan/miniconda3/envs/hfnew/lib/python3.9/site-packages/torch/nn
-/modules/module.py", line 1520, in _call_impl                                   
-    return forward_call(*args, **kwargs)                                        
-  File "/home/joregan/miniconda3/envs/hfnew/lib/python3.9/site-packages/torch/nn
-/parallel/data_parallel.py", line 185, in forward                               
-    outputs = self.parallel_apply(replicas, inputs, module_kwargs)              
-  File "/home/joregan/miniconda3/envs/hfnew/lib/python3.9/site-packages/torch/nn
-/parallel/data_parallel.py", line 200, in parallel_apply                        
-    return parallel_apply(replicas, inputs, kwargs, self.device_ids[:len(replica
-s)])                                                                            
-  File "/home/joregan/miniconda3/envs/hfnew/lib/python3.9/site-packages/torch/nn
-/parallel/parallel_apply.py", line 108, in parallel_apply                       
-    output.reraise()                                                            
-  File "/home/joregan/miniconda3/envs/hfnew/lib/python3.9/site-packages/torch/_u
-tils.py", line 722, in reraise                                                  
-    raise exception                                                             
-TypeError: Caught TypeError in replica 0 on device 0.                           
-Original Traceback (most recent call last):                                     
-  File "/home/joregan/miniconda3/envs/hfnew/lib/python3.9/site-packages/torch/nn
-/parallel/parallel_apply.py", line 83, in _worker                               
-    output = module(*input, **kwargs)                                           
-  File "/home/joregan/miniconda3/envs/hfnew/lib/python3.9/site-packages/torch/nn
-/modules/module.py", line 1511, in _wrapped_call_impl                           
-    return self._call_impl(*args, **kwargs)                                     
+/modules/module.py", line 1511, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
   File "/home/joregan/miniconda3/envs/hfnew/lib/python3.9/site-packages/torch/nn
 /modules/module.py", line 1520, in _call_impl
-    return forward_call(*args, **kwargs)
-  File "/home/joregan/miniconda3/envs/hfnew/lib/python3.9/site-packages/sentence_transformers/SentenceTransformer.py", line 1175, in forward
-    input = module(input, **module_kwargs)
-  File "/home/joregan/miniconda3/envs/hfnew/lib/python3.9/site-packages/torch/nn/modules/module.py", line 1511, in _wrapped_call_impl
-    return self._call_impl(*args, **kwargs)
-  File "/home/joregan/miniconda3/envs/hfnew/lib/python3.9/site-packages/torch/nn/modules/module.py", line 1520, in _call_impl
     return forward_call(*args, **kwargs) 
-  File "/home/joregan/merged_tts/spoken-sentence-transformers/spoken_sentence_transformers/encoders/hf.py", line 157, in forward
-    outputs = self.encoder(**encoder_inputs)
-  File "/home/joregan/miniconda3/envs/hfnew/lib/python3.9/site-packages/torch/nn/modules/module.py", line 1511, in _wrapped_call_impl
-    return self._call_impl(*args, **kwargs)
-  File "/home/joregan/miniconda3/envs/hfnew/lib/python3.9/site-packages/torch/nn/modules/module.py", line 1520, in _call_impl
-    return forward_call(*args, **kwargs) 
-TypeError: forward() got an unexpected keyword argument 'input_values'
-
-  0%|          | 0/6790 [00:02<?, ?it/s]
+  File "/home/joregan/merged_tts/spoken-sentence-transformers/spoken_sentence_tr
+ansformers/loss.py", line 116, in forward
+    for axis in self.model.axes:
+  File "/home/joregan/miniconda3/envs/hfnew/lib/python3.9/site-packages/torch/nn
+/modules/module.py", line 1688, in __getattr__
+    raise AttributeError(f"'{type(self).__name__}' object has no attribute '{nam
+e}'")
+AttributeError: 'DataParallel' object has no attribute 'axes'
+  0%|                                                  | 0/6790 [00:02<?, ?it/s]

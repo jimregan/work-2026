@@ -187,17 +187,14 @@ Interspeech checklist: https://interspeech2026.org/en-AU/pages/author-resources/
 
 -----
 
-Building model: microsoft/wavlm-base-plus, axes={'semantic': 256, 'speaker_id': 
-128, 'dialect': 64, 'gender': 32}                                               
-Currently using DataParallel (DP) for multi-gpu training, while DistributedDataP
-arallel (DDP) is recommended for faster training. See https://sbert.net/docs/sen
-tence_transformer/training/distributed.html for more information.               
 Training ...                                                                    
   0%|                                                  | 0/6790 [00:00<?, ?it/s]
 Traceback (most recent call last):                                              
-  File "/home/joregan/merged_tts/train_wavlm.py", line 182, in <module>         
+  File "/home/joregan/merged_tts/spoken-sentence-transformers/experiment/train_w
+avlm.py", line 182, in <module>                                                 
     main()                                                                      
-  File "/home/joregan/merged_tts/train_wavlm.py", line 176, in main             
+  File "/home/joregan/merged_tts/spoken-sentence-transformers/experiment/train_w
+avlm.py", line 176, in main                                                     
     trainer.train()                                                             
   File "/home/joregan/miniconda3/envs/hfnew/lib/python3.9/site-packages/transfor
 mers/trainer.py", line 2325, in train                                           
@@ -205,25 +202,17 @@ mers/trainer.py", line 2325, in train
   File "/home/joregan/miniconda3/envs/hfnew/lib/python3.9/site-packages/transfor
 mers/trainer.py", line 2674, in _inner_training_loop                            
     tr_loss_step = self.training_step(model, inputs, num_items_in_batch)
-  File "/home/joregan/miniconda3/envs/hfnew/lib/python3.9/site-packages/transfor
-mers/trainer.py", line 4020, in training_step
-    loss = self.compute_loss(model, inputs, num_items_in_batch=num_items_in_batc
-h)
-  File "/home/joregan/merged_tts/spoken-sentence-transformers/spoken_sentence_tr
-ansformers/trainer.py", line 375, in compute_loss
+  File "/home/joregan/miniconda3/envs/hfnew/lib/python3.9/site-packages/transformers/trainer.py", line 4020, in training_step
+    loss = self.compute_loss(model, inputs, num_items_in_batch=num_items_in_batch)
+  File "/home/joregan/merged_tts/spoken-sentence-transformers/spoken_sentence_transformers/trainer.py", line 375, in compute_loss
     loss = loss_fn(named_features, labels)
-  File "/home/joregan/miniconda3/envs/hfnew/lib/python3.9/site-packages/torch/nn
-/modules/module.py", line 1511, in _wrapped_call_impl
+  File "/home/joregan/miniconda3/envs/hfnew/lib/python3.9/site-packages/torch/nn/modules/module.py", line 1511, in _wrapped_call_impl
     return self._call_impl(*args, **kwargs)
-  File "/home/joregan/miniconda3/envs/hfnew/lib/python3.9/site-packages/torch/nn
-/modules/module.py", line 1520, in _call_impl
-    return forward_call(*args, **kwargs) 
-  File "/home/joregan/merged_tts/spoken-sentence-transformers/spoken_sentence_tr
-ansformers/loss.py", line 116, in forward
+  File "/home/joregan/miniconda3/envs/hfnew/lib/python3.9/site-packages/torch/nn/modules/module.py", line 1520, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/home/joregan/merged_tts/spoken-sentence-transformers/spoken_sentence_transformers/loss.py", line 116, in forward
     for axis in self.model.axes:
-  File "/home/joregan/miniconda3/envs/hfnew/lib/python3.9/site-packages/torch/nn
-/modules/module.py", line 1688, in __getattr__
-    raise AttributeError(f"'{type(self).__name__}' object has no attribute '{nam
-e}'")
+  File "/home/joregan/miniconda3/envs/hfnew/lib/python3.9/site-packages/torch/nn/modules/module.py", line 1688, in __getattr__
+    raise AttributeError(f"'{type(self).__name__}' object has no attribute '{name}'")
 AttributeError: 'DataParallel' object has no attribute 'axes'
-  0%|                                                  | 0/6790 [00:02<?, ?it/s]
+  0%|                                                  | 0/6790 [00:03<?, ?it/s]

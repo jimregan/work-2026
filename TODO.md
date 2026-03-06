@@ -189,8 +189,6 @@ Interspeech checklist: https://interspeech2026.org/en-AU/pages/author-resources/
 
 [CorentinJ/librispeech-alignments](https://github.com/CorentinJ/librispeech-alignments)
 
-[Hans Christian Andersen](https://librivox.org/author/122?primary_key=122&search_category=author&search_page=2&search_form=get_results&search_order=alpha)
-
 $ cat ~/Playing/work-2026/arctic/vctk/txt/s5/s5_00[1-5].txt 
 Please call Stella.  
 Ask her to bring these things with her from the store.  
@@ -198,9 +196,40 @@ Six spoons of fresh snow peas, five thick slabs of blue cheese, and maybe a snac
 We also need a small plastic snake and a big toy frog for the kids.  
 She can scoop these things into three red bags, and we will go meet her Wednesday at the train station. 
 
+[Hans Christian Andersen](https://librivox.org/author/122?primary_key=122&search_category=author&search_page=2&search_form=get_results&search_order=alpha)
+
 https://librivox.org/multilingual-short-works-collection-023-poetry-prose-by-various/
 https://librivox.org/library-of-the-worlds-best-literature-ancient-and-modern-volume-2-by-various/
 https://librivox.org/faery-tales-from-hans-christian-andersen
 https://librivox.org/fairy-tales-and-stories-by-hans-christian-andersen/
 https://librivox.org/short-story-collection-009/
 
+[Honoré de Balzac](https://librivox.org/author/86?primary_key=86&search_category=author&search_page=4&search_form=get_results&search_order=alpha)
+
+[Fyodor Dostoyevsky](https://librivox.org/author/439?primary_key=439&search_category=author&search_page=2&search_form=get_results&search_order=alpha)
+
+https://librivox.org/the-idiot-by-fyodor-dostoyevsky-part-01-and-02-translated-by-eva-m-martin/
+
+[Aesop](https://librivox.org/author/181?primary_key=181&search_category=author&search_page=2&search_form=get_results&search_order=alpha)
+
+https://librivox.org/group/17?primary_key=17&search_category=group&search_page=1&search_form=get_results&search_order=alpha
+
+https://librivox.org/search?q=the%20night%20before%20christmas&search_form=advanced
+
+[William Butler Yeats](https://librivox.org/author/335?primary_key=335&search_category=author&search_page=2&search_form=get_results&search_order=alpha)
+
+https://librivox.org/short-poetry-collection-097/
+https://librivox.org/short-poetry-collection-145-by-various/
+https://www.bartleby.com/lit-hub/responsibilities-and-other-poems/36-no-second-troy/
+https://librivox.org/short-poetry-collection-073/
+
+
+[John Keats](https://librivox.org/author/330?primary_key=330&search_category=author&search_page=1&search_form=get_results&search_order=alpha)
+
+[Henry Wadsworth Longfellow](https://librivox.org/author/43?primary_key=43&search_category=author&search_page=3&search_form=get_results&search_order=alpha)
+
+https://librivox.org/short-poetry-collection-144-by-various/
+
+[Edgar Allan Poe](https://librivox.org/author/21?primary_key=21&search_category=author&search_page=1&search_form=get_results&search_order=alpha)
+
+https://www.gutenberg.org/cache/epub/60177/pg60177-images.html

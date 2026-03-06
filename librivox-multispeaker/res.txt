@@ -1,0 +1,48 @@
+Loading model from ./output/wavlm-multiaxis ...
+Loading dataset from ./merged_dataset ...
+Embedding 256 samples across axes: ['semantic', 'speaker_id', 'dialect', 'gender'] ...
+
+Results (cosine similarity, higher = more similar):
+
+  semantic  (248 unique labels, 256 samples)
+                  EN0044   vctk_2266      s5_285      EN0023      EN0049      EN0024      EN0014
+      EN0044         ---       0.306       0.158       0.479       0.023       0.353      -0.057
+   vctk_2266       0.306         ---       0.661      -0.030      -0.209       0.012      -0.122
+      s5_285       0.158       0.661         ---      -0.247       0.175      -0.126      -0.016
+      EN0023       0.479      -0.030      -0.247         ---      -0.055       0.560      -0.191
+      EN0049       0.023      -0.209       0.175      -0.055         ---       0.173      -0.040
+      EN0024       0.353       0.012      -0.126       0.560       0.173         ---      -0.155
+      EN0014      -0.057      -0.122      -0.016      -0.191      -0.040      -0.155         ---
+  (diagonal = within-group; off-diagonal = cross-group)
+
+  speaker_id  (106 unique labels, 256 samples)
+           03397     slt   04310   05223     rms     lnh   02484    p283
+   03397     ---   0.274   0.390   0.411   0.236   0.241   0.362   0.205
+     slt   0.274     ---   0.253   0.242   0.384   0.304   0.164   0.175
+   04310   0.390   0.253     ---   0.357   0.297   0.263   0.360   0.174
+   05223   0.411   0.242   0.357     ---   0.183   0.254   0.350   0.148
+     rms   0.236   0.384   0.297   0.183     ---   0.319   0.175   0.175
+     lnh   0.241   0.304   0.263   0.254   0.319     ---   0.225   0.188
+   02484   0.362   0.164   0.360   0.350   0.175   0.225     ---   0.160
+    p283   0.205   0.175   0.174   0.148   0.175   0.188   0.160     ---
+  (diagonal = within-group; off-diagonal = cross-group)
+
+  dialect  (11 unique labels, 256 samples)
+                              American           Scottish   Southern English   Northern English              Irish           Canadian   Midlands English              Welsh
+           American                ---              0.147              0.110              0.146              0.187              0.171              0.133              0.106
+           Scottish              0.147                ---              0.152              0.150              0.178              0.175              0.139              0.115
+   Southern English              0.110              0.152                ---              0.180              0.122              0.120              0.160              0.220
+   Northern English              0.146              0.150              0.180                ---              0.166              0.125              0.170              0.141
+              Irish              0.187              0.178              0.122              0.166                ---              0.187              0.145              0.050
+           Canadian              0.171              0.175              0.120              0.125              0.187                ---              0.116              0.094
+   Midlands English              0.133              0.139              0.160              0.170              0.145              0.116                ---              0.127
+              Welsh              0.106              0.115              0.220              0.141              0.050              0.094              0.127                ---
+  (diagonal = within-group; off-diagonal = cross-group)
+
+  gender  (4 unique labels, 256 samples)
+                 F     male        M   female
+        F      ---    0.144    0.231    0.150
+     male    0.144      ---    0.185    0.345
+        M    0.231    0.185      ---    0.189
+   female    0.150    0.345    0.189      ---
+  (diagonal = within-group; off-diagonal = cross-group)

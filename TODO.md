@@ -224,8 +224,6 @@ https://www.bartleby.com/lit-hub/responsibilities-and-other-poems/36-no-second-t
 https://librivox.org/short-poetry-collection-073/
 
 
-[John Keats](https://librivox.org/author/330?primary_key=330&search_category=author&search_page=1&search_form=get_results&search_order=alpha)
-
 [Henry Wadsworth Longfellow](https://librivox.org/author/43?primary_key=43&search_category=author&search_page=3&search_form=get_results&search_order=alpha)
 
 https://librivox.org/short-poetry-collection-144-by-various/
@@ -233,3 +231,27 @@ https://librivox.org/short-poetry-collection-144-by-various/
 [Edgar Allan Poe](https://librivox.org/author/21?primary_key=21&search_category=author&search_page=1&search_form=get_results&search_order=alpha)
 
 https://www.gutenberg.org/cache/epub/60177/pg60177-images.html
+
+https://librivox.org/group/525?primary_key=525&search_category=group&search_page=1&search_form=get_results&search_order=alpha
+
+https://librivox.org/search?q=Anna%20Karenina&search_form=advanced
+https://librivox.org/group/207?primary_key=207&search_category=group&search_page=1&search_form=get_results&search_order=alpha
+
+Three hundred Aesop’s fables by Aesop
+https://www.gutenberg.org/ebooks/21
+
+
+https://librivox.org/search?q=War%20and%20Peace&search_form=advanced
+https://librivox.org/group/660?primary_key=660&search_category=group&search_page=1&search_form=get_results&search_order=alpha
+https://librivox.org/group/267?primary_key=267&search_category=group&search_page=1&search_form=get_results&search_order=alpha
+
+
+https://librivox.org/api/info
+
+
+https://librivox.org/the-birth-of-tragedy-or-hellenism-and-pessimism-version-2-by-friedrich-nietzsche/
+https://librivox.org/candide-by-voltaire/
+
+
+https://pypi.org/project/text-alignment-tool/
+https://gitlab.com/sofer_mahir/text_alignment_tool

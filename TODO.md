@@ -245,6 +245,12 @@ https://librivox.org/search?q=War%20and%20Peace&search_form=advanced
 https://librivox.org/group/660?primary_key=660&search_category=group&search_page=1&search_form=get_results&search_order=alpha
 https://librivox.org/group/267?primary_key=267&search_category=group&search_page=1&search_form=get_results&search_order=alpha
 
+https://librivox.org/author/71?primary_key=71&search_category=author&search_page=3&search_form=get_results&search_order=alpha
+https://librivox.org/first-chapter-collection-001/
+
+https://librivox.org/author/431?primary_key=431&search_category=author&search_page=2&search_form=get_results&search_order=alpha
+https://librivox.org/author/75?primary_key=75&search_category=author&search_page=1&search_form=get_results&search_order=alpha
+
 
 https://librivox.org/api/info
 

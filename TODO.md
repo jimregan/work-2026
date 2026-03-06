@@ -186,3 +186,21 @@ Interspeech 2026 paper kit: https://drive.google.com/file/d/1Nq1j_1AfOtadLkBx71-
 Interspeech checklist: https://interspeech2026.org/en-AU/pages/author-resources/author-checklist
 
 -----
+
+[CorentinJ/librispeech-alignments](https://github.com/CorentinJ/librispeech-alignments)
+
+[Hans Christian Andersen](https://librivox.org/author/122?primary_key=122&search_category=author&search_page=2&search_form=get_results&search_order=alpha)
+
+$ cat ~/Playing/work-2026/arctic/vctk/txt/s5/s5_00[1-5].txt 
+Please call Stella.  
+Ask her to bring these things with her from the store.  
+Six spoons of fresh snow peas, five thick slabs of blue cheese, and maybe a snack for her brother Bob.  
+We also need a small plastic snake and a big toy frog for the kids.  
+She can scoop these things into three red bags, and we will go meet her Wednesday at the train station. 
+
+https://librivox.org/multilingual-short-works-collection-023-poetry-prose-by-various/
+https://librivox.org/library-of-the-worlds-best-literature-ancient-and-modern-volume-2-by-various/
+https://librivox.org/faery-tales-from-hans-christian-andersen
+https://librivox.org/fairy-tales-and-stories-by-hans-christian-andersen/
+https://librivox.org/short-story-collection-009/
+

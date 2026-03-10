@@ -1,0 +1,22 @@
+---
+title: "Papers, March 2026"
+bibliography: refs.bib
+---
+
+## [PRiSM: Benchmarking Phone Realization in Speech Models](https://arxiv.org/abs/2601.14046) [@bharadwaj2026prismbenchmarkingphonerealization]
+- [code](https://github.com/changelinglab/prism) --- no licence
+
+## [ZIPA: A family of efficient models for multilingual phone recognition](https://aclanthology.org/2025.acl-long.961/) [@zhu-etal-2025-zipa]
+- [code](https://github.com/lingjzhu/zipa) --- MIT
+- "IPAPACK++, a 17,132-hour open-source speech corpora with G2P-generated phonetic transcriptions"
+- [IPAPACK++](https://huggingface.co/collections/anyspeech/ipa-pack-train) --- CC-BY 4.0
+- Pseudolabeled data is not open
+
+## [The taste of IPA: Towards open-vocabulary keyword spotting and forced alignment in any language](https://aclanthology.org/2024.naacl-long.43/) [@zhu-etal-2024-taste]
+- [code](https://github.com/lingjzhu/clap-ipa) --- MIT
+
+## [NLE: Non-autoregressive LLM-based ASR by Transcript Editing](https://arxiv.org/abs/2603.08397) [@dekel2026nlenonautoregressivellmbasedasr]
+
+## [Discrete Audio Tokens: More Than a Survey!](https://openreview.net/forum?id=eqNchtvc6v) [@mousavi2025discrete]
+- [arXiv](https://arxiv.org/abs/2506.10274)
+- [website](https://poonehmousavi.github.io/dates-website/)

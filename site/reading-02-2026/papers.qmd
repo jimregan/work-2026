@@ -134,3 +134,4 @@ bibliography: refs.bib
 
 ## [Irish Treebanking and Parsing: A Preliminary Evaluation](https://aclanthology.org/L12-1189/) [@lynn-etal-2012-irish]
 
+[dippedrusk/arpabet-syllabifier](https://github.com/dippedrusk/arpabet-syllabifier) --- No licence

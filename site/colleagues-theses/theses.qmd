@@ -10,6 +10,8 @@ bibliography: refs.bib
 
 ## [Probabilistic Speech & Motion Synthesis: Towards More Expressive and Multimodal Generative Models](https://urn.kb.se/resolve?urn=urn:nbn:se:kth:diva-368342) [@Mehta1988881]
 
+## [Evaluation of Artificial Intelligence in the Medical Domain: Speech, Language and Applications](https://urn.kb.se/resolve?urn=urn:nbn:se:kth:diva-371738) [@Moell2007130]
+
 ## [Bittersweet Lessons in Music AI Research: Neural Instrument Synthesis, Multi-modal Representations, Symbolic Music Generation](https://urn.kb.se/resolve?urn=urn:nbn:se:kth:diva-377801) [@Jonason2043729]
 
 <!-- makes quarto render properly -->

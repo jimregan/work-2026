@@ -12,6 +12,10 @@ bibliography: refs.bib
 - [arXiv](https://arxiv.org/abs/2404.19622)
 - [DiVa](https://kth.diva-portal.org/smash/record.jsf?pid=diva2:1907448)
 
+## [MM-Conv: A Multi-modal Conversational Dataset for Virtual Humans](https://arxiv.org/abs/2410.00253) [@deichler2024mmconvmultimodalconversationaldataset]
+
+## [Grounded Gesture Generation: Language, Motion, and Space](https://arxiv.org/abs/2507.04522) [@deichler2025groundedgesturegenerationlanguage]
+
 ## [Prosodic characteristics of English-accented Swedish neural TTS](https://www.isca-archive.org/speechprosody_2024/tannander24_speechprosody.html) [@tannander24_speechprosody]
 - [DiVa](https://kth.diva-portal.org/smash/record.jsf?pid=diva2:1671615)
 

@@ -14,13 +14,21 @@ Usage:
 
     # Directory of JSON files, Kaldi-format reference:
     align_whisper_ref.py --hyp-dir json_dir/ --ref refs.txt --ref-format kaldi --output out.ctm-edit
+
+    # Single file, sentence-split TSV (same ID repeated per sentence):
+    align_whisper_ref.py --hyp hyp.json --ref refs.tsv --ref-format tsv-sentences --output out.ctm-edit
+
+    # Single file, numbered sentence reference (r1 style):
+    align_whisper_ref.py --hyp hyp.json --ref sents.txt --ref-format numbered --output out.ctm-edit
 """
 
 from __future__ import print_function
 import argparse
 import json
 import logging
+import string
 import sys
+from collections import OrderedDict
 from pathlib import Path
 
 logger = logging.getLogger(__name__)
@@ -33,11 +41,10 @@ logger.addHandler(_handler)
 logger.setLevel(logging.DEBUG)
 
 
-# ---------------------------------------------------------------------------
-# Core Smith-Waterman alignment
-# Copyright 2016 Vimal Manohar, 2020 Dongji Gao -- Apache 2.0
-# (from Kaldi's egs/wsj/s5/steps/cleanup/internal/align_ctm_ref.py)
-# ---------------------------------------------------------------------------
+def normalize_for_comparison(word):
+    """Strip leading/trailing punctuation and lowercase for alignment comparison."""
+    return word.strip(string.punctuation).lower()
+
 
 def smith_waterman_alignment(ref, hyp, similarity_score_function,
                              del_score, ins_score,
@@ -149,8 +156,9 @@ def smith_waterman_alignment(ref, hyp, similarity_score_function,
 
 
 def get_edit_type(hyp_word, ref_word, duration=-1, eps_symbol="<eps>",
-                  oov_word=None, symbol_table=None):
-    if hyp_word == ref_word and hyp_word != eps_symbol:
+                  oov_word=None, symbol_table=None, normalizer=None):
+    norm = normalizer or (lambda x: x)
+    if norm(hyp_word) == norm(ref_word) and hyp_word != eps_symbol:
         return "cor"
     if hyp_word != eps_symbol and ref_word == eps_symbol:
         return "ins"
@@ -166,7 +174,7 @@ def get_edit_type(hyp_word, ref_word, duration=-1, eps_symbol="<eps>",
 
 
 def get_ctm_edits(alignment_output, ctm_array, eps_symbol="<eps>",
-                  oov_word=None, symbol_table=None):
+                  oov_word=None, symbol_table=None, normalizer=None):
     """Map alignment output back onto ctm_array timing.
 
     ctm_array: list of [start, duration, word, confidence]
@@ -183,12 +191,11 @@ def get_ctm_edits(alignment_output, ctm_array, eps_symbol="<eps>",
             assert len(ctm_array[ctm_pos]) == 4
 
             if hyp_prev_i == hyp_i:
-                # Deletion: no CTM entry
                 assert hyp_word == eps_symbol
                 edit_type = get_edit_type(
                     eps_symbol, ref_word, duration=0.0,
                     eps_symbol=eps_symbol, oov_word=oov_word,
-                    symbol_table=symbol_table)
+                    symbol_table=symbol_table, normalizer=normalizer)
                 ctm_edits.append([current_time, 0.0, eps_symbol, 1.0,
                                   ref_word, edit_type])
             else:
@@ -197,7 +204,6 @@ def get_ctm_edits(alignment_output, ctm_array, eps_symbol="<eps>",
                 ctm_line = list(ctm_array[ctm_pos])
 
                 if hyp_word == eps_symbol and ref_word != eps_symbol:
-                    # Silence aligned with reference word: split into del + sil
                     ctm_edits.append([current_time, 0.0, eps_symbol, 1.0,
                                       ref_word, "del"])
                     ctm_line.extend([eps_symbol, "sil"])
@@ -206,7 +212,7 @@ def get_ctm_edits(alignment_output, ctm_array, eps_symbol="<eps>",
                     edit_type = get_edit_type(
                         hyp_word, ref_word, duration=ctm_line[1],
                         eps_symbol=eps_symbol, oov_word=oov_word,
-                        symbol_table=symbol_table)
+                        symbol_table=symbol_table, normalizer=normalizer)
                     ctm_line.extend([ref_word, edit_type])
                     ctm_edits.append(ctm_line)
 
@@ -219,9 +225,61 @@ def get_ctm_edits(alignment_output, ctm_array, eps_symbol="<eps>",
     return ctm_edits
 
 
-# ---------------------------------------------------------------------------
-# Hypothesis readers: produce list of [start_sec, duration_sec, word, score]
-# ---------------------------------------------------------------------------
+def get_ctm_edits_with_sentences(alignment_output, ctm_array, sentence_indices,
+                                  eps_symbol="<eps>", oov_word=None,
+                                  symbol_table=None, normalizer=None):
+    """Like get_ctm_edits but annotates each edit with its sentence index.
+
+    sentence_indices[i] gives the sentence index (0-based) for flat ref word i.
+    Returns list of (sentence_idx, [start, duration, hyp_word, conf, ref_word, edit_type])
+    """
+    ctm_edits = []
+    ctm_len = len(ctm_array)
+    current_time = ctm_array[0][0] if ctm_len > 0 else 0.0
+    current_sentence = 0
+
+    for (ref_word, hyp_word, ref_prev_i, hyp_prev_i, ref_i, hyp_i) in alignment_output:
+        if ref_i > ref_prev_i:
+            current_sentence = sentence_indices[ref_i - 1]
+        try:
+            ctm_pos = hyp_prev_i
+            assert ctm_pos < ctm_len
+            assert len(ctm_array[ctm_pos]) == 4
+
+            if hyp_prev_i == hyp_i:
+                assert hyp_word == eps_symbol
+                edit_type = get_edit_type(
+                    eps_symbol, ref_word, duration=0.0,
+                    eps_symbol=eps_symbol, oov_word=oov_word,
+                    symbol_table=symbol_table, normalizer=normalizer)
+                ctm_edits.append((current_sentence, [current_time, 0.0, eps_symbol, 1.0,
+                                                      ref_word, edit_type]))
+            else:
+                assert hyp_i == hyp_prev_i + 1
+                assert hyp_word == ctm_array[ctm_pos][2]
+                ctm_line = list(ctm_array[ctm_pos])
+
+                if hyp_word == eps_symbol and ref_word != eps_symbol:
+                    ctm_edits.append((current_sentence, [current_time, 0.0, eps_symbol, 1.0,
+                                                          ref_word, "del"]))
+                    ctm_line.extend([eps_symbol, "sil"])
+                    ctm_edits.append((current_sentence, ctm_line))
+                else:
+                    edit_type = get_edit_type(
+                        hyp_word, ref_word, duration=ctm_line[1],
+                        eps_symbol=eps_symbol, oov_word=oov_word,
+                        symbol_table=symbol_table, normalizer=normalizer)
+                    ctm_line.extend([ref_word, edit_type])
+                    ctm_edits.append((current_sentence, ctm_line))
+
+                current_time = ctm_array[ctm_pos][0] + ctm_array[ctm_pos][1]
+        except Exception:
+            logger.error("get_ctm_edits_with_sentences failed at ctm[%d]=%s",
+                         ctm_pos,
+                         ctm_array[ctm_pos] if ctm_pos < ctm_len else "NONE")
+            raise
+    return ctm_edits
+
 
 def read_whisperx_json(data):
     """WhisperX format: top-level 'segments' list, each with 'words' list."""
@@ -277,10 +335,6 @@ def load_hyp(path, fmt):
     return file_id, ctm
 
 
-# ---------------------------------------------------------------------------
-# Reference readers: yield (id, [words])
-# ---------------------------------------------------------------------------
-
 def read_ref_tsv(ref_file):
     """TSV format: <ID>\\t<text>"""
     for line in ref_file:
@@ -301,18 +355,62 @@ def read_ref_kaldi(ref_file):
             yield parts[0], parts[1:]
 
 
-# ---------------------------------------------------------------------------
-# Output
-# ---------------------------------------------------------------------------
+def read_ref_tsv_sentences(ref_file):
+    """TSV multi-sentence format: <ID>\\t<text> where the same ID may repeat.
+
+    Returns OrderedDict mapping ID -> list of word lists (one per sentence).
+    """
+    result = OrderedDict()
+    for line in ref_file:
+        line = line.rstrip("\n")
+        if not line or "\t" not in line:
+            continue
+        id_, _, text = line.partition("\t")
+        id_ = id_.strip()
+        words = text.strip().split()
+        if words:
+            if id_ not in result:
+                result[id_] = []
+            result[id_].append(words)
+    return result
+
+
+def read_ref_numbered(ref_file):
+    """Numbered sentence format: <num>\\t<text> for a single file.
+
+    Returns list of word lists (one per sentence, in order).
+    """
+    sentences = []
+    for line in ref_file:
+        line = line.rstrip("\n")
+        if not line or "\t" not in line:
+            continue
+        _num, _, text = line.partition("\t")
+        words = text.strip().split()
+        if words:
+            sentences.append(words)
+    return sentences
+
+
+def build_flat_ref(sentence_list):
+    """Flatten list of sentence word lists.
+
+    Returns (flat_words, sentence_indices) where sentence_indices[i] is the
+    0-based sentence index for flat_words[i].
+    """
+    flat_words = []
+    sentence_indices = []
+    for i, words in enumerate(sentence_list):
+        for w in words:
+            flat_words.append(w)
+            sentence_indices.append(i)
+    return flat_words, sentence_indices
+
 
 def format_ctm_edit(file_id, row):
     start, duration, hyp_word, confidence, ref_word, edit_type = row
     return f"{file_id} 1 {start:.3f} {duration:.3f} {hyp_word} {confidence:.2f} {ref_word} {edit_type}"
 
-
-# ---------------------------------------------------------------------------
-# Argument parsing and main
-# ---------------------------------------------------------------------------
 
 def get_args():
     parser = argparse.ArgumentParser(
@@ -330,8 +428,16 @@ def get_args():
                         help="Hypothesis format (default: auto-detect)")
     parser.add_argument("--ref", required=True, type=argparse.FileType("r"),
                         help="Reference file")
-    parser.add_argument("--ref-format", choices=["tsv", "kaldi"], default="tsv",
-                        help="Reference format: tsv (<ID>\\t<text>) or kaldi (<ID> word...) (default: tsv)")
+    parser.add_argument("--ref-format",
+                        choices=["tsv", "kaldi", "tsv-sentences", "numbered"],
+                        default="tsv",
+                        help=(
+                            "Reference format: "
+                            "tsv (<ID>\\t<text>), "
+                            "kaldi (<ID> word...), "
+                            "tsv-sentences (<ID>\\t<text> with same ID repeated per sentence), "
+                            "numbered (<num>\\t<text> for a single file) "
+                            "(default: tsv)"))
     parser.add_argument("--output", default="-",
                         help="Output file (default: stdout)")
     parser.add_argument("--eps-symbol", default="<eps>",
@@ -343,6 +449,9 @@ def get_args():
     parser.add_argument("--no-align-full-hyp", dest="align_full_hyp",
                         action="store_false", default=True,
                         help="Use standard Smith-Waterman (sub-sequence) instead of full-hyp mode")
+    parser.add_argument("--no-normalize", dest="normalize",
+                        action="store_false", default=True,
+                        help="Disable punctuation/case normalization for word comparison")
     parser.add_argument("--verbose", type=int, default=0, choices=[0, 1, 2])
     return parser.parse_args()
 
@@ -350,6 +459,22 @@ def get_args():
 def run(args):
     if args.verbose > 0:
         _handler.setLevel(logging.DEBUG)
+
+    normalizer = normalize_for_comparison if args.normalize else None
+
+    def similarity_score(x, y):
+        if normalizer:
+            return args.correct_score if normalizer(x) == normalizer(y) else -args.substitution_penalty
+        return args.correct_score if x == y else -args.substitution_penalty
+
+    del_score = -args.deletion_penalty
+    ins_score = -args.insertion_penalty
+
+    out = open(args.output, "w") if args.output != "-" else sys.stdout
+
+    if args.ref_format in ("tsv-sentences", "numbered"):
+        _run_sentenced(args, similarity_score, del_score, ins_score, normalizer, out)
+        return
 
     # Collect hypothesis files
     if args.hyp:
@@ -365,14 +490,6 @@ def run(args):
     else:
         refs = dict(read_ref_kaldi(args.ref))
     args.ref.close()
-
-    def similarity_score(x, y):
-        return args.correct_score if x == y else -args.substitution_penalty
-
-    del_score = -args.deletion_penalty
-    ins_score = -args.insertion_penalty
-
-    out = open(args.output, "w") if args.output != "-" else sys.stdout
 
     num_done = num_err = 0
     try:
@@ -403,10 +520,76 @@ def run(args):
                 align_full_hyp=args.align_full_hyp)
 
             ctm_edits = get_ctm_edits(alignment, ctm_array,
-                                      eps_symbol=args.eps_symbol)
+                                      eps_symbol=args.eps_symbol,
+                                      normalizer=normalizer)
 
             for row in ctm_edits:
                 print(format_ctm_edit(file_id, row), file=out)
+
+            num_done += 1
+    finally:
+        if args.output != "-":
+            out.close()
+
+    logger.info("Done: %d succeeded, %d failed/skipped", num_done, num_err)
+    if num_done == 0:
+        raise RuntimeError("Processed 0 files successfully.")
+
+
+def _run_sentenced(args, similarity_score, del_score, ins_score, normalizer, out):
+    """Handle tsv-sentences and numbered formats with per-sentence output."""
+    if args.ref_format == "numbered":
+        sentence_list_for = {None: read_ref_numbered(args.ref)}
+    else:
+        sentence_list_for = read_ref_tsv_sentences(args.ref)
+    args.ref.close()
+
+    if args.hyp:
+        hyp_files = [args.hyp]
+    else:
+        hyp_files = sorted(Path(args.hyp_dir).glob("*.json"))
+        if not hyp_files:
+            raise RuntimeError(f"No JSON files found in {args.hyp_dir}")
+
+    num_done = num_err = 0
+    try:
+        for hyp_path in hyp_files:
+            file_id, ctm_array = load_hyp(hyp_path, args.hyp_format)
+
+            if args.ref_format == "numbered":
+                sentence_list = sentence_list_for[None]
+            else:
+                if file_id not in sentence_list_for:
+                    logger.warning("ID '%s' not found in reference; skipping", file_id)
+                    num_err += 1
+                    continue
+                sentence_list = sentence_list_for[file_id]
+
+            if not ctm_array:
+                logger.warning("No words in hypothesis for '%s'; skipping", file_id)
+                num_err += 1
+                continue
+
+            flat_ref, sentence_indices = build_flat_ref(sentence_list)
+            hyp_words = [row[2] for row in ctm_array]
+
+            logger.info("Aligning %s: %d hyp words, %d ref words across %d sentences",
+                        file_id, len(hyp_words), len(flat_ref), len(sentence_list))
+
+            alignment, _score = smith_waterman_alignment(
+                flat_ref, hyp_words,
+                similarity_score_function=similarity_score,
+                del_score=del_score, ins_score=ins_score,
+                eps_symbol=args.eps_symbol,
+                align_full_hyp=args.align_full_hyp)
+
+            ctm_edits = get_ctm_edits_with_sentences(
+                alignment, ctm_array, sentence_indices,
+                eps_symbol=args.eps_symbol, normalizer=normalizer)
+
+            for sent_idx, row in ctm_edits:
+                sent_id = f"{file_id}_{sent_idx + 1}"
+                print(format_ctm_edit(sent_id, row), file=out)
 
             num_done += 1
     finally:

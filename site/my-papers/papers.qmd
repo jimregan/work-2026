@@ -8,3 +8,8 @@ bibliography: refs.bib
 
 ## [Continued finetuning as single speaker adaptation](https://kth.diva-portal.org/smash/record.jsf?pid=diva2:1671614) [@oregan1671614]
 
+## [Fake it to make it: Using synthetic data to remedy the data shortage in joint multimodal speech-and-gesture synthesis](https://openreview.net/forum?id=3IdxENWcVH) [@mehta2024fake]
+- [arXiv](https://arxiv.org/abs/2404.19622)
+- [DiVa](https://kth.diva-portal.org/smash/record.jsf?pid=diva2:1907448)
+
+## [The effect of data augmentation on the performance of a speech emotion recognition system](https://kth.diva-portal.org/smash/record.jsf?pid=diva2:1671615) [@oregan1671615]

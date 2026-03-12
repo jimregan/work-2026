@@ -4,6 +4,8 @@ title: "Colleagues' Theses"
 bibliography: refs.bib
 ---
 
+## [Adaptive Robot Presenters: Modelling Grounding in Multimodal Interaction](https://urn.kb.se/resolve?urn=urn:nbn:se:kth:diva-338178) [@Axelsson1805218]
+
 ## [Robots Beyond Borders: The Role of Social Robots in Spoken Second Language Practice](https://urn.kb.se/resolve?urn=urn:nbn:se:kth:diva-343863) [@Cumbal1840732]
 
 ## [Bittersweet Lessons in Music AI Research: Neural Instrument Synthesis, Multi-modal Representations, Symbolic Music Generation](https://urn.kb.se/resolve?urn=urn:nbn:se:kth:diva-377801) [@Jonason2043729]

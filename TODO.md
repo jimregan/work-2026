@@ -261,3 +261,125 @@ https://librivox.org/candide-by-voltaire/
 
 https://pypi.org/project/text-alignment-tool/
 https://gitlab.com/sofer_mahir/text_alignment_tool
+
+-----
+
+It sounds like you hit a classic "gradient collapse" or "dominance" issue when you introduced the gender column. Your shift toward using high-dimensional supervision (x-vectors and softmax outputs) for all axes—essentially treating every axis as a distillation task—is a much more stable approach for this architecture.
+
+However, there are a few technical hurdles in your current implementation that might explain why things "broke" or could break as you scale this new supervision strategy:
+
+### 1. The "Binary Collapse" Problem
+
+When you introduced gender as a raw column without normalization, the model likely experienced **Feature Dominance**.
+
+* **The Math:** InfoNCE (in `loss.py`) relies on a high-entropy distribution of negatives. In a binary setup (Gender), 50% of your "negatives" in a batch are actually "positives" (e.g., other males).
+* **The Result:** The model tries to push "Male A" away from "Male B" while simultaneously trying to pull "Male A" toward the "Male" concept. This creates contradictory gradients that can bleed into the other projection heads via the shared encoder, effectively "numbing" the semantic and speaker axes.
+
+### 2. Distillation Mismatch (Softmax vs. Embeddings)
+
+You mentioned using **softmax outputs** for accent and gender. There is a potential pitfall here:
+
+* **The Semantic Axis** uses `sentence_embeddings` (likely 384 or 768 dims). These are points in a continuous space.
+* **The Accent/Gender Axis** using Softmax (e.g., a 2-dim vector for gender) provides very little "structural" information for InfoNCE.
+* **The Fix:** If you use the **logits** (the layer *before* softmax) or an intermediate hidden layer from your gender/accent classifiers, the model has a much richer "topology" to mimic. InfoNCE works best when there is a "neighborhood" of similar-but-different points.
+
+### 3. The "Negative Mining" Conflict
+
+Look at your `MultiAxisNoDuplicatesBatchSampler`. It is designed to ensure that no two anchors in a batch share a label.
+
+* **The Problem:** If you have 100 speakers, the sampler can easily find a batch of 32 unique speakers. But if you have 2 genders, the sampler **cannot** create a batch larger than 2 without violating its own rule.
+* **The Consequence:** If your sampler is strictly enforcing "no duplicate gender labels," your batch size is effectively being throttled to $N=2$ (one male, one female). This destroys the InfoNCE loss for the Semantic and Speaker axes, which require large batches to provide hard negatives.
+
+### 4. Shared Encoder Interference
+
+In `sentence_transformer.py`, all axes share the same `AcousticEncoder`.
+
+* Because you are backpropagating the sum of losses (from `loss.py`), a very high loss in a "broken" axis (like your 50% gender axis) will generate massive gradients.
+* These gradients will overwrite the progress made by the "Semantic" axis.
+* **Recommendation:** You may need to use **Gradient Clipping** or **Loss Scaling** (weighting the semantic loss higher than the gender loss) to prevent the "easier" tasks from drowning out the "harder" semantic task.
+
+### 5. X-Vector Normalization
+
+For the Speaker ID axis using x-vectors:
+
+* Ensure the source x-vectors are **L2-normalized** before they reach the loss function.
+* Since your `loss.py` does `F.normalize(pos_proj, p=2)`, if the incoming `sentence_embedding` or `x-vector` has a massive magnitude compared to your audio encoder output, the projection layer will struggle to bridge that scale gap during the initial iterations.
+
+### Summary Checklist for your New Implementation:
+
+1. **Relax the Sampler:** Don't enforce "no duplicates" for binary axes (gender/accent). Enforce it only for high-cardinality axes (Speaker/Content).
+2. **Use Latents, not Softmax:** Distill from the embedding layer of your gender/accent models, not the final probability distribution.
+3. **Check the "Short-Circuit":** Ensure that your `forward` logic in `sentence_transformer.py` correctly handles the different keys (`xvector`, `accent_logits`, etc.) so they all bypass the acoustic encoder just like the `sentence_embedding` does.
+
+If you fix the sampler to ignore gender duplicates, you'll likely see the Semantic axis "wake back up" immediately.
+
+---
+
+⏺ A few of these points are already addressed by the current design, a few are
+  worth acting on.
+                                                                                
+  Already handled:                        
+  - Point 1 (binary collapse) and point 3 (sampler throttling): Gender uses     
+  classifier distillation, not InfoNCE with label matching. The                 
+  NoDuplicatesBatchSampler is only used for explicit-positive axes; label-based 
+  axes (speaker) use DefaultBatchSampler which allows repeats.                  
+  - Point 5: The loss already normalises projections with F.normalize before    
+  computing cosine similarity.
+
+  Worth acting on:
+
+  Point 2 (softmax vs logits): For gender (2-class), softmax collapses to a 1D
+  signal on a simplex — not much topology to distill from. Using a penultimate
+  hidden layer instead gives the projection a richer target. Whether this is
+  worth implementing now or later is your call.
+
+  Point 4 (gradient interference): This is a real gap. No loss weighting or
+  gradient clipping exists yet. An axis with a bad loss can dominate the shared
+  encoder gradients. The fix is straightforward — add axis_weights: dict[str,
+  float] to MultiAxisTrainingConfig and scale each axis loss before summing,
+  plus max_grad_norm in TrainingArguments.
+
+  I'd push back on:
+  Point 3's recommendation to "use latents not softmax" for accent — for N-class
+   dialect (5–10 classes), softmax probabilities do carry meaningful
+  neighbourhood structure (uncertain predictions spread probability across
+  related dialects). Logits would work too but aren't obviously better.
+
+  Do you want me to add loss weighting to MultiAxisTrainingConfig and the
+  trainer now?
+
+---
+
+That breakdown from the coding agent is solid, but there is a subtle architectural "gotcha" regarding **Point 4 (Gradient Interference)** that you should keep an eye on as you move to this multi-supervised setup.
+
+While adding `axis_weights` is the standard fix, the reason your "Semantic" axis likely broke (0% success) when gender was introduced isn't just about weight—it's about the **Gradient Signal-to-Noise Ratio**.
+
+### 1. The "Dominant Gradient" Problem
+
+When you distill from a pre-trained classifier (Gender/Accent), those targets are very "stable." The model can minimize that loss quickly by finding a few key acoustic features (like pitch).
+
+However, the **Semantic** axis is a "moving target" distillation (mapping audio to complex sentence embeddings). If the Gender loss is high at the start, its gradients will be much larger than the Semantic gradients. Because they share the `AcousticEncoder`, the encoder will be optimized almost exclusively for Gender in the first few epochs. By the time Gender is "solved," the encoder may have already discarded the subtle phonetic information needed for Semantic alignment.
+
+### 2. Implementation Advice for Point 4
+
+When you implement the `axis_weights`, I recommend a **"Warm-up" strategy**:
+
+* Start with a high weight on the **Semantic** axis and a very low weight (e.g., 0.1) on Gender/Accent.
+* This allows the encoder to first establish the complex "mapping" to the high-dimensional sentence space before it starts fine-tuning for simpler classification tasks.
+
+### 3. Logits vs. Softmax (Accent)
+
+The agent's point about Softmax carrying "neighborhood structure" for N-class accents is true *only if* the teacher model was trained with label smoothing or is naturally "soft."
+
+* If the accent teacher is very confident (outputting `[0.99, 0.01, ...]`), the softmax distribution becomes a "one-hot" vector.
+* Contrastive loss (InfoNCE) on one-hot vectors is mathematically identical to standard Cross-Entropy.
+* **Recommendation:** If you see "0% success" on the accent axis, it means the projection head can't find a way to map audio to those sharp peaks. Switching to **Logits** removes the "squashing" effect of Softmax and gives your projection head a much smoother landscape to learn.
+
+### 4. Verification Step
+
+Since you mentioned the Semantic axis went to 0%, try this: **Run a training pass with Gender/Accent weights set to 0.0.** * If the Semantic axis recovers, you have a **Gradient Interference** issue.
+
+* If it stays at 0%, the issue is in the **Data Pipe** (e.g., the way the new supervision columns are being fed into the `named_features` dict in `trainer.py`).
+
+**Which axis is currently the most important for your use case?** If it's Semantic, you should definitely prioritize the loss weighting fix.
+

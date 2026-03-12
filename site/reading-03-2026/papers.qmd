@@ -43,3 +43,5 @@ bibliography: refs.bib
 - Cites [@church-1985-stress]
 
 ## [Stress Assignment in Letter to Sound Rules for Speech Synthesis](https://aclanthology.org/P85-1030/) [@church-1985-stress]
+
+## [Bittersweet Lessons in Music AI Research: Neural Instrument Synthesis, Multi-modal Representations, Symbolic Music Generation](https://kth.diva-portal.org/smash/record.jsf?pid=diva2%3A2043729&dswid=-8347) [@Jonason2043729]

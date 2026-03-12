@@ -4,7 +4,11 @@ title: "Colleagues' Theses"
 bibliography: refs.bib
 ---
 
+## [Found speech and humans in the loop: Ways to gain insight into large quantities of speech](https://urn.kb.se/resolve?urn=urn:nbn:se:kth:diva-309031) [@]
+
 ## [Adaptive Robot Presenters: Modelling Grounding in Multimodal Interaction](https://urn.kb.se/resolve?urn=urn:nbn:se:kth:diva-338178) [@Axelsson1805218]
+
+## [Ask and distract: Data-driven methods for the automatic generation of multiple-choice reading comprehension questions from Swedish texts](https://urn.kb.se/resolve?urn=urn:nbn:se:kth:diva-336531) [@Kalpakchi1797477]
 
 ## [Robots Beyond Borders: The Role of Social Robots in Spoken Second Language Practice](https://urn.kb.se/resolve?urn=urn:nbn:se:kth:diva-343863) [@Cumbal1840732]
 

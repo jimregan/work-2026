@@ -12,7 +12,13 @@ bibliography: refs.bib
 
 ## [Robots Beyond Borders: The Role of Social Robots in Spoken Second Language Practice](https://urn.kb.se/resolve?urn=urn:nbn:se:kth:diva-343863) [@Cumbal1840732]
 
+## [Phonetic potential in the extant apes and extinct hominins](https://urn.kb.se/resolve?urn=urn:nbn:se:kth:diva-351250) [@Ekstrom1886743]
+
+## [Mapping voice quality in normal, pathological and synthetic voices](https://urn.kb.se/resolve?urn=urn:nbn:se:kth:diva-360211) [@Cai1939381]
+
 ## [Probabilistic Speech & Motion Synthesis: Towards More Expressive and Multimodal Generative Models](https://urn.kb.se/resolve?urn=urn:nbn:se:kth:diva-368342) [@Mehta1988881]
+
+## [Perspectives on AI and Music: Representation, Detection, and Explanation in the Age of AI-Generated Music](https://urn.kb.se/resolve?urn=urn:nbn:se:kth:diva-372384) [@CrosVila2011779]
 
 ## [Evaluation of Artificial Intelligence in the Medical Domain: Speech, Language and Applications](https://urn.kb.se/resolve?urn=urn:nbn:se:kth:diva-371738) [@Moell2007130]
 

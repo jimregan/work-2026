@@ -6,3 +6,5 @@ bibliography: refs.bib
 ## [Speech Data Augmentation for Improving Phoneme Transcriptions of Aphasic Speech Using Wav2Vec 2.0 for the PSST Challenge](https://aclanthology.org/2022.rapid-1.8/) [@moell-etal-2022-speech]
 - [DiVa](https://kth.diva-portal.org/smash/record.jsf?pid=diva2:1671565)
 
+## [Continued finetuning as single speaker adaptation](https://kth.diva-portal.org/smash/record.jsf?pid=diva2:1671614) [@oregan1671614]
+

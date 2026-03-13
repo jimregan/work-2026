@@ -282,10 +282,14 @@ def format_sentence(file_id, sent_num, sent_data,
 
 
 def write_normalizations(path, existing_map, new_norms):
-    """Append newly detected normalizations to the TSV file."""
+    """Append newly detected normalizations to the TSV file.
+
+    Skips entries that are already in existing_map, or whose type is 'case'
+    (trivial case differences are handled implicitly by normalize_word).
+    """
     existing_keys = {(v[1], v[2]) for v in existing_map.values()}
     to_write = [(ref, hyp, t) for (ref, hyp), t in new_norms.items()
-                if (ref, hyp) not in existing_keys]
+                if (ref, hyp) not in existing_keys and t != "case"]
     if not to_write:
         return
     with open(path, "a", encoding="utf-8") as f:

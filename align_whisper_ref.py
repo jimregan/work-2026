@@ -420,17 +420,18 @@ def read_ref_tsv_sentences(ref_file):
 def read_ref_numbered(ref_file):
     """Numbered sentence format: <num>\\t<text> for a single file.
 
-    Returns list of word lists (one per sentence, in order).
+    Returns list of (num_str, words) in file order. The num_str is preserved
+    verbatim so IDs stay consistent across files that share the same poem.
     """
     sentences = []
     for line in ref_file:
         line = line.rstrip("\n")
         if not line or "\t" not in line:
             continue
-        _num, _, text = line.partition("\t")
+        num, _, text = line.partition("\t")
         words = text.strip().split()
         if words:
-            sentences.append(words)
+            sentences.append((num.strip(), words))
     return sentences
 
 
@@ -605,13 +606,16 @@ def _run_sentenced(args, similarity_score, del_score, ins_score, out):
             file_id, ctm_array = load_hyp(hyp_path, args.hyp_format)
 
             if args.ref_format == "numbered":
-                sentence_list = sentence_list_for[None]
+                numbered = sentence_list_for[None]
+                sentence_nums = [num for num, _ in numbered]
+                sentence_list = [words for _, words in numbered]
             else:
                 if file_id not in sentence_list_for:
                     logger.warning("ID '%s' not found in reference; skipping", file_id)
                     num_err += 1
                     continue
                 sentence_list = sentence_list_for[file_id]
+                sentence_nums = [str(i + 1) for i in range(len(sentence_list))]
 
             if not ctm_array:
                 logger.warning("No words in hypothesis for '%s'; skipping", file_id)
@@ -639,7 +643,7 @@ def _run_sentenced(args, similarity_score, del_score, ins_score, out):
                 eps_symbol=args.eps_symbol, normalize=args.normalize)
 
             for sent_idx, row in ctm_edits:
-                sent_id = f"{file_id}_{sent_idx + 1}"
+                sent_id = f"{file_id}_{sentence_nums[sent_idx]}"
                 print(format_ctm_edit(sent_id, row), file=out)
 
             num_done += 1

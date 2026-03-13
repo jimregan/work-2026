@@ -26,10 +26,21 @@ is added when:
   - the primary ASR perfectly matches the reference (normalized), OR
   - the secondary ASR scores at or above --secondary-threshold
 
-A normalizations file (--normalizations) records known equivalences in TSV
-format: ref<TAB>hyp<TAB>type (e.g. "LibriVox.org<TAB>librivox dot org<TAB>URL").
-Multi-word hyp sequences are collapsed before alignment. New normalizations
-detected during processing are appended to the file.
+Two-pass normalizations workflow:
+  Pass 1 – generate candidates:
+    align_to_json.py --hyp hyp.json --ref r2 --ref-format tsv-sentences \\
+        --write-normalizations norms.tsv
+    # Edit norms.tsv: promote hyphen-apostrophe → modernisation, add ASR-error
+    # entries, delete noise, etc.
+  Pass 2 – incorporate:
+    align_to_json.py --hyp hyp.json --ref r2 --ref-format tsv-sentences \\
+        --normalizations norms.tsv
+
+--normalizations (pass 2): reads a curated TSV and applies it during alignment.
+  Multi-word hyp sequences are collapsed before alignment. Fired normalizations
+  appear per-segment as {"ref":..., "hyp":..., "type":...} (ASR-error excluded).
+--write-normalizations (pass 1): appends newly detected pairs to a TSV file.
+  Case-only differences are suppressed (handled implicitly by normalize_word).
 
 Usage:
     align_to_json.py --hyp hyp.json --ref r2 --ref-format tsv-sentences
@@ -334,8 +345,15 @@ def get_args():
     parser.add_argument("--secondary-threshold", type=float, default=1.0, metavar="FLOAT",
                         help="Min secondary score to count as validation (default: 1.0)")
     parser.add_argument("--normalizations", metavar="FILE", default=None,
-                        help="TSV file of known normalizations (ref<TAB>hyp<TAB>type). "
-                             "Read at start to improve alignment; new detections are appended.")
+                        help="TSV file of curated normalizations (ref<TAB>hyp<TAB>type) "
+                             "to incorporate into alignment. Multi-word hyp sequences are "
+                             "collapsed before alignment; fired normalizations appear per-"
+                             "segment in the JSON output (ASR-error type excepted).")
+    parser.add_argument("--write-normalizations", metavar="FILE", default=None,
+                        dest="write_normalizations",
+                        help="TSV file to write newly detected normalizations to "
+                             "(appended). Case-only differences are suppressed. "
+                             "Use this for pass 1 candidate generation.")
     parser.add_argument("--eps-symbol", default="<eps>")
     parser.add_argument("--correct-score", type=int, default=1)
     parser.add_argument("--substitution-penalty", type=int, default=1)
@@ -367,6 +385,7 @@ def run(args):
 
     norm_map = load_normalizations(args.normalizations) if args.normalizations else {}
     all_new_norms = {}
+    write_norms_path = args.write_normalizations
 
     if args.ref_format == "numbered":
         numbered = read_ref_numbered(args.ref)
@@ -414,7 +433,7 @@ def run(args):
 
             align_ref = _make_align_arrays(original_ref, args.normalize)
             align_hyp1 = _make_align_arrays(hyp1_words, args.normalize)
-            align_hyp1, hyp1_words, ctm_array = apply_normalizations(
+            align_hyp1, hyp1_words, ctm_array, fired1 = apply_normalizations(
                 align_hyp1, hyp1_words, ctm_array, norm_map)
 
             logger.info("Aligning %s: %d hyp words, %d ref words across %d sentences",
@@ -427,7 +446,7 @@ def run(args):
 
             sentences, new_norms = collect_sentence_data(
                 alignment1, ctm_array, original_ref, sentence_indices, sentence_list,
-                norm_map=norm_map, eps_symbol=args.eps_symbol)
+                norm_map=norm_map, fired_positions=fired1, eps_symbol=args.eps_symbol)
             all_new_norms.update(new_norms)
 
             scores2 = [None] * len(sentence_list)
@@ -446,7 +465,7 @@ def run(args):
                 _, ctm2 = load_hyp(hyp2_path, args.hyp2_format)
                 hyp2_words = [row[2] for row in ctm2]
                 align_hyp2 = _make_align_arrays(hyp2_words, args.normalize)
-                align_hyp2, hyp2_words, ctm2 = apply_normalizations(
+                align_hyp2, hyp2_words, ctm2, _fired2 = apply_normalizations(
                     align_hyp2, hyp2_words, ctm2, norm_map)
 
                 alignment2, _ = _do_align(align_ref, align_hyp2,
@@ -484,8 +503,8 @@ def run(args):
         if args.output != "-":
             out.close()
 
-    if args.normalizations and all_new_norms:
-        write_normalizations(args.normalizations, norm_map, all_new_norms)
+    if write_norms_path and all_new_norms:
+        write_normalizations(write_norms_path, norm_map, all_new_norms)
 
     logger.info("Done: %d succeeded, %d failed/skipped", num_done, num_err)
     if num_done == 0:

@@ -275,6 +275,9 @@ def format_sentence(file_id, sent_num, sent_data,
         secondary_ok = score2 is not None and score2 >= secondary_threshold
         if primary_perfect or secondary_ok:
             obj["secondary_validation"] = validator
+    norms = [n for n in sent_data.get("normalizations", []) if n["type"] != "ASR-error"]
+    if norms:
+        obj["normalizations"] = norms
     return json.dumps(obj, ensure_ascii=False)
 
 

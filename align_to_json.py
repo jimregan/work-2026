@@ -160,18 +160,24 @@ def detect_normalization_type(ref_word, hyp_word):
 
 def collect_sentence_data(alignment_output, ctm_array, original_ref,
                            sentence_indices, sentence_list,
-                           norm_map=None, eps_symbol="<eps>"):
+                           norm_map=None, fired_positions=None,
+                           eps_symbol="<eps>"):
     """Collect per-sentence ASR words, timing, scores, and normalizations.
 
     Returns (sentences, new_norms) where:
-      sentences: list of dicts with ref_words, asr_words, start, end, score
+      sentences: list of dicts with ref_words, asr_words, start, end, score,
+                 normalizations (list of {ref, hyp, type} from known norm_map)
       new_norms: dict of {(orig_ref, orig_hyp): type} for newly detected pairs
     """
     n = len(sentence_list)
     sentences = [{"ref_words": sentence_list[i], "asr_words": [],
-                  "start": None, "end": None, "cor": 0, "total": 0}
+                  "start": None, "end": None, "cor": 0, "total": 0,
+                  "normalizations": []}
                  for i in range(n)]
     new_norms = {}
+    if fired_positions is None:
+        fired_positions = {}
+    known_lookup = {(v[1], v[2]): v[3] for v in norm_map.values()} if norm_map else {}
     current_sentence = 0
 
     for (ref_word, hyp_word, ref_prev_i, hyp_prev_i, ref_i, hyp_i) in alignment_output:
@@ -181,7 +187,8 @@ def collect_sentence_data(alignment_output, ctm_array, original_ref,
         sent = sentences[current_sentence]
         sent["total"] += 1
 
-        if ref_word == hyp_word and ref_word != eps_symbol:
+        is_cor = ref_word == hyp_word and ref_word != eps_symbol
+        if is_cor:
             sent["cor"] += 1
 
         if hyp_i > hyp_prev_i:
@@ -196,13 +203,22 @@ def collect_sentence_data(alignment_output, ctm_array, original_ref,
                 sent["start"] = start
             sent["end"] = start + duration
 
-            if ref_i > ref_prev_i:
-                orig_ref = original_ref[ref_prev_i]
-                orig_hyp = word
-                if orig_ref != orig_hyp and ref_word == hyp_word and ref_word != eps_symbol:
-                    key = (orig_ref, orig_hyp)
-                    if norm_map is None or key not in {(v[1], v[2]) for v in norm_map.values()}:
-                        new_norms[key] = detect_normalization_type(orig_ref, orig_hyp)
+            if is_cor:
+                if ctm_pos in fired_positions:
+                    orig_ref, orig_hyp, ntype = fired_positions[ctm_pos]
+                    sent["normalizations"].append(
+                        {"ref": orig_ref, "hyp": orig_hyp, "type": ntype})
+                elif ref_i > ref_prev_i:
+                    orig_ref = original_ref[ref_prev_i]
+                    orig_hyp = word
+                    if orig_ref != orig_hyp:
+                        key = (orig_ref, orig_hyp)
+                        if key in known_lookup:
+                            sent["normalizations"].append(
+                                {"ref": orig_ref, "hyp": orig_hyp,
+                                 "type": known_lookup[key]})
+                        else:
+                            new_norms[key] = detect_normalization_type(orig_ref, orig_hyp)
 
     for sent in sentences:
         total = sent.pop("total")

@@ -10,23 +10,34 @@
 }
 
 @inproceedings{reimers2019sentence,
-  title={Sentence-{BERT}: Sentence Embeddings using {Siamese BERT}-Networks},
-  author={Reimers, Nils and Gurevych, Iryna},
-  booktitle={Proceedings of the 2019 Conference on Empirical Methods in Natural Language Processing},
-  pages={3982--3992},
-  year={2019},
-  publisher={Association for Computational Linguistics}
+    title = "Sentence-{BERT}: Sentence Embeddings using {S}iamese {BERT}-Networks",
+    author = "Reimers, Nils  and
+      Gurevych, Iryna",
+    editor = "Inui, Kentaro  and
+      Jiang, Jing  and
+      Ng, Vincent  and
+      Wan, Xiaojun",
+    booktitle = "Proceedings of the 2019 Conference on Empirical Methods in Natural Language Processing and the 9th International Joint Conference on Natural Language Processing (EMNLP-IJCNLP)",
+    month = nov,
+    year = "2019",
+    address = "Hong Kong, China",
+    publisher = "Association for Computational Linguistics",
+    url = "https://aclanthology.org/D19-1410/",
+    doi = "10.18653/v1/D19-1410",
+    pages = "3982--3992",
+    abstract = "BERT (Devlin et al., 2018) and RoBERTa (Liu et al., 2019) has set a new state-of-the-art performance on sentence-pair regression tasks like semantic textual similarity (STS). However, it requires that both sentences are fed into the network, which causes a massive computational overhead: Finding the most similar pair in a collection of 10,000 sentences requires about 50 million inference computations ({\textasciitilde}65 hours) with BERT. The construction of BERT makes it unsuitable for semantic similarity search as well as for unsupervised tasks like clustering. In this publication, we present Sentence-BERT (SBERT), a modification of the pretrained BERT network that use siamese and triplet network structures to derive semantically meaningful sentence embeddings that can be compared using cosine-similarity. This reduces the effort for finding the most similar pair from 65 hours with BERT / RoBERTa to about 5 seconds with SBERT, while maintaining the accuracy from BERT. We evaluate SBERT and SRoBERTa on common STS tasks and transfer learning tasks, where it outperforms other state-of-the-art sentence embeddings methods."
 }
 
 @article{chen2022wavlm,
-  title={{WavLM}: Large-Scale Self-Supervised Pre-Training for Full Stack Speech Processing},
-  author={Chen, Sanyuan and Wang, Chengyi and Chen, Zhengyang and Wu, Yu and Liu, Shujie and Chen, Zhuo and Li, Jinyu and Kanda, Naoyuki and Yoshioka, Takuya and Xiao, Xiong and others},
-  journal={IEEE Journal of Selected Topics in Signal Processing},
+  author={Chen, Sanyuan and Wang, Chengyi and Chen, Zhengyang and Wu, Yu and Liu, Shujie and Chen, Zhuo and Li, Jinyu and Kanda, Naoyuki and Yoshioka, Takuya and Xiao, Xiong and Wu, Jian and Zhou, Long and Ren, Shuo and Qian, Yanmin and Qian, Yao and Wu, Jian and Zeng, Michael and Yu, Xiangzhan and Wei, Furu},
+  journal={IEEE Journal of Selected Topics in Signal Processing}, 
+  title={{WavLM}: Large-Scale Self-Supervised Pre-Training for Full Stack Speech Processing}, 
+  year={2022},
   volume={16},
   number={6},
-  pages={1505--1518},
-  year={2022},
-  publisher={IEEE}
+  pages={1505-1518},
+  keywords={Predictive models;Self-supervised learning;Speech processing;Speech recognition;Convolution;Benchmark testing;Self-supervised learning;speech pre-training},
+  doi={10.1109/JSTSP.2022.3188113}
 }
 
 @article{oord2018representation,
@@ -37,19 +48,22 @@
 }
 
 @inproceedings{snyder2018x,
-  title={X-Vectors: Robust {DNN} Embeddings for Speaker Recognition},
   author={Snyder, David and Garcia-Romero, Daniel and Sell, Gregory and Povey, Daniel and Khudanpur, Sanjeev},
-  booktitle={Proceedings of ICASSP 2018},
-  pages={5329--5333},
+  booktitle={2018 IEEE International Conference on Acoustics, Speech and Signal Processing (ICASSP)}, 
+  title={{X-Vectors}: Robust {DNN} Embeddings for Speaker Recognition}, 
   year={2018},
-  organization={IEEE}
+  pages={5329-5333},
+  keywords={Acoustics;Training;Feature extraction;Speaker recognition;Training data;Neural networks;NIST;speaker recognition;deep neural networks;data augmentation;x-vectors},
+  doi={10.1109/ICASSP.2018.8461375}
 }
 
+
 @inproceedings{kominek2004cmu,
-  title={The {CMU} {ARCTIC} Speech Databases},
-  author={Kominek, John and Black, Alan W},
-  booktitle={Fifth ISCA Workshop on Speech Synthesis},
-  year={2004}
+  title     = {{The CMU Arctic speech databases}},
+  author    = {John Kominek and Alan W. Black},
+  year      = {2004},
+  booktitle = {{5th ISCA Workshop on Speech Synthesis (SSW 5)}},
+  pages     = {223--224},
 }
 
 @misc{yamagishi2019vctk,

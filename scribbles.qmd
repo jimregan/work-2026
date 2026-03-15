@@ -16,7 +16,7 @@ Speech encodes multiple simultaneous attributes — linguistic content, speaker 
 We present a factor-partitioned embedding framework that maps each utterance into a single vector whose subspaces correspond to independent axes of variation.
 A shared acoustic encoder (WavLM) feeds per-axis linear projection heads, each trained via distillation from a specialist teacher or a contrastive objective over shared-label pairs.
 The resulting embeddings support attribute-conditioned retrieval: similarity is computed as a signed weighted sum over per-axis cosine scores, allowing retrieval that jointly considers what was said and how it was said — or that explicitly suppresses one attribute to surface another.
-We evaluate on cross-corpus retrieval over corpora sharing the Harvard sentence prompts, demonstrating that signed axis weighting can suppress same-speaker bias and recover semantically matched utterances across recording conditions.
+We evaluate on cross-corpus retrieval using the OSR and rehasp corpora, which share the Harvard sentence prompts [@rothauser1969ieee], demonstrating that signed axis weighting can suppress same-speaker bias and recover semantically matched utterances across recording conditions.
 
 ## Introduction
 
@@ -26,10 +26,14 @@ Beyond linguistic content, speech reveals much about the speaker: most fundament
 These attributes are often intertwined, and it can be difficult to disentangle them.
 
 Many speech datasets contain overlap in the prompts presented to speakers, which presents an opportunity to evaluate the feasibility of attribute-conditioned similarity.
+
+<!-- this is not accurate; none of these datasets include the Harvard sentences -->
+<!--
 The Harvard sentences [@rothauser1969ieee], a set of phonetically balanced sentences widely used in speech research, appear across multiple corpora (CMU ARCTIC [@kominek2004cmu], VCTK [@yamagishi2019vctk], and others), enabling cross-corpus retrieval evaluation where the correct match is known by shared prompt identity.
+-->
 
 We introduce a factor-partitioned embedding framework for speech that learns a single embedding space partitioned into subspaces corresponding to different attributes.
-Given an utterance, the model produces a concatenated embedding vector whose sub-regions encode, independently, what was said (semantic content), who said it (speaker identity), and how it was said (dialect, gender, etc.).
+Given an utterance, the model produces a concatenated embedding vector whose sub-regions are specialised for different attributes: what was said (semantic content), who said it (speaker identity), and how it was said (dialect, gender, etc.).
 Similarity is then a vector rather than a scalar, enabling retrieval that is simultaneously sensitive to multiple axes of variation.
 
 ## Related Work
@@ -41,11 +45,18 @@ These models capture a mixture of linguistic, speaker, and prosodic information 
 
 Speaker embeddings such as x-vectors [@snyder2018x] address this for the speaker axis specifically, but do not carry semantic content.
 
-### Sentence transformers
+### Sentence transformers and multi-notion similarity
 
 [@reimers2019sentence] introduced Sentence-BERT, which adapts BERT-family models to produce fixed-size sentence embeddings suitable for semantic similarity via contrastive training [@oord2018representation].
 The SentenceTransformers library generalises this pipeline to arbitrary encoder–pooler–projector stacks.
 We adapt this pipeline to speech by replacing the text encoder with an acoustic encoder (WavLM or similar) and adding per-axis projection heads.
+
+Conditional Similarity Networks [@veit2017conditional] are the closest conceptual prior for our retrieval approach: they learn a single embedding space partitioned into subspaces corresponding to different similarity notions, and select or reweight subspaces at query time via a mask or weight vector.
+Our work extends this idea to speech, replaces mask-based selection with signed weighted sums (including negative weights for suppression), and uses teacher distillation rather than triplet supervision to define the axes.
+
+The semantic axis is an instance of speech-to-text retrieval alignment: the speech encoder is trained to produce embeddings that agree with a text-side teacher, enabling content-based retrieval without relying on ASR at inference time.
+This pattern has been explored in SpeechDPR [@tseng2022speechdpr] and SpeechRAG [@vo2024speechrag], which align speech encoders to frozen text dense retrievers.
+<!-- TODO: verify SpeechDPR/SpeechRAG bib entries -->
 
 ### Disentangled speech representations
 
@@ -93,6 +104,8 @@ The per-axis dimensions are chosen to match the output dimensionality of the cor
 | dialect | dialect classifier | 12 |
 | gender | gender classifier | 2 |
 
+<!-- Note: for categorical axes (dialect, gender), distilling from class logits and using cosine similarity in a 2- or 12-dimensional space is problematic. Prefer distilling from the penultimate (pre-softmax) embedding of the teacher, or training a supervised contrastive objective on a larger learned subspace. -->
+
 The full embedding is the concatenation of all axis projections; axis sub-embeddings can be extracted independently for axis-specific retrieval.
 
 ### Training
@@ -108,9 +121,8 @@ A batch sampler ensures that no two items in a batch share a label on any axis, 
 ### Evaluation: cross-corpus retrieval
 
 We evaluate using shared-prompt retrieval: given a query utterance from one corpus, retrieve the utterance from a second corpus that reads the same sentence.
-The Harvard sentences [@rothauser1969ieee] appear in both CMU ARCTIC [@kominek2004cmu] and VCTK [@yamagishi2019vctk], providing ground-truth matches.
-
-We also evaluate on a mixed index containing both OSR and rehasp recordings, where the same speaker reads the same sentence multiple times across datasets.
+OSR and rehasp both record the Harvard sentences [@rothauser1969ieee], providing ground-truth matches by prompt identity.
+We evaluate on a mixed index containing both corpora, where the same speaker reads the same sentence multiple times across datasets.
 In this setting, retrieval is evaluated cross-corpus: same-corpus hits (same speaker, different recording) are treated as distractors rather than correct matches.
 
 **Metrics**: Precision@k, where a hit is counted as correct if it (a) comes from a different corpus than the query, and (b) reads the same sentence.
@@ -129,10 +141,11 @@ In the mixed-index setting, a negative `speaker_id` weight suppresses same-speak
 
 <!-- TODO: add proper citations for OSR and rehasp -->
 
-- **CMU ARCTIC** [@kominek2004cmu]: ~1100 utterances per speaker, 7 speakers, recording-studio quality. Includes Harvard sentences.
-- **VCTK** [@yamagishi2019vctk]: ~400 utterances per speaker, 110 speakers, various accents. Includes Harvard sentences.
-- **OSR** (Open Speech Repository): Harvard sentences read by a single speaker; used as query set.
-- **rehasp**: Harvard sentences read by speakers with dysarthria or other speech differences; used as index alongside OSR to evaluate robustness.
+- **CMU ARCTIC** [@kominek2004cmu]: ~1100 utterances per speaker, 7 speakers, recording-studio quality.
+- **VCTK** [@yamagishi2019vctk]: ~400 utterances per speaker, 110 speakers, various accents.
+- **OSR** (Open Speech Repository): a collection of speech recordings in multiple languages for testing Voice over IP (VoIP) applications. The English subset contains recordings of the Harvard sentences [@rothauser1969ieee] by 3 British speakers and 5 American speakers.
+- **rehasp** [@henter14_interspeech]: a single speaker reading the same Harvard sentences multiple times, enabling study of within-speaker variability.
+- **TSP Speech Database**: Harvard sentences recorded by 24 speakers; permissive BSD licence. A strong candidate for multi-speaker cross-corpus evaluation. <!-- TODO: add TSP citation -->
 
 ## Results and observations
 
@@ -143,17 +156,3 @@ In the mixed-index setting, a negative `speaker_id` weight suppresses same-speak
 - P@1 remains at 0% with the current index because the correct OSR hit consistently ranks 6–10 rather than 1; semantic similarity alone is insufficient to pull it to the top rank.
 - Sweeping `speaker_id` weight from 0 to 5 shows no benefit beyond 0; negative weights are strictly better for cross-corpus retrieval in this mixed-speaker setting.
 
-## Related work
-
-[@lu2023speechtriplenet] propose the same core goal — decomposing speech into independent per-factor representations — but differ in several key ways:
-
-| | SpeechTripleNet | This work |
-|-|-----------------|-----------|
-| Approach | Generative (VAE) | Discriminative |
-| Supervision | Unsupervised | Teacher-guided |
-| Disentanglement mechanism | Channel capacity restriction (β-VAE) | Independent axis objectives |
-| Factors | Content, timbre, prosody | Semantic, speaker, dialect, gender |
-| Output use | Synthesis / editing | Retrieval |
-
-Their ablation showing timbre leakage into prosody without capacity restriction mirrors the speaker-identity leakage we observe in the semantic subspace: without explicit separation, speaker information bleeds into content representations.
-The β-VAE [@higgins2017beta] bottleneck is a more principled solution for generative settings; our teacher-guided approach is more practical when reconstruction is not the goal.

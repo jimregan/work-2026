@@ -1,6 +1,13 @@
 ---
 title: "Multi-Axis Speech Similarity via Factor-Partitioned Embeddings"
 bibliography: sst.bib
+keywords:
+  - speech representation learning
+  - contrastive learning
+  - knowledge distillation
+  - disentangled representations
+  - speaker embeddings
+  - multi-attribute retrieval
 ---
 
 ## Abstract
@@ -42,16 +49,28 @@ We adapt this pipeline to speech by replacing the text encoder with an acoustic 
 
 ### Disentangled speech representations
 
-Most disentanglement work in speech separates content and speaker identity for voice conversion.
-[@lu2023speechtriplenet] extend this to three factors — content, timbre, and prosody — using a VAE with restricted channel capacity to force disentanglement without explicit supervision.
+The earliest work on sequential disentanglement used factorised hierarchical VAEs (FHVAEs) [@hsu2017unsupervised], which separate "slow" sequence-level factors (speaker, channel, noise) from "fast" segment-level factors (phonetic content) via time-scale structure — without any factor labels.
+This established the foundational insight that content and speaker information operate on different time scales and can be separated structurally.
+
+Building on this, SpeechSplit [@qian2020unsupervised] extended the decomposition to four factors — content, timbre, rhythm, and pitch — using an information bottleneck approach that restricts the bandwidth available to each encoder branch.
+ContentVec [@qian2022contentvec] incorporated speaker disentanglement directly into the SSL pre-training objective, showing that masked prediction combined with speaker conditioning can yield representations where the content axis carries substantially less speaker information.
+
+[@lu2023speechtriplenet] extend content/timbre separation to three factors by adding prosody, using a VAE with restricted channel capacity to force disentanglement without explicit supervision.
 Their approach is generative and unsupervised; ours is discriminative and supervision-guided, using pre-trained teacher models to provide independent training signal for each axis.
 The key difference: they restrict information flow structurally (β-VAE [@higgins2017beta] bottleneck); we provide axis-specific objectives derived from teachers whose representations are known to carry specific information.
 
-A practical consequence is that our approach scales to any axis for which a competent teacher exists (semantic similarity model, speaker embedding model, dialect classifier, etc.), without requiring reconstruction.
+A consistent finding across this literature is that factor leakage is hard to eliminate completely: adversarial removal can reduce leakage under closed-set evaluation but residual speaker information often persists under stronger open-set conditions.
+A practical consequence of our approach is that it scales to any axis for which a competent teacher exists, without requiring reconstruction.
+
+### Structured and hierarchical representations
+
+An alternative to explicit disentanglement training is to exploit the natural organisation of information in hierarchical representations.
+SpeechTokenizer [@zhang2024speechtokenizer] demonstrates that in a residual vector quantisation (RVQ) hierarchy, the first codebook layer organises representations around semantic/phonetic content while later layers carry speaker-specific and paralinguistic detail — without any explicit disentanglement objective.
+This suggests that structured representations emerge from hierarchical compression alone.
+
+Our approach occupies a middle position: we impose explicit per-axis objectives, but rely on teacher distillation rather than reconstruction, and produce a single concatenated vector rather than a token stream.
 
 ### Distillation into partitioned spaces
-
-<!-- TODO: any other work on partitioned/structured embedding spaces? look for structured similarity or multi-aspect retrieval -->
 
 MiniLM [@wang2020minilm] distils large transformers into smaller ones via self-attention transfer; we similarly distil teacher embeddings into fixed-size subspaces, but align subspaces across axes rather than across model depths.
 
@@ -124,7 +143,7 @@ In the mixed-index setting, a negative `speaker_id` weight suppresses same-speak
 - P@1 remains at 0% with the current index because the correct OSR hit consistently ranks 6–10 rather than 1; semantic similarity alone is insufficient to pull it to the top rank.
 - Sweeping `speaker_id` weight from 0 to 5 shows no benefit beyond 0; negative weights are strictly better for cross-corpus retrieval in this mixed-speaker setting.
 
-## Comparison with SpeechTripleNet
+## Related work
 
 [@lu2023speechtriplenet] propose the same core goal — decomposing speech into independent per-factor representations — but differ in several key ways:
 

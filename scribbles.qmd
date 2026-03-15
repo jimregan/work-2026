@@ -1,0 +1,28 @@
+---
+title: "Scribbles"
+bibliography: sst.bib
+---
+<!-- Speech contains a variety of attributes: beyond the sematic content, speech also contains information about the speaker, such as their identity, gender, and accent. --> 
+
+- Speech, in contrast with text, is inherently variable.
+- We never say the same thing the same way twice
+- different speakers say the same thing differently
+- even the same speaker says the same thing differently at different times, due to a variety of factors, such as their mood, the context, and the environment, or even their communicative intent.
+- Speech reveals much about the speaker; most fundamentally, it reveals their identity, gender, and even health [@nolan1995can]
+- These attributes are often intertwined, and it can be difficult to disentangle them.
+
+
+<!-- Many speech datasets, particularly those intended for training text-to-speech (TTS) models, include multiple attributes pertaining to the speech, such as a speaker identifier, gender, and accent. -->
+
+Many speech datasets contain overlap in the prompts presented to the speakers, which presents an opportunity to evaluate the feasibility of attribute-conditioned similarity.
+
+
+We introduce a factor-partitioned embedding framework for speech, which learns a single embedding space that is partitioned into subspaces corresponding to different attributes.
+
+---
+
+<!--
+[@lu2023speechtriplenet] propose SpeechTripleNet, an end-to-end disentangled speech representation learning framework for content, timbre, and prosody. The model consists of three branches, each responsible for learning a specific attribute of speech. The content branch learns to encode the linguistic content of the speech, while the timbre branch learns to encode the speaker's identity and vocal characteristics. The prosody branch learns to encode the rhythm, intonation, and stress patterns of the speech. The model is trained using a combination of reconstruction loss and disentanglement loss, which encourages the model to learn disentangled representations of the different attributes. The authors evaluate their model on several tasks, including speaker verification, speech synthesis, and emotion recognition, and show that it outperforms several baselines in terms of disentanglement and performance on downstream tasks.
+-->
+
+[@lu2023speechtriplenet] propose the same core idea, of decomposing speech into independent per-factor representations (content, timbre, and prosody) within a single embedding space that is partitioned into subspaces corresponding to different attributes.

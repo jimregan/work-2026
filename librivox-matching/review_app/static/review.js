@@ -419,7 +419,9 @@
     a.href = url;
     a.download = "annotations.json";
     a.click();
-    URL.revokeObjectURL(url);
+    setTimeout(function () {
+      URL.revokeObjectURL(url);
+    }, 0);
   }
 
   function doLoad() {

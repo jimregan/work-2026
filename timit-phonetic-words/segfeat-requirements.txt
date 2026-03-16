@@ -1,0 +1,11 @@
+torch
+torchaudio
+torchvision
+pytorch-lightning
+boltons
+loguru
+librosa
+numpy
+pandas
+soundfile
+tqdm

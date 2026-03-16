@@ -75,4 +75,34 @@ bibliography: refs.bib
 
 ## [An introduction to voice search](https://ieeexplore.ieee.org/document/4490199) [@wang2008introduction]
 
-<!-- -->
+## [The CMU Arctic speech databases](https://www.isca-archive.org/ssw_2004/kominek04b_ssw.html) [@kominek04b_ssw]
+
+## [SpeechTripleNet: End-to-End Disentangled Speech Representation Learning for Content, Timbre and Prosody](https://dl.acm.org/doi/10.1145/3581783.3612485) [@lu2024speechtriplenetendtoenddisentangled]
+- [code](https://github.com/light1726/SpeechTripleNet) --- MIT
+
+## [WavLM: Large-Scale Self-Supervised Pre-Training for Full Stack Speech Processing](https://ieeexplore.ieee.org/document/3188113) [@chen2022wavlm]
+- [arXiv](https://arxiv.org/abs/2110.13900)
+- [code](https://github.com/microsoft/unilm/tree/master/wavlm)
+
+## [beta-VAE: Learning Basic Visual Concepts with a Constrained Variational Framework](https://openreview.net/forum?id=Sy2fzU9gl) [@higgins2017beta]
+
+## [IEEE Recommended Practice for Speech Quality Measurements](https://ieeexplore.ieee.org/document/1162058) [@ieee1969harvard]
+
+## [CSTR VCTK Corpus: English Multi-speaker Corpus for CSTR Voice Cloning Toolkit](https://datashare.ed.ac.uk/handle/10283/3443) [@yamagishi2019vctk]
+
+## [The voice bank corpus: Design, collection and data analysis of a large regional accent speech database](https://ieeexplore.ieee.org/document/6709856) [@veaux2013voice]
+
+## [Unsupervised learning of disentangled and interpretable representations from sequential data](https://dl.acm.org/doi/10.5555/3294771.3294950) [@hsu2017unsupervised]
+- [code](https://github.com/wnhsu/FactorizedHierarchicalVAE) --- Apache 2.0
+
+## [ContentVec: An Improved Self-Supervised Speech Representation by Disentangling Speakers](https://proceedings.mlr.press/v162/qian22b.html) [@qian2022contentvec]
+- [arXiv](https://arxiv.org/abs/2204.09224)
+- [code](https://github.com/auspicious3000/contentvec) --- MIT
+
+## [SpeechTokenizer: Unified Speech Tokenizer for Speech Language Models](https://openreview.net/forum?id=AF9Q8Vip84) [@zhang2024speechtokenizerunified]
+
+## [Unsupervised speech decomposition via triple information bottleneck](https://dl.acm.org/doi/10.5555/3524938.3525664) [@qian2020unsupervised]
+- content, timbre, pitch, and rhythm
+
+::: {#refs}
+:::

@@ -9,6 +9,16 @@
   address={Stockholm, Sweden}
 }
 
+@inproceedings{henter14_interspeech,
+  title     = {{Measuring the perceptual effects of modelling assumptions in speech synthesis using stimuli constructed from repeated natural speech}},
+  author    = {Gustav Eje Henter and Thomas Merritt and Matt Shannon and Catherine Mayo and Simon King},
+  year      = {2014},
+  booktitle = {{Interspeech 2014}},
+  pages     = {1504--1508},
+  doi       = {10.21437/Interspeech.2014-361},
+  issn      = {2958-1796},
+}
+
 @inproceedings{reimers2019sentence,
     title = "Sentence-{BERT}: Sentence Embeddings using {S}iamese {BERT}-Networks",
     author = "Reimers, Nils  and
@@ -68,27 +78,29 @@
 
 @misc{yamagishi2019vctk,
   author={Yamagishi, Junichi and Veaux, Christophe and MacDonald, Kirsten},
-  title={{CSTR VCTK} Corpus: English Multi-speaker Corpus for {CSTR} Voice Cloning Toolkit},
+  title={{CSTR VCTK} {C}orpus: {E}nglish Multi-speaker Corpus for {CSTR} Voice Cloning Toolkit (version 0.92)},
   year={2019},
   howpublished={University of Edinburgh. The Centre for Speech Technology Research (CSTR)},
   doi={10.7488/ds/2645}
 }
 
-@article{rothauser1969ieee,
+@article{ieee1969harvard,
   title={{IEEE} Recommended Practice for Speech Quality Measurements},
-  author={Rothauser, E. H. and others},
+  author={},
   journal={IEEE Transactions on Audio and Electroacoustics},
   volume={17},
   number={3},
   pages={225--246},
-  year={1969}
+  year={1969},
+  doi={10.1109/TAU.1969.1162058}
 }
 
 @inproceedings{higgins2017beta,
   title={beta-{VAE}: Learning Basic Visual Concepts with a Constrained Variational Framework},
-  author={Higgins, Irina and Matthey, Loic and Pal, Arka and Burgess, Christopher and Glorot, Xavier and Botvinick, Matthew and Mohamed, Shakir and Lerchner, Alexander},
+  author={Irina Higgins and Loic Matthey and Arka Pal and Christopher Burgess and Xavier Glorot and Matthew Botvinick and Shakir Mohamed and Alexander Lerchner},
   booktitle={International Conference on Learning Representations},
-  year={2017}
+  year={2017},
+  url={https://openreview.net/forum?id=Sy2fzU9gl}
 }
 
 @inproceedings{baevski2020wav2vec,
@@ -116,6 +128,55 @@
   volume={33},
   pages={5776--5788},
   year={2020}
+}
+
+@inproceedings{veit2017conditional,
+  author={Veit, Andreas and Belongie, Serge and Karaletsos, Theofanis},
+  booktitle={2017 IEEE Conference on Computer Vision and Pattern Recognition (CVPR)}, 
+  title={Conditional Similarity Networks}, 
+  year={2017},
+  pages={1781-1789},
+  doi={10.1109/CVPR.2017.193}
+}
+
+@inproceedings{hsu2017unsupervised,
+author = {Hsu, Wei-Ning and Zhang, Yu and Glass, James},
+title = {Unsupervised learning of disentangled and interpretable representations from sequential data},
+year = {2017},
+isbn = {9781510860964},
+publisher = {Curran Associates Inc.},
+address = {Red Hook, NY, USA},
+abstract = {We present a factorized hierarchical variational autoencoder, which learns disentangled and interpretable representations from sequential data without supervision. Specifically, we exploit the multi-scale nature of information in sequential data by formulating it explicitly within a factorized hierarchical graphical model that imposes sequence-dependent priors and sequence-independent priors to different sets of latent variables. The model is evaluated on two speech corpora to demonstrate, qualitatively, its ability to transform speakers or linguistic content by manipulating different sets of latent variables; and quantitatively, its ability to outperform an i-vector baseline for speaker verification and reduce the word error rate by as much as 35\% in mismatched train/test scenarios for automatic speech recognition tasks.},
+booktitle = {Proceedings of the 31st International Conference on Neural Information Processing Systems},
+pages = {1876–1887},
+numpages = {12},
+location = {Long Beach, California, USA},
+series = {NIPS'17}
+}
+
+@inproceedings{qian2020unsupervised,
+  title={Unsupervised Speech Decomposition via Triple Information Bottleneck},
+  author={Qian, Kaizhi and Zhang, Yang and Chang, Shiyu and Cox, David and Hasegawa-Johnson, Mark},
+  booktitle={Proceedings of the 37th International Conference on Machine Learning},
+  pages={7836--7846},
+  year={2020},
+  publisher={PMLR}
+}
+
+@inproceedings{qian2022contentvec,
+  title={{ContentVec}: An Improved Self-Supervised Speech Representation by Disentangling Speakers},
+  author={Qian, Kaizhi and Zhang, Yang and Gao, Heting and Ni, Junrui and Lai, Cheng-I and Cox, David and Hasegawa-Johnson, Mark and Chang, Shiyu},
+  booktitle={Proceedings of the 39th International Conference on Machine Learning},
+  pages={18003--18017},
+  year={2022},
+  publisher={PMLR}
+}
+
+@inproceedings{zhang2024speechtokenizer,
+  title={{SpeechTokenizer}: Unified Speech Tokenizer for Speech Language Models},
+  author={Zhang, Xin and Zhang, Dong and Li, Shimin and Zhou, Yaqian and Qiu, Xipeng},
+  booktitle={International Conference on Learning Representations},
+  year={2024}
 }
 
 @inproceedings{lu2023speechtriplenet,

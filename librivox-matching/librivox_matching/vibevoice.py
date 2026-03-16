@@ -4,6 +4,10 @@ import json
 from dataclasses import dataclass
 
 
+# Maximum allowed time gap (in seconds) to consider chunks contiguous
+MERGE_EPSILON = 1e-3
+
+
 @dataclass
 class Chunk:
     start: float
@@ -30,9 +34,10 @@ def parse_vibevoice(json_path: str) -> list[Chunk]:
 def merge_chunks(chunks: list[Chunk]) -> list[Chunk]:
     """Merge temporally contiguous chunks.
 
-    When one chunk's end time exactly equals the next chunk's start time,
-    they are merged (accumulating text, extending the end time). Speaker
-    is taken from the first chunk in a merged group.
+    When one chunk's end time is approximately equal (within MERGE_EPSILON)
+    to the next chunk's start time, they are merged (accumulating text,
+    extending the end time). Speaker is taken from the first chunk in a
+    merged group.
     """
     if not chunks:
         return []
@@ -46,7 +51,7 @@ def merge_chunks(chunks: list[Chunk]) -> list[Chunk]:
     )
 
     for chunk in chunks[1:]:
-        if chunk.start == current.end:
+        if abs(chunk.start - current.end) < MERGE_EPSILON:
             current.end = chunk.end
             current.content = current.content + " " + chunk.content
         else:

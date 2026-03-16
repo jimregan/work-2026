@@ -75,4 +75,5 @@ bibliography: refs.bib
 
 ## [An introduction to voice search](https://ieeexplore.ieee.org/document/4490199) [@wang2008introduction]
 
-<!-- -->
+::: {#refs}
+:::

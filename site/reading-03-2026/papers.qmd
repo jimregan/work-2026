@@ -44,5 +44,5 @@ bibliography: refs.bib
 
 ## [Stress Assignment in Letter to Sound Rules for Speech Synthesis](https://aclanthology.org/P85-1030/) [@church-1985-stress]
 
-<!-- -->
-
+::: {#refs}
+:::

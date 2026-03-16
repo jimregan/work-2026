@@ -11,6 +11,7 @@ dependencies = [
     "pynini>=2.1.5",
     "k2>=1.24",
     "torch>=2.0",
+    "torchaudio>=2.0",
     "transformers>=4.30",
     "numpy>=1.24",
     "pyyaml>=6.0",

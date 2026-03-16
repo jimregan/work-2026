@@ -1,0 +1,51 @@
+diff --git a/dataloader.py b/dataloader.py
+index 44d6fba..f141162 100644
+--- a/dataloader.py
++++ b/dataloader.py
+@@ -87,14 +87,14 @@ def extract_features(wav_file, hparams):
+ 
+     # extract mel-spectrogram
+     if hparams.feats == 'mel':
+-        spect = librosa.feature.melspectrogram(wav,
++        spect = librosa.feature.melspectrogram(y=wav,
+                                                sr=sr,
+                                                n_fft=hparams.n_fft,
+                                                hop_length=hparams.hop_length,
+                                                n_mels=hparams.rnn_input_size)
+     # extract mfcc
+     elif hparams.feats == 'mfcc':
+-        spect = librosa.feature.mfcc(wav,
++        spect = librosa.feature.mfcc(y=wav,
+                                      sr=sr,
+                                      n_fft=hparams.n_fft,
+                                      hop_length=hparams.hop_length,
+@@ -208,7 +208,7 @@ class WavPhnDataset(Dataset):
+         raise NotImplementedError
+ 
+     def process_file(self, wav_path):
+-        phn_path = wav_path.replace("wav", "phn")
++        phn_path = wav_path.replace("WAV", "PHN")
+ 
+         # load audio
+         spect = extract_features(wav_path, self.hparams)
+@@ -235,7 +235,7 @@ class WavPhnDataset(Dataset):
+ 
+     def _make_dataset(self):
+         files = []
+-        wavs = list(iter_find_files(self.wav_path, "*.wav"))
++        wavs = list(iter_find_files(self.wav_path, "*.WAV"))
+         if self.hparams.devrun:
+             wavs = wavs[:self.hparams.devrun_size]
+ 
+@@ -266,9 +266,9 @@ class TimitDataset(WavPhnDataset):
+ 
+     @staticmethod
+     def get_datasets(hparams):
+-        train_dataset = TimitDataset(join(hparams.wav_path, 'train'),
++        train_dataset = TimitDataset(join(hparams.wav_path, 'TRAIN'),
+                                      hparams)
+-        test_dataset  = TimitDataset(join(hparams.wav_path, 'test'),
++        test_dataset  = TimitDataset(join(hparams.wav_path, 'TEST'),
+                                      hparams)
+ 
+         train_len   = len(train_dataset)

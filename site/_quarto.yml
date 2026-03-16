@@ -1,0 +1,19 @@
+project:
+  type: website
+  output-dir: ../_site
+
+website:
+  title: "Work 2026"
+  navbar:
+    left:
+      - text: "Home"
+        href: index.qmd
+
+execute:
+  eval: false
+  echo: true
+
+format:
+  html:
+    theme: cosmo
+    toc: true

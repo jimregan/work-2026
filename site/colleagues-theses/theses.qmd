@@ -1,0 +1,27 @@
+
+---
+title: "Colleagues' Theses"
+bibliography: refs.bib
+---
+
+## [Found speech and humans in the loop: Ways to gain insight into large quantities of speech](https://urn.kb.se/resolve?urn=urn:nbn:se:kth:diva-309031) [@Fallgren1639119]
+
+## [Adaptive Robot Presenters: Modelling Grounding in Multimodal Interaction](https://urn.kb.se/resolve?urn=urn:nbn:se:kth:diva-338178) [@Axelsson1805218]
+
+## [Ask and distract: Data-driven methods for the automatic generation of multiple-choice reading comprehension questions from Swedish texts](https://urn.kb.se/resolve?urn=urn:nbn:se:kth:diva-336531) [@Kalpakchi1797477]
+
+## [Robots Beyond Borders: The Role of Social Robots in Spoken Second Language Practice](https://urn.kb.se/resolve?urn=urn:nbn:se:kth:diva-343863) [@Cumbal1840732]
+
+## [Phonetic potential in the extant apes and extinct hominins](https://urn.kb.se/resolve?urn=urn:nbn:se:kth:diva-351250) [@Ekstrom1886743]
+
+## [Mapping voice quality in normal, pathological and synthetic voices](https://urn.kb.se/resolve?urn=urn:nbn:se:kth:diva-360211) [@Cai1939381]
+
+## [Probabilistic Speech & Motion Synthesis: Towards More Expressive and Multimodal Generative Models](https://urn.kb.se/resolve?urn=urn:nbn:se:kth:diva-368342) [@Mehta1988881]
+
+## [Perspectives on AI and Music: Representation, Detection, and Explanation in the Age of AI-Generated Music](https://urn.kb.se/resolve?urn=urn:nbn:se:kth:diva-372384) [@CrosVila2011779]
+
+## [Evaluation of Artificial Intelligence in the Medical Domain: Speech, Language and Applications](https://urn.kb.se/resolve?urn=urn:nbn:se:kth:diva-371738) [@Moell2007130]
+
+## [Bittersweet Lessons in Music AI Research: Neural Instrument Synthesis, Multi-modal Representations, Symbolic Music Generation](https://urn.kb.se/resolve?urn=urn:nbn:se:kth:diva-377801) [@Jonason2043729]
+
+<!-- makes quarto render properly -->

@@ -1,0 +1,46 @@
+---
+title: "Papers, March 2026"
+bibliography: refs.bib
+---
+
+## [PRiSM: Benchmarking Phone Realization in Speech Models](https://arxiv.org/abs/2601.14046) [@bharadwaj2026prismbenchmarkingphonerealization]
+- [code](https://github.com/changelinglab/prism) --- no licence
+
+## [ZIPA: A family of efficient models for multilingual phone recognition](https://aclanthology.org/2025.acl-long.961/) [@zhu-etal-2025-zipa]
+- [code](https://github.com/lingjzhu/zipa) --- MIT
+- "IPAPACK++, a 17,132-hour open-source speech corpora with G2P-generated phonetic transcriptions"
+- [IPAPACK++](https://huggingface.co/collections/anyspeech/ipa-pack-train) --- CC-BY 4.0
+- Pseudolabeled data is not open
+
+## [The taste of IPA: Towards open-vocabulary keyword spotting and forced alignment in any language](https://aclanthology.org/2024.naacl-long.43/) [@zhu-etal-2024-taste]
+- [code](https://github.com/lingjzhu/clap-ipa) --- MIT
+
+## [NLE: Non-autoregressive LLM-based ASR by Transcript Editing](https://arxiv.org/abs/2603.08397) [@dekel2026nlenonautoregressivellmbasedasr]
+
+## [Discrete Audio Tokens: More Than a Survey!](https://openreview.net/forum?id=eqNchtvc6v) [@mousavi2025discrete]
+- [arXiv](https://arxiv.org/abs/2506.10274)
+- [website](https://poonehmousavi.github.io/dates-website/)
+
+## [PhonologyBench: Evaluating Phonological Skills of Large Language Models](https://aclanthology.org/2024.knowllm-1.1/) [@suvarna-etal-2024-phonologybench]
+- Cites: [@galescu02_icslp], [@BISANI2008434], [@Toshniwal2016Jointly], [@yolchuyeva19_interspeech]; also [@masumura20_interspeech] and g2pe library.
+
+## [Pronunciation of proper names with a joint n-gram model for bi-directional grapheme-to-phoneme conversion](https://www.isca-archive.org/icslp_2002/galescu02_icslp.html) [@galescu02_icslp]
+- cites 
+
+## [Joint-sequence models for grapheme-to-phoneme conversion](https://www.sciencedirect.com/science/article/pii/S0167639308000046) [@BISANI2008434]
+
+## [Jointly learning to align and convert graphemes to phonemes with neural attention models](https://ieeexplore.ieee.org/abstract/document/7846248) [@Toshniwal2016Jointly]
+- [code](https://github.com/shtoshni/g2p) --- no licence
+- [arXiv](https://arxiv.org/abs/1610.06540)
+
+## [Transformer Based Grapheme-to-Phoneme Conversion](https://www.isca-archive.org/interspeech_2019/yolchuyeva19_interspeech.html) [@yolchuyeva19_interspeech]
+- Transformer-based G2P model
+- Examples are all garbage.
+
+## [Phoneme-to-Grapheme Conversion Based Large-Scale Pre-Training for End-to-End Automatic Speech Recognition](https://www.isca-archive.org/interspeech_2020/masumura20_interspeech.html) [@masumura20_interspeech]
+
+## [Knowledge of language origin improves pronunciation accuracy of proper names](https://www.isca-archive.org/eurospeech_2001/llitjos01_eurospeech.html) [@llitjos01_eurospeech]
+- Cites [@church-1985-stress]
+
+## [Stress Assignment in Letter to Sound Rules for Speech Synthesis](https://aclanthology.org/P85-1030/) [@church-1985-stress]
+

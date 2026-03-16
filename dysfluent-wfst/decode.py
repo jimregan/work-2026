@@ -107,7 +107,8 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
 def load_audio(audio_path: str, model_id: str, device: str):
     """Load audio and run wav2vec2 inference.
 
-    Returns (log_probs, length, processor) where log_probs is (1, T, C).
+    Returns (logits, length, processor) where ``logits`` is a FloatTensor of
+    shape ``(T, C)`` containing raw (unnormalized) scores.
     """
     import torchaudio
     from transformers import AutoProcessor, Wav2Vec2ForCTC

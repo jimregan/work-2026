@@ -1,0 +1,22 @@
+---
+title: "My papers"
+bibliography: refs.bib
+---
+
+## [Speech Data Augmentation for Improving Phoneme Transcriptions of Aphasic Speech Using Wav2Vec 2.0 for the PSST Challenge](https://aclanthology.org/2022.rapid-1.8/) [@moell-etal-2022-speech]
+- [DiVa](https://kth.diva-portal.org/smash/record.jsf?pid=diva2:1671565)
+
+## [Continued finetuning as single speaker adaptation](https://kth.diva-portal.org/smash/record.jsf?pid=diva2:1671614) [@oregan1671614]
+
+## [Fake it to make it: Using synthetic data to remedy the data shortage in joint multimodal speech-and-gesture synthesis](https://openreview.net/forum?id=3IdxENWcVH) [@mehta2024fake]
+- [arXiv](https://arxiv.org/abs/2404.19622)
+- [DiVa](https://kth.diva-portal.org/smash/record.jsf?pid=diva2:1907448)
+
+## [MM-Conv: A Multi-modal Conversational Dataset for Virtual Humans](https://arxiv.org/abs/2410.00253) [@deichler2024mmconvmultimodalconversationaldataset]
+
+## [Grounded Gesture Generation: Language, Motion, and Space](https://arxiv.org/abs/2507.04522) [@deichler2025groundedgesturegenerationlanguage]
+
+## [Prosodic characteristics of English-accented Swedish neural TTS](https://www.isca-archive.org/speechprosody_2024/tannander24_speechprosody.html) [@tannander24_speechprosody]
+- [DiVa](https://kth.diva-portal.org/smash/record.jsf?pid=diva2:1671615)
+
+<!-- ignore -->

@@ -1,0 +1,137 @@
+---
+title: "Papers, February 2026"
+bibliography: refs.bib
+---
+
+## [Massive Sound Embedding Benchmark (MSEB)](https://openreview.net/forum?id=X0juYgFVng)
+- [Poster](https://neurips.cc/virtual/2025/loc/san-diego/poster/121597)
+- [Code](https://github.com/google-research/mseb) --- Apache 2.0
+- [SVQ dataset](https://huggingface.co/datasets/google/svq)
+- [SVQ blog post](https://research.google/blog/speech-to-retrieval-s2r-a-new-approach-to-voice-search/)
+- [Google Research](https://research.google/pubs/massive-sound-embedding-benchmark-mseb/)
+
+## [MASSIVE: A 1M-Example Multilingual Natural Language Understanding Dataset with 51 Typologically-Diverse Languages](https://aclanthology.org/2023.acl-long.235/) [@fitzgerald-etal-2023-massive]
+- Cited (indirectly) by [@heigold2025massive]
+- [code](https://github.com/alexa/massive) --- Apache 2.0
+
+## [alibaba/zvec](https://github.com/alibaba/zvec)
+- [Home](https://zvec.org/en/)
+- [Docs](https://zvec.org/en/docs/)
+
+## [Crowdsourced high-quality UK and Ireland English Dialect speech data set](https://www.openslr.org/83/) [@demirsahin-etal-2020-open]
+- Midlands, Northern, Southern English, Scottish, Welsh, Irish
+- [Rainbow passage](https://www.dialectsarchive.com/the-rainbow-passage)
+
+## [HuPER: A Human-Inspired Framework for Phonetic Perception](https://arxiv.org/abs/2602.01634)
+- [arXiv](https://arxiv.org/abs/2602.01634)
+- [code](https://github.com/HuPER29/HuPER) --- no licence
+- [HuPER Recognizer (ARPAbet phone recognition)](https://huggingface.co/huper29/huper_recognizer)
+
+## [Dysfluent WFST: A Framework for Zero-Shot Speech Dysfluency Transcription and Detection](https://www.isca-archive.org/interspeech_2025/guo25d_interspeech.html) [@guo25d_interspeech]
+- [code](https://github.com/Berkeley-Speech-Group/DysfluentWFST) --- no licence
+- [arXiv](https://arxiv.org/abs/2505.16351)
+
+## [Coding Speech Through Vocal Tract Kinematics](https://ieeexplore.ieee.org/document/10759573) [@cho24_coding]
+- [arXiv](https://arxiv.org/abs/2406.12998)
+- [code](https://github.com/Berkeley-Speech-Group/Speech-Articulatory-Coding) --- MIT
+
+## [LibriTTS: A Corpus Derived from LibriSpeech for Text-to-Speech](https://www.isca-archive.org/interspeech_2019/zen19_interspeech.html) [@zen19_interspeech]
+- [arXiv](https://arxiv.org/abs/1904.02882)
+- [OpenSLR](https://www.openslr.org/60/)
+
+## [FLEURS: FEW-Shot Learning Evaluation of Universal Representations of Speech](https://ieeexplore.ieee.org/document/10023141) [@conneau2023fleurs]
+- [arXiv](https://arxiv.org/abs/2205.12446)
+- [Huggingface](https://huggingface.co/datasets/google/fleurs)
+
+## [BEST-STD2.0: Balanced and Efficient Speech Tokenizer for Spoken Term Detection](https://arxiv.org/abs/2512.16395)
+
+## [Scaling Open Discrete Audio Foundation Models with Interleaved Semantic, Acoustic, and Text Tokens](https://arxiv.org/abs/2602.16687)
+
+## [facebookresearch/eb_jepa](https://github.com/facebookresearch/eb_jepa)
+
+## [Language-Agnostic Speech Tokenizer for Spoken Term Detection with Efficient Retrieval](https://www.isca-archive.org/interspeech_2025/singh25d_interspeech.html) [@singh25d_interspeech]
+- [word alignments](https://zenodo.org/records/15502222)
+- [code](https://github.com/anupsingh15/LAST) --- MIT
+
+## [BEST-STD: Bidirectional Mamba-Enhanced Speech Tokenization for Spoken Term Detection](https://ieeexplore.ieee.org/abstract/document/10889633) [@singh25beststd]
+- [code](https://github.com/anupsingh15/BEST-STD) --- MIT
+
+## [CC-G2PnP: Streaming Grapheme-to-Phoneme and prosody with Conformer-CTC for unsegmented languages](https://arxiv.org/abs/2602.17157)
+
+## [Rethinking InfoNCE: How Many Negative Samples Do You Need?](https://www.ijcai.org/proceedings/2022/348) [@ijcai2022p348]
+
+- "propose a probabilistic model to analyze the influence of the negative sampling ratio K on training sample informativeness."
+- "design a training effectiveness function to measure the overall influence of training samples based on their informativeness"
+- "estimate the optimal negative sampling ratio using the K value that maximizes the training effectiveness function"
+- "further propose an adaptive negative sampling method that can dynamically adjust the negative sampling ratio to improve InfoNCE-based model training"
+
+## [Investigation of Japanese PnG BERT Language Model in Text-to-Speech Synthesis for Pitch Accent Language](https://ieeexplore.ieee.org/document/9829304) [@yasuda2022pngbert]
+
+- G2P + pitch
+- BERT Base: 12 Transformer layers with 768 hidden
+- trained up to 11.63 M steps with 20 batch size and learning rate with linear decay started from 5.0×10−5 with the Adam optimizer with L2 regularization
+- randomly selected 25% words in a sentence for MLM:
+  a. both graphemes and phonemes are masked for 48% random words
+  b. character part is masked for 8% random words
+  c. phoneme part is masked for 8% random words
+  d. both characters and phonemes are randomly replaced with other phonemes or characters for 10% random words
+- b and c not present in original PnG BERT
+
+> Word embedding is mainly used to improve prosody of synthetic speech in TTS [28], [41]–​[46].
+
+## [Combining multilingual resources to enhance end-to-end speech recognition systems for Scandinavian languages](https://www.sciencedirect.com/science/article/pii/S0167639325000366) [@MATEJU2025103221]
+
+
+## [MC-Mamba: : Cross-modal target speaker extraction model based on multiple consistency](https://dl.acm.org/doi/10.1016/j.specom.2025.103304) [@10.1016/j.specom.2025.103304]
+- "Using visual information as a cue for target speaker extraction."
+- "Effectively mitigate semantic and modal gaps between audio and visual modalities"
+- "MC-Mamba structure process long-sequence speech signal in the time domain"
+
+## [LibriTTS-P: A Corpus with Speaking Style and Speaker Identity Prompts for Text-to-Speech and Style Captioning](https://www.isca-archive.org/interspeech_2024/kawamura24_interspeech.html) [@kawamura24_interspeech]
+- [arXiv](https://arxiv.org/abs/2406.07969)
+- [data](https://github.com/line/LibriTTS-P) --- CC BY 4.0
+- "slightly calm,slightly sexy,slightly strict" o__O
+- loudness: https://www.itu.int/rec/R-REC-BS.1770
+- No mention of how F0 is extracted or how syllable rate is calculated
+
+## [Coding Speech through Vocal Tract Kinematics](https://ieeexplore.ieee.org/document/10759573) [@cho24_coding]
+- [arXiv](https://arxiv.org/abs/2406.12998)
+- [code](https://github.com/Berkeley-Speech-Group/Speech-Articulatory-Coding)
+
+## [An Overview of Voice Conversion and Its Challenges: From Statistical Modeling to Deep Learning](https://dl.acm.org/doi/10.1109/TASLP.2020.3038524) [@sisman2020overview]
+
+## [Simultaneous Translation with Offline Speech and LLM Models in CUNI Submission to IWSLT 2025](https://aclanthology.org/2025.iwslt-1.41/) [@machacek-polak-2025-simultaneous]
+- [utter-project/EuroLLM-9B-Instruct](https://huggingface.co/utter-project/EuroLLM-9B-Instruct)
+- [SimulStreaming](https://github.com/ufal/SimulStreaming) --- MIT
+- Builds on AlignAtt [@papi23_interspeech]
+
+## [Attention as a Guide for Simultaneous Speech Translation](https://aclanthology.org/2023.acl-long.745/) [@papi-etal-2023-attention]
+- [code](https://github.com/hlt-mt/fbk-fairseq)
+- [paper card](https://github.com/hlt-mt/FBK-fairseq/blob/master/fbk_works/EDATT_SIMULST_AGENT_ACL2023.md)
+
+## [AlignAtt: Using Attention-based Audio-Translation Alignments as a Guide for Simultaneous Speech Translation](https://www.isca-archive.org/interspeech_2023/papi23_interspeech.html) [@papi23_interspeech]
+- [code](https://github.com/hlt-mt/fbk-fairseq)
+- [paper card](https://github.com/hlt-mt/FBK-fairseq/blob/master/fbk_works/ALIGNATT_SIMULST_AGENT_INTERSPEECH2023.md)
+
+## [Who Are We Talking About? Handling Person Names in Speech Translation](https://aclanthology.org/2022.iwslt-1.6/) [@gaido-etal-2022-talking]
+- [code](https://github.com/hlt-mt/fbk-fairseq)
+- [paper card](https://github.com/hlt-mt/FBK-fairseq/blob/master/fbk_works/PERSON_NAMES_IWSLT2022.md)
+
+## [Turning Whisper into Real-Time Transcription System](https://aclanthology.org/2023.ijcnlp-demo.3/) [@machacek-etal-2023-turning]
+- [arXiv](https://arxiv.org/abs/2307.14743)
+- [code](https://github.com/ufal/whisper_streaming) --- MIT
+- replaced by [@machacek-polak-2025-simultaneous]
+
+## [T5G2P: Using Text-to-Text Transfer Transformer for Grapheme-to-Phoneme Conversion](https://www.isca-archive.org/interspeech_2021/rezackova21_interspeech.html) [@rezackova21_interspeech]
+
+## [Aligning Ground Truth Text with OCR Degraded Text](https://link.springer.com/chapter/10.1007/978-3-030-22871-2_58) [@10.1007/978-3-030-22871-2_58]
+
+## [Automated OCR Ground Truth Generation](https://ieeexplore.ieee.org/document/4669952) [@Beusekom2008automated]
+
+[hocr-tools](https://github.com/stefan6419846/hocr-tools)
+
+## [Diachronic Parsing of Pre-Standard Irish](https://aclanthology.org/2022.cltw-1.2/) [@scannell-2022-diachronic]
+
+## [Irish Treebanking and Parsing: A Preliminary Evaluation](https://aclanthology.org/L12-1189/) [@lynn-etal-2012-irish]
+
+[dippedrusk/arpabet-syllabifier](https://github.com/dippedrusk/arpabet-syllabifier) --- No licence

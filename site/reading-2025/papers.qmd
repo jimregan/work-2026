@@ -1,0 +1,120 @@
+---
+title: "Papers, 2025"
+bibliography: refs.bib
+---
+
+### [Dependency Parsing Evaluation for Low-resource Spontaneous Speech](https://aclanthology.org/2021.adaptnlp-1.16/) [@liu-prudhommeaux-2021-dependency]
+
+- CHILDES
+- Converted to UD (conversion is weird)
+
+### [Alignment of Speech to Highly Imperfect Text Transcriptions](https://ieeexplore.ieee.org/document/4284627) [@haubold2007alignment]
+- [arXiv](https://arxiv.org/abs/cs/0612139)
+- phoneme-based alignment
+- vowel phonemes detected using a Matlab toolkit for formant estimation
+- formants matched to expected values using Euclidean distance
+- fricatives detected using spectral energy distribution
+- phoneme sequences aligned using dynamic programming edit-distance
+- uses [this toolkit](https://www.clear.rice.edu/elec431/projects96/digitalbb/)
+
+### [On The Landscape of Spoken Language Models: A Comprehensive Survey](https://openreview.net/forum?id=BvxaP3sVbA) [@arora2025on]
+- [arXiv](https://arxiv.org/abs/2504.08528)
+
+### [Omnilingual ASR: Open-Source Multilingual Speech Recognition for 1600+ Languages](https://ai.meta.com/blog/omnilingual-asr-advancing-automatic-speech-recognition/) [@omnilingualasr2025]
+- [dataset](https://huggingface.co/datasets/facebook/omnilingual-asr-corpus) --- CC-BY
+- [code](https://github.com/facebookresearch/omnilingual-asr) --- code & models Apache 2.0
+- [space](https://huggingface.co/spaces/facebook/omniasr-transcriptions)
+
+### [Phoneme Boundary Detection Using Learnable Segmental Features](https://ieeexplore.ieee.org/document/9053053) [@kreuk2020phoneme]
+- [arXiv](https://arxiv.org/abs/2002.04992)
+- [code](https://github.com/felixkreuk/SegFeat)
+
+### [Self-Supervised Contrastive Learning for Unsupervised Phoneme Segmentation](https://www.isca-archive.org/interspeech_2020/kreuk20_interspeech.html) [@kreuk20_interspeech]
+
+- [arXiv](https://arxiv.org/abs/2007.13465)
+- [code](https://github.com/felixkreuk/UnsupSeg)
+
+### [Bridging the gap: A comparative exploration of Speech-LLM and end-to-end architecture for multilingual conversational ASR](https://arxiv.org/abs/2601.01461)
+- [code](https://github.com/YuCeong-May/MLC-SLM)
+- [models](https://huggingface.co/YuCeong-May/MLC-SLM)
+
+### [Phonological level wav2vec2-based Mispronunciation Detection and Diagnosis method](https://www.sciencedirect.com/science/article/pii/S0167639325000640) [@shahin2025phonological]
+
+- Separable CTC with Shared Blank (SCTC-SB)
+- Outputs phonological features
+- See also: [@shahin24_interspeech], [@han25_slate]
+- [Code?](https://github.com/mostafashahin/MCTC-Speech-Attribute)
+- Mostafa Shahin: [huggingface](https://huggingface.co/mostafaashahin), [github](https://github.com/mostafashahin)
+
+### [Pronunciation modeling for large vocabulary conversational speech recognition](https://www.isca-archive.org/icslp_1998/ma98_icslp.html) [@ma98_icslp]
+
+> As was found by other researchers, over-generating multiple pronunciations in the dictionary increases word confusability during recognition, often nullifying the advantages of modeling pronunciation variability.
+
+- rules + decision trees
+- rules based on [@finke97_eurospeech] and [@ostendorf1996modeling]
+
+
+### [Phone-Level Pronunciation Scoring for L1 Using Weighted-Dynamic Time Warping](https://ieeexplore.ieee.org/abstract/document/10023182) [@sini2023phonelevel]
+
+- \begin{equation*}\text{WMPS}(u_{1..K,i}, v_{j})=\max_{k\in[1,K]}(p(u_{k,i})\times Lev(a_{u_{k,i}},a_{v_{j}}))\end{equation*}
+- \begin{gather*} s=Lev(a_{u_{k,i}},a_{v_{j}})\\ d=\begin{cases} p(u_{k,i}) & \text{if}\ s=1\\ p(u_{k,i})\times\alpha & \text{if}\ \beta\leq s < 1\\ 0 & \text{if}\ s < \beta\end{cases}\\ \text{WMPS}(u_{1..K,i},v_{j})=\max_{k\in[1,K]}(d)\end{gather*}
+
+# Lexicon adaptation papers
+
+### Fosler-Lussier, E., W. Byrne, and D. Jurafsky. (Eds) [Pronunciation Modeling and Lexicon Adaptation](https://www.sciencedirect.com/journal/speech-communication/vol/46/issue/2). Speech communication 46.2 (2005).
+- [Bib data](https://pascal-francis.inist.fr/vibad/index.php?action=getRecordDetail&idt=16844695)
+
+### [An international English speech corpus for longitudinal study of accent development](https://www.isca-archive.org/interspeech_2011/orr11_interspeech.html) [@orr11_interspeech]
+
+### [Pronunciation modeling for speech technology](https://ieeexplore.ieee.org/document/1458347) [@svendsen2004pronunciation]
+
+1. Alternative pronunciations generated
+2. Ref + alt aligned --- DTW with association strength
+3. Mappings described using immediate left + right context
+4. Rule set pruned using acoustic log likelihood
+5. Final pruning restricting one rule per source segment
+
+### [A corpus-based study of English pronunciation variations](https://www.isca-archive.org/interspeech_2011/kim11e_interspeech.html) [@kim11e_interspeech]
+- TIMIT based
+- Table 2 has vowel realisations, table 4 consonants
+
+### [Pronunciation dependent language models](https://www.isca-archive.org/interspeech_2006/ljolje06b_interspeech.html) [@ljolje06b_interspeech]
+
+### [Dynamic Pronunciation Models for Automatic Speech Recognition](https://citeseerx.ist.psu.edu/document?repid=rep1&type=pdf&doi=71ac19c6febbfc401043ef4983705990826c8474) [@fosler1999dynamic]
+- Chapter 6: Dynamic dictionaries
+
+### [Articulatory feature-based pronunciation modeling](https://www.sciencedirect.com/science/article/pii/S0885230815000686) [@LIVESCU2016212]
+
+- Sub-phonetic feature-based representations
+- feature set based on the vocal tract variables of articulatory phonology
+- represented as dynamic Bayesian networks
+
+# G2P
+
+### [Finetuning ByT5 for GED](https://www.kaggle.com/code/asibrahman/finetuning-byt5-for-ged)
+
+### [spring-media/DeepPhonemizer](https://github.com/spring-media/DeepPhonemizer)
+
+### [PolyIPA -- Multilingual Phoneme-to-Grapheme Conversion Model](https://arxiv.org/abs/2412.09102) [@lauc2024polyipamultilingualphonemetographeme]
+
+### [Mitigating the Exposure Bias in Sentence-Level Grapheme-to-Phoneme (G2P) Transduction](https://www.isca-archive.org/interspeech_2023/yoon23d_interspeech.html) [@yoon23d_interspeech]
+
+### [T5G2P: Using Text-to-Text Transfer Transformer for Grapheme-to-Phoneme Conversion](https://www.isca-archive.org/interspeech_2021/rezackova21_interspeech.html) [@rezackova21_interspeech]
+- [training code](https://github.com/honzas83/t5s)
+- regular T5, pretrained on Common Crawl
+- English and Czech
+
+> we intentionally work on a sentence level to capture cross-word assimilation 
+
+### [T5G2P: Text-to-Text Transfer Transformer Based Grapheme-to-Phoneme Conversion](https://ieeexplore.ieee.org/document/10592637) [@rezackova2024t5g2p]
+- English, Czech, Russian, and German
+- mt5-base slightly worse than language-specific models
+
+> For all the languages, we used the same t5-base masking strategy, optimization, and architecture consisting of 220M parameters, 2×12 transformer block in the encoder, and the decoder. The dimensionality of hidden layers and embeddings was 768. The attention mechanism uses 12 attention heads with the inner dimensionality of 64. We trained the model for 2.5 million steps (updates), with batch size 128. The whole training phase ran on 8× NVIDIA A100 GPUs, and it took approx. 14 days for each language.
+
+### [NeMo Grapheme-to-Phoneme Models](https://docs.nvidia.com/nemo-framework/user-guide/latest/nemotoolkit/tts/g2p.html)
+
+- [NeMo T5](https://docs.nvidia.com/nemo-framework/user-guide/latest/llms/t5.html#t5)
+- [NeMo G2P YAML](https://github.com/NVIDIA-NeMo/NeMo/blob/main/examples/tts/g2p/conf/g2p_t5.yaml)
+
+### [Word-Level Alignment of Paper Documents with their Electronic Full-Text Counterparts](https://aclanthology.org/2021.bionlp-1.19/) [@muller-etal-2021-word]

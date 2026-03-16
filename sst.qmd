@@ -23,4 +23,11 @@ bibliography: sst.bib
 ## [Unsupervised learning of disentangled and interpretable representations from sequential data](https://dl.acm.org/doi/10.5555/3294771.3294950) [@hsu2017unsupervised]
 - [code](https://github.com/wnhsu/FactorizedHierarchicalVAE) --- Apache 2.0
 
+## [ContentVec: An Improved Self-Supervised Speech Representation by Disentangling Speakers](https://proceedings.mlr.press/v162/qian22b.html) [@qian2022contentvec]
+- [arXiv](https://arxiv.org/abs/2204.09224)
+- [code](https://github.com/auspicious3000/contentvec) --- MIT
 
+## [SpeechTokenizer: Unified Speech Tokenizer for Speech Language Models](https://openreview.net/forum?id=AF9Q8Vip84) [@zhang2024speechtokenizerunified]
+
+## [Unsupervised speech decomposition via triple information bottleneck](https://dl.acm.org/doi/10.5555/3524938.3525664) [@qian2020unsupervised]
+- content, timbre, pitch, and rhythm

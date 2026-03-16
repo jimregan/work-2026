@@ -278,10 +278,11 @@ class Decoder:
 
         results = []
         for idx, sample_id in enumerate(ids):
-            emission = emissions[idx, : lengths[idx]]
+            utt_len = int(lengths[idx])
+            emission = emissions[idx, :utt_len]
             alignment = self.decode_utterance(
                 log_probs=emission,
-                length=lengths[idx],
+                length=utt_len,
                 ref_phonemes=ref_phonemes_list[idx],
                 utterance_id=sample_id,
                 audio_path=audio_paths[idx] if idx < len(audio_paths) else "",

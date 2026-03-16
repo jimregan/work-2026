@@ -383,3 +383,16 @@ Since you mentioned the Semantic axis went to 0%, try this: **Run a training pas
 
 **Which axis is currently the most important for your use case?** If it's Semantic, you should definitely prioritize the loss weighting fix.
 
+-----
+
+Nicolas' thanks:
+
+Thank you to Joakim and Jonas for being stewards of the special place that
+is TMH. Thank you to my fourth floor neighbors Sten Ternström and his students Huanchen and Kajornsak, both of whom have been great friends and colleagues. Special thanks to Birger Moëll who gave me a warm welcome to the department, and who generously shared his OpenAI Codex account at the start of
+the PhD. Thank you also to my other wonderful TMH students, post-docs and
+RE’s including but not limited to Alireza, Siyang, Axel, Anna, Ambika, Anya,
+Ruibo, Esther, Agnes, Bahar, Bram, Dmytro, Ghazaleh, Charlotte, Harm, Haotian, Harsha, Ricardo, Fredrik, Lia, Erik, Patrik, Jim, Livia, Per, Jūra, Jessica,
+Julio, Nikita, Katya, Rajmund, Shivam, and Ulme and whoever I accidentally
+forgot. Thank you to Gabriel Skantze, André Pereira, Jens Edlund, Johan Boye
+and the rest of the TMH staff for all the debates and discussions.
+

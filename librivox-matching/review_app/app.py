@@ -294,7 +294,17 @@ def load():
                 "end": entry.get("end", 0),
                 "vibevoice": entry.get("vibevoice", ""),
                 "etext": entry.get("etext", ""),
+                # Preserve boilerplate flag from export; if multiple entries
+                # share a segment_index, we OR them below.
+                "boilerplate": bool(entry.get("boilerplate", False)),
             }
+        else:
+            # If we've already seen this segment_index, update boilerplate so
+            # that a True value on any entry marks the whole segment.
+            seg_map[si]["boilerplate"] = (
+                seg_map[si].get("boilerplate", False)
+                or bool(entry.get("boilerplate", False))
+            )
 
     # Build segments with recomputed diff_ops, re-indexed from 0
     # Keep a mapping from original index to new index for the client
@@ -310,7 +320,7 @@ def load():
             "end": info["end"],
             "vibevoice": info["vibevoice"],
             "etext": info["etext"],
-            "boilerplate": False,
+            "boilerplate": info.get("boilerplate", False),
             "diff_ops": diff_ops,
         })
         index_map[si] = new_idx

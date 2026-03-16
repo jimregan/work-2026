@@ -47,6 +47,12 @@ These models capture a mixture of linguistic, speaker, and prosodic information 
 
 Speaker embeddings such as x-vectors [@snyder2018x] address this for the speaker axis specifically, but do not carry semantic content.
 
+### Acoustic word embeddings and query-by-example retrieval
+
+Acoustic word embeddings (AWEs) map fixed-length audio segments to vectors such that phonetically similar segments are nearby, enabling query-by-example spoken term detection without transcription [@kamper2016acousticwordembeddings; @he2017multiviewrecurrentneuralacoustic; @chung16_interspeech].
+The retrieval evaluation paradigm — retrieve audio items matching a spoken query — motivates the cross-corpus setup used here, though at the utterance level rather than the word or segment level.
+AWE models optimise a single acoustic similarity notion; our work extends this to multiple simultaneous axes, allowing retrieval to be steered toward semantic content, speaker identity, or other properties independently.
+
 ### Sentence transformers and multi-notion similarity
 
 [@reimers2019sentence] introduced Sentence-BERT, which adapts BERT-family models to produce fixed-size sentence embeddings suitable for semantic similarity via contrastive training [@oord2018representation].
@@ -126,6 +132,7 @@ Batch sampling attempts to minimise label collisions across axes in order to red
 
 Existing evaluation frameworks do not directly measure multi-axis similarity.
 Benchmarks such as SUPERB evaluate speech embeddings under individual task metrics (e.g., speaker verification EER, content WER), but not controllable combinations.
+MSEB [@heigold2025massive] provides large-scale retrieval evaluation across diverse sound and speech categories, but targets single-axis similarity rather than controllable multi-axis combinations.
 The goal of this work is to demonstrate retrieval whose preference can be steered by axis weighting — a behaviour no existing benchmark is designed to measure.
 The goal of the experiments is therefore not to establish a definitive benchmark, but to demonstrate the feasibility of controllable multi-axis similarity.
 

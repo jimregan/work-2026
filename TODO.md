@@ -396,3 +396,7 @@ Julio, Nikita, Katya, Rajmund, Shivam, and Ulme and whoever I accidentally
 forgot. Thank you to Gabriel Skantze, André Pereira, Jens Edlund, Johan Boye
 and the rest of the TMH staff for all the debates and discussions.
 
+
+python align_to_json.py --ref /tmp/h4 --ref-format numbered --hyp /Users/joregan/Playing/spoken-sentence-transformers/open_speech/OSR_uk_000_0023_8k.json > open_speech/OSR_uk_000_0023_8k.json
+
+run(){ python align_to_json.py --ref /tmp/$1 --ref-format numbered --hyp /Users/joregan/Playing/spoken-sentence-transformers/open_speech/$2 > open_speech/$2 ; }

@@ -1,0 +1,23 @@
+[build-system]
+requires = ["setuptools>=68.0", "wheel"]
+build-backend = "setuptools.backends._legacy:_Backend"
+
+[project]
+name = "dysfluent-wfst"
+version = "0.1.0"
+description = "Phonetic variation detection using pynini FST construction and k2 dense lattice intersection"
+requires-python = ">=3.9"
+dependencies = [
+    "pynini>=2.1.5",
+    "k2>=1.24",
+    "torch>=2.0",
+    "transformers>=4.30",
+    "numpy>=1.24",
+    "pyyaml>=6.0",
+]
+
+[project.optional-dependencies]
+dev = ["pytest"]
+
+[project.scripts]
+dysfluent-decode = "decode:main"

@@ -23,4 +23,5 @@ bibliography: refs.bib
 
 ## [Bittersweet Lessons in Music AI Research: Neural Instrument Synthesis, Multi-modal Representations, Symbolic Music Generation](https://urn.kb.se/resolve?urn=urn:nbn:se:kth:diva-377801) [@Jonason2043729]
 
-<!-- makes quarto render properly -->
+::: {#refs}
+:::

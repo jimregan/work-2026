@@ -1,6 +1,8 @@
 ---
 title: "CTC Segmentation"
 bibliography: refs.bib
+execute:
+  freeze: true
 ---
 
 # CTC Segmentation [@ctcsegmentation]

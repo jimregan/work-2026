@@ -91,7 +91,6 @@ def build_ref_fst(
                         error_score * math.exp(-((i - j) ** 2) / 2)
                     )
                     compiler.add_arc(i, pynini.Arc(0, mid, w_err, j))
-                    continue
 
                 if sub and similarity_matrix is not None and lexicon is not None and phn2idx is not None:
                     # (b) Substitution arcs

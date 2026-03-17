@@ -49,14 +49,6 @@ def match_chunk_to_etext(
     result = contiguous_ngram_match(norm_etext_words, norm_chunk_words)
     method = "ngram"
 
-    if result is None:
-        # Try reverse direction: etext words in chunk
-        rev_result = contiguous_ngram_match(norm_chunk_words, norm_etext_words)
-        if rev_result is not None:
-            # Map back: the matched region is in the chunk, but we need to
-            # find where in etext the chunk words appear. Use fuzzy as fallback.
-            result = None
-
     if result is not None:
         start_idx, end_idx = result
         char_start, char_end = _words_to_char_span(

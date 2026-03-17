@@ -35,9 +35,9 @@ author, chapter headings, licence text).
 
 1. **Parse VibeVoice output** into a list of chunks with start/end times and
    text.
-2. **Merge chunks** that would otherwise split a sentence. Use punctuation
-   (`.`, `!`, `?`) as sentence boundaries — if a chunk does not end with
-   sentence-ending punctuation, merge it with the following chunk.
+2. **Merge chunks** whose timestamps are exactly contiguous (e.g. the previous
+   chunk's `End` equals the next chunk's `Start`), so that continuous speech
+   segments are treated as a single chunk.
 3. **Normalise** both the merged chunk text and the etext for matching:
    - Lowercase, remove punctuation, NFKC normalise, collapse whitespace.
    - For English, number verbalisation is less critical than for Swedish

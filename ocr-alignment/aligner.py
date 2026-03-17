@@ -354,9 +354,9 @@ class OCRAligner:
                 ref_word=self.ref_words[last_pos] if self.ref_words else None,
             ))
 
-            if failure_count > self.max_failures:
+            if failure_count >= self.max_failures:
                 warnings.warn(
-                    f"More than {self.max_failures} alignment failures. "
+                    f"At least {self.max_failures} alignment failures. "
                     "The alignment may have lost its way due to out-of-order text "
                     "or other unforeseen circumstances.",
                     stacklevel=2,

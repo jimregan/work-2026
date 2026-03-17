@@ -198,12 +198,6 @@ class Decoder:
             aux_labels = aux_labels[:-1]
 
         # 9. Variation analysis
-        # Extend the lexicon list for any new <trans> markers
-        extended_lexicon = list(self.lexicon_list)
-        for idx in range(len(extended_lexicon), output_syms.num_symbols()):
-            sym = output_syms.find(idx)
-            extended_lexicon.append(sym if sym else "")
-
         # Deduplicate and filter
         phoneme_seq = deduplicate_and_filter(aux_labels, output_syms)
         # Merge consecutive <trans> markers

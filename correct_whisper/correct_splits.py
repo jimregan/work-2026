@@ -27,6 +27,46 @@ from flask import Flask, jsonify, request
 
 app = Flask(__name__)
 
+# Base directory for all file operations. If a file path is provided on the
+# command line, restrict access to that file's directory; otherwise, use cwd.
+if len(sys.argv) > 1:
+    _initial_path = os.path.abspath(sys.argv[1])
+    BASE_DIR = os.path.dirname(_initial_path)
+else:
+    BASE_DIR = os.getcwd()
+
+
+def resolve_user_path(user_path: str) -> str:
+    """
+    Resolve a user-supplied path and ensure it stays within BASE_DIR.
+
+    Returns an absolute path under BASE_DIR, or raises ValueError if the
+    resolved path would escape BASE_DIR.
+    """
+    if not isinstance(user_path, str):
+        raise ValueError("Invalid filepath")
+    user_path = user_path.strip()
+    if not user_path:
+        raise ValueError("Missing required field: filepath")
+
+    # Allow absolute paths only if they are still under BASE_DIR.
+    if os.path.isabs(user_path):
+        candidate = os.path.abspath(user_path)
+    else:
+        candidate = os.path.abspath(os.path.join(BASE_DIR, user_path))
+
+    # Ensure the candidate path is inside BASE_DIR.
+    try:
+        common = os.path.commonpath([candidate, BASE_DIR])
+    except ValueError:
+        # Different drives on Windows, etc.
+        raise ValueError("Access to this path is not allowed")
+
+    if common != BASE_DIR:
+        raise ValueError("Access to this path is not allowed")
+
+    return candidate
+
 HTML = r"""<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -532,12 +572,15 @@ def load():
     if not isinstance(req, dict):
         return jsonify({"error": "Invalid JSON body"}), 400
 
-    fp = str(req.get("filepath", "")).strip()
-    if not fp:
-        return jsonify({"error": "Missing required field: filepath"}), 400
+    raw_fp = req.get("filepath", "")
+    try:
+        fp = resolve_user_path(str(raw_fp))
+    except ValueError as e:
+        return jsonify({"error": str(e)}), 400
 
     if not os.path.exists(fp):
-        return jsonify({"error": f"File not found: {fp}"}), 404
+        # Avoid echoing arbitrary filesystem paths
+        return jsonify({"error": "File not found"}), 404
     try:
         with open(fp, encoding="utf-8") as f:
             data = json.load(f)
@@ -554,9 +597,11 @@ def save():
     if not isinstance(req, dict):
         return jsonify({"error": "Invalid JSON body"}), 400
 
-    fp = str(req.get("filepath", "")).strip()
-    if not fp:
-        return jsonify({"error": "Missing required field: filepath"}), 400
+    raw_fp = req.get("filepath", "")
+    try:
+        fp = resolve_user_path(str(raw_fp))
+    except ValueError as e:
+        return jsonify({"error": str(e)}), 400
 
     if "segments" not in req:
         return jsonify({"error": "Missing required field: segments"}), 400
@@ -565,7 +610,8 @@ def save():
         return jsonify({"error": "Field 'segments' must be a list"}), 400
 
     if not os.path.exists(fp):
-        return jsonify({"error": f"File not found: {fp}"}), 404
+        # Avoid echoing arbitrary filesystem paths
+        return jsonify({"error": "File not found"}), 404
     try:
         with open(fp, encoding="utf-8") as f:
             original = json.load(f)

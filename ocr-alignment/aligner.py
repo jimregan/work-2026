@@ -227,6 +227,8 @@ class OCRAligner:
 
         Returns a list of WordAlignment objects, one per OCR word.
         """
+        if not self.ref_words:
+            raise ValueError("ref_words must be non-empty to perform alignment")
         alignments: List[WordAlignment] = []
         last_pos = -1       # ref_words index of the last successfully aligned word
         failure_count = 0

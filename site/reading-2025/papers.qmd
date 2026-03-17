@@ -117,4 +117,7 @@ bibliography: refs.bib
 - [NeMo T5](https://docs.nvidia.com/nemo-framework/user-guide/latest/llms/t5.html#t5)
 - [NeMo G2P YAML](https://github.com/NVIDIA-NeMo/NeMo/blob/main/examples/tts/g2p/conf/g2p_t5.yaml)
 
-### [Word-Level Alignment of Paper Documents with their Electronic Full-Text Counterparts](https://aclanthology.org/2021.bionlp-1.19/) [@muller-etal-2021-word]
+### [Word-Level Alignment of Paper Documents with their Electronic Full-Text Counterparts](https://aclanthology.org/2021.bionlp-1.19/) [@muller-etal-2021-word]
+
+::: {#refs}
+:::

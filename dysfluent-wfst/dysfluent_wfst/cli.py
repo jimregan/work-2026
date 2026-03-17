@@ -67,39 +67,21 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     )
     parser.add_argument(
         "--back",
-        action="store_true",
+        action=argparse.BooleanOptionalAction,
         default=True,
-        help="Allow back/repetition arcs (default: True)",
-    )
-    parser.add_argument(
-        "--no-back",
-        action="store_false",
-        dest="back",
-        help="Disable back/repetition arcs",
+        help="Allow back/repetition arcs (default: enabled)",
     )
     parser.add_argument(
         "--skip",
-        action="store_true",
+        action=argparse.BooleanOptionalAction,
         default=False,
-        help="Allow skip/deletion arcs (default: False)",
-    )
-    parser.add_argument(
-        "--no-skip",
-        action="store_false",
-        dest="skip",
-        help="Disable skip/deletion arcs",
+        help="Allow skip/deletion arcs (default: disabled)",
     )
     parser.add_argument(
         "--sub",
-        action="store_true",
+        action=argparse.BooleanOptionalAction,
         default=True,
-        help="Allow substitution arcs (default: True)",
-    )
-    parser.add_argument(
-        "--no-sub",
-        action="store_false",
-        dest="sub",
-        help="Disable substitution arcs",
+        help="Allow substitution arcs (default: enabled)",
     )
     return parser.parse_args(argv)
 

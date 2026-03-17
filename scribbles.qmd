@@ -25,7 +25,9 @@ We never say the same thing the same way twice: different speakers say the same 
 Beyond linguistic content, speech reveals much about the speaker: most fundamentally, it reveals their identity, gender, and even health [@nolan1995can].
 These attributes are often intertwined, and it can be difficult to disentangle them.
 
-Many speech datasets contain overlap in the prompts presented to speakers, which presents an opportunity to evaluate the feasibility of attribute-conditioned similarity.
+The use case most closely tied with similarity learning is retrieval.
+In a multi-field database search, a better match on the keywords in the title might be expected to rank higher despite a mismatch in the author field; the same logic applies to speech, where a query might demand semantic similarity while suppressing speaker identity as a ranking factor.
+Many speech datasets contain overlap in the prompts presented to speakers, which presents an opportunity to evaluate the feasibility of such attribute-conditioned similarity.
 
 <!-- this is not accurate; none of these datasets include the Harvard sentences -->
 <!--
@@ -64,9 +66,14 @@ Our work extends this idea to speech in three respects: (1) application to the s
 
 The semantic axis is an instance of speech-to-text retrieval alignment: the speech encoder is trained to produce embeddings that agree with a text-side teacher, enabling content-based retrieval without relying on ASR at inference time.
 This pattern has been explored in SpeechDPR [@tseng2022speechdpr] and SpeechRAG [@vo2024speechrag], which align speech encoders to frozen text dense retrievers.
+CLAP [@elizalde2023clap] takes a related approach at the audio level, training a joint audio–text embedding space via contrastive learning over audio clips paired with natural-language descriptions.
+A model trained on CLAP embeddings serves as a natural comparison for our semantic axis, since both target content-based similarity without relying on ASR.
 <!-- TODO: verify SpeechDPR/SpeechRAG bib entries -->
 
 ### Disentangled speech representations
+
+Our work has a degree of superficial similarity to work on disentangled representation learning; our goals, however, are more modest.
+Rather than enforcing factor independence within the encoder, we focus on supervised learning of multiple relational axes and train per-axis projection heads that induce distinct similarity geometries over a shared frozen acoustic representation space.
 
 The earliest work on sequential disentanglement used factorised hierarchical VAEs (FHVAEs) [@hsu2017unsupervised], which separate "slow" sequence-level factors (speaker, channel, noise) from "fast" segment-level factors (phonetic content) via time-scale structure — without any factor labels.
 This established the foundational insight that content and speaker information operate on different time scales and can be separated structurally.
@@ -175,6 +182,8 @@ In the mixed-index setting, a negative `speaker_id` weight suppresses same-speak
 ## Results and observations
 
 <!-- placeholder for actual numbers once evaluation is stable -->
+
+We compare against two baselines: (1) a semantic-only model trained with only the semantic axis head and no speaker or other axes, to isolate whether multi-axis training helps or hurts the semantic axis; and (2) CLAP [@elizalde2023clap] embeddings used directly for retrieval, as a strong single-axis audio–language baseline.
 
 With semantic-only similarity (`speaker_id` weight = 0), retrieval on the mixed OSR/rehasp index consistently returns same-speaker rehasp recordings before cross-corpus matches, resulting in P@1 = 0%.
 

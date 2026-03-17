@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mismatch Review</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: system-ui, -apple-system, sans-serif; background: #f5f5f5; color: #333; padding: 1rem; }
+  h1 { margin-bottom: 1rem; font-size: 1.4rem; }
+
+  .upload-panel {
+    background: #fff; border-radius: 8px; padding: 1rem; margin-bottom: 1rem;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  }
+  .upload-panel h2 { font-size: 1rem; margin-bottom: 0.75rem; }
+  .upload-row { display: flex; gap: 1rem; margin-bottom: 0.75rem; flex-wrap: wrap; }
+  .upload-col { flex: 1; min-width: 300px; }
+  .upload-col label { display: block; font-weight: 600; margin-bottom: 0.25rem; font-size: 0.85rem; }
+  .upload-col textarea {
+    width: 100%; height: 80px; font-family: monospace; font-size: 0.8rem;
+    border: 1px solid #ccc; border-radius: 4px; padding: 0.5rem; resize: vertical;
+  }
+  .upload-col input[type="file"] { font-size: 0.85rem; }
+  .btn {
+    padding: 0.5rem 1.25rem; border: none; border-radius: 4px; cursor: pointer;
+    font-size: 0.85rem; font-weight: 600;
+  }
+  .btn-primary { background: #2563eb; color: #fff; }
+  .btn-primary:hover { background: #1d4ed8; }
+  .btn-secondary { background: #e5e7eb; color: #333; }
+  .btn-secondary:hover { background: #d1d5db; }
+  .btn:disabled { opacity: 0.5; cursor: not-allowed; }
+  .btn-bar { display: flex; gap: 0.5rem; margin-top: 0.5rem; align-items: center; }
+
+  .load-area { margin-left: 1.5rem; font-size: 0.85rem; display: flex; align-items: center; gap: 0.4rem; }
+  .load-area label { font-weight: 600; }
+
+  #status { margin-top: 0.5rem; font-size: 0.85rem; color: #666; }
+
+  .segment {
+    background: #fff; border-radius: 8px; padding: 1rem; margin-bottom: 0.75rem;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  }
+  .segment.boilerplate { opacity: 0.45; }
+  .segment.boilerplate .segment-body { display: none; }
+  .segment.boilerplate:hover { opacity: 0.7; }
+  .segment.boilerplate:hover .segment-body { display: block; }
+  .segment-header {
+    font-size: 0.8rem; color: #888; margin-bottom: 0.5rem;
+    display: flex; justify-content: space-between;
+  }
+  .segment-header .badge {
+    font-size: 0.7rem; padding: 0.1rem 0.4rem; border-radius: 3px;
+    background: #fef3c7; color: #92400e;
+  }
+  .diff-line { line-height: 1.8; font-size: 0.95rem; }
+
+  .diff-group {
+    display: inline; cursor: default; position: relative;
+    border-radius: 3px; padding: 1px 2px;
+  }
+  .diff-group.clickable { cursor: pointer; }
+  .diff-group .et-word { text-decoration: line-through; color: #dc2626; margin-right: 2px; }
+  .diff-group .vv-word-replace { color: #d97706; font-weight: 600; margin-right: 2px; }
+  .diff-group .vv-word-insert { color: #16a34a; font-weight: 600; background: #dcfce7; border-radius: 2px; padding: 0 2px; margin-right: 2px; }
+  .diff-group .et-word-delete { text-decoration: line-through; color: #dc2626; margin-right: 2px; }
+  .diff-group .equal-word { margin-right: 2px; }
+
+  .diff-group .class-badge {
+    font-size: 0.6rem; vertical-align: super; padding: 0 3px;
+    border-radius: 2px; margin-left: 2px; font-weight: 700;
+  }
+  .class-badge.asr { background: #dbeafe; color: #1e40af; }
+  .class-badge.reading { background: #fce7f3; color: #9d174d; }
+  .class-badge.normalisation { background: #e0e7ff; color: #4338ca; }
+  .class-badge.punctuation { background: #fef9c3; color: #854d0e; }
+  .class-badge.dialect { background: #d1fae5; color: #065f46; }
+
+  .popup {
+    position: absolute; z-index: 100; background: #fff; border: 1px solid #ddd;
+    border-radius: 6px; box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    padding: 0.25rem 0; min-width: 160px; top: 100%; left: 0;
+  }
+  .popup-item {
+    display: block; width: 100%; text-align: left; padding: 0.4rem 0.75rem;
+    border: none; background: none; cursor: pointer; font-size: 0.8rem;
+  }
+  .popup-item:hover { background: #f3f4f6; }
+  .popup-item.active { font-weight: 700; }
+  .popup-item .dot {
+    display: inline-block; width: 8px; height: 8px; border-radius: 50%;
+    margin-right: 6px;
+  }
+  .popup-item .dot.asr { background: #3b82f6; }
+  .popup-item .dot.reading { background: #ec4899; }
+  .popup-item .dot.normalisation { background: #6366f1; }
+  .popup-item .dot.punctuation { background: #eab308; }
+  .popup-item .dot.dialect { background: #10b981; }
+
+  .norm-input {
+    display: block; width: calc(100% - 1rem); margin: 0.15rem 0.5rem 0.25rem;
+    padding: 0.3rem 0.4rem; font-size: 0.8rem; border: 1px solid #ccc;
+    border-radius: 4px; font-family: monospace;
+  }
+</style>
+</head>
+<body>
+<h1>Mismatch Review</h1>
+
+<div class="upload-panel">
+  <h2>Input Files</h2>
+  <div class="upload-row">
+    <div class="upload-col">
+      <label>VibeVoice JSON</label>
+      <input type="file" id="vv-file" accept=".json">
+      <textarea id="vv-text" placeholder="...or paste VibeVoice JSON here"></textarea>
+    </div>
+    <div class="upload-col">
+      <label>Etext</label>
+      <input type="file" id="et-file" accept=".txt,.text">
+      <textarea id="et-text" placeholder="...or paste etext here"></textarea>
+    </div>
+  </div>
+  <div class="btn-bar">
+    <button class="btn btn-primary" id="align-btn">Align</button>
+    <button class="btn btn-secondary" id="save-btn" disabled>Save</button>
+    <button class="btn btn-secondary" id="export-btn" disabled>Export</button>
+    <span class="load-area">
+      <label for="load-file">Import:</label>
+      <input type="file" id="load-file" accept=".json">
+    </span>
+  </div>
+  <div id="status"></div>
+</div>
+
+<div id="segments"></div>
+
+<script src="{{ url_for('static', filename='review.js') }}"></script>
+</body>
+</html>

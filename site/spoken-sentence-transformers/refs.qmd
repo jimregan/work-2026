@@ -1,0 +1,108 @@
+---
+title: References for spoken similarity search
+bibliography: refs.bib
+---
+
+## [Massive Sound Embedding Benchmark (MSEB)](https://openreview.net/forum?id=X0juYgFVng) [@heigold2025massive]
+- [Poster](https://neurips.cc/virtual/2025/loc/san-diego/poster/121597)
+- [Code](https://github.com/google-research/mseb) --- Apache 2.0
+- [SVQ dataset](https://huggingface.co/datasets/google/svq)
+- [Speech-to-Retrieval](https://research.google/blog/speech-to-retrieval-s2r-a-new-approach-to-voice-search/)
+  - SVQ blog post
+  - cites [@Schalkwyk2010] [pdf](https://static.googleusercontent.com/media/research.google.com/en//pubs/archive/36340.pdf)
+  - [Audio Embeddings: Understanding the basics](https://dev.to/josethz00/audio-embeddings-understanding-the-basics-4pc1)
+- [Google Research](https://research.google/pubs/massive-sound-embedding-benchmark-mseb/)
+
+## [BEST-STD: Bidirectional Mamba-Enhanced Speech Tokenization for Spoken Term Detection](https://ieeexplore.ieee.org/document/10889633) [@singh25beststd]
+- Background
+  - Usefulness
+    - [An audio indexing system for election video material](https://ieeexplore.ieee.org/document/4960723) [@alberti2009audio]
+    - [Podcastle: collaborative training of acoustic models on the basis of wisdom of crowds for podcast transcription
+](https://www.isca-archive.org/interspeech_2009/ogata09_interspeech.html) [@ogata09_interspeech]
+  -  ASR-based approaches
+     - [Vocabulary independent spoken term detection](https://dl.acm.org/doi/10.1145/1277741.1277847) [@mamou2007vocabulary]
+     - [Rapid and accurate spoken term detection](https://www.isca-archive.org/interspeech_2007/miller07_interspeech.html) [@miller07_interspeech]
+     - [A comparison of phone and grapheme-based spoken term detection](https://ieeexplore.ieee.org/document/4518773) [@dong2008phone]
+  - Lattice-based approaches ("varying acoustic conditions")
+     - [Lattice-Based Search for Spoken Utterance Retrieval](https://aclanthology.org/N04-1017/) [@saraclar-sproat-2004-lattice]
+     - [Lattice Indexing for Spoken Term Detection](https://ieeexplore.ieee.org/document/5752829) [@can2011lattice]
+  - Segmental DWT
+     - [Neural Network Based End-to-End Query by Example Spoken Term Detection](https://ieeexplore.ieee.org/document/9072650) [@ram2020neural]
+     - [CNN Based Query by Example Spoken Term Detection](https://www.isca-archive.org/interspeech_2018/ram18_interspeech.html) [@ram18_interspeech]
+     - [Segmental Dtw: A Parallelizable Alternative to Dynamic Time Warping](https://ieeexplore.ieee.org/document/9413827) [@Tsai21segmentalDTW]
+        - [code](https://github.com/tjtsai/SegmentalDTW) --- MIT
+  - Acoustic word embeddings
+     - [Audio Word2Vec: Unsupervised Learning of Audio Segment Representations Using Sequence-to-Sequence Autoencoder](https://www.isca-archive.org/interspeech_2016/chung16_interspeech.html) [@chung16_interspeech]
+     - [Multi-view Recurrent Neural Acoustic Word Embeddings](https://arxiv.org/abs/1611.04496) [@he2017multiviewrecurrentneuralacoustic]
+     - [Deep convolutional acoustic word embeddings using word-pair side information](https://ieeexplore.ieee.org/document/7472619) [@kamper2016acousticwordembeddings]
+     - [Acoustic Span Embeddings for Multilingual Query-by-Example Search](https://ieeexplore.ieee.org/abstract/document/9383545) [@hu2021acousticspanembeddings]
+     - [Attention-based audio embeddings for query-by-example](https://zenodo.org/records/7316592) [@anup_singh_2022_7316592]
+     - [FlowHash: Accelerating Audio Search With Balanced Hashing via Normalizing Flow](https://dl.acm.org/doi/10.1109/TASLP.2024.3486227) [@10.1109/TASLP.2024.3486227]
+     - [Simultaneously Learning Robust Audio Embeddings and Balanced Hash Codes for Query-by-Example](https://ieeexplore.ieee.org/document/10096103) [@singh2023simultaneously]
+  - Speech tokenisers
+     - [HuBERT: Self-Supervised Speech Representation Learning by Masked Prediction of Hidden Units](https://dl.acm.org/doi/10.1109/TASLP.2021.3122291) [@10.1109/TASLP.2021.3122291]
+     - [WavLM: Large-Scale Self-Supervised Pre-Training for Full Stack Speech Processing](https://ieeexplore.ieee.org/document/9814838) [@chen2022wavlm]
+     - [SpeechTokenizer: Unified Speech Tokenizer for Speech Language Models](https://openreview.net/forum?id=AF9Q8Vip84) [@zhang2024speechtokenizer]
+
+# MSEB: Cascade encoding
+
+## [Billion-Scale Similarity Search with GPUs](https://www.computer.org/csdl/journal/bd/2021/03/08733051/1aFvgKKpjoc) [@Johnson2021billion]
+- [arXiv](https://arxiv.org/abs/1702.08734)
+- MSEB: "we adopted a cascade encoding approach, which remains the state-of-the-art for current industrial voice search systems"
+- Paper does not mention cascade encoding, or even voice; only images search
+- [pdf](https://ieeexplore.ieee.org/stamp/stamp.jsp?arnumber=8733051)
+
+## [Searching in one billion vectors: Re-rank with source coding](https://ieeexplore.ieee.org/document/5946540) [@jegou2011searching]
+- Related to [@Johnson2021billion]
+- cites [@jegou2011product]
+
+## [Product Quantization for Nearest Neighbor Search](https://ieeexplore.ieee.org/document/5432202) [@jegou2011product]
+- Introduces IVFADC, which is a combination of an inverted file system (IVF) and asymmetric product quantization (ADC).
+
+> The idea is to decompose the space into a Cartesian product of low-dimensional subspaces and to quantize each subspace separately.
+
+> A vector is represented by a short code composed of its subspace quantization indices.
+
+
+## [The Cascade Equivalence Hypothesis: When Do Speech LLMs Behave Like ASR→LLM Pipelines?](https://arxiv.org/abs/2602.17598)
+
+## [Query-by-example Spoken Term Detection Evaluation on Low-resource Languages](https://www.fit.vut.cz/research/result/c111585/) [@BUT111585]
+ - [challenge dataset](https://speech.fit.vut.cz/software/sws-2013-multilingual-database-query-by-example-keyword-spotting)
+
+## [Spoken Word2Vec: Learning Skipgram Embeddings from Speech](https://www.isca-archive.org/interspeech_2024/sayeed24_interspeech.html) [@sayeed24_interspeech]
+ - [code](https://github.com/rainmaker29/SpokenWord2Vec) --- no licence
+ - [arXiv](https://arxiv.org/abs/2311.09319)
+
+## [An introduction to voice search](https://ieeexplore.ieee.org/document/4490199) [@wang2008introduction]
+
+## [The CMU Arctic speech databases](https://www.isca-archive.org/ssw_2004/kominek04b_ssw.html) [@kominek04b_ssw]
+
+## [SpeechTripleNet: End-to-End Disentangled Speech Representation Learning for Content, Timbre and Prosody](https://dl.acm.org/doi/10.1145/3581783.3612485) [@lu2024speechtriplenetendtoenddisentangled]
+- [code](https://github.com/light1726/SpeechTripleNet) --- MIT
+
+## [WavLM: Large-Scale Self-Supervised Pre-Training for Full Stack Speech Processing](https://ieeexplore.ieee.org/document/3188113) [@chen2022wavlm]
+- [arXiv](https://arxiv.org/abs/2110.13900)
+- [code](https://github.com/microsoft/unilm/tree/master/wavlm)
+
+## [beta-VAE: Learning Basic Visual Concepts with a Constrained Variational Framework](https://openreview.net/forum?id=Sy2fzU9gl) [@higgins2017beta]
+
+## [IEEE Recommended Practice for Speech Quality Measurements](https://ieeexplore.ieee.org/document/1162058) [@ieee1969harvard]
+
+## [CSTR VCTK Corpus: English Multi-speaker Corpus for CSTR Voice Cloning Toolkit](https://datashare.ed.ac.uk/handle/10283/3443) [@yamagishi2019vctk]
+
+## [The voice bank corpus: Design, collection and data analysis of a large regional accent speech database](https://ieeexplore.ieee.org/document/6709856) [@veaux2013voice]
+
+## [Unsupervised learning of disentangled and interpretable representations from sequential data](https://dl.acm.org/doi/10.5555/3294771.3294950) [@hsu2017unsupervised]
+- [code](https://github.com/wnhsu/FactorizedHierarchicalVAE) --- Apache 2.0
+
+## [ContentVec: An Improved Self-Supervised Speech Representation by Disentangling Speakers](https://proceedings.mlr.press/v162/qian22b.html) [@qian2022contentvec]
+- [arXiv](https://arxiv.org/abs/2204.09224)
+- [code](https://github.com/auspicious3000/contentvec) --- MIT
+
+## [SpeechTokenizer: Unified Speech Tokenizer for Speech Language Models](https://openreview.net/forum?id=AF9Q8Vip84) [@zhang2024speechtokenizerunified]
+
+## [Unsupervised speech decomposition via triple information bottleneck](https://dl.acm.org/doi/10.5555/3524938.3525664) [@qian2020unsupervised]
+- content, timbre, pitch, and rhythm
+
+::: {#refs}
+:::

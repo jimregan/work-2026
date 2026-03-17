@@ -23,7 +23,7 @@ import json
 import os
 import sys
 
-from flask import Flask, jsonify, render_template_string, request
+from flask import Flask, jsonify, request
 
 app = Flask(__name__)
 

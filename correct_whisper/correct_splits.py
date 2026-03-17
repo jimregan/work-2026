@@ -589,11 +589,16 @@ def load():
     try:
         with open(fp, encoding="utf-8") as f:
             data = json.load(f)
-        segments = [s.get("words", []) for s in data["segments"] if s.get("words")]
-        n_words = sum(len(s) for s in segments)
-        return jsonify({"segments": segments, "words": n_words})
-    except Exception as e:
-        return jsonify({"error": str(e)}), 500
+    except json.JSONDecodeError as e:
+        return jsonify({"error": f"Invalid JSON: {e}"}), 400
+
+    segments_raw = data.get("segments")
+    if not isinstance(segments_raw, list):
+        return jsonify({"error": "Missing or invalid 'segments' field"}), 400
+
+    segments = [s.get("words", []) for s in segments_raw if isinstance(s, dict) and s.get("words")]
+    n_words = sum(len(s) for s in segments)
+    return jsonify({"segments": segments, "words": n_words})
 
 
 @app.route("/save", methods=["POST"])

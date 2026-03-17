@@ -21,4 +21,4 @@ dependencies = [
 dev = ["pytest"]
 
 [project.scripts]
-dysfluent-decode = "decode:main"
+dysfluent-decode = "dysfluent_wfst.cli:main"

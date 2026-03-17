@@ -85,8 +85,10 @@ def build_ref_fst(
                 if skip:
                     # Skip arc on the correct transition position
                     marker = f"{i}<trans>{j}"
-                    mid = output_syms.add_symbol(marker, next_osym_id)
-                    next_osym_id += 1
+                    mid = output_syms.find(marker)
+                    if mid == -1:
+                        mid = output_syms.add_symbol(marker, next_osym_id)
+                        next_osym_id += 1
                     w_err = -math.log(
                         error_score * math.exp(-((i - j) ** 2) / 2)
                     )
@@ -127,12 +129,20 @@ def build_ref_fst(
                             if sim_phoneme is None or sim_phoneme in specials:
                                 continue
 
+                            # Map similar phoneme to its input-symbol ID
+                            sim_pid = input_syms.find(sim_phoneme)
+                            if sim_pid == -1:
+                                # No corresponding symbol in input_syms; skip
+                                continue
+
                             marker = f"{i}<trans>{j}"
-                            mid = output_syms.add_symbol(marker, next_osym_id)
-                            next_osym_id += 1
+                            mid = output_syms.find(marker)
+                            if mid == -1:
+                                mid = output_syms.add_symbol(marker, next_osym_id)
+                                next_osym_id += 1
                             w_sub = -math.log(error_score / 10000)
                             compiler.add_arc(
-                                i, pynini.Arc(0, mid, w_sub, j)
+                                i, pynini.Arc(sim_pid, mid, w_sub, j)
                             )
             else:
                 if alpha == 1:
@@ -140,8 +150,10 @@ def build_ref_fst(
                 if j > i and skip and j - i <= 3:
                     # (c) Skip / deletion
                     marker = f"{i}<trans>{j}"
-                    mid = output_syms.add_symbol(marker, next_osym_id)
-                    next_osym_id += 1
+                    mid = output_syms.find(marker)
+                    if mid == -1:
+                        mid = output_syms.add_symbol(marker, next_osym_id)
+                        next_osym_id += 1
                     w_skip = -math.log(
                         error_score * math.exp(-((i - j) ** 2) / 2)
                     )
@@ -149,8 +161,10 @@ def build_ref_fst(
                 elif j < i and back and i - j <= 2:
                     # (d) Back / repetition
                     marker = f"{i}<trans>{j}"
-                    mid = output_syms.add_symbol(marker, next_osym_id)
-                    next_osym_id += 1
+                    mid = output_syms.find(marker)
+                    if mid == -1:
+                        mid = output_syms.add_symbol(marker, next_osym_id)
+                        next_osym_id += 1
                     w_back = -math.log(
                         error_score * math.exp(-((i - j) ** 2) / 2)
                     )

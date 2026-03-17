@@ -27,10 +27,6 @@ from flask import Flask, jsonify, render_template_string, request
 
 app = Flask(__name__)
 
-# ---------------------------------------------------------------------------
-# HTML / JS
-# ---------------------------------------------------------------------------
-
 HTML = r"""<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -521,10 +517,6 @@ document.addEventListener('keydown', e => {
 </html>
 """
 
-# ---------------------------------------------------------------------------
-# Flask routes
-# ---------------------------------------------------------------------------
-
 
 @app.route("/")
 def index():
@@ -585,8 +577,6 @@ def save():
     except Exception as e:
         return jsonify({"error": str(e)})
 
-
-# ---------------------------------------------------------------------------
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))

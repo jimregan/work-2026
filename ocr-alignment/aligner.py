@@ -368,7 +368,7 @@ class OCRAligner:
 # ---------------------------------------------------------------------------
 
 def tokenise(text: str) -> List[str]:
-    """Whitespace tokeniser that keeps only word characters and apostrophes."""
+    """Whitespace tokeniser that keeps only ASCII letters/digits and apostrophes."""
     return re.findall(r"[A-Za-z0-9'\u2018\u2019\u201b]+", text)
 
 

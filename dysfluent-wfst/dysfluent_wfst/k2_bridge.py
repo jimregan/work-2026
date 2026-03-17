@@ -16,14 +16,15 @@ def fst_to_k2_str(fst: pynini.Fst, to_log_probs: bool = True) -> str:
         ``src_state dest_state input_label output_label weight``
     with the last line being just the superfinal state number.
 
-    Tropical weights in pynini are ``-log(prob)``. When ``to_log_probs``
-    is True, weights are converted back to raw probabilities via
-    ``exp(-w)`` for k2 (which uses raw scores internally).
+    Tropical weights in pynini are ``-log(prob)``. k2 typically expects
+    scores that add along paths (e.g. log-scores). When ``to_log_probs``
+    is True, weights are converted to log-probabilities via ``-w`` so
+    they are in the same domain as log-softmaxed emissions.
 
     Args:
         fst: A compiled pynini FST.
-        to_log_probs: If True, convert tropical weights back to
-            raw probabilities.
+        to_log_probs: If True, convert tropical weights to
+            log-probabilities (``log p``) using ``-w``.
 
     Returns:
         A string in k2 FSA text format.
@@ -35,7 +36,8 @@ def fst_to_k2_str(fst: pynini.Fst, to_log_probs: bool = True) -> str:
         for arc in fst.arcs(state):
             w = float(arc.weight)
             if to_log_probs:
-                w = math.exp(-w)
+                # Tropical weights are -log(p); convert to log(p)
+                w = -w
             lines.append(
                 f"{state} {arc.nextstate} {arc.ilabel} {arc.olabel} {w}"
             )
@@ -44,7 +46,8 @@ def fst_to_k2_str(fst: pynini.Fst, to_log_probs: bool = True) -> str:
         if final_w != pynini.Weight.zero("tropical"):
             w = float(final_w)
             if to_log_probs:
-                w = math.exp(-w)
+                # Tropical weights are -log(p); convert to log(p)
+                w = -w
             lines.append(f"{state} {superfinal} -1 -1 {w}")
 
     lines.append(str(superfinal))

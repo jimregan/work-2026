@@ -336,6 +336,11 @@ function handleEnter(anchor, offset) {
     }
   }
 
+  // If cursor is at very start or after the last word, do not create an empty segment
+  if (splitIdx === 0 || splitIdx === wordSpans.length) {
+    return;
+  }
+
   // Build new segment from wordSpans[splitIdx:]
   const newSeg = document.createElement('div');
   newSeg.className = 'seg';

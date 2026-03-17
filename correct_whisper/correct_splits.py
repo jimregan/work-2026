@@ -528,7 +528,14 @@ def index():
 
 @app.route("/load", methods=["POST"])
 def load():
-    fp = request.json.get("filepath", "").strip()
+    req = request.get_json(silent=True) or {}
+    if not isinstance(req, dict):
+        return jsonify({"error": "Invalid JSON body"}), 400
+
+    fp = str(req.get("filepath", "")).strip()
+    if not fp:
+        return jsonify({"error": "Missing required field: filepath"}), 400
+
     if not os.path.exists(fp):
         return jsonify({"error": f"File not found: {fp}"}), 404
     try:
@@ -543,9 +550,19 @@ def load():
 
 @app.route("/save", methods=["POST"])
 def save():
-    req = request.json
-    fp = req.get("filepath", "").strip()
-    new_segs_data = req.get("segments", [])
+    req = request.get_json(silent=True) or {}
+    if not isinstance(req, dict):
+        return jsonify({"error": "Invalid JSON body"}), 400
+
+    fp = str(req.get("filepath", "")).strip()
+    if not fp:
+        return jsonify({"error": "Missing required field: filepath"}), 400
+
+    if "segments" not in req:
+        return jsonify({"error": "Missing required field: segments"}), 400
+    new_segs_data = req.get("segments")
+    if not isinstance(new_segs_data, list):
+        return jsonify({"error": "Field 'segments' must be a list"}), 400
 
     if not os.path.exists(fp):
         return jsonify({"error": f"File not found: {fp}"}), 404

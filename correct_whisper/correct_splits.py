@@ -7,7 +7,7 @@ Edit exactly like a text editor:
   Backspace across a space    → merge the two adjacent words
   Backspace at line start     → merge this segment with the previous one
   Space inside a word         → split the word at cursor (timing interpolated)
-  Enter                       → split segment at the nearest word boundary
+  Enter                       → split segment before the word at/after the cursor
 
 On save, segments are rebuilt:
   text  = " ".join(w["word"] for w in words)

@@ -530,7 +530,7 @@ def index():
 def load():
     fp = request.json.get("filepath", "").strip()
     if not os.path.exists(fp):
-        return jsonify({"error": f"File not found: {fp}"})
+        return jsonify({"error": f"File not found: {fp}"}), 404
     try:
         with open(fp, encoding="utf-8") as f:
             data = json.load(f)
@@ -538,7 +538,7 @@ def load():
         n_words = sum(len(s) for s in segments)
         return jsonify({"segments": segments, "words": n_words})
     except Exception as e:
-        return jsonify({"error": str(e)})
+        return jsonify({"error": str(e)}), 500
 
 
 @app.route("/save", methods=["POST"])
@@ -548,7 +548,7 @@ def save():
     new_segs_data = req.get("segments", [])
 
     if not os.path.exists(fp):
-        return jsonify({"error": f"File not found: {fp}"})
+        return jsonify({"error": f"File not found: {fp}"}), 404
     try:
         with open(fp, encoding="utf-8") as f:
             original = json.load(f)
@@ -575,7 +575,7 @@ def save():
 
         return jsonify({"status": "ok", "saved_to": out, "segments": len(new_segments)})
     except Exception as e:
-        return jsonify({"error": str(e)})
+        return jsonify({"error": str(e)}), 500
 
 
 if __name__ == "__main__":

@@ -212,7 +212,8 @@ class Decoder:
                 phoneme=item["phoneme"],
                 ref_phoneme=(
                     ref_phonemes[item["start_state"]]
-                    if item["start_state"] < len(ref_phonemes)
+                    if isinstance(item.get("start_state"), int)
+                    and 0 <= item["start_state"] < len(ref_phonemes)
                     else None
                 ),
                 start_frame=0,

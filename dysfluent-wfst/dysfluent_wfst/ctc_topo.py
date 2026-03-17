@@ -15,8 +15,10 @@ def build_ctc_topo(num_tokens: int, syms: pynini.SymbolTable) -> pynini.Fst:
       - From state 0: self-loop on blank (0:0);
         arc to state t on input t / output t, for t in 1..num_tokens-1.
       - From state t (non-blank): self-loop on t (t:t);
-        arc to state 0 on blank (0:0);
-        arc to state t' on input t' / output t', for each t' != t.
+        arc to state 0 on blank (0:0).
+
+    No direct label-to-different-label transitions; distinct tokens must
+    transition through the blank state.
 
     All weights are 0 (tropical semiring). The FST is arc-sorted on
     output labels for downstream composition.
@@ -40,9 +42,6 @@ def build_ctc_topo(num_tokens: int, syms: pynini.SymbolTable) -> pynini.Fst:
     for t in range(1, num_tokens):
         compiler.add_arc(t, pynini.Arc(t, t, 0, t))  # self-loop
         compiler.add_arc(t, pynini.Arc(blank, blank, 0, 0))  # -> blank
-        for t2 in range(1, num_tokens):
-            if t2 != t:
-                compiler.add_arc(t, pynini.Arc(t2, t2, 0, t2))
 
     # All states are final with weight 0
     for s in range(num_tokens):

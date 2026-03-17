@@ -39,7 +39,7 @@ def parse_hocr(path: str) -> List[HocrWord]:
     Requires ``beautifulsoup4`` and ``lxml``.
     """
     try:
-        from bs4 import BeautifulSoup  # type: ignore
+        from bs4 import BeautifulSoup, FeatureNotFound  # type: ignore
     except ImportError as exc:
         raise ImportError(
             "beautifulsoup4 is required for hOCR support: pip install beautifulsoup4 lxml"
@@ -49,7 +49,17 @@ def parse_hocr(path: str) -> List[HocrWord]:
     _WCONF = re.compile(r"x_wconf\s+(\d+)")
 
     with open(path, encoding="utf-8") as fh:
-        soup = BeautifulSoup(fh, "lxml")
+        try:
+            soup = BeautifulSoup(fh, "lxml")
+        except FeatureNotFound as exc:
+            # Fallback when the lxml parser is not available
+            warnings.warn(
+                "lxml parser not found for BeautifulSoup; falling back to the built-in "
+                "'html.parser'. Install 'lxml' for faster and more robust hOCR parsing.",
+                RuntimeWarning,
+            )
+            fh.seek(0)
+            soup = BeautifulSoup(fh, "html.parser")
 
     words: List[HocrWord] = []
     page_num = 0

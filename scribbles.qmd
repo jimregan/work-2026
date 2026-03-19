@@ -87,8 +87,13 @@ ContentVec [@qian2022contentvec] incorporated speaker disentanglement directly i
 Their approach is generative and unsupervised; ours is discriminative and supervision-guided, using pre-trained teacher models to provide independent training signal for each axis.
 The key difference: they restrict information flow structurally (β-VAE [@higgins2017beta] bottleneck); we provide axis-specific objectives derived from teachers whose representations are known to carry specific information.
 
-A consistent finding across this literature is that factor leakage is hard to eliminate completely: adversarial removal can reduce leakage under closed-set evaluation but residual speaker information often persists under stronger open-set conditions.
-A practical consequence of our approach is that it scales to any axis for which a competent teacher exists, without requiring reconstruction.
+A parallel line uses contrastive and adversarial objectives rather than generative bottlenecks to separate content from speaker.
+CTVC [@deng2024ctvc] trains a content encoder with a phoneme-level contrastive loss — same-phoneme frames are attracted, boundary frames repelled — while a gradient reversal layer strips speaker identity from the content representation.
+A separate speaker encoder is trained by maximising mutual information between embeddings of randomly drawn segments of the same utterance, enforcing that speaker representation is time-invariant within an utterance.
+The mechanism is discriminative rather than generative, which is closer in spirit to our own approach, though the goal remains voice conversion rather than controllable retrieval.
+
+A consistent finding across both generative and discriminative approaches is that factor leakage is hard to eliminate completely: adversarial removal can reduce leakage under closed-set conditions but residual speaker information often persists under stronger open-set evaluation.
+Our approach does not attempt to eliminate leakage within the encoder; instead it tolerates it and compensates by training axis-specific projection heads that induce the desired similarity geometry, scaling to any axis for which a competent teacher exists.
 
 ### Structured and hierarchical representations
 
@@ -210,3 +215,4 @@ Although the current experiments are small in scale, they provide initial eviden
 This study focuses on controlled prompt overlap in order to isolate the effect of axis weighting.
 A natural next step is to extend the framework to larger and more varied read-speech collections, such as LibriVox, where additional axes including prosody and speaking style can be explored alongside wider variation in speakers, accents, and content.
 Future work will also investigate stronger factor separation objectives and more principled evaluation of axis specialisation.
+One promising direction for the speaker axis is to adopt a within-utterance positive-pair construction [@deng2024ctvc]: sampling two segments from the same utterance as positives enforces a stricter time-invariance constraint than cross-utterance speaker pairs, since content variation within an utterance is minimal.

@@ -108,5 +108,8 @@ bibliography: refs.bib
 - [arXiv](https://arxiv.org/abs/2110.11499)
 - [code](https://github.com/descriptinc/lyrebird-wav2clip) --- MIT
 
+## [CommonAccent: Exploring Large Acoustic Pretrained Models for Accent Classification Based on Common Voice](https://www.isca-archive.org/interspeech_2023/zuluagagomez23_interspeech.html) [@zuluagagomez23_interspeech]
+- [arXiv](https://arxiv.org/abs/2305.18283)
+
 ::: {#refs}
 :::

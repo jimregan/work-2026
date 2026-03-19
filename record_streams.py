@@ -14,7 +14,7 @@ import requests
 STOP_EVENT = threading.Event()
 
 
-def signal_handler(sig, frame):
+def signal_handler(*_):
     print("\nStopping...", flush=True)
     STOP_EVENT.set()
 
@@ -24,7 +24,7 @@ def parse_m3u8(text, base_url):
     segments = []
     target_duration = 2
     lines = text.splitlines()
-    for i, line in enumerate(lines):
+    for line in lines:
         line = line.strip()
         if line.startswith("#EXT-X-TARGETDURATION:"):
             try:

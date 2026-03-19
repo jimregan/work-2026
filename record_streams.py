@@ -2,15 +2,12 @@
 """Record HLS (m3u8) streams, saving raw segments as downloaded."""
 
 import argparse
+import hashlib
 import os
 import signal
-import sys
 import threading
-import time
 from pathlib import Path
 from urllib.parse import urljoin, urlparse
-
-import hashlib
 
 import requests
 

@@ -115,6 +115,7 @@ docker run --rm --ipc=host \
       --audio_dir   /data/p315 \
       --clap        laion \
       --output_json /data/p315-clap-laion-baseline.json && \
+    pip install msclap && \
     python /workspace/experiment/baseline_retrieval.py \
       --corrected   /workspace/experiment/p315.tsv \
       --reference   /workspace/experiment/vctk-all.tsv \

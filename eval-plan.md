@@ -165,3 +165,27 @@ docker run --rm --gpus '"device=0,1,2,3"' --ipc=host \
     bash /workspace/experiment/run_all_p315_evals.sh
   "
 ```
+
+### Rehasp bootstrap (needs curl, no GPU required)
+
+```bash
+docker run --rm \
+  -v /home/joregan/merged_tts/workspace:/data \
+  -v /home/joregan/merged_tts/spoken-sentence-transformers:/workspace \
+  sst \
+  bash -c "apt update && apt install -y curl && bash /workspace/experiment/bootstrap_rehasp.sh"
+```
+
+### Rehasp eval (GPUs 0-3)
+
+```bash
+docker run --rm --gpus '"device=0,1,2,3"' --ipc=host \
+  -v /home/joregan/merged_tts/workspace:/data \
+  -v /home/joregan/merged_tts/models:/models \
+  -v /home/joregan/merged_tts/spoken-sentence-transformers/experiment:/workspace/experiment \
+  sst \
+  bash -c "
+    BASE_DIR=/models \
+    bash /workspace/experiment/run_all_rehasp_evals.sh
+  "
+```

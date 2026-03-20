@@ -93,6 +93,31 @@ docker run -d --gpus '"device=4,5,6,7"' --ipc=host \
   sst bash /workspace/experiment/run_train_semantic.sh
 ```
 
+### p315 CLAP + text baselines (CPU is fine, mount live experiment scripts)
+
+```bash
+docker run --rm --ipc=host \
+  -v /home/joregan/merged_tts/workspace:/data \
+  -v /home/joregan/merged_tts/spoken-sentence-transformers/experiment:/workspace/experiment \
+  sst \
+  bash -c "
+    python /workspace/experiment/baseline_retrieval.py \
+      --corrected   /workspace/experiment/p315.tsv \
+      --reference   /workspace/experiment/vctk-all.tsv \
+      --labels      /data/p315-labels.json \
+      --utterance_map /data/utterance-map.json \
+      --output_json /data/p315-text-baseline.json && \
+    python /workspace/experiment/baseline_retrieval.py \
+      --corrected   /workspace/experiment/p315.tsv \
+      --reference   /workspace/experiment/vctk-all.tsv \
+      --labels      /data/p315-labels.json \
+      --utterance_map /data/utterance-map.json \
+      --audio_dir   /data/p315 \
+      --clap        laion \
+      --output_json /data/p315-clap-laion-baseline.json
+  "
+```
+
 ### p315 eval (GPUs 0-3, mount live experiment scripts)
 
 ```bash

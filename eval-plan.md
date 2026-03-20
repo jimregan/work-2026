@@ -96,7 +96,7 @@ docker run -d --gpus '"device=4,5,6,7"' --ipc=host \
 ### p315 CLAP + text baselines (CPU is fine, mount live experiment scripts)
 
 ```bash
-docker run --gpus '"device=0,1,2,3"' --rm --ipc=host \
+docker run --rm --ipc=host \
   -v /home/joregan/merged_tts/workspace:/data \
   -v /home/joregan/merged_tts/spoken-sentence-transformers/experiment:/workspace/experiment \
   sst \
@@ -124,6 +124,22 @@ docker run --gpus '"device=0,1,2,3"' --rm --ipc=host \
       --audio_dir   /data/p315 \
       --clap        ms \
       --output_json /data/p315-clap-ms-baseline.json
+  "
+```
+
+### OSR eval (GPUs 0-3, mount live experiment scripts)
+
+```bash
+docker run --rm --gpus '"device=0,1,2,3"' --ipc=host \
+  -v /home/joregan/merged_tts/workspace:/data \
+  -v /home/joregan/merged_tts/models:/models \
+  -v /home/joregan/merged_tts/spoken-sentence-transformers/experiment:/workspace/experiment \
+  sst \
+  bash -c "
+    BASE_DIR=/models \
+    INDEX_DATASET=/data/osr-dataset \
+    QUERY_DIR=/data/osr-segments \
+    bash /workspace/experiment/run_all_evals.sh
   "
 ```
 

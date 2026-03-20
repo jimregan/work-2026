@@ -114,7 +114,15 @@ docker run --rm --ipc=host \
       --utterance_map /data/utterance-map.json \
       --audio_dir   /data/p315 \
       --clap        laion \
-      --output_json /data/p315-clap-laion-baseline.json
+      --output_json /data/p315-clap-laion-baseline.json && \
+    python /workspace/experiment/baseline_retrieval.py \
+      --corrected   /workspace/experiment/p315.tsv \
+      --reference   /workspace/experiment/vctk-all.tsv \
+      --labels      /data/p315-labels.json \
+      --utterance_map /data/utterance-map.json \
+      --audio_dir   /data/p315 \
+      --clap        ms \
+      --output_json /data/p315-clap-ms-baseline.json
   "
 ```
 

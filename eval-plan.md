@@ -173,7 +173,7 @@ docker run --rm \
   -v /home/joregan/merged_tts/workspace:/data \
   -v /home/joregan/merged_tts/spoken-sentence-transformers:/workspace \
   sst \
-  bash -c "apt update && apt install -y curl && bash /workspace/experiment/bootstrap_rehasp.sh"
+  bash -c "apt update && apt install -y curl unzip && bash /workspace/experiment/bootstrap_rehasp.sh"
 ```
 
 ### Rehasp eval (GPUs 0-3)

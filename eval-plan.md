@@ -38,9 +38,11 @@ Run via `run_rehasp_eval.sh` / `run_all_rehasp_evals.sh`.
 
 ## Setup scripts
 
-- `experiment/bootstrap_rehasp.sh` — downloads rehasp, builds OSR+rehasp mixed index dataset,
-  prepares query audio and labels for evals 2 and 3
-- `experiment/run_preference_flip.sh` — runs a single preference-flip eval
+- `experiment/bootstrap_rehasp.sh` — downloads rehasp, builds OSR-only and OSR+rehasp mixed index
+  datasets, prepares query audio and labels for eval 2
+- `experiment/run_rehasp_eval.sh` — runs all three rehasp cases for one model
+- `experiment/run_all_rehasp_evals.sh` — runs rehasp eval for all models under `$BASE_DIR`
+- `experiment/run_preference_flip.sh` — runs a single preference-flip eval (lower-level)
 - `experiment/run_eval_osr.sh` — runs basic OSR retrieval eval for one model
 - `experiment/run_all_evals.sh` — runs OSR retrieval eval for all models under `$BASE_DIR`
 - `experiment/run_eval_p315.sh` — runs p315 retrieval eval for one model

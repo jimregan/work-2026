@@ -186,6 +186,10 @@ docker run --rm --gpus '"device=0,1,2,3"' --ipc=host \
   sst \
   bash -c "
     BASE_DIR=/models \
+    OSR_DATASET=/data/osr-dataset \
+    OSR_REHASP_DATASET=/data/osr-rehasp-mixed \
+    QUERY_DIR=/data/rehasp-query-segments \
+    QUERY_LABELS=/data/rehasp-labels.json \
     bash /workspace/experiment/run_all_rehasp_evals.sh
   "
 ```

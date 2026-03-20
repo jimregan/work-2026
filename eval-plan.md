@@ -96,7 +96,7 @@ docker run -d --gpus '"device=4,5,6,7"' --ipc=host \
 ### p315 CLAP + text baselines (CPU is fine, mount live experiment scripts)
 
 ```bash
-docker run --rm --ipc=host \
+docker run --gpus '"device=0,1,2,3"' --rm --ipc=host \
   -v /home/joregan/merged_tts/workspace:/data \
   -v /home/joregan/merged_tts/spoken-sentence-transformers/experiment:/workspace/experiment \
   sst \

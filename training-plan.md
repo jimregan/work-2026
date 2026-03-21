@@ -67,6 +67,37 @@ docker run -d --gpus '"device=0,1,2,3,4,5,6,7"' --ipc=host \
   sst bash /workspace/experiment/run_train.sh
 ```
 
+### 4. wavlm-multiaxis-spkweight — downweight speaker loss
+
+Same dims as run 1 (256-128-64-32), but `speaker_id` axis loss weighted at 0.5.
+Forces the backbone to prioritise content over speaker identity during training.
+
+```bash
+docker run -d --gpus '"device=0,1,2,3,4,5,6,7"' --ipc=host \
+  -v /home/joregan/merged_tts/workspace:/data \
+  -v /home/joregan/merged_tts/models:/models \
+  -v /home/joregan/merged_tts/spoken-sentence-transformers/experiment:/workspace/experiment \
+  -e CONFIG_FILE=/workspace/experiment/configs/wavlm-multiaxis-spkweight.json \
+  -e NPROC=8 \
+  sst bash /workspace/experiment/run_train.sh
+```
+
+### 5. wavlm-multiaxis-grl — gradient reversal on speaker axis
+
+Same dims as run 1 (256-128-64-32), with a gradient reversal layer (λ=1.0)
+before the speaker projection head.  The backbone is penalised for encoding
+speaker-identifiable information — standard domain-adversarial training.
+
+```bash
+docker run -d --gpus '"device=0,1,2,3,4,5,6,7"' --ipc=host \
+  -v /home/joregan/merged_tts/workspace:/data \
+  -v /home/joregan/merged_tts/models:/models \
+  -v /home/joregan/merged_tts/spoken-sentence-transformers/experiment:/workspace/experiment \
+  -e CONFIG_FILE=/workspace/experiment/configs/wavlm-multiaxis-grl.json \
+  -e NPROC=8 \
+  sst bash /workspace/experiment/run_train.sh
+```
+
 ## Watching training logs
 
 ```bash

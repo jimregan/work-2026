@@ -17,10 +17,10 @@ requiring separate models.
 
 ### Training data
 
-A multi-speaker dataset was constructed from LibriVox recordings of the same texts read
-by different speakers, augmented with VCTK and CMU Arctic. The dataset provides the
-natural supervision signal for multi-axis training: the same sentence read by different
-speakers, from different corpora, with known gender labels.
+The training dataset (`merged-vctk-cmuarctic-gbi`) combined VCTK, CMU Arctic, and
+Google's Britain and Ireland (GBI) dataset. It provides the natural supervision signal
+for multi-axis training: the same sentence read by different speakers, from different
+corpora, with known gender labels.
 
 ### Models trained
 

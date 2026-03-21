@@ -24,13 +24,13 @@ Retrains the hub model architecture with the current pipeline and correct teache
 Axes: `semantic:256 speaker_id:128 dialect:64 gender:32`
 
 ```bash
-docker run -d --gpus '"device=0,1,2,3,4,5,6,7"' --ipc=host \
-  -v /home/joregan/merged_tts/workspace:/data \
-  -v /home/joregan/merged_tts/models:/models \
-  -v /home/joregan/merged_tts/spoken-sentence-transformers/experiment:/workspace/experiment \
-  -e CONFIG_FILE=/workspace/experiment/configs/wavlm-multiaxis-v1.json \
-  -e NPROC=8 \
-  sst bash /workspace/experiment/run_train.sh
+  docker run -d --gpus '"device=0,1,2,3,4,5,6,7"' --ipc=host \
+    -v /home/joregan/merged_tts/workspace:/data \
+    -v /home/joregan/merged_tts/models:/models \
+    -v /home/joregan/merged_tts/spoken-sentence-transformers/experiment:/workspace/experiment \
+    -e CONFIG_FILE=/workspace/experiment/configs/wavlm-multiaxis-v1.json \
+    -e NPROC=8 \
+    sst bash /workspace/experiment/run_train.sh
 ```
 
 ### 2. wavlm-multiaxis-spk384 — speaker bottleneck at semantic dim

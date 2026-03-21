@@ -1,7 +1,6 @@
 # Results Analysis
 
-Source data: `/tmp/hub-results/` and `/tmp/sweep-results/`.
-Model: `Pendrokar/spoken-sentence-transformer` (multi-axis WavLM, hub checkpoint).
+Source data: `/tmp/hub-results/`, `/tmp/sweep-results/`, `/tmp/results/`.
 Results JSON stores top-10 hits per query.
 
 Two evaluation tasks are covered here:
@@ -337,15 +336,6 @@ Observations:
 
 Note: H1_6 is found at rank 9 at weight=0.0 but drops out entirely at weight=−1.0. H4_6 goes from rank 2 at weight=0.0 to rank 7 at weight=−1.0. These are sentences where negating speaker similarity hurts.
 
----
-
-## Task 1: P315 → VCTK Cross-Speaker Retrieval
-
-**Setup:** 160 labelled p315 utterances (mic1) queried against the full VCTK index (~44 k
-utterances, ~100 speakers). Sentence IDs from `/tmp/p315-labels.json`. Target = any hit
-whose label matches the query's sentence_id. 12 queries have no label entry and are excluded.
-Some sentence IDs are non-vctk (e.g. `p306_019`, `s5_257`) — these appear in the index
-under that label; `—` means not found in the top-10 stored hits.
 
 ### Per-axis recall (top-10)
 
@@ -525,54 +515,89 @@ under that label; `—` means not found in the top-10 stored hits.
 
 ---
 
-## Task 2: REHASP → OSR Cross-Corpus Retrieval
+## Model Comparison: P315 → VCTK Semantic Recall
 
-**Setup:** 1170 REHASP queries (Lucy patient speaker) retrieved against a corpus.
-P@k = fraction of queries where at least one correct hit (same `sentence_id`, different `corpus`)
-appears in the combined top-k. Correct = same sentence from OSR, not REHASP.
-Combined similarity = `semantic × 1.0 + speaker_id × w`.
+Source: `/tmp/results/`. Metric: R@k on 160 labelled p315 queries, semantic axis only.
+Hit criterion: `hit.label == sentence_id` AND `hit.id` does not start with `p315_`.
 
-### OSR-only corpus (case 1 — no REHASP in index)
+| Model | R@1 | R@5 | R@10 | MRR | Found/160 |
+|---|---:|---:|---:|---:|---:|
+| wavlm-semantic | 144/160 = 0.9000 | 154/160 = 0.9625 | 154/160 = 0.9625 | 0.9271 | 154 |
+| wavlm-multiaxis (semantic axis) | 83/160 = 0.5188 | 116/160 = 0.7250 | 130/160 = 0.8125 | 0.6107 | 130 |
+| all-MiniLM-L6-v2 (text baseline) | 151/160 = 0.9437 | 159/160 = 0.9938 | 160/160 = 1.0000 | 0.9677 | 160 |
+| wavlm-resemblyzer (semantic axis) | 1/160 = 0.0063 | 1/160 = 0.0063 | 4/160 = 0.0250 | 0.0088 | 4 |
+| CLAP LAION (`laion/larger_clap_music_and_speech`) | 0/160 = 0 | 0/160 = 0 | 0/160 = 0 | 0 | 0 |
+| CLAP MS (`microsoft/msclap`) | 0/160 = 0 | 0/160 = 0 | 0/160 = 0 | 0 | 0 |
 
-| Combined weights | P@1 | P@5 | P@10 |
-|---|---|---|---|
-| sem=1.0, spk=0.0 | **0.6547** | 0.6632 | 0.6632 |
-
-### Mixed corpus: REHASP + OSR (cases 2 and 3)
-
-| spk weight | P@1 | P@5 | P@10 |
-|---|---|---|---|
-| +1.0 (default) | 0.0000 | 0.3863 | 0.5701 |
-| 0.0 | 0.0000 | 0.4034 | 0.5675 |
-| −0.5 | 0.0000 | 0.4068 | 0.5590 |
-| −1.0 | 0.0000 | 0.4085 | 0.5444 |
-| −1.5 | 0.0111 | 0.3470 | 0.4530 |
-| −2.0 | 0.0427 | 0.1650 | 0.2487 |
+Notes:
+- Text baseline uses sentence transcript embeddings; same text = sim≈1.0 regardless of speaker, so R@1 near-perfect. R@10=1.0 because every sentence is in the index.
+- CLAP baselines retrieve by audio content similarity (designed for music/speech-text alignment); not suited for same-sentence cross-speaker matching. 0 hits in top-10 for all queries.
+- wavlm-resemblyzer's semantic axis provides near-zero sentence recall because the resemblyzer speaker embedding dominates and the model was not trained for semantic matching.
+- wavlm-semantic outperforms wavlm-multiaxis on the semantic axis (R@10: 0.9625 vs 0.8125), likely because it dedicates all capacity to semantic similarity rather than splitting across axes.
 
 ---
 
-## Task 3: Speaker Weight Sweep (20 queries, Lucy rep006 → rep023 + OSR)
+## Model Comparison: REHASP Precision
 
-P@k = fraction of 20 queries where an OSR (cross-corpus) same-sentence hit appears in
-combined top-k. Combined similarity = `semantic × 1.0 + speaker_id × w`.
+Source: `/tmp/results/models/`. P@k = fraction of 1170 queries (all REHASP Lucy sessions)
+with at least one correct OSR hit (same sentence label) in top-k.
 
-| spk weight | P@1 | P@5 | P@10 |
-|---|---|---|---|
-| +5.0 | 0.00 | 0.40 | 0.75 |
-| +2.0 | 0.00 | 0.45 | 0.80 |
-| +1.0 | 0.00 | 0.50 | 0.80 |
-| +0.5 | 0.00 | 0.55 | 0.80 |
-| +0.2 | 0.00 | 0.55 | 0.80 |
-| +0.1 | 0.00 | 0.55 | 0.80 |
-| +0.05 | 0.00 | 0.55 | 0.80 |
-| +0.01 | 0.00 | 0.55 | 0.80 |
-| +0.001 | 0.00 | 0.55 | 0.80 |
-| 0.0 | 0.00 | 0.55 | 0.80 |
-| −1.0 | 0.00 | 0.70 | 0.80 |
-| −2.0 | 0.95 | 1.00 | 1.00 |
-| −2.5 | 1.00 | 1.00 | 1.00 |
-| −3.0 | 1.00 | 1.00 | 1.00 |
-| −5.0 | 1.00 | 1.00 | 1.00 |
+Three index conditions:
+- **OSR-only**: index = OSR corpus only, no REHASP utterances. axis weights: `semantic=1.0, speaker_id=0.0`.
+- **Mixed (spk=+1.0)**: index = OSR + REHASP. axis weights: `semantic=1.0, speaker_id=1.0`. Speaker similarity helps same-session hits outrank OSR.
+- **Mixed (spk=−1.0)**: index = OSR + REHASP. axis weights: `semantic=1.0, speaker_id=-1.0`. Speaker penalty pushes OSR hits up.
 
-Note: sweep P@k computed by checking for OSR-prefixed IDs in combined top-k results;
-`retrieval_eval.py` did not run `--precision_k` for the sweep (no `--query_labels`).
+### OSR-only index
+
+| Model | P@1 | P@5 | P@10 |
+|---|---:|---:|---:|
+| wavlm-semantic | 0.6393 | 0.6538 | 0.6598 |
+| wavlm-multiaxis | 0.1675 | 0.3393 | 0.4385 |
+| wavlm-resemblyzer | 0.0299 | 0.1094 | 0.1829 |
+
+### Mixed index, speaker_id weight = +1.0
+
+| Model | P@1 | P@5 | P@10 |
+|---|---:|---:|---:|
+| wavlm-semantic | 0.0590 | 0.6521 | 0.6598 |
+| wavlm-multiaxis | 0.0043 | 0.0410 | 0.1504 |
+| wavlm-resemblyzer | 0.0094 | 0.0368 | 0.0632 |
+
+### Mixed index, speaker_id weight = −1.0
+
+| Model | P@1 | P@5 | P@10 |
+|---|---:|---:|---:|
+| wavlm-semantic | 0.0590 | 0.6521 | 0.6598 |
+| wavlm-multiaxis | 0.0085 | 0.0547 | 0.1803 |
+| wavlm-resemblyzer | 0.0103 | 0.0316 | 0.0701 |
+
+Notes:
+- wavlm-semantic has no speaker_id axis, so mixed-index results are identical for spk=+1.0 and spk=−1.0. P@1 drops from 0.64 (OSR-only) to 0.06 (mixed) because same-session REHASP utterances dominate rank 1.
+- wavlm-multiaxis with spk=−1.0 slightly outperforms spk=+1.0 on P@10 (0.1803 vs 0.1504), consistent with the sweep results showing negative speaker weight helps push OSR hits up.
+- wavlm-resemblyzer performs worst on REHASP; the resemblyzer speaker embedding pulls retrieval toward voice-similar utterances rather than same-sentence content.
+
+---
+
+## Model Comparison: OSR Self-Retrieval
+
+Source: `/tmp/results/models/`. 390 OSR queries retrieved against the full OSR index.
+Hit criterion: `hit.label == query.label` AND `hit.id != query.id`.
+R@1=0 for all models because the query itself (same ID) ranks first.
+
+| Model | Axis | R@5 | R@10 | MRR |
+|---|---|---:|---:|---:|
+| wavlm-semantic | semantic | 234/390 = 0.6000 | 234/390 = 0.6000 | 0.2912 |
+| wavlm-multiaxis | semantic | 161/390 = 0.4128 | 161/390 = 0.4128 | 0.1851 |
+| wavlm-multiaxis | speaker_id | 252/390 = 0.6462 | 252/390 = 0.6462 | 0.2417 |
+| wavlm-multiaxis | gender | 257/390 = 0.6590 | 257/390 = 0.6590 | 0.3258 |
+| wavlm-multiaxis | dialect | 45/390 = 0.1154 | 45/390 = 0.1154 | 0.0505 |
+| wavlm-resemblyzer | semantic | 34/390 = 0.0872 | 34/390 = 0.0872 | 0.0389 |
+| wavlm-resemblyzer | speaker_id | 348/390 = 0.8923 | 348/390 = 0.8923 | 0.4095 |
+| wavlm-resemblyzer | gender | 188/390 = 0.4821 | 188/390 = 0.4821 | 0.2410 |
+| wavlm-resemblyzer | dialect | 24/390 = 0.0615 | 24/390 = 0.0615 | 0.0272 |
+
+Notes:
+- R@5 = R@10 for all rows: OSR has at most 2 recordings per sentence (UK and US variants), so once the second recording is found, there are no further hits.
+- wavlm-resemblyzer's speaker_id axis (R@5=0.89) outperforms wavlm-multiaxis's speaker_id (R@5=0.65), consistent with resemblyzer being a dedicated speaker verification system.
+- Neither model retrieves well by dialect (R@5 < 0.12); OSR UK/US classification doesn't strongly cluster by dialect in these embeddings.
+

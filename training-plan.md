@@ -12,9 +12,13 @@
 
 Training parameters live in `experiment/configs/`.  Pass `CONFIG_FILE` and `NPROC`; everything else is in the JSON.
 
+All runs hold out speaker `s5` (British accent, excluded from dialect classifier training) as a validation speaker.  At the end of each epoch the trainer reports `semantic_recall@10` on s5 queries vs. a corpus of training-speaker utterances with matching sentence IDs.  Results are appended to `held_out_s5.jsonl` in the model output directory.
+
+> **Note:** verify that `"s5"` matches the `speaker_id` value in the training dataset (may be `"gbi_s5"` or similar) and adjust the JSON before running.
+
 ## Runs
 
-### 1. wavlm-multiaxis-v1 — restore original dims (256-128-64-32) [currently running]
+### 1. wavlm-multiaxis-v1 — restore original dims (256-128-64-32) [needs rerun with new config]
 
 Retrains the hub model architecture with the current pipeline and correct teacher targets.
 Axes: `semantic:256 speaker_id:128 dialect:64 gender:32`

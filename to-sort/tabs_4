@@ -1,169 +1,94 @@
-YouTube
-https://www.youtube.com/
+Current things, 14 June 2025 - Topic Sentences Explained
+https://chatgpt.com/g/g-p-684dc8075e508191ae070a06c599469d-current-things-14-june-2025/c/699214b7-a778-838e-8027-6459048a00de
 
-Panelshow
-https://www.reddit.com/r/panelshow/
+​​Speech-to-Retrieval (S2R): A new approach to voice search
+https://research.google/blog/speech-to-retrieval-s2r-a-new-approach-to-voice-search/
 
-BBC
-https://www.bbc.com/audio/play/m002nv9p
+google/svq · Datasets at Hugging Face
+https://huggingface.co/datasets/google/svq
 
-BBC Radio 4 - The Unbelievable Truth, Series 32, 1. Pigeons, Smoking, Football and Night
-https://www.bbc.co.uk/programmes/m002nrtr
+Massive Sound Embedding Benchmark (MSEB)
+https://research.google/pubs/massive-sound-embedding-benchmark-mseb/
 
-ChatGPT - Hungarian
-https://chatgpt.com/g/g-p-6838a197746c81919828f3393515b7fb/c/695d5d97-45c4-8325-b34d-7716a564fe2d
+NeurIPS Poster Massive Sound Embedding Benchmark (MSEB)
+https://neurips.cc/virtual/2025/loc/san-diego/poster/121597
 
-Folkscanomy: Self-Defense : Free : Free Download, Borrow and Streaming : Internet Archive
-https://archive.org/details/folkscanomy_defense?page=2
+Current things, 14 June 2025 - Speech-to-Retrieval Overview
+https://chatgpt.com/g/g-p-684dc8075e508191ae070a06c599469d-current-things-14-june-2025/c/699217de-7894-8386-b5a7-a94ec823c06a
 
-Aaa - Google Drive
-https://drive.google.com/drive/u/0/folders/1eG1L_Dsx29Jix0oytsk-J1s80nmkW_U9
+massive/src/massive/models/mt5_ic_sf_encoder_only.py at main · alexa/massive
+https://github.com/alexa/massive/blob/main/src/massive/models/mt5_ic_sf_encoder_only.py
 
-MiMo-Audio: Audio Language Models are Few-Shot Learners
-https://arxiv.org/pdf/2512.23808
+Commits · google-research/mseb
+https://github.com/google-research/mseb/commits/main/
 
-XiaomiMiMo/MiMo-Audio: MiMo-Audio: Audio Language Models are Few-Shot Learners
-https://github.com/XiaomiMiMo/MiMo-Audio?tab=readme-ov-file
+Register Encodec and JointWhisper encoders. · google-research/mseb@937be45
+https://github.com/google-research/mseb/commit/937be4574bd1cf6e1f79dfc8be2d6a60819a4c20
 
-XiaomiMiMo/MiMo-Audio-Tokenizer · Hugging Face
-https://huggingface.co/XiaomiMiMo/MiMo-Audio-Tokenizer
+laion/clap-htsat-unfused · Hugging Face
+https://huggingface.co/laion/clap-htsat-unfused
 
-Xiaomi MiMo-Audio Blog
-https://xiaomimimo.github.io/MiMo-Audio-Demo/
+google-research/arxiv-latex-cleaner: arXiv LaTeX Cleaner: Easily clean the LaTeX code of your paper to submit to arXiv
+https://github.com/google-research/arxiv-latex-cleaner
 
-XiaomiMiMo/MiMo-Audio-7B-Base · Hugging Face
-https://huggingface.co/XiaomiMiMo/MiMo-Audio-7B-Base
+google-research/dictionary_learning at master · google-research/google-research
+https://github.com/google-research/google-research/tree/master/dictionary_learning
 
-MiMo-Audio/inference_example_pretrain.py at main · XiaomiMiMo/MiMo-Audio
-https://github.com/XiaomiMiMo/MiMo-Audio/blob/main/inference_example_pretrain.py
+google-research/specinvert at master · google-research/google-research
+https://github.com/google-research/google-research/tree/master/specinvert
 
-XiaomiMiMo/MiMo-Audio: MiMo-Audio: Audio Language Models are Few-Shot Learners
-https://github.com/XiaomiMiMo/MiMo-Audio/tree/main
+google-research/speech_embedding at master · google-research/google-research
+https://github.com/google-research/google-research/tree/master/speech_embedding
 
-Xiaomi MiMo-Audio Blog
-https://xiaomimimo.github.io/MiMo-Audio-Demo/
+google-research/speech_embedding/record_train.ipynb at master · google-research/google-research
+https://github.com/google-research/google-research/blob/master/speech_embedding/record_train.ipynb
 
-XiaomiMiMo/MiMo-Audio-7B-Instruct · Hugging Face
-https://huggingface.co/XiaomiMiMo/MiMo-Audio-7B-Instruct
+google-research/speech_embedding/speech_commands.ipynb at master · google-research/google-research
+https://github.com/google-research/google-research/blob/master/speech_embedding/speech_commands.ipynb
 
-Current things, 14 June 2025 - PoliticalNLP 2026 CFP Summary
-https://chatgpt.com/g/g-p-684dc8075e508191ae070a06c599469d/c/69417cef-cab0-832d-b98f-f70ad85698ea
+google-research/spelling_convention_nlm at master · google-research/google-research
+https://github.com/google-research/google-research/tree/master/spelling_convention_nlm
 
-Swedish UD
-https://universaldependencies.org/sv/?utm_source=chatgpt.com
+google-research/speculative_kd at master · google-research/google-research
+https://github.com/google-research/google-research/tree/master/speculative_kd
 
-Kungbib/swedish-spacy
-https://github.com/Kungbib/swedish-spacy?tab=readme-ov-file
+Adds a speech-to-text encoder based on the LiteLLM Transcription API… · google-research/mseb@2a1147d
+https://github.com/google-research/mseb/commit/2a1147d548727150e21e031d8186475dc8c9d01d
 
-SUC 3.0 | Språkbanken Text
-https://spraakbanken.gu.se/en/resources/suc3
+mseb/mseb/encoder.py at main · google-research/mseb
+https://github.com/google-research/mseb/blob/main/mseb/encoder.py
 
-Language resources | Språkbanken Text
-https://spraakbanken.gu.se/en/resources/lexicon
+Pull requests · google-research/mseb
+https://github.com/google-research/mseb/pulls?page=2&q=is%3Apr+is%3Aclosed
 
-Blingbring | Språkbanken Text
-https://spraakbanken.gu.se/en/resources/blingbring
+Add flag for setting the path to the CLAP model. by copybara-service[bot] · Pull Request #362 · google-research/mseb
+https://github.com/google-research/mseb/pull/362/changes
 
-Bring | Språkbanken Text
-https://spraakbanken.gu.se/en/resources/bring
+mseb/mseb/encoders/whisper_encoder.py at main · google-research/mseb
+https://github.com/google-research/mseb/blob/main/mseb/encoders/whisper_encoder.py
 
-CoDeRooMor, v.01 | Språkbanken Text
-https://spraakbanken.gu.se/en/resources/coderoomor
+mseb/mseb/encoders/raw_encoder.py at main · google-research/mseb
+https://github.com/google-research/mseb/blob/main/mseb/encoders/raw_encoder.py
 
-Dalin's morphology | Språkbanken Text
-https://spraakbanken.gu.se/en/resources/dalinm
+Move gemma encoder out of google subdir and support LLMs from genai. by copybara-service[bot] · Pull Request #346 · google-research/mseb
+https://github.com/google-research/mseb/pull/346
 
-svn.spraakbanken.gu.se/sb-arkiv/pub/lmf/kelly/kelly.xml
-https://svn.spraakbanken.gu.se/sb-arkiv/pub/lmf/kelly/kelly.xml
+Update RAG-based retrieval. by copybara-service[bot] · Pull Request #347 · google-research/mseb
+https://github.com/google-research/mseb/pull/347/changes
 
-Language resources | Språkbanken Text
-https://spraakbanken.gu.se/en/resources?t=saldo&s=&language=All
+Add support for speech transcription with contextual bias. · google-research/mseb@36cfda9
+https://github.com/google-research/mseb/commit/36cfda955d872fa734c450bb50a2d585347d8d4f
 
-SALDO | Språkbanken Text
-https://spraakbanken.gu.se/en/resources/saldo
+Adds speaker-gender classification task for Speech Massive · google-research/mseb@83c7d37
+https://github.com/google-research/mseb/commit/83c7d37ab740d7d7373389ca473af5cad5ba5120#diff-1b5300f49558df9ba080d12e580462def8502ce7bab50cb547ec7e7fb9328ba7
 
-SALDO's morphology | Språkbanken Text
-https://spraakbanken.gu.se/en/resources/saldom
+Quickstart | Zvec
+https://zvec.org/en/docs/quickstart/
 
-DataCite Fabrica
-https://doi.datacite.org/dois/10.23695%2Fagcm-ny22
+[feat] Add MultiVectorEncoder Support (a.k.a late-interaction models or ColBERT-style models) by AymenKallala · Pull Request #3614 · huggingface/sentence-transformers
+https://github.com/huggingface/sentence-transformers/pull/3614
 
-SenSALDO | Språkbanken Text
-https://spraakbanken.gu.se/en/resources/sensaldo
-
-git.kb.se
-https://git.kb.se/kblabb/static
-
-robertostling/efselab: Efficient Sequence Labeling
-https://github.com/robertostling/efselab/tree/master
-
-sorenlind/lemmy: 🤘Lemmy is a lemmatizer for Danish 🇩🇰 and Swedish 🇸🇪
-https://github.com/sorenlind/lemmy
-
-Annotations by Sparv | Språkbanken Text
-https://spraakbanken.gu.se/en/tools/sparv/annotations
-
-Quick examples — trankit documentation
-https://trankit.readthedocs.io/en/latest/overview.html?utm_source=chatgpt.com
-
-Computer Speech & Language | ScienceDirect.com by Elsevier - Computer Speech & Language | ScienceDirect.com by Elsevier
-https://www.sciencedirect.com/special-issue/328510/evaluation-of-speech-and-speech-synthesis
-
-prefix-dev/pixi: Package management made easy
-https://github.com/prefix-dev/pixi
-
-Datasets Size Limit | Kaggle
-https://www.kaggle.com/discussions/general/155688
-
-Your Work | Kaggle
-https://www.kaggle.com/work/datasets
-
-rixvox-v2-wav2vec2
-https://www.kaggle.com/datasets/jimregan/rixvox-v2-wav2vec2/data/data
-
-rixvox-v2-phones
-https://www.kaggle.com/datasets/jimregan/rixvox-v2-phones/data/data
-
-Download wordnet-saldo | Kaggle
-https://www.kaggle.com/code/jimregan/download-wordnet-saldo/edit
-
-Saldo's morphology
-https://www.kaggle.com/datasets/jimregan/saldos-morphology
-
-upphäva - Wiktionary, the free dictionary
-https://en.wiktionary.org/wiki/upph%C3%A4va
-
-ChatGPT - Current things, 14 June 2025
-https://chatgpt.com/g/g-p-684dc8075e508191ae070a06c599469d-current-things-14-june-2025/c/695fb242-7128-832a-bbd3-deaa2a944b84
-
-saldo morphology - Google Search
-https://www.google.com/search?q=saldo+morphology&sca_esv=2c899562bebaec1d&rlz=1C5GCCM_en&sxsrf=ANbL-n5olT9OTDmuCMMlrhHT41cydhvAOw:1767879539162&ei=c7Nfaa3ECcenwPAPgOGTiA8&start=10&sa=N&sstk=Af77f_cXI_8-xTr0hgX9rFSdMIZVSXwx-0-aq8VQ28zScfzj2YWOpOoIImC0tntOm3vkzjxJgw8rKyik17w09n14hGEWV8T7xrXlmA&ved=2ahUKEwjtyb-_iPyRAxXHExAIHYDwBPEQ8NMDegQICRAW&biw=1440&bih=710&dpr=2&aic=0
-
-SALDO's morphology | Språkbanken Text
-https://spraakbanken.gu.se/en/resources/saldom
-
-SALDO | Språkbanken Text
-https://spraakbanken.gu.se/resurser/saldo
-
-SALDO: a touch of yin to WordNet's yang
-https://www.jstor.org/stable/pdf/42636393.pdf
-
-SweWiC 2.0
-https://researchdata.se/en/catalogue/dataset/doi-10-23695-cxtk-xe95
-
-SALDO: examples | Språkbanken Text
-https://spraakbanken.gu.se/en/resources/saldoe
-
-META-SHARE
-https://metashare.tilde.com/repository/search/?q=&selected_facets=restrictionsOfUseFilter_exact%3AAttribution&selected_facets=resourceTypeFilter_exact%3AlexicalConceptualResource&selected_facets=lexicalConceptualResourceEncodingLevelFilter_exact%3AMorphology
-
-Jim O'Regan | Flickr
-https://www.flickr.com/photos/jimregan/
-
-Språkbanken Tals hemsida
-https://www.sprakbanken.speech.kth.se/data/simulerror/
-
-sardin/p5m/data/legacy/en_acronym.txt at develop · sprakbankental/sardin
-https://github.com/sprakbankental/sardin/blob/develop/p5m/data/legacy/en_acronym.txt
+monologg/JointBERT: Pytorch implementation of JointBERT: "BERT for Joint Intent Classification and Slot Filling"
+https://github.com/monologg/JointBERT/
 
 

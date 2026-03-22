@@ -185,6 +185,12 @@ In the mixed-index setting, a negative `speaker_id` weight suppresses same-speak
 - **rehasp** [@henter14_interspeech]: a single speaker reading the same Harvard sentences multiple times (~1200 utterances), enabling study of within-speaker variability.
 - **TSP Speech Database**: Harvard sentences recorded by 24 speakers; permissive BSD licence. A strong candidate for multi-speaker cross-corpus evaluation. <!-- TODO: add TSP citation -->
 
+Common Voice [@ardila2020common] would be the most natural large-scale candidate for this kind of evaluation: it is crowd-sourced, covers a wide range of speakers and accents, and many of its validated sentences appear across multiple contributors, providing the prompt-level overlap that makes ground-truth retrieval possible.
+However, the English subset of Common Voice has not been publicly available since mid-2025, following changes to the dataset's distribution terms, and no confirmed timeline for its re-release has been announced.
+Some smaller-language subsets have begun to reappear, but English remains unavailable at the time of writing.
+The evaluation presented here uses OSR and rehasp as a principled alternative: both corpora record the same Harvard sentence set, giving exact prompt-level ground truth without depending on the transcript overlap that Common Voice would provide probabilistically.
+The controlled scale of these corpora is a limitation in terms of speaker diversity, but it allows the preference-flip mechanism to be evaluated under conditions where the correct answer is unambiguous.
+
 ## Results and observations
 
 We compare three models: (1) **wavlm-semantic**, a single projection head trained for semantic similarity only; (2) **wavlm-multiaxis**, multiple projection heads trained jointly for semantic, speaker identity, gender, and dialect axes; and (3) **wavlm-resemblyzer**, a multiaxis variant where the speaker head target was replaced with embeddings from Resemblyzer, a pretrained speaker verification model.

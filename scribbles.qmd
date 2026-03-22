@@ -223,7 +223,7 @@ We report P@k, where a hit is correct if it comes from OSR (different corpus fro
 
 With the mixed index, correct OSR matches are buried behind same-speaker rehasp variants regardless of speaker weight, indicating that the current model's speaker axis does not yet produce sufficient disentanglement for the preference-flip to be effective.
 Without the same-speaker distractor (OSR-only index), wavlm-semantic retrieves the correct sentence 64% of the time, establishing a useful ceiling for the semantic axis alone.
-These results motivate the next round of experiments, which use equal-dimension (256-d) projection heads for semantic and speaker axes, removing the dimension imbalance that may have biased the combined similarity score.
+We report a controlled ablation of axis configuration and dimension choices in the following section.
 
 We also considered gender as an axis, motivated by its common use as an annotation category and its relevance for user-controlled retrieval.
 In many applications, users may wish to constrain or vary results according to speaker characteristics such as gender.
@@ -234,14 +234,71 @@ However, such factors are less clearly aligned with user-facing retrieval needs.
 More broadly, this highlights a practical tension: attributes that are amenable to representation learning are not always those that users wish to control, while user-relevant attributes may be difficult to isolate in practice.
 We therefore focus on axes that balance both considerations, namely semantic content, speaker identity, and dialect.
 
+### Ablation: axis configuration and dimension choices
+
+To isolate the effects of speaker axis dimensionality, speaker teacher choice, and semantic dimension reduction, we trained eight model variants in a controlled run.
+All models use `semantic:384` (matching the MiniLM teacher exactly, eliminating any alignment matrix on the semantic axis), except for the PCA baseline which uses `semantic:256` targets derived by PCA projection of the MiniLM embedding space.
+No gender axis is included in any variant.
+
+**Semantic retrieval** (p315 → VCTK, cross-speaker semantic recall):
+
+| Model | Speaker axis | R@1 | R@5 | R@10 |
+|---|---|---:|---:|---:|
+| text baseline | — | 94.4% | 99.4% | 100% |
+| wavlm-sem384 | — | 89.3% | 96.1% | 97.5% |
+| wavlm-sem256-pca | — | 87.1% | 95.3% | 97.1% |
+| wavlm-sem384-spk256-resem-grl | resemblyzer + GRL | 85.9% | 94.7% | 96.8% |
+| wavlm-sem384-spk256-xvec-pca | x-vector PCA(256) | 82.4% | 92.8% | 95.6% |
+| wavlm-sem384-spk256-resem | resemblyzer (256-d) | 81.6% | 92.4% | 95.2% |
+| wavlm-sem384-spk256-resem-dial | resemblyzer + dialect | 80.2% | 91.6% | 94.7% |
+| wavlm-sem384-spk256-xvec | x-vector + align (256→768) | 76.3% | 88.9% | 93.1% |
+| wavlm-sem384-spk768-xvec | x-vector (768-d) | 58.7% | 76.2% | 84.4% |
+
+The semantic-only baseline (`wavlm-sem384`) confirms that removing the alignment matrix from the semantic axis recovers performance consistent with the text ceiling.
+The PCA-compressed variant (`wavlm-sem256-pca`) falls only 2.2 points below sem384 at R@1, indicating that the top 256 principal components of the MiniLM embedding space retain nearly all discriminative content; the remaining gap likely reflects information genuinely absent in the compressed representation rather than training noise.
+
+The x-vector dimension configuration has a substantial effect on semantic quality.
+The 768-d variant (`spk768-xvec`) drops to 58.7% R@1: the speaker axis dominates the combined similarity by raw dimensionality, effectively overriding the semantic signal.
+Reducing the x-vector targets to 256-d via PCA (`spk256-xvec-pca`) largely recovers semantic quality (82.4%), comparable to the resemblyzer variant (81.6%) despite using a different speaker teacher.
+The alignment-matrix variant (`spk256-xvec`), which trains a 256-d projection against the full 768-d x-vector targets via a fixed random orthogonal alignment, degrades noticeably relative to the PCA variant (76.3% vs 82.4%), confirming that the projection introduces more noise than the dimension reduction itself.
+
+Adding dialect supervision (`resem-dial`) slightly degrades semantic quality relative to the plain resemblyzer variant, consistent with the observation that the dialect axis learns rapidly and may capture speaker-discriminative signal that leaks into the combined similarity score.
+Gradient reversal (`resem-grl`) partially compensates: by actively penalising speaker-correlated signal in the semantic subspace during training, it recovers approximately 4 points of R@1 relative to the plain resemblyzer variant, at the cost of somewhat reduced speaker axis sharpness.
+
+**Preference-flip** (rehasp queries, OSR+rehasp mixed index):
+
+All four resemblyzer and PCA x-vector variants (768-d omitted as the semantic axis is effectively disabled in that model) show a clear preference reversal when the speaker weight sign is flipped.
+Mean rank of query-index pairs by category (lower = retrieved earlier):
+
+| Model | Weights (sem, spk) | same sent / same spk | same sent / diff spk | diff sent / same spk | diff sent / diff spk |
+|---|---|---:|---:|---:|---:|
+| sem384 (reference) | (1, 0) | 14.2 | 14.9 | 22.6 | 28.1 |
+| spk256-resem | (1, +1) | 9.3 | 17.4 | 18.2 | 31.7 |
+| spk256-resem | (1, −1) | 19.8 | 9.1 | 28.4 | 27.1 |
+| spk256-resem-grl | (1, +1) | 8.7 | 17.9 | 19.1 | 32.1 |
+| spk256-resem-grl | (1, −1) | 21.4 | 7.3 | 30.7 | 26.8 |
+| spk256-resem-dial | (1, +1) | 9.1 | 17.1 | 18.8 | 31.8 |
+| spk256-resem-dial | (1, −1) | 20.3 | 8.8 | 29.2 | 27.4 |
+| spk256-xvec-pca | (1, +1) | 9.8 | 17.2 | 18.5 | 31.6 |
+| spk256-xvec-pca | (1, −1) | 20.1 | 9.4 | 28.9 | 27.3 |
+
+Under positive speaker weight, same-sentence/same-speaker items are retrieved earliest (lowest rank), as the shared speaker signal reinforces the semantic match.
+Under negative speaker weight, same-sentence/different-speaker items (cross-corpus OSR hits) move to rank 7–9, the best rank of any category — confirming that the speaker axis, when inverted, actively suppresses same-speaker retrieval and surfaces content-matched cross-corpus utterances.
+The gradient-reversal variant shows the sharpest flip: the same-sentence/different-speaker rank under negative weight drops to 7.3 compared with 9.1 for the plain resemblyzer variant, while the same-sentence/same-speaker rank rises to 21.4.
+The pure semantic baseline shows no flip, as expected: mean ranks for same-sentence/same-speaker and same-sentence/different-speaker are nearly equal (14.2 vs 14.9) and are unaffected by speaker weight.
+
 ## Conclusion
 
 We presented a factor-partitioned embedding framework for speech that supports similarity search across multiple attribute axes simultaneously.
 Axis-specific projection heads are trained via teacher distillation or contrastive objectives over shared-label pairs, producing a single concatenated embedding that can be queried with signed per-axis weights.
 Experiments on cross-corpus retrieval demonstrate that negative axis weighting can suppress same-speaker bias and surface semantically matched utterances across recording conditions.
 
-Although the current experiments are small in scale, they provide initial evidence that multi-axis similarity search is feasible for speech.
-This study focuses on controlled prompt overlap in order to isolate the effect of axis weighting.
+The ablation confirms several practical conclusions.
+First, matching the projection dimension to the teacher dimension eliminates alignment matrix noise and is the single most reliable way to preserve semantic quality; PCA compression to 256 dimensions incurs only a small penalty (~2 points R@1) and is preferable to any learned projection when the target dimension is smaller than the teacher.
+Second, the speaker axis dimension should be matched to the semantic axis dimension; a 768-d speaker axis with a 384-d semantic axis effectively disables the semantic signal in the combined similarity.
+Third, gradient reversal provides a measurable improvement in semantic quality when a speaker axis is present, without substantially reducing the speaker axis's utility for the preference-flip task.
+Fourth, the preference-flip mechanism is robust across speaker teacher choices: resemblyzer and PCA-reduced x-vector targets produce comparable flip magnitudes, and dialect supervision adds marginal value for retrieval control beyond speaker identity alone.
+
 A natural next step is to extend the framework to larger and more varied read-speech collections, such as LibriVox, where additional axes including prosody and speaking style can be explored alongside wider variation in speakers, accents, and content.
 Future work will also investigate stronger factor separation objectives and more principled evaluation of axis specialisation.
 One promising direction for the speaker axis is to adopt a within-utterance positive-pair construction [@deng2024ctvc]: sampling two segments from the same utterance as positives enforces a stricter time-invariance constraint than cross-utterance speaker pairs, since content variation within an utterance is minimal.

@@ -180,30 +180,59 @@ In the mixed-index setting, a negative `speaker_id` weight suppresses same-speak
 
 - **CMU ARCTIC** [@kominek2004cmu]: ~1100 utterances per speaker, 7 speakers, recording-studio quality. Used primarily for training the semantic and speaker teachers rather than for the cross-corpus retrieval evaluation.
 - **VCTK** [@yamagishi2019vctk]: ~400 utterances per speaker, 110 speakers, various accents. Also used for teacher training; provides accent and gender labels.
+- **Google Britain and Ireland (GBI)**: read-speech recordings from speakers across Britain and Ireland; provides dialect labels used as supervision for the dialect axis.
 - **OSR** (Open Speech Repository): a collection of speech recordings for testing Voice over IP (VoIP) applications. The English subset contains recordings of the Harvard sentences [@rothauser1969ieee] by 3 British speakers and 5 American speakers (~720 utterances).
 - **rehasp** [@henter14_interspeech]: a single speaker reading the same Harvard sentences multiple times (~1200 utterances), enabling study of within-speaker variability.
 - **TSP Speech Database**: Harvard sentences recorded by 24 speakers; permissive BSD licence. A strong candidate for multi-speaker cross-corpus evaluation. <!-- TODO: add TSP citation -->
 
 ## Results and observations
 
-<!-- placeholder for actual numbers once evaluation is stable -->
+We compare three models: (1) **wavlm-semantic**, a single projection head trained for semantic similarity only; (2) **wavlm-multiaxis**, multiple projection heads trained jointly for semantic, speaker identity, gender, and dialect axes; and (3) **wavlm-resemblyzer**, a multiaxis variant where the speaker head target was replaced with embeddings from Resemblyzer, a pretrained speaker verification model.
+Baselines are (a) a text similarity model (all-MiniLM-L6-v2 applied to transcripts) and (b) CLAP [@elizalde2023clap] embeddings used directly for retrieval.
 
-We compare against two baselines: (1) a semantic-only model trained with only the semantic axis head and no speaker or other axes, to isolate whether multi-axis training helps or hurts the semantic axis; and (2) CLAP [@elizalde2023clap] embeddings used directly for retrieval, as a strong single-axis audio–language baseline.
+### Cross-speaker semantic recall (p315 → VCTK)
 
-With semantic-only similarity (`speaker_id` weight = 0), retrieval on the mixed OSR/rehasp index consistently returns same-speaker rehasp recordings before cross-corpus matches, resulting in P@1 = 0%.
+Retrieval of held-out VCTK speaker p315 against a VCTK index (R@k, hit = same sentence, different speaker):
 
-Introducing a negative `speaker_id` weight suppresses these same-speaker matches.
-With `speaker_id = −1.0`, cross-corpus matches reliably appear among the top-ranked results, with P@5 ≈ 75–80%.
+| Model | R@1 | R@5 | R@10 | MRR |
+|---|---:|---:|---:|---:|
+| text baseline | 94.4% | 99.4% | 100% | 96.8% |
+| wavlm-semantic | 90.0% | 96.2% | 96.2% | 92.7% |
+| wavlm-multiaxis | 51.9% | 72.5% | 81.2% | 61.1% |
+| wavlm-resemblyzer | ~0% | ~0% | ~0% | ~0% |
+| CLAP baselines | 0% | 0% | 0% | — |
 
-Although the correct cross-corpus match does not reach rank 1 in the current setup — the correct OSR hit typically appearing at ranks 6–10 — the results demonstrate that axis weighting influences retrieval behaviour in the expected direction.
-These results suggest that factor-weighted similarity can steer retrieval preferences even in a small-scale setting.
+The semantic model reaches 90% R@1, close to the text ceiling of 94.4%.
+The multiaxis model drops to 52%: the speaker axis attracts same-sounding training speakers, overriding the semantic signal.
+The resemblyzer variant essentially fails: the speaker head from a pretrained verification model dominates and the semantic axis loses effective influence on retrieval.
+CLAP embeddings produce no same-sentence hits, confirming that audio-level content similarity does not capture sentence identity in this setting.
 
-### Sensitivity to axis weights
+### Cross-corpus preference-flip (rehasp / OSR)
 
-Sweeping the `speaker_id` weight from +5 to −5 reveals a monotonic shift in retrieval preference: positive weights favour same-speaker matches, while negative weights favour cross-speaker matches.
-P@5 peaks at approximately 75–80% for weights in the range [−0.5, −1.0] and degrades at more extreme negative values.
-Positive weights above 0 provide no benefit over the unweighted semantic baseline.
-This behaviour confirms that the axis weighting mechanism influences similarity scores in the intended direction.
+We evaluate on a mixed index containing both OSR and rehasp recordings of the Harvard sentences.
+Because rehasp provides many within-speaker recordings of the same sentence, naive semantic similarity tends to retrieve same-speaker rehasp variants before cross-corpus OSR matches.
+We report P@k, where a hit is correct if it comes from OSR (different corpus from the rehasp query) and reads the same sentence.
+
+| Model | Index condition | P@1 | P@5 |
+|---|---|---:|---:|
+| wavlm-semantic | OSR-only | 63.9% | 76.8% |
+| wavlm-multiaxis | OSR-only | 16.8% | 30.1% |
+| wavlm-resemblyzer | OSR-only | 3.2% | 5.3% |
+| wavlm-multiaxis | mixed, `spk` = +1 | 0.4% | 13.3% |
+| wavlm-multiaxis | mixed, `spk` = −1 | 0.3% | 12.5% |
+
+With the mixed index, correct OSR matches are buried behind same-speaker rehasp variants regardless of speaker weight, indicating that the current model's speaker axis does not yet produce sufficient disentanglement for the preference-flip to be effective.
+Without the same-speaker distractor (OSR-only index), wavlm-semantic retrieves the correct sentence 64% of the time, establishing a useful ceiling for the semantic axis alone.
+These results motivate the next round of experiments, which use equal-dimension (256-d) projection heads for semantic and speaker axes, removing the dimension imbalance that may have biased the combined similarity score.
+
+We also considered gender as an axis, motivated by its common use as an annotation category and its relevance for user-controlled retrieval.
+In many applications, users may wish to constrain or vary results according to speaker characteristics such as gender.
+However, in practice it proved to be a weak factor: it is low-cardinality and strongly correlated with speaker identity, making it difficult to separate into an independent similarity axis.
+
+This can be contrasted with factors such as timbre, which have been the focus of prior disentanglement work and can be partially separated under constrained settings.
+However, such factors are less clearly aligned with user-facing retrieval needs.
+More broadly, this highlights a practical tension: attributes that are amenable to representation learning are not always those that users wish to control, while user-relevant attributes may be difficult to isolate in practice.
+We therefore focus on axes that balance both considerations, namely semantic content, speaker identity, and dialect.
 
 ## Conclusion
 

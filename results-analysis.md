@@ -453,4 +453,5 @@ Notes:
 - R@5 = R@10 for all rows: OSR has at most 2 recordings per sentence (UK and US variants), so once the second recording is found, there are no further hits.
 - wavlm-resemblyzer's speaker_id axis (R@5=0.89) outperforms wavlm-multiaxis's speaker_id (R@5=0.65), consistent with resemblyzer being a dedicated speaker verification system.
 - Neither model retrieves well by dialect (R@5 < 0.12); OSR UK/US classification doesn't strongly cluster by dialect in these embeddings.
+- We found gender to be a weak retrieval factor in this setting, likely because it is both low-cardinality and strongly correlated with speaker identity. We therefore focus the main analysis on semantic content, speaker identity, and dialect.
 

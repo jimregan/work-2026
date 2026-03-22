@@ -151,6 +151,7 @@ docker run --rm --gpus '"device=0,1,2,3"' --ipc=host \
   -v /home/joregan/merged_tts/models:/models \
   -v /home/joregan/merged_tts/spoken-sentence-transformers/experiment:/workspace/experiment \
   -e BASE_DIR=/models \
+  -e DATA_DIR=/data \
   -e VCTK_INDEX_DIR=/data/vctk-index \
   sst bash /workspace/experiment/bootstrap_full_eval.sh
 ```

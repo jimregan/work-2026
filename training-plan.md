@@ -38,10 +38,11 @@ bash experiment/prepare_vctk_index.sh
 | `/data/training-data-targets-resem` | Resemblyzer (256-d) | semantic(384) + speaker_id(256) + dialect(12) |
 | `/data/training-data-targets-xvec` | WavLM-SV x-vector (768-d) | semantic(384) + speaker_id(768) |
 | `/data/training-data-targets-xvec-pca256` | x-vector → PCA(256-d) | semantic(384) + speaker_id(256) |
+| `/data/training-data-targets-sem256-pca` | — (semantic only) | semantic(256) via PCA |
 
 ## Ablation runs
 
-All models: no gender axis, `semantic:384` (matches teacher exactly, no alignment matrix).
+All models: no gender axis. `semantic:384` unless noted (matches teacher exactly, no alignment matrix).
 
 ### Resemblyzer speaker targets — no alignment matrix on either axis
 
@@ -132,6 +133,22 @@ docker run -d --gpus '"device=4,5,6,7"' --ipc=host \
   -v /home/joregan/merged_tts/spoken-sentence-transformers/experiment:/workspace/experiment \
   -e CONFIG_FILE=/workspace/experiment/configs/wavlm-sem384-spk256-xvec.json \
   -e NPROC=4 \
+  sst bash /workspace/experiment/run_train.sh
+```
+
+### Semantic PCA — no alignment matrix on semantic axis
+
+Run after x-vector batch (or in parallel if GPUs available).
+
+#### 8. wavlm-sem256-pca — semantic:256 via PCA (no alignment matrix)
+
+```bash
+docker run -d --gpus '"device=0,1"' --ipc=host \
+  -v /home/joregan/merged_tts/workspace:/data \
+  -v /home/joregan/merged_tts/models:/models \
+  -v /home/joregan/merged_tts/spoken-sentence-transformers/experiment:/workspace/experiment \
+  -e CONFIG_FILE=/workspace/experiment/configs/wavlm-sem256-pca.json \
+  -e NPROC=2 \
   sst bash /workspace/experiment/run_train.sh
 ```
 

@@ -109,6 +109,21 @@ def record_stream(url, out_dir, session, index, save_warc=False):
         print(f"{label} WARC: {warc_path}", flush=True)
 
     try:
+        resp = session.get(url, timeout=15)
+        resp.raise_for_status()
+        if writer is not None:
+            make_warc_record(writer, resp, resp.url)
+        variant_url = parse_master_m3u8(resp.text, resp.url)
+        if variant_url is not None:
+            print(f"{label} Master playlist → highest bitrate: {variant_url}", flush=True)
+            url = variant_url
+    except requests.RequestException as e:
+        print(f"{label} Initial fetch error: {e}", flush=True)
+        if warc_fh is not None:
+            warc_fh.close()
+        return
+
+    try:
         while not STOP_EVENT.is_set():
             try:
                 resp = session.get(url, timeout=15)

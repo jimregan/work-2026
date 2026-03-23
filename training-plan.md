@@ -143,7 +143,7 @@ Run after x-vector batch (or in parallel if GPUs available).
 #### 8. wavlm-sem256-pca — semantic:256 via PCA (no alignment matrix)
 
 ```bash
-docker run -d --gpus '"device=0,1"' --ipc=host \
+docker run -d --gpus '"device=0,1,2,3"' --ipc=host \
   -v /home/joregan/merged_tts/workspace:/data \
   -v /home/joregan/merged_tts/models:/models \
   -v /home/joregan/merged_tts/spoken-sentence-transformers/experiment:/workspace/experiment \

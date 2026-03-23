@@ -299,12 +299,14 @@ The collapse of the semantic-only model raises a question that goes beyond this 
 Probing studies on WavLM and related models consistently show that speaker identity is the dominant organising principle of the representation space, particularly in the middle and upper transformer layers that are most useful for downstream tasks [@chen2022wavlm].
 This is not a failure of WavLM — the model was not trained to be speaker-invariant — but it has a direct consequence for distillation-based fine-tuning: the cosine geometry in WavLM space is primarily a speaker geometry.
 When a linear head is trained to align speech projections with text-teacher embeddings, the gradients it receives encode the direction "project this utterance towards where the text teacher places its sentence", but this direction is defined in a space where the nearest-neighbour structure is dominated by speaker proximity.
-Across the training batch, the same sentence spoken by different speakers occupies incoherent locations in WavLM space, so the semantic gradient averages destructively.
+Across the training batch, the same sentence spoken by different speakers occupies incoherent locations in WavLM space, so the per-speaker gradients for sentence $x$ point in conflicting directions and their mean tends toward zero — a phenomenon we term *gradient incoherence*.
 The head converges to the mean projection — the centroid of the WavLM output manifold — and after L2-normalisation collapses to a near-constant unit vector.
 
-Crucially, this is not evidence that WavLM lacks semantic content.
-The success of the speaker-supervised models demonstrates that semantic content *is* recoverable from the same frozen encoder: with a concurrent speaker objective in place, the semantic head converges to a meaningful projection in the same 1024-dimensional space.
-The bottleneck is not information presence but information *extractability*: the semantic manifold exists within WavLM's representation space, but it cannot be found by a linear head trained on a distillation loss alone, because the loss landscape is too flat relative to the speaker-dominant geometry.
+Crucially, this is not evidence that WavLM lacks semantic content, nor that the projection head lacks capacity.
+The PCA-compressed variant (`sem256-pca`) uses a 256-d target derived from MiniLM rather than the full 384-d output, reducing head capacity and explicitly compressing the target space — yet it collapses identically.
+Capacity is not the bottleneck.
+The success of the speaker-supervised models confirms this: semantic content *is* recoverable from the same frozen encoder, with the same linear head architecture, once a concurrent speaker objective is in place.
+The bottleneck is not information presence but information *extractability*: the semantic manifold exists within WavLM's representation space, but gradient incoherence prevents a distillation-only head from finding it.
 
 The speaker objective breaks this degeneracy in one of two ways depending on whether the encoder is frozen or fine-tuned.
 When the encoder is fine-tuned, speaker contrastive gradients flowing back through WavLM restructure its representations, making the within-speaker variance smaller and the cross-speaker semantic variance more salient — directly improving the loss landscape for the semantic head.
@@ -316,9 +318,10 @@ Both approaches ultimately solve the same problem — the speaker-dominated geom
 Our finding suggests that for scenarios where pre-training cannot be modified, a concurrent speaker objective at fine-tuning time is a practical substitute: it is sufficient to unlock semantic retrievability even from a fully frozen speaker-entangled encoder.
 
 The GRL result sharpens this picture by providing a controlled negative.
-GRL provides speaker supervision (the speaker head receives a gradient signal) but inverts it through the shared encoder, removing speaker-discriminative structure from the encoder's output rather than building it up.
-This destroys the very geometry that makes semantic extraction tractable, producing the same collapse as the semantic-only model despite the presence of explicit speaker supervision.
-The conclusion is precise: it is not speaker *supervision* per se that enables semantic learning, but the *retention* of speaker-discriminative structure in the encoder's representation space that creates the geometric conditions under which a semantic projection can find a stable manifold.
+GRL is a standard technique for learning speaker-invariant representations: the adversarial objective is precisely designed to strip speaker information from the encoder, which is exactly what disentanglement-oriented models aim for [@qian2020unsupervised; @deng2024ctvc].
+In that setting, removing speaker structure is the goal.
+In a multi-axis retrieval model, it is catastrophic: the speaker axis is not an unwanted confound to be erased but a primary search dimension, and destroying its discriminative structure in the shared encoder removes the scaffolding that enables semantic gradient coherence.
+GRL produces the same collapse as the semantic-only model despite explicit speaker supervision, confirming that it is not speaker *supervision* per se that enables semantic learning, but the *retention* of speaker-discriminative structure that creates the geometric conditions under which the semantic head can find a stable projection.
 
 ## Conclusion
 

@@ -78,7 +78,7 @@ Rather than enforcing factor independence within the encoder, we focus on superv
 The earliest work on sequential disentanglement used factorised hierarchical VAEs (FHVAEs) [@hsu2017unsupervised], which separate "slow" sequence-level factors (speaker, channel, noise) from "fast" segment-level factors (phonetic content) via time-scale structure — without any factor labels.
 This established the foundational insight that content and speaker information operate on different time scales and can be separated structurally.
 
-SpeechFlow [@qian2020unsupervised] frames this decomposition explicitly: "speech information can be roughly decomposed into four components: language content, timbre, pitch, and rhythm."
+SpeechSplit [@qian2020unsupervised] frames this decomposition explicitly: "speech information can be roughly decomposed into four components: language content, timbre, pitch, and rhythm."
 These four components map naturally onto axes that a retrieval system might wish to control independently.
 SpeechFlow separates them using an information bottleneck that restricts the bandwidth available to each encoder branch.
 ContentVec [@qian2022contentvec] incorporated speaker disentanglement directly into the SSL pre-training objective, showing that masked prediction combined with speaker conditioning can yield representations where the content axis carries substantially less speaker information.
@@ -100,8 +100,10 @@ Our approach does not attempt to eliminate leakage within the encoder; instead i
 An alternative to explicit disentanglement training is to exploit the natural organisation of information in hierarchical representations.
 SpeechTokenizer [@zhang2024speechtokenizer] demonstrates that in a residual vector quantisation (RVQ) hierarchy, the first codebook layer organises representations around semantic/phonetic content while later layers carry speaker-specific and paralinguistic detail — without any explicit disentanglement objective.
 This suggests that structured representations emerge from hierarchical compression alone.
+BEST-STD [@singh25beststd] applies a related tokenisation pipeline to spoken term detection, using discrete speech tokens as the retrieval unit rather than continuous embeddings; the bidirectional Mamba encoder used for token sequence matching provides an efficient alternative to frame-level similarity for content-based retrieval over long recordings.
 
 Our approach occupies a middle position: we impose explicit per-axis objectives, but rely on teacher distillation rather than reconstruction, and produce a single concatenated vector rather than a token stream.
+Unlike tokenisation-based retrieval, the continuous embedding allows signed axis weighting at query time without re-encoding.
 
 ### Distillation into partitioned spaces
 

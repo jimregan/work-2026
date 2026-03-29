@@ -59,7 +59,7 @@ def main():
     }
 
     insular = set("ꝺꝼᵹꞇꞃꞅ")
-    dotted = set("ḃḄċĊḋḊḟḞġĠṁṀṗṖṡṠṫṪ")
+    dotted = set("ḃḂċĊḋḊḟḞġĠṁṀṗṖṡṠṫṪ")
     accented = set("áÁéÉíÍóÓúÚ")
 
     for ch, count in sorted(char_counts.items(), key=lambda x: x[0]):

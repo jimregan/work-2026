@@ -14,7 +14,7 @@ Run via `run_rehasp_eval.sh` / `run_all_rehasp_evals.sh`.
 ### Case 1: rehasp query, OSR-only index
 
 - **Index**: OSR dataset (no rehasp)
-- **Query**: rehasp reps (rep002–005), axis weights `semantic=1.0,speaker_id=0.0`
+- **Query**: rehasp reps (rep002–040), axis weights `semantic=1.0,speaker_id=0.0`
 - **Goal**: baseline — show rehasp queries retrieve the correct OSR sentence with no same-speaker distractor
 
 ### Case 2: rehasp query, OSR+rehasp mixed index (default weights)
@@ -28,6 +28,16 @@ Run via `run_rehasp_eval.sh` / `run_all_rehasp_evals.sh`.
 - **Axis weights**: `semantic=1.0,speaker_id=W` sweeping over negative values (default `W=-1.0`)
 - **Goal**: demonstrate that negating the speaker axis recovers the correct same-sentence different-speaker match from OSR
 - Set `SPEAKER_SWEEP="-2.0 -1.5 -1.0 -0.5 0.0"` for a full sweep
+
+## 3. p315 cross-corpus semantic recall
+
+Run via `run_eval_p315.sh` / `run_all_p315_evals.sh`.
+
+- **Index**: training data (VCTK + CMU Arctic + GBI; only utterance-map-covered sentences have sentence IDs)
+- **Query**: VCTK speaker p315 (172 labelled utterances), held out from training
+- **Axis weights**: `semantic=1.0` (semantic axis only; preference-flip P@k now computed via corpus filter)
+- **Goal**: measure how well the semantic axis generalises cross-corpus — only 17/172 p315 sentences overlap with Harvard sentences in the training index (ceiling ≈ 9.9% R@10); models with speaker supervision should hit or approach this ceiling while the semantic-only model should be near-random
+- **Labels**: generate first with `make_p315_labels.py --matches p315-matches.tsv --utterance_map ...`
 
 ## 4. Librivox poetry test (maybe)
 
@@ -46,7 +56,7 @@ Run via `run_rehasp_eval.sh` / `run_all_rehasp_evals.sh`.
 - `experiment/run_eval_osr.sh` — runs basic OSR retrieval eval for one model
 - `experiment/run_all_evals.sh` — runs OSR retrieval eval for all models under `$BASE_DIR`
 - `experiment/run_eval_p315.sh` — runs p315 retrieval eval for one model
-- `experiment/run_all_p315_evals.sh` — runs p315 eval for all models, skips `wavlm-resemblyzer`
+- `experiment/run_all_p315_evals.sh` — runs p315 eval for all models; set `SKIP_MODELS="model-name"` to skip specific models
 - `experiment/make_p315_labels.py` — generates `/data/p315-labels.json` from matches TSV
 - `experiment/match_transcripts.py` — matches p315 transcriptions against VCTK reference corpus
 - `experiment/baseline_retrieval.py` — text sentence-transformers and CLAP baselines

@@ -97,7 +97,7 @@ docker run -d --gpus '"device=4,5,6,7"' --ipc=host \
   -v /home/joregan/merged_tts/models:/models \
   -v /home/joregan/merged_tts/results:/results \
   -e DATASET_DIR=/data/training-data \
-  -e TARGETS_DIR=/data/training-data-targets \
+  -e TARGETS_DIR=/data/training-data-targets \  # NB: actual configs use model-specific suffixes (e.g. -targets-xvec); verify path on server
   -e OUTPUT_DIR=/models/wavlm-semantic \
   -e NPROC=4 \
   sst bash /workspace/experiment/run_train_semantic.sh

@@ -1,2 +1,0 @@
---model-name ./out/hf/timit-rir 
---logits-dir ./out/logits/timit-rir

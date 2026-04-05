@@ -1,8 +1,0 @@
-https://drive.google.com/file/d/1kFiwxgAhEzn2msRoclVzpfI6BK0afWp5/view
-
-https://www.disneyplus.com/en-gb/video/28125dd1-5a40-4461-8dae-47deb5134a70
-9:50 remaining
-
-
-stɑɹi wən əv dəblənɝz ðɪs ɪz ə lɪbɝvɑks ɹɝkɑɹɾɪŋ ɑl lɪbɝvɑks ɹɝkɑɹɾɪŋz ɝ ɪn ðə pəblɪ doʊmeɪn fɝ mɑɹ ɪnfɝmeɪʃɪn ɑɹ tɪ vɑləntɪɝ pliz vɪzɪ lɪbɝvɑks gɑ hɑɹg dəblənɝz baɪ ʤeɪmz ʤɔɪs stɑɹi wən ðə sɪstɝz ðɛɹ wɪz noʊ hoʊ fɝ ɪm ðɪs taɪm ɪ wɪz ðə θɝd stɹoʊk naɪt æftɝ naɪt aɪ ɛ
-pæs ðə haʊs ɪ wɪz veɪkeɪʃn taɪm ɪn stəɾi ðɪ laɪɾɪ skwɛɹ əv wɪndoʊ ɪn naɪɾ ɛftɝ naɪt aɪ hɛ faʊnd ɪ laɪɾɪd ɪn ðə seɪm weɪ feɪnli ɪn ivnli ɪf i wɪz dɛd aɪ θɑt aɪ wʊ si ðɪ ɹɪflɛʃn əv kænlz ən ðə dɑɹkɪn ə b laɪn d fɝaɪnuðɛ tu kæn dl z məs bisɛ ɪ ðhɛɾəvə kɑɹ p s hiɛɾɑf n sɛ tɪmih aɪɛm nɑ lɑŋfɝðɪs wɝl d naɪɛ θɑ hɪz wɝ z aɪɾlnaʊaɪnuðeɪwɝ t ɹu ɛv ɹinaɪ t ɛzaɪ geɪz də pɪ ðəwɪn doʊ aɪsɛ sɑf li təmaɪsɛl f ðəwɝ d pɝɹæləsəs ɪ hɛɾɑl wɪsaʊn dɪ s t ɹeɪnʃliɪn maɪɪɝz laɪ ðəwɝ d noʊmɪn ɪnðɪju k lɪ d ɪnðəwɝ saɪməni ɪnðɪ kæɾɪ kɪzəmbə naʊə saʊn dɪ təmilaɪ ðɪneɪməv səmælɛfəsɪn t ɪn sɪn f l biɪŋɪ fɪl miwɪθfiɝ ɪn jɛ aɪlɑŋ tə binɪɹɝ tuɪ t ɪn təlʊ kə pɑnɪ s dɛ d liwɝ koʊl d

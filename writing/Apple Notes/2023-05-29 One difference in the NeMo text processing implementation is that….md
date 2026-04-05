@@ -1,1 +1,0 @@
-One difference in the NeMo text processing implementation is that, for most language modules, the bulk of “verbalisation” occurs in the tokenisation phase. For the most part, this is for the sake of simplicity, while maintaining backwards compatibility with Sparrowhawk: rather than extend the set of properties accepted for each semiotic class,

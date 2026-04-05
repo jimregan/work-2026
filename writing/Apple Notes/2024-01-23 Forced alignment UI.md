@@ -1,1 +1,0 @@
-Forced alignment UI:

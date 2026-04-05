@@ -1,1 +1,0 @@
-Jelinek, Frederick. “Some of My Best Friends Are Linguists.” *Language Resources and Evaluation* 39, no. 1 (2005): 25–34.

@@ -1,3 +1,0 @@
-https://github.com/voletiv/glow-pytorch
-b9704fa046bd8f3c635cc2f2411a108a1da5718e
-alt_glow_pytorch.patch

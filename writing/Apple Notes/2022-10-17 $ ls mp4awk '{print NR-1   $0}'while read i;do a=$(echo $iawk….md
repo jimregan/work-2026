@@ -1,1 +1,0 @@
-$ ls *mp4|awk '{print NR-1 " " $0}'|while read i;do a=$(echo "$i"|awk '{print $1}'); b=$(echo "$i"|awk '{print $2}'); docker run --gpus "device=$a" -t -d --name whisper$a -v "/sbtal/joregan/rd:/workspace" 960660159d4d; docker exec -t -d whisper$a /workspace/r$a.sh;done

@@ -1,5 +1,0 @@
-- Dissertation writing
-	- June 2017: "Attention is all you need"
-	- Everything obsolete
-	- Minor mental breakdown
-	- Never touching machine translation again

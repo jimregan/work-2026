@@ -1,2 +1,0 @@
-Also, I’m curious about what sort of feedback you expected your (or anyone’s) student would get?
-The way it has worked for me so far is, if someone messages me to add a student for them, I tell them, and then they tell the student. If something goes wrong (usually, because the student put something incorrect in the ssh key field), that is the only time I have contact with those students.

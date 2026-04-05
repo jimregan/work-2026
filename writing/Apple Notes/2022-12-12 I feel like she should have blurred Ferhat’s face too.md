@@ -1,1 +1,0 @@
-I feel like she should have blurred Ferhat’s face too

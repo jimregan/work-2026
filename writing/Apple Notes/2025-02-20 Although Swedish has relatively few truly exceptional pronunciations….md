@@ -1,7 +1,0 @@
-Although Swedish has relatively few truly exceptional pronunciations, it has a ``deep'' orthography: for example, with some loanwords it can be necessary to know the donor language to predict the pronunciation. Many words can have multiple valid pronunciations which depend on speaking rate or register; as with most other languages, the pronunciations of words in connected speech change depending on the adjoining words.
-
-Swedish is part of a dialect continuum with Danish and Norwegian, and there are Swedish dialects that share features with both of these languages. The Stockholm dialect is typically considered the standard dialect of Swedish, and existing pronunciation dictionaries tend to target it exclusively.
-
-Our aim in this work is to construct a corpus of phonetically annotated spoken Swedish, representing multiple dialects, and with provenance in the form of identifiers pointing to the source of each speech, with timestamps for each spoken word.
-
-Our initial aim is to create pronunciation dictionaries for use in text-to-speech, but the corpus itself is of general interest for the study of Swedish in particular, and we aim for it to be of interest for speech science more generally.

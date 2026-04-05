@@ -1,2 +1,0 @@
-“\[D\]espite the shift of most of the field of natural language processing towards statistical methods and machine learning solutions, text normalization remains one of the last great bastions of manual techniques.”
-Ebner & Sproat, **The Kestrel TTS text normalization system**

@@ -1,1 +1,0 @@
-build a model that can identify speakers of different political parties and model which parties most often mention which buzzwords

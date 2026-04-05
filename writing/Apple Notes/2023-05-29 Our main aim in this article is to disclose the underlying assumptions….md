@@ -1,2 +1,0 @@
-Our main aim in this article is to disclose the underlying assumptions of the implementation plan we are following, and to invite discussion and corrective feedback from language experts and members of the linguistic communities where these assumptions are flawed or incomplete.
-A secondary aim is to motivate our choice of framework, and to encourage others who may be considering to undertake the creation of a similar system to \[FIXME… open source ftw, but other stuff too\].

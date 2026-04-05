@@ -1,3 +1,0 @@
-- internal DVD drive
-	- “Bulk” https://www.dustin.se/product/5010975521/drw-24d5mt-bulk
-	- “Retail” https://www.dustin.se/product/5010975556/drw-24d5mt-retail

@@ -1,1 +1,0 @@
-The goal is to promote an inclusive and positive workplace atmosphere at TMH

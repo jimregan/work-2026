@@ -1,1 +1,0 @@
-Given how toxic the field of linguistics is, it’s actually highly likely that linguists hate him but linguists hate everybody, most especially other linguists.

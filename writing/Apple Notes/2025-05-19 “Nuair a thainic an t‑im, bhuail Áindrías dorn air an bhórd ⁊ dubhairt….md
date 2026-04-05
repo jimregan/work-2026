@@ -1,2 +1,0 @@
-“Nuair a thainic an t‑im, bhuail Áindrías dorn air an bhórd <span style="font-family:HelveticaNeue;">⁊</span> dubhairt nach robh ceart dha dheánamh le ceachtar ocú.”
-What’s “dha” there? Like, “a dhéanamh”?

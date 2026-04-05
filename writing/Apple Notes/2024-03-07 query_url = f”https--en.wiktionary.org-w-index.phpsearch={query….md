@@ -1,1 +1,0 @@
-query_url = f”https://[en.wiktionary.org/w/index.php?search=](http://en.wiktionary.org/w/index.php?search=){query}”

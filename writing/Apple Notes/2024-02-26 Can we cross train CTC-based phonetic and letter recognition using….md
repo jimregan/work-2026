@@ -1,1 +1,0 @@
-Can we cross train CTC-based phonetic and letter recognition using G2P?

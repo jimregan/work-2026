@@ -1,0 +1,1 @@
+Models shared on the Huggingface hub are typically shared in an optimised format, with states required for training removed.

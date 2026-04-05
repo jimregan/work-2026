@@ -1,0 +1,6 @@
+https://github.com/YuanGongND/ltu/blob/main/src/ltu_as/extract_whisper_feature.py
+# Please extract whisper features of all audios on SAME type of gpus.
+# Different types of GPUs will generate slightly different results, which does impact the LTU-AS performance.
+# The extraction GPU should also be the same type as the server/inference GPU.
+
+Audio Encoder. We use an Audio Spectrogram Transformer (AST) (Gong et al., 2021b) pretrained with the CAV-MAE objective (Gong et al., 2022a) and finetuned on AudioSet-2M as our audio encoder. Each 10-second audio waveform is first converted to a sequence of 128-dimensional log Mel filterbank (fbank) features computed with a 25ms Hanning window every 10ms. This results in a 1024 (time) × 128 (frequency) spectrogram. We then split the spectrogram into 512 (64 (time) × 8 (frequency)) square patches of shape 16 × 16 and input them to AST. The output of AST is a sequence of 512 audio embeddings of 768-dimensions. We reshape it back to 64 (time) × 16 (frequency) and apply a frequency mean pooling and 2× temporal downsampling to produce a sequence of 32 audio embedding in temporal order (3.2Hz). Finally, we project the 768-dimensional audio embedding to 4096-dimensional to match the embedding dimension of LLaMA. The 32 audio embeddings are then concatenated with text embeddings as the input to the large language model.

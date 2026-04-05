@@ -1,0 +1,6 @@
+- Prep braxen as IPA
+- Filter out non-Swedish
+- Prepare compound data
+- Maybe Norwegian + Danish?
+- Train!
+- Filter out by donor language?

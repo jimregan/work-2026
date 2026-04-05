@@ -1,0 +1,1 @@
+#eval "python ../transformers/src/transformers/models/wav2vec2/convert_wav2vec2_original_pytorch_checkpoint_to_pytorch.py --pytorch_dump_folder ${hf_name} --checkpoint_path ${ckpt} --config_path ./config.json --dict_path ${curPath}/data/temp/dict.ltr.txt"

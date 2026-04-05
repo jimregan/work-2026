@@ -1,0 +1,5 @@
+Like, I think “we” (or certain members of faculty) very badly need some sort of instruction on toxic positivity, and hidden(/unacknowledged) biases. I think Eva would support this.
+
+On the topic of hidden biases: there’s a dispenser for feminine hygiene products on every floor of this building except the fifth floor. We can talk about welcoming and inclusivity all we want, but every lunar month a significant proportion of my colleagues are made more welcome by RPL, and that should not be allowed to stand. (I’ll happily put that on the APT doc if need be, but like… I’m already the toilet brush guy).
+
+Also, why isn’t there a dispenser for femine hygiene products on the fifth floor? In the most guilt-laden language I can muster: why are my female colleagues being given the tacit impression every single lunar month that RPL cares more about their well being than TMH does?

@@ -1,0 +1,5 @@
+# Ebden and Sproat, appropriateness
+
+But if someone writes *Feb 9, 2014*, or *February 9, 2014*, while this still *means* the same thing, only the reading *February the ninth, twenty fourteen* is appropriate. That is, while reading *two, nine, twenty fourteen* for the text *Feb 9, 2014* would convey the same information, it would not be faithful to the original text. A user who typed that text, or wanted that text rendered from a web page could legitimately complain if the system produced *two, nine, twenty fourteen* as output. This is especially true in accessibility applications where visually impaired users typically want the system to be as faithful to the input text as possible, while still producing an appropriate-sounding output.
+[Footnote](https://www.cambridge.org/core/journals/natural-language-engineering/article/kestrel-tts-text-normalization-system/F0C18A3F596B75D83B75C479E23795DA#fn9)
+<a href="https://www.cambridge.org/core/journals/natural-language-engineering/article/kestrel-tts-text-normalization-system/F0C18A3F596B75D83B75C479E23795DA#fn9" rel="noopener" class="external-link" target="_blank"><sup>9</sup></a>

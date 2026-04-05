@@ -1,0 +1,1 @@
+CommitOperationAdd(path_in_repo=filepath.name, path_or_fileobj=str(filepath))

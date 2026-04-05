@@ -1,0 +1,1 @@
+An fear, an fear is láidir-, an fear is láidire insa domhan anois, u- faoi, is goire 28 dhuit faoi láthair, sé áit a bhfuil sé in Araebia, an Gaiscíoch, nó Fathach Mór Buí. Agus níl sé go maith, agus u-, u- déan — Dhá ndéantá mo chomhairle ní 30 rachthá ar chor ar bith ann. Mar níl siad mór leat, libse, agus níl siad mór linne agus, agus b’fhearr dhuit fanacht as.

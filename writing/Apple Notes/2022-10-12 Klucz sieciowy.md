@@ -1,0 +1,3 @@
+# Klucz sieciowy
+
+VDbSHqyZR

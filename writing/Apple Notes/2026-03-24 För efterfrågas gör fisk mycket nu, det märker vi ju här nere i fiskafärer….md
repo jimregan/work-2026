@@ -1,0 +1,5 @@
+[[2026-03-24 hallevik_owov.jpg]]
+
+För efterfrågas gör fisk mycket nu, det märker vi ju här nere i fiskafärer och så, men... sedan är det \[ett\] slitigt jobb. Min pappa var fiskare, eller ja, han lever fortfarande. Mm men han jobbade som fiskare. Mhm sedan slutade de som fiskare och började på fabriken, för då kom man den ena dagen när han uppe, och det var ju många av de gamla fiskarna som lade av, och började på fabrik istället, det var ju säkra inkomster och det var ju varmt och skönt inomhus, för de var ju illa på sjön. Särskilt om vintern. Pappa han talade om när det var en och de blev nersade så, det var ju på nippen¹ en gång att båten hade slagit runt. De fick ju knäcka is Ja stup i kvarten. Ja, ja, ja för så fort vattnet spolade över så frös det till is på relingen och på däck. Oj, men då måste det ha varit kallt och båten blev tyngre och tyngre. Mm Ja, så det var Min jobbigt, visst var det jobbigt.
+
+¹ ungefär "det var på håret"

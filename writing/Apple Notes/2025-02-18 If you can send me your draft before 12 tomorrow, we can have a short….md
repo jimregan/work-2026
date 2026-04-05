@@ -1,0 +1,1 @@
+If you can send me your draft before 12 tomorrow, we can have a short (15 mins max) meeting to go over it at 12; if you need a lot of input to get to the point of writing a draft or you’re otherwise going to need more time than that, then it’ll have to wait until 2pm Wednesday.

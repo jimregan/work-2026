@@ -114,12 +114,9 @@ def coordinate(transcript: str, ocr_text: str, url: str, client) -> str:
 OCR Text from frames:
 {ocr_text}
 
-Tasks:
-1. Create a line-by-line Hungarian to English translation table.
-2. Create an A2+ vocabulary list (lemma form, part of speech, English meaning, usage note).
-3. CRITICAL: Exclude basic A1 words.
-4. Format everything in Markdown.
-5. End your response with: [Reel]({url})"""
+The Reel URL is: {url}
+
+Produce the Markdown output in the exact format specified in your system prompt, with [Reel]({url}) at the top."""
 
     response = client.chat(
         model="hu-brain",

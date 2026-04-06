@@ -1,4 +1,4 @@
-# Index
+	# Index
 
 Top-level map of active work. Directories are relative to `work-2026/`.
 

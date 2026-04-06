@@ -20,8 +20,51 @@
               "icon": "lucide-file",
               "title": "INDEX"
             }
+          },
+          {
+            "id": "e1a8fbe92a23b48b",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "riksvox 0.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "riksvox 0"
+            }
+          },
+          {
+            "id": "faeaf10308daa089",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "chapter 1.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "chapter 1"
+            }
+          },
+          {
+            "id": "c59837c0ede55a8a",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "phonetic corpus.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "phonetic corpus"
+            }
           }
-        ]
+        ],
+        "currentTab": 3
       },
       {
         "id": "a8b92a944f5fcb73",
@@ -110,7 +153,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "INDEX.md",
+                "file": "Welcome.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -120,7 +163,7 @@
                 "unlinkedCollapsed": true
               },
               "icon": "links-coming-in",
-              "title": "Backlinks for INDEX"
+              "title": "Backlinks for Welcome"
             }
           },
           {
@@ -129,12 +172,12 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "INDEX.md",
+                "file": "Welcome.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               },
               "icon": "links-going-out",
-              "title": "Outgoing links from INDEX"
+              "title": "Outgoing links from Welcome"
             }
           },
           {
@@ -172,13 +215,13 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "INDEX.md",
+                "file": "Welcome.md",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
               },
               "icon": "lucide-list",
-              "title": "Outline of INDEX"
+              "title": "Outline of Welcome"
             }
           }
         ]
@@ -196,13 +239,52 @@
       "daily-notes:Open today's daily note": false,
       "templates:Insert template": false,
       "command-palette:Open command palette": false,
-      "bases:Create new base": false
+      "bases:Create new base": false,
+      "obsidian-importer:Open Importer": false
     }
   },
-  "active": "088b5554327fc662",
+  "active": "c59837c0ede55a8a",
   "lastOpenFiles": [
-    "2026-04-05.md",
+    "riksvox 0.md",
+    "phonetic corpus.md",
+    "chapter 1.md",
     "INDEX.md",
-    "Welcome.md"
+    "Apple Notes/2026-04-03 ⏺ Written to OVERVIEW.md. It covers the overall purpose, a file map….md",
+    "Apple Notes/2026-03-31 == {{intfiledesc}} ==.md",
+    "Apple Notes/2026-03-27 ┌─────────────────────────────┬────────────────────────────────┬──────────┐.md",
+    "Apple Notes/2026-03-25 Name=gpu Type=nvidia File=-dev-nvidia0.md",
+    "2026-03-24 hallevik_owov.jpg",
+    "Apple Notes/2026-03-24 För efterfrågas gör fisk mycket nu, det märker vi ju här nere i fiskafärer….md",
+    "Apple Notes/2026-03-24 sudo apt install --reinstall nvidia-driver-version.md",
+    "Apple Notes/2026-03-23 Your analysis of the mode collapse is compelling and gets to the heart….md",
+    "Apple Notes/2026-03-22 https--ljud1-cdn.sr.se-lc-p3.m3u8.md",
+    "Apple Notes/2026-03-22 d4e3fef64e880b33a056d57f9ba17546bdf28032fbbceb4886f24dee183a397b.md",
+    "Apple Notes/2026-03-21 With 8 GPUs that's roughly 1–1.5 hours per training run — enough to….md",
+    "Apple Notes/2026-03-19 p315_047.md",
+    "Apple Notes/2026-03-19 docker run -d --gpus 'device=0,1,2,3' --ipc=host -.md",
+    "Apple Notes/2026-03-19 Disentanglement vs factorisation.md",
+    "Apple Notes/2026-03-18 docker run -d --name sst-resemblyzer -.md",
+    "Apple Notes/2026-03-15 Speech, in contrast with text, is inherently variable..md",
+    "Apple Notes/2026-03-14 1111115111.md",
+    "Apple Notes/2026-03-13 OSR_uk_000_0020_8k 1.md",
+    "Apple Notes/2026-03-10 python train_wavlm.py -.md",
+    "Apple Notes/2026-03-09 1 from datasets import ClassLabel.md",
+    "Apple Notes/2026-03-04 claude --resume d4ab9b03-8546-4a93-861e-40eb038bb8ec.md",
+    "Apple Notes/2026-02-27 https--www.clubleabhar.com-leabhar-an-tiriseoir.md",
+    "Apple Notes/2026-02-25 0000-0003-2598-6868; 0000-0001-9327-9482.md",
+    "2025-09-22 52624640855_e80a42baca_o.png",
+    "2025-06-04 Attachment.png",
+    "2025-05-29 459757307_1754348702040498_636700629624847119_n 4.jpg",
+    "2025-05-29 1f603 1.png",
+    "2025-05-29 459757307_1754348702040498_636700629624847119_n 3.jpg",
+    "2025-05-29 459757307_1754348702040498_636700629624847119_n 2.jpg",
+    "2025-05-29 498008603_1435179517661645_2793001163747447278_n.jpg",
+    "2025-05-29 496451706_17843355759484572_2656396903327291175_n.jpg",
+    "2025-05-29 494822274_699989302784650_7999584269872308286_n.png",
+    "2024-09-23 recording.m4a",
+    "2023-10-30 Royal Institute of Technology.m4a",
+    "Apple Notes",
+    "recording.m4a",
+    "Royal Institute of Technology.m4a"
   ]
 }

@@ -1,0 +1,14 @@
+{
+  "model_type": "gemma4_ctc",
+  "auto_map": {
+    "AutoConfig": "configuration_gemma4_ctc.Gemma4CTCConfig",
+    "AutoModelForCTC": "modeling_gemma4_ctc.Gemma4ForCTC"
+  },
+  "vocab_size": 58,
+  "hidden_size": 1024,
+  "final_dropout": 0.1,
+  "ctc_loss_reduction": "sum",
+  "ctc_zero_infinity": true,
+  "pad_token_id": 0,
+  "gemma4_audio_model_id": "google/gemma-4-e2b-it"
+}

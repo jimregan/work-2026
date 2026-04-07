@@ -1,0 +1,17 @@
+{
+  "feature_extractor_type": "Gemma4AudioFeatureExtractor",
+  "feature_size": 128,
+  "sampling_rate": 16000,
+  "padding_value": 0.0,
+  "return_attention_mask": true,
+  "frame_length_ms": 20.0,
+  "hop_length_ms": 10.0,
+  "min_frequency": 0.0,
+  "max_frequency": 8000.0,
+  "preemphasis": 0.0,
+  "preemphasis_htk_flavor": true,
+  "fft_overdrive": false,
+  "dither": 0.0,
+  "input_scale_factor": 1.0,
+  "mel_floor": 0.001
+}

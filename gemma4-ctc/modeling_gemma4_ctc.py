@@ -100,6 +100,7 @@ class Gemma4ForCTC(Gemma4CTCPreTrainedModel):
         self,
         input_features: torch.Tensor | None,
         attention_mask: torch.Tensor | None = None,
+        input_features_mask: torch.Tensor | None = None,
         labels: torch.Tensor | None = None,
         return_dict: bool | None = None,
     ) -> tuple | CausalLMOutput:
@@ -108,10 +109,17 @@ class Gemma4ForCTC(Gemma4CTCPreTrainedModel):
             Log-mel features from ``Gemma4AudioFeatureExtractor``.
         attention_mask (`torch.BoolTensor` of shape `(batch, time)`, *optional*):
             Mask over padding frames (True = valid).
+        input_features_mask (`torch.BoolTensor` of shape `(batch, time)`, *optional*):
+            Alias for ``attention_mask``; matches the key name produced by
+            ``Gemma4AudioFeatureExtractor`` so batches can be passed directly
+            with ``model(**batch)``.
         labels (`torch.LongTensor` of shape `(batch, target_length)`, *optional*):
             CTC target labels.  Indices in ``[-100, 0, ..., config.vocab_size - 1]``;
             positions set to ``-100`` are ignored.
         """
+        if input_features_mask is not None:
+            attention_mask = input_features_mask
+
         return_dict = return_dict if return_dict is not None else self.config.return_dict
 
         if labels is not None and labels.max() >= self.config.vocab_size:

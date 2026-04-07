@@ -11,6 +11,9 @@ Pass --unfreeze_norms to also train the encoder's layer norms.
 import argparse
 import math
 
+import os
+import sys
+
 import torch
 from accelerate import Accelerator
 from accelerate.logging import get_logger
@@ -21,6 +24,7 @@ from torch.utils.data import DataLoader
 from transformers import AutoConfig, AutoModelForCTC, Wav2Vec2CTCTokenizer, get_scheduler
 from transformers.models.gemma4.feature_extraction_gemma4 import Gemma4AudioFeatureExtractor
 
+sys.path.insert(0, os.path.dirname(__file__))
 from collator import DataCollatorCTCWithPadding
 
 
@@ -49,6 +53,10 @@ def parse_args():
     parser.add_argument("--unfreeze_norms", action="store_true",
                         help="Keep encoder layer norms trainable instead of freezing everything")
     parser.add_argument("--gradient_checkpointing", action="store_true")
+    parser.add_argument("--init_from_gemma4", action="store_true",
+                        help="Extract encoder weights from the upstream Gemma 4 checkpoint "
+                             "and save to output_dir before training.  Use this on the first "
+                             "run only; afterwards from_pretrained reloads the saved weights.")
     return parser.parse_args()
 
 
@@ -71,7 +79,23 @@ def main():
     feature_extractor = Gemma4AudioFeatureExtractor.from_pretrained(args.model_dir)
     tokenizer = Wav2Vec2CTCTokenizer.from_pretrained(args.model_dir)
     config = AutoConfig.from_pretrained(args.model_dir, trust_remote_code=True)
-    model = AutoModelForCTC.from_pretrained(args.model_dir, trust_remote_code=True)
+
+    if args.init_from_gemma4:
+        # First run: extract encoder from the upstream Gemma 4 checkpoint and
+        # save a self-contained checkpoint to output_dir.  Subsequent runs
+        # load from output_dir directly without touching the Gemma 4 repo.
+        if accelerator.is_main_process:
+            from modeling_gemma4_ctc import Gemma4ForCTC
+            model = Gemma4ForCTC.from_gemma4_pretrained(config)
+            os.makedirs(args.output_dir, exist_ok=True)
+            model.save_pretrained(args.output_dir)
+            feature_extractor.save_pretrained(args.output_dir)
+            tokenizer.save_pretrained(args.output_dir)
+            logger.info(f"Encoder extracted and saved to {args.output_dir}")
+        accelerator.wait_for_everyone()
+        model = AutoModelForCTC.from_pretrained(args.output_dir, trust_remote_code=True)
+    else:
+        model = AutoModelForCTC.from_pretrained(args.model_dir, trust_remote_code=True)
 
     if args.gradient_checkpointing:
         model.gradient_checkpointing_enable()

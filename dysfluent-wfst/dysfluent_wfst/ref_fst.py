@@ -135,14 +135,9 @@ def build_ref_fst(
                                 # No corresponding symbol in input_syms; skip
                                 continue
 
-                            marker = f"{i}<trans>{j}"
-                            mid = output_syms.find(marker)
-                            if mid == -1:
-                                mid = output_syms.add_symbol(marker, next_osym_id)
-                                next_osym_id += 1
                             w_sub = -math.log(error_score / 10000)
                             compiler.add_arc(
-                                i, pynini.Arc(sim_pid, mid, w_sub, j)
+                                i, pynini.Arc(sim_pid, sim_pid, w_sub, j)
                             )
             else:
                 if alpha == 1:

@@ -17,7 +17,7 @@ from .rules import compile_rules
 from .symbols import build_output_symbol_table, build_symbol_table, extract_vocab
 from .variation import (
     build_state_trajectory,
-    deduplicate_and_filter,
+    collapse_label_runs,
     merge_trans_markers,
 )
 
@@ -119,6 +119,88 @@ class Decoder:
         """Map a list of phoneme strings to symbol table indices."""
         return [self._get_phoneme_id(p) for p in phonemes]
 
+    def _tokenize_words(self, ref_text: str) -> list[str]:
+        """Split reference text into lexicon lookup tokens."""
+        words: list[str] = []
+        for word in ref_text.lower().strip().split():
+            clean = word.strip(".,!?;:")
+            if clean:
+                words.append(clean)
+        return words
+
+    def _enumerate_label_paths(
+        self,
+        fst: pynini.Fst,
+        max_paths: int = 256,
+    ) -> list[list[int]]:
+        """Enumerate output-label paths from a finite pronunciation lattice."""
+        start_state = fst.start()
+        no_state_id = getattr(pynini, "NO_STATE_ID", -1)
+        if start_state == no_state_id:
+            return []
+
+        zero = pynini.Weight.zero(fst.weight_type())
+        paths: list[list[int]] = []
+
+        def dfs(state: int, labels: list[int], stack: set[int]) -> None:
+            if len(paths) >= max_paths or state in stack:
+                return
+
+            if fst.final(state) != zero:
+                paths.append(list(labels))
+                if len(paths) >= max_paths:
+                    return
+
+            next_stack = set(stack)
+            next_stack.add(state)
+            for arc in fst.arcs(state):
+                label = arc.olabel if arc.olabel > 0 else arc.ilabel
+                if label > 0:
+                    labels.append(label)
+                dfs(arc.nextstate, labels, next_stack)
+                if label > 0:
+                    labels.pop()
+
+        dfs(start_state, [], set())
+        return paths
+
+    def _candidate_phoneme_sequences(
+        self,
+        ref_phonemes: list[str],
+        ref_text: str,
+    ) -> list[list[int]]:
+        """Build one or more candidate pronunciation sequences for decoding."""
+        fallback = [self._get_phoneme_ids(ref_phonemes)]
+
+        if self.rules_fst is None or not ref_text:
+            return fallback
+
+        words = self._tokenize_words(ref_text)
+        if not words:
+            return fallback
+
+        try:
+            utt_fst = build_utterance_fst(
+                words=words,
+                lexicon_fst=self.lexicon_fst,
+                rules_fst=self.rules_fst,
+            )
+            paths = self._enumerate_label_paths(utt_fst)
+        except Exception:
+            return fallback
+
+        if not paths:
+            return fallback
+
+        deduped: list[list[int]] = []
+        seen: set[tuple[int, ...]] = set()
+        for path in paths:
+            key = tuple(path)
+            if key not in seen:
+                seen.add(key)
+                deduped.append(path)
+        return deduped or fallback
+
     def decode_utterance(
         self,
         log_probs: torch.Tensor,
@@ -163,22 +245,29 @@ class Decoder:
         # 2. Build per-utterance output symbol table (fresh copy)
         output_syms = build_output_symbol_table(self.input_syms)
 
-        # 3. Get phoneme IDs for the reference sequence
-        phoneme_ids = self._get_phoneme_ids(ref_phonemes)
+        # 3. Build one or more candidate pronunciation paths.
+        candidate_paths = self._candidate_phoneme_sequences(ref_phonemes, ref_text)
 
-        # 4. Build reference FST with variation arcs
-        ref = build_ref_fst(
-            phoneme_ids=phoneme_ids,
-            beta=beta,
-            input_syms=self.input_syms,
-            output_syms=output_syms,
-            skip=skip,
-            back=back,
-            sub=sub,
-            similarity_matrix=self.similarity_matrix,
-            phn2idx=self.phn2idx,
-            lexicon=self.lexicon_list,
-        )
+        # 4. Build reference FST with variation arcs.
+        ref_fsts = [
+            build_ref_fst(
+                phoneme_ids=phoneme_ids,
+                beta=beta,
+                input_syms=self.input_syms,
+                output_syms=output_syms,
+                skip=skip,
+                back=back,
+                sub=sub,
+                similarity_matrix=self.similarity_matrix,
+                phn2idx=self.phn2idx,
+                lexicon=self.lexicon_list,
+            )
+            for phoneme_ids in candidate_paths
+        ]
+        ref = ref_fsts[0]
+        for ref_alt in ref_fsts[1:]:
+            ref |= ref_alt
+        ref = ref.optimize()
 
         # 5. Compose CTC topology with reference FST
         ctc_copy = self.ctc_topo.copy()
@@ -204,8 +293,8 @@ class Decoder:
             aux_labels = aux_labels[:-1]
 
         # 9. Variation analysis
-        # Deduplicate and filter
-        phoneme_seq = deduplicate_and_filter(aux_labels, output_syms)
+        # Collapse per-frame labels into runs so timing survives deduplication.
+        phoneme_seq = collapse_label_runs(aux_labels, output_syms)
         # Merge consecutive <trans> markers
         merged_seq = merge_trans_markers(phoneme_seq)
         # Build state trajectory and classify
@@ -222,8 +311,10 @@ class Decoder:
                     and 0 <= item["start_state"] < len(ref_phonemes)
                     else None
                 ),
-                start_frame=0,
-                end_frame=0,
+                start_frame=item.get("start_frame", 0),
+                end_frame=item.get("end_frame", 0),
+                start_time_s=item.get("start_frame", 0) * 0.02,
+                end_time_s=item.get("end_frame", 0) * 0.02,
                 variation_type=item["variation_type"],
                 ref_state=item["start_state"],
             )

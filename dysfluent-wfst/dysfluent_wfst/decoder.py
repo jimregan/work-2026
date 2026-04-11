@@ -214,6 +214,8 @@ class Decoder:
         skip: bool = False,
         sub: bool = True,
         output_beam: float = 25.0,
+        frame_shift_ms: float = 20.0,
+        sample_rate: int = 16000,
     ) -> UtteranceAlignment:
         """Run the full decoding pipeline for a single utterance.
 
@@ -229,6 +231,8 @@ class Decoder:
             skip: Allow skip/deletion arcs.
             sub: Allow substitution arcs.
             output_beam: Beam width for k2.intersect_dense.
+            frame_shift_ms: Duration represented by one decoder frame.
+            sample_rate: Audio sample rate for the source waveform.
 
         Returns:
             An UtteranceAlignment with decoded phonemes and variation info.
@@ -313,8 +317,8 @@ class Decoder:
                 ),
                 start_frame=item.get("start_frame", 0),
                 end_frame=item.get("end_frame", 0),
-                start_time_s=item.get("start_frame", 0) * 0.02,
-                end_time_s=item.get("end_frame", 0) * 0.02,
+                start_time_s=item.get("start_frame", 0) * frame_shift_ms / 1000.0,
+                end_time_s=item.get("end_frame", 0) * frame_shift_ms / 1000.0,
                 variation_type=item["variation_type"],
                 ref_state=item["start_state"],
             )
@@ -325,6 +329,8 @@ class Decoder:
             utterance_id=utterance_id,
             audio_path=audio_path,
             ref_text=ref_text,
+            sample_rate=sample_rate,
+            frame_shift_ms=frame_shift_ms,
             ref_phonemes=ref_phonemes,
             decoded_phonemes=decoded_phonemes,
             segments=segments,

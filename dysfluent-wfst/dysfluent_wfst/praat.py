@@ -1,11 +1,18 @@
-"""Praat/Parselmouth enrichment for saved WFST alignments."""
+"""Optional Praat/Parselmouth enrichment for saved WFST alignments.
+
+This module is intentionally not part of the core runtime dependency set.
+Install the optional ``praat`` extra to use it:
+
+    pip install .[praat]
+"""
 
 from __future__ import annotations
 
-import json
 from typing import Optional
 
 import numpy as np
+
+from .acoustics import load_alignment_dict, save_alignment_dict
 
 
 def enrich_with_praat(
@@ -14,10 +21,15 @@ def enrich_with_praat(
     step_s: float = 0.005,
 ) -> dict:
     """Load a saved alignment and add Praat measurements to each segment."""
-    import parselmouth
+    try:
+        import parselmouth
+    except ImportError as exc:
+        raise RuntimeError(
+            "Praat enrichment requires the optional 'praat-parselmouth' "
+            "dependency. Install it with `pip install .[praat]`."
+        ) from exc
 
-    with open(alignment_path, encoding="utf-8") as f:
-        alignment = json.load(f)
+    alignment = load_alignment_dict(alignment_path)
 
     snd = parselmouth.Sound(alignment["audio_path"])
     pitch = snd.to_pitch()
@@ -48,8 +60,4 @@ def enrich_with_praat(
         seg["f3"] = formants.get_value_at_time(3, tmid)
         seg["intensity_mean"] = intensity.get_average(t0, t1) if t1 > t0 else None
 
-    if output_path is not None:
-        with open(output_path, "w", encoding="utf-8") as f:
-            json.dump(alignment, f, indent=2, ensure_ascii=False)
-
-    return alignment
+    return save_alignment_dict(alignment, output_path)

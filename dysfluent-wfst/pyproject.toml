@@ -16,11 +16,11 @@ dependencies = [
     "datasets>=2.20",
     "numpy>=1.24",
     "pyyaml>=6.0",
-    "praat-parselmouth>=0.4.3",
 ]
 
 [project.optional-dependencies]
 dev = ["pytest"]
+praat = ["praat-parselmouth>=0.4.3"]
 
 [project.scripts]
 dysfluent-decode = "dysfluent_wfst.cli:main"

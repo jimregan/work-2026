@@ -13,6 +13,9 @@
 # limitations under the License.
 """PyTorch Gemma4ForCTC model."""
 
+import os
+from pathlib import Path
+
 import torch
 from torch import nn
 
@@ -39,6 +42,18 @@ AUTO_MAP = {
 logger = logging.get_logger(__name__)
 
 
+def _checkpoint_has_encoder(path: str | os.PathLike) -> bool:
+    """Return True if a local directory contains a saved encoder checkpoint."""
+    p = Path(path)
+    if not p.is_dir():
+        return False
+    # Sharded or single-file safetensors / pytorch_model
+    return (
+        any(p.glob("*.safetensors"))
+        or any(p.glob("pytorch_model*.bin"))
+    )
+
+
 class Gemma4CTCPreTrainedModel(PreTrainedModel):
     config_class = Gemma4CTCConfig
     base_model_prefix = "gemma4_audio_encoder"
@@ -58,7 +73,7 @@ class Gemma4CTCPreTrainedModel(PreTrainedModel):
 
 
 class Gemma4ForCTC(Gemma4CTCPreTrainedModel):
-    def __init__(self, config: Gemma4CTCConfig):
+    def __init__(self, config: Gemma4CTCConfig, _skip_encoder_download: bool = False):
         super().__init__(config)
 
         if config.vocab_size is None:
@@ -69,10 +84,26 @@ class Gemma4ForCTC(Gemma4CTCPreTrainedModel):
                 "or define `vocab_size` of your model's configuration."
             )
 
-        # Initialise encoder from config with random weights.  Pretrained
-        # weights are loaded either by from_pretrained() (from a saved
-        # checkpoint) or by from_gemma4_pretrained() (first-time extraction).
-        self.gemma4_audio_encoder = Gemma4AudioModel(Gemma4AudioConfig())
+        if _skip_encoder_download:
+            # Loading from a saved checkpoint: weights come from the checkpoint,
+            # so there is no need to fetch the upstream Gemma 4 model.
+            self.gemma4_audio_encoder = Gemma4AudioModel(Gemma4AudioConfig())
+        else:
+            # First initialisation: pull encoder weights from the upstream
+            # Gemma 4 multimodal checkpoint.  config.gemma4_audio_model_id
+            # accepts both a Hub repo ID and a local path.
+            logger.info(
+                f"Loading audio encoder from {config.gemma4_audio_model_id} ..."
+            )
+            _full = AutoModelForMultimodalLM.from_pretrained(
+                config.gemma4_audio_model_id,
+                torch_dtype=torch.bfloat16,
+                device_map=None,
+                low_cpu_mem_usage=True,
+            )
+            self.gemma4_audio_encoder = _full.model.audio_tower
+            del _full
+
         # Disable the projection to LLM embedding space (1024 → 1536);
         # we want raw conformer output.
         self.gemma4_audio_encoder.output_proj = nn.Identity()
@@ -83,49 +114,19 @@ class Gemma4ForCTC(Gemma4CTCPreTrainedModel):
         self.post_init()
 
     @classmethod
-    def from_gemma4_pretrained(cls, ctc_config: "Gemma4CTCConfig") -> "Gemma4ForCTC":
-        """Extract the audio encoder from a Gemma 4 multimodal checkpoint.
+    def from_pretrained(cls, pretrained_model_name_or_path, *model_args, **kwargs):
+        """Load a saved Gemma4ForCTC checkpoint without re-downloading Gemma 4.
 
-        Call this once before the first training run and save the result with
-        ``save_pretrained``.  Subsequent loads via ``from_pretrained`` reload
-        only the saved encoder weights without touching the Gemma 4 hub repo.
-
-        Args:
-            ctc_config: A ``Gemma4CTCConfig`` whose ``gemma4_audio_model_id``
-                points to the upstream Gemma 4 checkpoint.
-
-        Returns:
-            A ``Gemma4ForCTC`` with the encoder weights copied from the
-            upstream checkpoint and ``output_proj`` replaced by
-            ``nn.Identity()``.
+        When ``pretrained_model_name_or_path`` is a local directory that
+        already contains a model checkpoint (safetensors or pytorch_model
+        files), ``_skip_encoder_download`` is set automatically so that
+        ``__init__`` does not fetch the upstream Gemma 4 model.
         """
-        model = cls(ctc_config)
-
-        logger.info(
-            f"Extracting audio encoder from {ctc_config.gemma4_audio_model_id} ..."
+        if _checkpoint_has_encoder(pretrained_model_name_or_path):
+            kwargs.setdefault("_skip_encoder_download", True)
+        return super().from_pretrained(
+            pretrained_model_name_or_path, *model_args, **kwargs
         )
-        _full = AutoModelForMultimodalLM.from_pretrained(
-            ctc_config.gemma4_audio_model_id,
-            torch_dtype=torch.bfloat16,
-            device_map=None,
-            low_cpu_mem_usage=True,
-        )
-        audio_state = _full.model.audio_tower.state_dict()
-        del _full
-
-        # output_proj keys are present in the upstream state dict but our
-        # encoder already has Identity there — load with strict=False and
-        # warn on anything unexpected beyond output_proj.
-        missing, unexpected = model.gemma4_audio_encoder.load_state_dict(
-            audio_state, strict=False
-        )
-        unexpected_real = [k for k in unexpected if not k.startswith("output_proj.")]
-        if missing:
-            logger.warning(f"Missing keys when loading audio encoder: {missing}")
-        if unexpected_real:
-            logger.warning(f"Unexpected keys when loading audio encoder: {unexpected_real}")
-
-        return model
 
     def freeze_audio_encoder(self):
         """Freeze all Gemma4 conformer parameters."""

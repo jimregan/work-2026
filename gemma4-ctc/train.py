@@ -6,11 +6,15 @@ Usage:
 
 The encoder is frozen by default; only the CTC head is trained.
 Pass --unfreeze_norms to also train the encoder's layer norms.
+
+On the first run, the Gemma 4 multimodal checkpoint is downloaded to
+extract the audio encoder.  config.gemma4_audio_model_id accepts either
+a Hub repo ID or a local path.  Checkpoints saved to output_dir are
+self-contained: reloading them does not require the upstream model.
 """
 
 import argparse
 import math
-
 import os
 import sys
 
@@ -33,7 +37,8 @@ logger = get_logger(__name__)
 
 def parse_args():
     parser = argparse.ArgumentParser()
-    parser.add_argument("--model_dir", default="./gemma4-ctc")
+    parser.add_argument("--model_dir", default="./gemma4-ctc",
+                        help="Repo dir containing config.json, vocab.json, etc.")
     parser.add_argument("--dataset_name", required=True)
     parser.add_argument("--dataset_config", default=None)
     parser.add_argument("--train_split", default="train")
@@ -53,10 +58,6 @@ def parse_args():
     parser.add_argument("--unfreeze_norms", action="store_true",
                         help="Keep encoder layer norms trainable instead of freezing everything")
     parser.add_argument("--gradient_checkpointing", action="store_true")
-    parser.add_argument("--init_from_gemma4", action="store_true",
-                        help="Extract encoder weights from the upstream Gemma 4 checkpoint "
-                             "and save to output_dir before training.  Use this on the first "
-                             "run only; afterwards from_pretrained reloads the saved weights.")
     return parser.parse_args()
 
 
@@ -78,24 +79,8 @@ def main():
 
     feature_extractor = Gemma4AudioFeatureExtractor.from_pretrained(args.model_dir)
     tokenizer = Wav2Vec2CTCTokenizer.from_pretrained(args.model_dir)
-    config = AutoConfig.from_pretrained(args.model_dir, trust_remote_code=True)
 
-    if args.init_from_gemma4:
-        # First run: extract encoder from the upstream Gemma 4 checkpoint and
-        # save a self-contained checkpoint to output_dir.  Subsequent runs
-        # load from output_dir directly without touching the Gemma 4 repo.
-        if accelerator.is_main_process:
-            from modeling_gemma4_ctc import Gemma4ForCTC
-            model = Gemma4ForCTC.from_gemma4_pretrained(config)
-            os.makedirs(args.output_dir, exist_ok=True)
-            model.save_pretrained(args.output_dir)
-            feature_extractor.save_pretrained(args.output_dir)
-            tokenizer.save_pretrained(args.output_dir)
-            logger.info(f"Encoder extracted and saved to {args.output_dir}")
-        accelerator.wait_for_everyone()
-        model = AutoModelForCTC.from_pretrained(args.output_dir, trust_remote_code=True)
-    else:
-        model = AutoModelForCTC.from_pretrained(args.model_dir, trust_remote_code=True)
+    model = AutoModelForCTC.from_pretrained(args.model_dir, trust_remote_code=True)
 
     if args.gradient_checkpointing:
         model.gradient_checkpointing_enable()

@@ -28,12 +28,16 @@ Gemma 4 audio encoder (USM-style conformer) as a frozen backbone.
 
 ## Key decisions
 
-**`__init__` does not download the upstream model.** The encoder is
-initialised from `Gemma4AudioConfig()` (random weights). Use
-`Gemma4ForCTC.from_gemma4_pretrained(config)` once to extract the encoder
-from the Gemma 4 multimodal checkpoint, then `save_pretrained`. After that,
-`from_pretrained` reloads from the saved checkpoint with no network
-dependency.
+**`__init__` downloads the upstream model by default.**  On first use it
+fetches the Gemma 4 multimodal checkpoint via `AutoModelForMultimodalLM`
+(accepts a Hub repo ID or a local path via `config.gemma4_audio_model_id`),
+extracts `model.audio_tower`, and discards the rest.
+
+**Saved checkpoints are self-contained.**  `from_pretrained` is overridden:
+if the target path is a local directory containing safetensors/pytorch_model
+files, `_skip_encoder_download=True` is passed to `__init__` so the upstream
+model is never fetched again.  The encoder weights come from the checkpoint
+instead.
 
 **`input_features_mask` alias.** `Gemma4AudioFeatureExtractor` outputs the
 mask under the key `input_features_mask`; `Gemma4AudioModel.forward` takes
@@ -57,15 +61,15 @@ Identity swap don't error.
 
 ## Training
 
-First run — extracts encoder from upstream checkpoint, saves to `output_dir`:
+First run — downloads Gemma 4 encoder, trains, saves self-contained checkpoint:
 ```
-accelerate launch train.py --init_from_gemma4 --output_dir ./run1 \
+accelerate launch train.py --model_dir ./gemma4-ctc --output_dir ./run1 \
     --dataset_name <name> --audio_column audio --text_column phonemes
 ```
 
-Subsequent runs — loads from saved checkpoint, no upstream dependency:
+Subsequent runs — reloads from saved checkpoint, no upstream dependency:
 ```
-accelerate launch train.py --output_dir ./run1 \
+accelerate launch train.py --model_dir ./run1 --output_dir ./run1 \
     --dataset_name <name> --audio_column audio --text_column phonemes
 ```
 

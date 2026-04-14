@@ -1,18 +1,3 @@
-Absolutely — now that we’ve identified the **correct ancestor draft lineage**, the outlines can be much sharper.
-
-What follows is the **Obsidian-first numbered outline structure**, optimized so you can later split cleanly into:
-
-* **LRE resource paper**
-* **SPL technical letter**
-* optional later journal extension
-
-I’ll start with the **shared master outline**, then show how it forks.
-
----
-
-# Master outline (Obsidian source)
-
-This is the **intellectual source tree**.
 
 ## 1. Scientific object
 

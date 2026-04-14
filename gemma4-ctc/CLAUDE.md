@@ -7,10 +7,10 @@ Gemma 4 audio encoder (USM-style conformer) as a frozen backbone.
 
 - **Encoder**: `Gemma4AudioModel` — 12-layer conformer, `hidden_size=1024`,
   4× temporal downsampling via two stride-2 conv layers.
-- **output_proj suppressed**: the upstream encoder projects 1024→1536 for LLM
-  use; we replace that with `nn.Identity()` to get raw conformer output.
+- **`output_proj` suppressed**: the upstream encoder projects 1024→1536 for
+  LLM use; we replace that with `nn.Identity()` to get raw conformer output.
 - **CTC head**: `nn.Linear(1024, 58)` — Swedish phoneme vocab, `<pad>`=0 as
-  the blank token.
+  the CTC blank token.
 
 ## Files
 
@@ -18,25 +18,25 @@ Gemma 4 audio encoder (USM-style conformer) as a frozen backbone.
 |------|---------|
 | `configuration_gemma4_ctc.py` | `Gemma4CTCConfig` |
 | `modeling_gemma4_ctc.py` | `Gemma4ForCTC`, `Gemma4CTCPreTrainedModel` |
+| `collator.py` | `DataCollatorCTCWithPadding` |
+| `train.py` | `accelerate`-based training script |
+| `test_gemma4_ctc.py` | Sanity-check script (run directly, not pytest) |
 | `config.json` | Repo config (vocab_size=58, hidden_size=1024) |
 | `vocab.json` | Swedish phoneme vocab, 58 tokens |
 | `tokenizer_config.json` | `Wav2Vec2CTCTokenizer`, `\|` as word delimiter |
 | `preprocessor_config.json` | `Gemma4AudioFeatureExtractor` defaults (16kHz, 128 mel, 20ms frame) |
-| `collator.py` | `DataCollatorCTCWithPadding` |
-| `train.py` | `accelerate`-based training script |
-| `test_gemma4_ctc.py` | Sanity-check script (run directly, not pytest) |
 
 ## Key decisions
 
-**`__init__` downloads the upstream model by default.**  On first use it
+**`__init__` downloads the upstream model by default.** On first use it
 fetches the Gemma 4 multimodal checkpoint via `AutoModelForMultimodalLM`
 (accepts a Hub repo ID or a local path via `config.gemma4_audio_model_id`),
 extracts `model.audio_tower`, and discards the rest.
 
-**Saved checkpoints are self-contained.**  `from_pretrained` is overridden:
+**Saved checkpoints are self-contained.** `from_pretrained` is overridden:
 if the target path is a local directory containing safetensors/pytorch_model
 files, `_skip_encoder_download=True` is passed to `__init__` so the upstream
-model is never fetched again.  The encoder weights come from the checkpoint
+model is never fetched again. The encoder weights come from the checkpoint
 instead.
 
 **`input_features_mask` alias.** `Gemma4AudioFeatureExtractor` outputs the
@@ -75,6 +75,9 @@ accelerate launch train.py --model_dir ./run1 --output_dir ./run1 \
 
 Encoder is **frozen by default**. Pass `--unfreeze_norms` to also train the
 12 `norm_out` layer norms.
+
+To use a local copy of the Gemma 4 checkpoint instead of downloading, set
+`gemma4_audio_model_id` in `config.json` to the local path.
 
 ## Vocab note
 

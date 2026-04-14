@@ -1,0 +1,79 @@
+# gemma4-ctc
+
+Standalone HuggingFace `trust_remote_code` repo for CTC-based ASR using the
+Gemma 4 audio encoder (USM-style conformer) as a frozen backbone.
+
+## Architecture
+
+- **Encoder**: `Gemma4AudioModel` — 12-layer conformer, `hidden_size=1024`,
+  4× temporal downsampling via two stride-2 conv layers.
+- **output_proj suppressed**: the upstream encoder projects 1024→1536 for LLM
+  use; we replace that with `nn.Identity()` to get raw conformer output.
+- **CTC head**: `nn.Linear(1024, 58)` — Swedish phoneme vocab, `<pad>`=0 as
+  the blank token.
+
+## Files
+
+| File | Purpose |
+|------|---------|
+| `configuration_gemma4_ctc.py` | `Gemma4CTCConfig` |
+| `modeling_gemma4_ctc.py` | `Gemma4ForCTC`, `Gemma4CTCPreTrainedModel` |
+| `config.json` | Repo config (vocab_size=58, hidden_size=1024) |
+| `vocab.json` | Swedish phoneme vocab, 58 tokens |
+| `tokenizer_config.json` | `Wav2Vec2CTCTokenizer`, `\|` as word delimiter |
+| `preprocessor_config.json` | `Gemma4AudioFeatureExtractor` defaults (16kHz, 128 mel, 20ms frame) |
+| `collator.py` | `DataCollatorCTCWithPadding` |
+| `train.py` | `accelerate`-based training script |
+| `test_gemma4_ctc.py` | Sanity-check script (run directly, not pytest) |
+
+## Key decisions
+
+**`__init__` does not download the upstream model.** The encoder is
+initialised from `Gemma4AudioConfig()` (random weights). Use
+`Gemma4ForCTC.from_gemma4_pretrained(config)` once to extract the encoder
+from the Gemma 4 multimodal checkpoint, then `save_pretrained`. After that,
+`from_pretrained` reloads from the saved checkpoint with no network
+dependency.
+
+**`input_features_mask` alias.** `Gemma4AudioFeatureExtractor` outputs the
+mask under the key `input_features_mask`; `Gemma4AudioModel.forward` takes
+`attention_mask`. The model's `forward` accepts both names so that
+`model(**batch)` works directly without renaming keys in the collator.
+
+**`output_proj` keys ignored on load.** `_keys_to_ignore_on_load_unexpected`
+covers `gemma4_audio_encoder.output_proj.*` so checkpoints saved before the
+Identity swap don't error.
+
+## Corrected facts (vs. original spec)
+
+- Conformer `hidden_size` is **1024**, not 1536. `output_proj_dims=1536` is
+  the projection target (suppressed here). LLM text `hidden_size` is 2304.
+- `Gemma4AudioModel.forward` mask arg is `attention_mask`, not
+  `input_features_mask`.
+- Forward returns `Gemma4AudioModelOutput` (dataclass); mask is at
+  `.attention_mask`, not a positional tuple element.
+- `norm_out` is per-layer (each of the 12 `Gemma4AudioLayer`s), not a single
+  final norm.
+
+## Training
+
+First run — extracts encoder from upstream checkpoint, saves to `output_dir`:
+```
+accelerate launch train.py --init_from_gemma4 --output_dir ./run1 \
+    --dataset_name <name> --audio_column audio --text_column phonemes
+```
+
+Subsequent runs — loads from saved checkpoint, no upstream dependency:
+```
+accelerate launch train.py --output_dir ./run1 \
+    --dataset_name <name> --audio_column audio --text_column phonemes
+```
+
+Encoder is **frozen by default**. Pass `--unfreeze_norms` to also train the
+12 `norm_out` layer norms.
+
+## Vocab note
+
+The empty-string token at id 4 in `vocab.json` is the word-internal
+silence/connector from the original fairseq training. Verify its role against
+the original `dict.ltr.txt` before using the tokenizer for decoding.

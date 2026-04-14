@@ -188,9 +188,23 @@
               "icon": "lucide-file",
               "title": "TSD strategy"
             }
+          },
+          {
+            "id": "b6d0793b8e29976b",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "2026-04-05.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "2026-04-05"
+            }
           }
         ],
-        "currentTab": 12
+        "currentTab": 13
       },
       {
         "id": "a8b92a944f5fcb73",
@@ -369,10 +383,12 @@
       "obsidian-importer:Open Importer": false
     }
   },
-  "active": "c26cc52fea57e8f5",
+  "active": "b6d0793b8e29976b",
   "lastOpenFiles": [
-    "LRE - Phonetic corpus/04 rules as acoustic hypotheses.md",
+    "eusipco journal list.md",
+    "2026-04-14.md",
     "TSD strategy.md",
+    "LRE - Phonetic corpus/04 rules as acoustic hypotheses.md",
     "LRE - Phonetic corpus/Master outline.md",
     "LRE - Phonetic corpus/02 Why transcripts are not enough.md",
     "LRE - Phonetic corpus/03 Parliamentary speech as a living substrate.md",
@@ -402,8 +418,6 @@
     "Apple Notes/2026-03-24 För efterfrågas gör fisk mycket nu, det märker vi ju här nere i fiskafärer….md",
     "Apple Notes/2026-03-24 sudo apt install --reinstall nvidia-driver-version.md",
     "Apple Notes/2026-03-23 Your analysis of the mode collapse is compelling and gets to the heart….md",
-    "Apple Notes/2026-03-22 https--ljud1-cdn.sr.se-lc-p3.m3u8.md",
-    "Apple Notes/2026-03-22 d4e3fef64e880b33a056d57f9ba17546bdf28032fbbceb4886f24dee183a397b.md",
     "2025-09-22 52624640855_e80a42baca_o.png",
     "2025-06-04 Attachment.png",
     "2025-05-29 459757307_1754348702040498_636700629624847119_n 4.jpg",

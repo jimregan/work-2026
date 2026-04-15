@@ -149,7 +149,15 @@ def target_path_for(index_path: Path, outdir: Path | None, book_id: str) -> Path
     if outdir is not None:
         outdir.mkdir(parents=True, exist_ok=True)
         return outdir / filename
-    return index_path.parent / filename
+
+    default_parent = index_path.parent
+    if "index" in index_path.parts:
+        parts = list(index_path.parent.parts)
+        parts[parts.index("index")] = "text"
+        default_parent = Path(*parts)
+        default_parent.mkdir(parents=True, exist_ok=True)
+
+    return default_parent / filename
 
 
 def download_book_html(

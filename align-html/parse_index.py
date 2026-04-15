@@ -1,87 +1,113 @@
 """
 parse_index.py
-Parses a downloaded LibriVox HTML index page and extracts chapter/section
-text URLs, writing a YAML config stub for the book.
+Parses a downloaded LibriVox HTML index page and extracts chapter metadata plus
+the most relevant online-text links, writing a YAML config stub for the book.
 
 Usage:
     python parse_index.py --html path/to/index.html --out book_config.yaml
 """
 
+from __future__ import annotations
+
+import argparse
 import re
 import sys
-import argparse
 from pathlib import Path
+from urllib.parse import urljoin
 
 import yaml
 from bs4 import BeautifulSoup
 
 
-# ── Heuristics for finding "read the text" links ─────────────────────────────
-
 TEXT_HOSTS = re.compile(
-    r"(gutenberg\.org|wikisource\.org|archive\.org|en\.wikisource|"
-    r"standardebooks\.org|fadedpage\.com)",
-    re.I,
-)
-
-CHAPTER_PATTERNS = re.compile(
-    r"(chapter|section|part|book|canto|stanza|scene)\s*[\divxlc]+",
+    r"(gutenberg\.org|wikisource\.org|standardebooks\.org|fadedpage\.com)",
     re.I,
 )
 
 
-def extract_text_links(soup: BeautifulSoup) -> list[dict]:
-    """Return a list of {label, url} dicts for plausible text source links."""
+def normalise_space(value: str) -> str:
+    return re.sub(r"\s+", " ", value).strip()
+
+
+def page_title(soup: BeautifulSoup, html_path: Path) -> str:
+    for selector in (".page.book-page h1", ".book-page h1", "h1", "title"):
+        node = soup.select_one(selector)
+        if not node:
+            continue
+        text = normalise_space(node.get_text(" ", strip=True))
+        if text and text.lower() != "librivox":
+            return text
+    return html_path.stem
+
+
+def extract_text_links(soup: BeautifulSoup, html_path: Path) -> list[dict]:
+    """Return top-level online text links, not generic external links."""
     links = []
     seen = set()
-    for a in soup.find_all("a", href=True):
-        href = a["href"].strip()
-        text = a.get_text(strip=True)
+
+    sidebar = soup.select_one(".book-page-sidebar")
+    candidates = sidebar.find_all("a", href=True) if sidebar else soup.find_all("a", href=True)
+
+    for anchor in candidates:
+        href = urljoin(html_path.as_uri(), anchor["href"].strip())
+        label = normalise_space(anchor.get_text(" ", strip=True))
+        label_lower = label.lower()
+
         if href in seen:
             continue
-        if TEXT_HOSTS.search(href):
-            seen.add(href)
-            links.append({"label": text or href, "url": href})
+        if not TEXT_HOSTS.search(href):
+            continue
+        if "online text" not in label_lower and "project gutenberg" not in label_lower and "read" not in label_lower:
+            continue
+
+        seen.add(href)
+        links.append({"label": label or href, "url": href})
+
     return links
 
 
 def extract_chapters(soup: BeautifulSoup) -> list[dict]:
     """
-    Try to find a chapter/section listing with per-chapter audio + text links.
-    Returns list of {chapter, audio_file, text_url} stubs.
+    Extract chapters from the LibriVox chapter table.
+    Returns list of {chapter, audio_file, text_url, whisperx_json}.
     """
+    table = soup.select_one("table.chapter-download")
+    if not table:
+        return []
+
     chapters = []
-    # LibriVox index pages often have a table or list with chapter info
-    for row in soup.select("table tr, ul li, ol li"):
-        cells = row.find_all(["td", "th"])
-        text_nodes = cells if cells else [row]
+    rows = table.select("tbody tr") or table.select("tr")
+    for row in rows:
+        cells = row.find_all("td", recursive=False) or row.find_all("td")
+        if len(cells) < 2:
+            continue
 
-        label = ""
-        audio_url = ""
-        text_url = ""
+        section_text = normalise_space(cells[0].get_text(" ", strip=True))
+        chapter_cell = cells[1]
+        chapter_text = normalise_space(chapter_cell.get_text(" ", strip=True))
+        audio_anchor = cells[0].find("a", href=True)
 
-        for node in text_nodes:
-            node_text = node.get_text(" ", strip=True)
-            if CHAPTER_PATTERNS.search(node_text) and not label:
-                label = node_text[:80]
-            for a in node.find_all("a", href=True):
-                href = a["href"]
-                if href.endswith(".mp3") or "archive.org/download" in href:
-                    if not audio_url:
-                        audio_url = href
-                elif TEXT_HOSTS.search(href):
-                    if not text_url:
-                        text_url = href
+        if not chapter_text:
+            continue
 
-        if label or audio_url or text_url:
-            chapters.append(
-                {
-                    "chapter": label or f"chapter_{len(chapters)+1}",
-                    "audio_file": audio_url or "FILL_IN.mp3",
-                    "text_url": text_url or "FILL_IN",
-                    "whisperx_json": "FILL_IN.json",
-                }
-            )
+        section_match = re.search(r"\b(\d+[A-Za-z]?(?:-\d+[A-Za-z]?)?)\b\s*$", section_text)
+        section = section_match.group(1) if section_match else None
+        chapter_label = chapter_text
+        if section and not chapter_text.lower().startswith(("chapter", "chapters", "section", "part", "book")):
+            chapter_label = f"{section}: {chapter_text}"
+
+        audio_url = audio_anchor["href"].strip() if audio_anchor else "FILL_IN.mp3"
+        if audio_url and not audio_url.startswith(("http://", "https://")):
+            audio_url = urljoin("https://archive.org/", audio_url)
+
+        chapters.append(
+            {
+                "chapter": chapter_label,
+                "audio_file": audio_url or "FILL_IN.mp3",
+                "text_url": "FILL_IN",
+                "whisperx_json": "FILL_IN.json",
+            }
+        )
 
     return chapters
 
@@ -89,26 +115,22 @@ def extract_chapters(soup: BeautifulSoup) -> list[dict]:
 def parse_index(html_path: Path) -> dict:
     soup = BeautifulSoup(html_path.read_text(encoding="utf-8", errors="replace"), "lxml")
 
-    title_tag = soup.find("h1") or soup.find("title")
-    title = title_tag.get_text(strip=True) if title_tag else html_path.stem
-
-    top_links = extract_text_links(soup)
+    top_links = extract_text_links(soup, html_path)
     chapters = extract_chapters(soup)
 
+    if not chapters:
+        chapters = [{
+            "chapter": "chapter_1",
+            "audio_file": "FILL_IN.mp3",
+            "whisperx_json": "FILL_IN.json",
+            "text_url": top_links[0]["url"] if top_links else "FILL_IN",
+        }]
+
     return {
-        "title": title,
+        "title": page_title(soup, html_path),
         "source_html": str(html_path),
-        # Top-level text source links found on the page
         "text_source_links": top_links,
-        # Per-chapter mapping stubs (edit as needed)
-        "chapters": chapters if chapters else [
-            {
-                "chapter": "chapter_1",
-                "audio_file": "FILL_IN.mp3",
-                "whisperx_json": "FILL_IN.json",
-                "text_url": top_links[0]["url"] if top_links else "FILL_IN",
-            }
-        ],
+        "chapters": chapters,
     }
 
 

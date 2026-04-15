@@ -60,15 +60,26 @@ import string
 import sys
 from pathlib import Path
 
-from align_whisper_ref import (
-    smith_waterman_alignment,
-    load_hyp,
-    read_ref_tsv_sentences,
-    read_ref_numbered,
-    build_flat_ref,
-    normalize_word,
-    _make_align_arrays,
-)
+try:
+    from .align_whisper_ref import (
+        smith_waterman_alignment,
+        load_hyp,
+        read_ref_tsv_sentences,
+        read_ref_numbered,
+        build_flat_ref,
+        normalize_word,
+        _make_align_arrays,
+    )
+except ImportError:
+    from align_whisper_ref import (
+        smith_waterman_alignment,
+        load_hyp,
+        read_ref_tsv_sentences,
+        read_ref_numbered,
+        build_flat_ref,
+        normalize_word,
+        _make_align_arrays,
+    )
 
 logger = logging.getLogger(__name__)
 _handler = logging.StreamHandler()
@@ -182,6 +193,7 @@ def collect_sentence_data(alignment_output, ctm_array, original_ref,
     """
     n = len(sentence_list)
     sentences = [{"ref_words": sentence_list[i], "asr_words": [],
+                  "asr_word_details": [],
                   "start": None, "end": None, "cor": 0, "total": 0,
                   "normalizations": []}
                  for i in range(n)]
@@ -210,6 +222,11 @@ def collect_sentence_data(alignment_output, ctm_array, original_ref,
             if word == eps_symbol:
                 continue
             sent["asr_words"].append(word)
+            sent["asr_word_details"].append({
+                "word": word,
+                "start": start,
+                "end": start + duration,
+            })
             if sent["start"] is None:
                 sent["start"] = start
             sent["end"] = start + duration
@@ -270,6 +287,26 @@ def score_and_collect_words_by_sentence(alignment_output, word_list,
 def format_sentence(file_id, sent_num, sent_data,
                      speaker=None, gender=None, validator=None,
                      secondary_threshold=1.0, score2=None):
+    return json.dumps(
+        build_sentence_object(
+            file_id,
+            sent_num,
+            sent_data,
+            speaker=speaker,
+            gender=gender,
+            validator=validator,
+            secondary_threshold=secondary_threshold,
+            score2=score2,
+            include_word_details=False,
+        ),
+        ensure_ascii=False,
+    )
+
+
+def build_sentence_object(file_id, sent_num, sent_data,
+                          speaker=None, gender=None, validator=None,
+                          secondary_threshold=1.0, score2=None,
+                          include_word_details=False):
     obj = {
         "id": f"{file_id}_{sent_num}",
         "reference": " ".join(sent_data["ref_words"]),
@@ -277,6 +314,8 @@ def format_sentence(file_id, sent_num, sent_data,
         "start": sent_data["start"],
         "end": sent_data["end"],
     }
+    if include_word_details:
+        obj["asr_word_details"] = sent_data.get("asr_word_details", [])
     if speaker is not None:
         obj["speaker"] = speaker
     if gender is not None:
@@ -289,7 +328,7 @@ def format_sentence(file_id, sent_num, sent_data,
     norms = [n for n in sent_data.get("normalizations", []) if n["type"] != "ASR-error"]
     if norms:
         obj["normalizations"] = norms
-    return json.dumps(obj, ensure_ascii=False)
+    return obj
 
 
 def write_normalizations(path, existing_map, new_norms):
@@ -379,6 +418,113 @@ def _do_align(align_ref, align_hyp, correct_score, sub_penalty,
         align_full_hyp=align_full_hyp)
 
 
+def align_file_to_sentences(
+    hyp_path,
+    sentence_list,
+    sentence_nums,
+    *,
+    hyp_format="auto",
+    hyp2_path=None,
+    hyp2_format="auto",
+    speaker=None,
+    gender=None,
+    validator=None,
+    secondary_threshold=1.0,
+    normalizations_path=None,
+    eps_symbol="<eps>",
+    correct_score=1,
+    substitution_penalty=1,
+    deletion_penalty=1,
+    insertion_penalty=1,
+    align_full_hyp=True,
+    normalize=True,
+    include_word_details=False,
+):
+    norm_map = load_normalizations(normalizations_path) if normalizations_path else {}
+
+    file_id, ctm_array = load_hyp(hyp_path, hyp_format)
+    if not ctm_array:
+        raise RuntimeError(f"No words in hypothesis for '{file_id}'")
+
+    original_ref, sentence_indices = build_flat_ref(sentence_list)
+    hyp1_words = [row[2] for row in ctm_array]
+
+    align_ref = _make_align_arrays(original_ref, normalize)
+    align_hyp1 = _make_align_arrays(hyp1_words, normalize)
+    align_hyp1, hyp1_words, ctm_array, fired1 = apply_normalizations(
+        align_hyp1, hyp1_words, ctm_array, norm_map)
+
+    alignment1, _ = _do_align(
+        align_ref,
+        align_hyp1,
+        correct_score,
+        substitution_penalty,
+        -deletion_penalty,
+        -insertion_penalty,
+        eps_symbol,
+        align_full_hyp,
+    )
+
+    sentences, new_norms = collect_sentence_data(
+        alignment1,
+        ctm_array,
+        original_ref,
+        sentence_indices,
+        sentence_list,
+        norm_map=norm_map,
+        fired_positions=fired1,
+        eps_symbol=eps_symbol,
+    )
+
+    scores2 = [None] * len(sentence_list)
+    if hyp2_path:
+        _, ctm2 = load_hyp(hyp2_path, hyp2_format)
+        hyp2_words = [row[2] for row in ctm2]
+        align_hyp2 = _make_align_arrays(hyp2_words, normalize)
+        align_hyp2, hyp2_words, ctm2, _fired2 = apply_normalizations(
+            align_hyp2, hyp2_words, ctm2, norm_map)
+
+        alignment2, _ = _do_align(
+            align_ref,
+            align_hyp2,
+            correct_score,
+            substitution_penalty,
+            -deletion_penalty,
+            -insertion_penalty,
+            eps_symbol,
+            align_full_hyp,
+        )
+
+        scored1 = score_and_collect_words_by_sentence(
+            alignment1, hyp1_words, sentence_indices, len(sentence_list), eps_symbol)
+        scored2 = score_and_collect_words_by_sentence(
+            alignment2, hyp2_words, sentence_indices, len(sentence_list), eps_symbol)
+
+        for i, sent in enumerate(sentences):
+            words2, s2 = scored2[i]
+            _words1, s1 = scored1[i]
+            scores2[i] = s2
+            if s2 > s1:
+                logger.debug("Sentence %s: hyp2 wins (%.2f > %.2f)",
+                             sentence_nums[i], s2, s1)
+                sent["asr_words"] = words2
+
+    return file_id, [
+        build_sentence_object(
+            file_id,
+            sentence_nums[i],
+            sent_data,
+            speaker=speaker,
+            gender=gender,
+            validator=validator,
+            secondary_threshold=secondary_threshold,
+            score2=scores2[i],
+            include_word_details=include_word_details,
+        )
+        for i, sent_data in enumerate(sentences)
+    ], new_norms
+
+
 def run(args):
     if args.verbose > 0:
         _handler.setLevel(logging.DEBUG)
@@ -410,46 +556,17 @@ def run(args):
     num_done = num_err = 0
     try:
         for hyp_path in hyp_files:
-            file_id, ctm_array = load_hyp(hyp_path, args.hyp_format)
-
             if args.ref_format == "numbered":
                 sentence_list = sentence_list_for[None]
                 sentence_nums = sentence_nums_for[None]
             else:
+                file_id = Path(hyp_path).stem
                 if file_id not in sentence_list_for:
                     logger.warning("ID '%s' not found in reference; skipping", file_id)
                     num_err += 1
                     continue
                 sentence_list = sentence_list_for[file_id]
                 sentence_nums = sentence_nums_for[file_id]
-
-            if not ctm_array:
-                logger.warning("No words in hypothesis for '%s'; skipping", file_id)
-                num_err += 1
-                continue
-
-            original_ref, sentence_indices = build_flat_ref(sentence_list)
-            hyp1_words = [row[2] for row in ctm_array]
-
-            align_ref = _make_align_arrays(original_ref, args.normalize)
-            align_hyp1 = _make_align_arrays(hyp1_words, args.normalize)
-            align_hyp1, hyp1_words, ctm_array, fired1 = apply_normalizations(
-                align_hyp1, hyp1_words, ctm_array, norm_map)
-
-            logger.info("Aligning %s: %d hyp words, %d ref words across %d sentences",
-                        file_id, len(hyp1_words), len(original_ref), len(sentence_list))
-
-            alignment1, _ = _do_align(align_ref, align_hyp1,
-                                       args.correct_score, args.substitution_penalty,
-                                       -args.deletion_penalty, -args.insertion_penalty,
-                                       args.eps_symbol, args.align_full_hyp)
-
-            sentences, new_norms = collect_sentence_data(
-                alignment1, ctm_array, original_ref, sentence_indices, sentence_list,
-                norm_map=norm_map, fired_positions=fired1, eps_symbol=args.eps_symbol)
-            all_new_norms.update(new_norms)
-
-            scores2 = [None] * len(sentence_list)
 
             if args.hyp2:
                 hyp2_path = args.hyp2
@@ -461,42 +578,35 @@ def run(args):
             else:
                 hyp2_path = None
 
-            if hyp2_path:
-                _, ctm2 = load_hyp(hyp2_path, args.hyp2_format)
-                hyp2_words = [row[2] for row in ctm2]
-                align_hyp2 = _make_align_arrays(hyp2_words, args.normalize)
-                align_hyp2, hyp2_words, ctm2, _fired2 = apply_normalizations(
-                    align_hyp2, hyp2_words, ctm2, norm_map)
-
-                alignment2, _ = _do_align(align_ref, align_hyp2,
-                                           args.correct_score, args.substitution_penalty,
-                                           -args.deletion_penalty, -args.insertion_penalty,
-                                           args.eps_symbol, args.align_full_hyp)
-
-                scored1 = score_and_collect_words_by_sentence(
-                    alignment1, hyp1_words, sentence_indices,
-                    len(sentence_list), args.eps_symbol)
-                scored2 = score_and_collect_words_by_sentence(
-                    alignment2, hyp2_words, sentence_indices,
-                    len(sentence_list), args.eps_symbol)
-
-                for i, sent in enumerate(sentences):
-                    words2, s2 = scored2[i]
-                    _words1, s1 = scored1[i]
-                    scores2[i] = s2
-                    if s2 > s1:
-                        logger.debug("Sentence %s: hyp2 wins (%.2f > %.2f)",
-                                     sentence_nums[i], s2, s1)
-                        sent["asr_words"] = words2
-
-            for i, sent_data in enumerate(sentences):
-                print(format_sentence(
-                    file_id, sentence_nums[i], sent_data,
-                    speaker=args.speaker, gender=args.gender,
+            try:
+                file_id, sentence_objects, new_norms = align_file_to_sentences(
+                    hyp_path,
+                    sentence_list,
+                    sentence_nums,
+                    hyp_format=args.hyp_format,
+                    hyp2_path=hyp2_path,
+                    hyp2_format=args.hyp2_format,
+                    speaker=args.speaker,
+                    gender=args.gender,
                     validator=args.secondary_validator,
                     secondary_threshold=args.secondary_threshold,
-                    score2=scores2[i]),
-                    file=out)
+                    normalizations_path=args.normalizations,
+                    eps_symbol=args.eps_symbol,
+                    correct_score=args.correct_score,
+                    substitution_penalty=args.substitution_penalty,
+                    deletion_penalty=args.deletion_penalty,
+                    insertion_penalty=args.insertion_penalty,
+                    align_full_hyp=args.align_full_hyp,
+                    normalize=args.normalize,
+                )
+                all_new_norms.update(new_norms)
+            except Exception:
+                logger.warning("Alignment failed for '%s'", hyp_path, exc_info=True)
+                num_err += 1
+                continue
+
+            for obj in sentence_objects:
+                print(json.dumps(obj, ensure_ascii=False), file=out)
 
             num_done += 1
     finally:

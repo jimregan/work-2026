@@ -1,8 +1,13 @@
 
-### Claims
+Both:
+- modern ASR
+- official parliamentary transcripts
 
-* modern ASR optimizes for lexical correctness
-* official parliamentary transcripts optimize for legislative record
-* both suppress speech-scientific detail
-* fillers, hesitations, reductions, false starts, segmental variation are lost
-* speech science needs **how**, not just **what**
+optimize for **lexical content**, but suppress:
+- reductions
+- hesitations 
+- fillers
+- false starts
+- breathing and vocal events
+- socially meaningful pronunciation variants
+- temporal fine structure

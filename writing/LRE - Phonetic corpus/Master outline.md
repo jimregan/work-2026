@@ -1,277 +1,408 @@
 
-## 1. Scientific object
+Absolutely — here’s the **clean, current LRE-first master outline**, updated to include the **Lidingö /iː/ sociophonetic pilot** and your **living-resource architecture**.
 
-This is the root note.
+This is the version I’d recommend putting directly into **Obsidian as numbered section notes**.
+
+---
+
+# Master source outline (Obsidian → LRE)
+
+This is the **source tree** from which the LRE paper is assembled.
+
+## 1. Scientific object
 
 ### Core claim
 
-A continuously growing phonetic infrastructure over Swedish parliamentary speech that supports:
+A continuously growing phonetic infrastructure over **60 years of Swedish parliamentary speech**, supporting:
 
-* acoustic phonetic annotation
-* pronunciation lexicon induction
-* phonological rule validation
-* longitudinal vowel measurement
-* future sitting-by-sitting expansion
+- phone-aligned corpus layers
+    
+- acoustically validated pronunciation variants
+    
+- phonological rule testing
+    
+- longitudinal sociophonetics
+    
+- automatic expansion after each parliamentary sitting
+    
 
-This note should define:
+### Enduring artifact
 
-> what the enduring artifact is
+The enduring contribution is:
 
-Everything else derives from this.
+> a **living phonetic corpus and pronunciation lexicon ecosystem**
+
+This is the root note.
 
 ---
 
 ## 2. Why transcripts are not enough
 
-This comes directly from the good ancestor draft.
+This is the main motivation note.
 
-### Claims
+### Core argument
 
-* modern ASR optimizes for lexical correctness
-* official parliamentary transcripts optimize for legislative record
-* both suppress speech-scientific detail
-* fillers, hesitations, reductions, false starts, segmental variation are lost
-* speech science needs **how**, not just **what**
+Both:
 
-This is your **best motivation note**.
+- modern ASR
+    
+- official parliamentary transcripts
+    
 
-Reusable in both papers.
+optimize for **lexical content**, but suppress:
+
+- reductions
+    
+- hesitations
+    
+- fillers
+    
+- false starts
+    
+- breathing and vocal events
+    
+- socially meaningful pronunciation variants
+    
+- temporal fine structure
+    
+
+### Key sentence
+
+Speech science requires **how it was said**, not only **what was said**.
+
+This is highly reusable.
 
 ---
 
 ## 3. Parliamentary speech as a living substrate
 
-This is the corpus motivation note.
+This is the corpus-resource note.
 
-### Key points
+### Key strengths
 
-* 60 years of recordings
-* stable institutional recording setup
-* consistent metadata
-* repeated speakers
-* regional diversity
-* formal + reactive speech mixture
-* new sittings extend the corpus naturally
+- 60 years of recordings
+    
+- stable institutional recording conditions
+    
+- speaker identity and metadata
+    
+- constituency / geographic linkage
+    
+- repeated speakers across years
+    
+- formal register + spontaneous floor reactions
+    
+- every new sitting extends the corpus
+    
 
-This is mainly for LRE.
+This note feeds the corpus description and sustainability sections.
 
 ---
 
 ## 4. Core mechanism: rules as acoustic hypotheses
 
-This is the **central bridge note**.
+This is the central technical bridge.
 
-### Main logic
+### Pipeline logic
 
-1. citation lexicon gives canonical forms
-2. phonological rules generate plausible variants
-3. phonemic recognizer / CTC posterior lattice supplies evidence
-4. acoustics validate or reject variants
-5. surviving variants enter the living lexicon
+1. canonical citation lexicon
+    
+2. phonological rule expansion
+    
+3. phonemic / CTC recognition lattice
+    
+4. acoustic validation of rule-generated variants
+    
+5. validated forms enter the living lexicon
+    
+6. rejected variants inform rule refinement
+    
 
-This note is the **highest-value prose asset**.
+### Core scientific sentence
 
-It feeds both:
+Phonological rules become **acoustically testable lexical hypotheses**.
 
-* SPL method
-* LRE derived resource
+This is the highest-value shared section.
 
 ---
 
 ## 5. Swedish phonemic supervision lineage
 
-This is the Waxholm/TIMIT note.
+This is the methodological background note.
 
 ### Include
 
-* Waxholm corpus
-* phoneme-level supervision
-* Swedish TIMIT analogue
-* phonetically rich sentences
-* spoken noise annotations
-* fillers and hesitations
+- Waxholm corpus
+    
+- Swedish phoneme-level supervision
+    
+- Swedish TIMIT analogue
+    
+- fillers and speech-noise labels
+    
+- phonetically rich sentence coverage
+    
+- legacy phonetic corpus tradition
+    
 
-This is mainly:
-
-* SPL background
-* methodological credibility
+This gives strong historical grounding.
 
 ---
 
-## 6. Derived resource: living pronunciation lexicon
+## 6. Released resource layers
 
-This is the strongest LRE-derived resource note.
+This is the main LRE contribution note.
 
-### Include
+## 6.1 Phone-aligned corpus layer
 
-* citation forms
-* acoustically attested variants
-* rule-supported variants
-* confidence scores
-* timestamped evidence
-* decade-level variant tracking
-* release format
+- phones
+    
+- words
+    
+- fillers
+    
+- hesitations
+    
+- false starts
+    
+- timestamps
+    
+- speaker IDs
+    
 
-This may later become its own section or even separate paper.
+## 6.2 Living pronunciation lexicon
+
+- lemma
+    
+- canonical form
+    
+- validated variants
+    
+- phonological-rule provenance
+    
+- token frequency
+    
+- year-by-year change
+    
+- speaker metadata
+    
+
+## 6.3 Rule inventory
+
+- productive alternations
+    
+- confidence
+    
+- validation evidence
+    
+- temporal productivity
+    
+
+This section should make the resource feel _multi-layered and reusable_.
 
 ---
 
-## 7. Longitudinal vowel measurement
+## 7. Use cases
 
-This is the corpus-phonetics bridge.
+This section demonstrates why the resource matters.
 
-### Include
+---
 
-* automatic vowel extraction
-* formants
-* duration
-* F0
-* speech-rate conditioned reduction
-* diachronic movement
-* institutional sound change
-* repeated political figures
+## 7.1 Pronunciation lexicon growth across decades
 
-This is very strong for LRE and future phonetics papers.
+### Demonstration
+
+Track:
+
+- reduced forms
+    
+- citation vs attested forms
+    
+- rule productivity changes
+    
+- speech-rate conditioned variants
+    
+- lexical diffusion
+    
+
+This validates the living-lexicon story.
+
+---
+
+## 7.2 Longitudinal sociophonetic pilot: emergence of the Lidingö /iː/
+
+This is now the flagship linguistic demo.
+
+### Scientific goal
+
+Recover the historically known rise of the **Lidingö /iː/** in Stockholm speech.
+
+### Data selection
+
+- Stockholm speakers
+    
+- nearby control constituencies
+    
+- repeated speakers
+    
+- known decades of diffusion
+    
+- stressed /iː/ tokens
+    
+
+### Acoustic measures
+
+- F1
+    
+- F2
+    
+- duration
+    
+- trajectory if possible
+    
+- speaker normalization
+    
+
+### Validation claim
+
+The corpus recovers a **known Swedish sound change in progress**.
+
+This is a very strong LRE use case.
 
 ---
 
 ## 8. Continuous expansion pipeline
 
-This is the “living corpus” infrastructure note.
+This is the sustainability and maintenance note.
 
 ### Loop
 
-new sitting
-→ ingest
-→ phonemic decode
-→ rule expansion
-→ acoustic validation
-→ lexicon update
+new sitting  
+→ ingest  
+→ phonemic decode  
+→ rule expansion  
+→ acoustic validation  
+→ lexicon update  
 → yearly release
 
-This is your **LRE sustainability section**.
+This is one of your clearest novelty claims.
+
+Most corpora are static.  
+Yours is explicitly **living infrastructure**.
 
 ---
 
 ## 9. Future backend migration
 
-This is your technical future-proofing note.
+This is the extensibility note.
 
 ### Include
 
-* wav2vec2 → Gemma 4 CTC migration
-* short-segment temporal precision
-* deletion and lenition sensitivity
-* encoder-agnostic validation loop
+- wav2vec2 → Gemma 4 CTC
+    
+- improved short-segment precision
+    
+- better vowel boundary stability
+    
+- backend model agnosticism
+    
+- portability of validation loop
+    
 
-This feeds:
-
-* SPL future work
-* later TASLP
+This strengthens the sustainability argument.
 
 ---
 
-# Fork 1: LRE paper outline
+# Direct LRE assembly outline
 
-This pulls from the master notes.
+When ready to assemble into manuscript form:
 
-## 1. Introduction
+## 1 Introduction
 
 Use notes:
 
-* 1
-* 2
-* 3
+- 1
+    
+- 2
+    
+- 3
+    
 
-## 2. Related work
-
-Use:
-
-* 5
-* 7
-* classic corpus phonetics refs
-
-## 3. Corpus lifecycle and annotation
+## 2 Related work
 
 Use:
 
-* 3
-* 8
+- 5
+    
+- pronunciation lexicon refs
+    
+- sociophonetics refs
+    
 
-## 4. Phonetic validation infrastructure
-
-Use:
-
-* 4
-* short version of 5
-
-## 5. Derived pronunciation lexicon
+## 3 Corpus and lifecycle
 
 Use:
 
-* 6
+- 3
+    
+- 8
+    
 
-## 6. Longitudinal phonetic use case
-
-Use:
-
-* 7
-
-## 7. Sustainability and future releases
+## 4 Annotation and validation pipeline
 
 Use:
 
-* 8
-* 9
+- 4
+    
+- 5
+    
 
----
-
-# Fork 2: SPL paper outline
-
-This must stay very tight.
-
-## 1. Introduction
+## 5 Released resource layers
 
 Use:
 
-* 2
-* short version of 4
+- 6
+    
 
-## 2. Method
+## 6 Evaluation
+
+manual lexicon validation + decade robustness
+
+## 7 Use cases
 
 Use:
 
-* 4
-* 5
+- 7.1
+    
+- 7.2
+    
 
-## 3. Pilot experiment
+## 8 Sustainability and future releases
 
-citation only
-vs
+Use:
 
-* rules
-  vs
-* acoustic validation
-
-## 4. Discussion
-
-living lexicon implications
-
-## 5. Conclusion
-
-rule-expanded hypotheses improve acoustic validation
+- 8
+    
+- 9
+    
 
 ---
 
 # My strongest recommendation
 
-The **first three notes to write in full prose** should be:
+The **first three notes to expand in prose** should still be:
 
 1. **Scientific object**
+    
 2. **Why transcripts are not enough**
+    
 3. **Core mechanism: rules as acoustic hypotheses**
+    
 
-Those three notes together already define the entire paper family.
+Those three define the whole paper.
 
-Once they exist, the rest becomes controlled expansion rather than discovery.
+Then jump straight to:
 
+> **7.2 Lidingö /iː/**
+
+because that use case will keep the whole paper scientifically grounded instead of drifting into pure infrastructure.

@@ -99,13 +99,17 @@ def extract_chapters(soup: BeautifulSoup) -> list[dict]:
         audio_url = audio_anchor["href"].strip() if audio_anchor else "FILL_IN.mp3"
         if audio_url and not audio_url.startswith(("http://", "https://")):
             audio_url = urljoin("https://archive.org/", audio_url)
+        whisperx_json = "FILL_IN.json"
+        if audio_url and audio_url != "FILL_IN.mp3":
+            audio_stem = Path(audio_url).stem
+            whisperx_json = f"{audio_stem}.json"
 
         chapters.append(
             {
                 "chapter": chapter_label,
                 "audio_file": audio_url or "FILL_IN.mp3",
                 "text_url": "FILL_IN",
-                "whisperx_json": "FILL_IN.json",
+                "whisperx_json": whisperx_json,
             }
         )
 
@@ -117,14 +121,18 @@ def parse_index(html_path: Path) -> dict:
 
     top_links = extract_text_links(soup, html_path)
     chapters = extract_chapters(soup)
+    shared_text_url = top_links[0]["url"] if top_links else "FILL_IN"
 
     if not chapters:
         chapters = [{
             "chapter": "chapter_1",
             "audio_file": "FILL_IN.mp3",
             "whisperx_json": "FILL_IN.json",
-            "text_url": top_links[0]["url"] if top_links else "FILL_IN",
+            "text_url": shared_text_url,
         }]
+    else:
+        for chapter in chapters:
+            chapter["text_url"] = shared_text_url
 
     return {
         "title": page_title(soup, html_path),

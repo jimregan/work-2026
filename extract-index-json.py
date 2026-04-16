@@ -119,6 +119,29 @@ def row_cells(row: Tag) -> list[Tag]:
     return row.find_all(["th", "td"], recursive=False) or row.find_all(["th", "td"])
 
 
+def extract_reader_id(href: str | None) -> str | None:
+    if not href:
+        return None
+    match = re.search(r"/reader/(\d+)\b", href)
+    if match:
+        return match.group(1)
+    match = re.search(r"peopleid=(\d+)\b", href)
+    if match:
+        return match.group(1)
+    return None
+
+
+def extract_reader_from_cell(cell: Tag | None, fallback_text: str | None = None) -> tuple[str | None, str | None]:
+    if not cell:
+        return fallback_text, None
+    anchor = cell.find("a", href=True)
+    if anchor:
+        reader_name = normalise_space(anchor.get_text(" ", strip=True)) or fallback_text
+        reader_id = extract_reader_id(anchor["href"].strip())
+        return reader_name, reader_id
+    return fallback_text, None
+
+
 def chapter_headers(table: Tag) -> tuple[list[str], list[Tag]]:
     rows = table.find_all("tr")
     if not rows:
@@ -137,18 +160,26 @@ def chapter_entry_from_cells(cells: list[Tag], headers: list[str]) -> dict[str, 
 
     if headers and len(headers) == len(values):
         mapping = dict(zip(headers, values))
+        reader_index = headers.index("reader") if "reader" in headers else None
+        reader_name, reader_id = extract_reader_from_cell(
+            cells[reader_index] if reader_index is not None else None,
+            mapping.get("reader"),
+        )
         return {
             "section": extract_section_value(mapping.get("section")),
             "chapter": mapping.get("chapter") or mapping.get("title"),
-            "reader": mapping.get("reader"),
+            "reader": reader_name,
+            "reader_id": reader_id,
             "time": mapping.get("time") or mapping.get("duration"),
         }
 
     padded = values + [None] * (4 - len(values))
+    reader_name, reader_id = extract_reader_from_cell(cells[2] if len(cells) > 2 else None, padded[2])
     return {
         "section": extract_section_value(padded[0]),
         "chapter": padded[1] if len(values) > 1 else padded[0],
-        "reader": padded[2] if len(values) > 2 else None,
+        "reader": reader_name,
+        "reader_id": reader_id,
         "time": padded[3] if len(values) > 3 else None,
     }
 
@@ -210,6 +241,7 @@ def extract_cast_details(soup: BeautifulSoup, page_path: Path) -> list[dict[str,
                 {
                     "character": character,
                     "reader_name": reader_name,
+                    "reader_id": extract_reader_id(match.group(2).strip()),
                     "reader_link": reader_link,
                 }
             )

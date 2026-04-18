@@ -1,35 +1,44 @@
-"""Sanity check for Gemma4ForCTC loaded via trust_remote_code."""
+"""Sanity checks for Gemma4ForCTC loaded as a remote-code model repo."""
 
+import importlib.util
+from pathlib import Path
+
+import pytest
 import torch
-from transformers import AutoConfig, AutoModelForCTC
+from transformers import AutoConfig
+from transformers.dynamic_module_utils import get_class_from_dynamic_module
 
-config = AutoConfig.from_pretrained("./gemma4-ctc", trust_remote_code=True)
-model = AutoModelForCTC.from_pretrained("./gemma4-ctc", trust_remote_code=True)
 
-assert type(model.gemma4_audio_encoder.output_proj).__name__ == "Identity", (
-    f"output_proj should be Identity, got {type(model.gemma4_audio_encoder.output_proj)}"
+MODEL_DIR = Path(__file__).resolve().parent
+
+
+pytestmark = pytest.mark.skipif(
+    importlib.util.find_spec("transformers.models.gemma4") is None,
+    reason="Gemma 4 support requires a newer transformers build",
 )
 
-assert model.lm_head.in_features == 1024, (
-    f"lm_head.in_features should be 1024, got {model.lm_head.in_features}"
-)
 
-batch, time, n_mels = 2, 400, 128
-input_features = torch.zeros(batch, time, n_mels, dtype=torch.bfloat16)
-attention_mask = torch.ones(batch, time, dtype=torch.bool)
+def test_remote_code_model_instantiates_without_encoder_download(monkeypatch, tmp_path):
+    monkeypatch.setenv("HF_HOME", str(tmp_path / "hf_home"))
+    monkeypatch.setenv("TRANSFORMERS_CACHE", str(tmp_path / "hf_home"))
 
-model.eval()
-with torch.no_grad():
-    out = model(input_features=input_features, attention_mask=attention_mask)
+    config = AutoConfig.from_pretrained(str(MODEL_DIR), trust_remote_code=True)
+    model_class = get_class_from_dynamic_module(
+        "modeling_gemma4_ctc.Gemma4ForCTC",
+        str(MODEL_DIR),
+    )
+    model = model_class(config, _skip_encoder_download=True)
 
-expected_time = time // 4
-assert out.logits.shape == (batch, expected_time, config.vocab_size), (
-    f"logits shape {out.logits.shape} != expected ({batch}, {expected_time}, {config.vocab_size})"
-)
+    assert type(model.gemma4_audio_encoder.output_proj).__name__ == "Identity"
+    assert model.lm_head.in_features == 1024
 
-total = sum(p.numel() for p in model.parameters())
-trainable = sum(p.numel() for p in model.parameters() if p.requires_grad)
-print(f"Total parameters:     {total:,}")
-print(f"Trainable parameters: {trainable:,}")
-print(f"Frozen parameters:    {total - trainable:,}")
-print("All assertions passed.")
+    batch, time, n_mels = 2, 400, 128
+    input_features = torch.zeros(batch, time, n_mels, dtype=torch.float32)
+    attention_mask = torch.ones(batch, time, dtype=torch.bool)
+
+    model.eval()
+    with torch.no_grad():
+        out = model(input_features=input_features, attention_mask=attention_mask)
+
+    expected_time = time // 4
+    assert out.logits.shape == (batch, expected_time, config.vocab_size)

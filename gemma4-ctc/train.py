@@ -33,11 +33,12 @@ from collator import DataCollatorCTCWithPadding
 
 
 logger = get_logger(__name__)
+DEFAULT_MODEL_DIR = os.path.dirname(os.path.abspath(__file__))
 
 
 def parse_args():
     parser = argparse.ArgumentParser()
-    parser.add_argument("--model_dir", default="./gemma4-ctc",
+    parser.add_argument("--model_dir", default=DEFAULT_MODEL_DIR,
                         help="Repo dir containing config.json, vocab.json, etc.")
     parser.add_argument("--dataset_name", required=True)
     parser.add_argument("--dataset_config", default=None)

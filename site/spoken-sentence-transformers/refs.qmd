@@ -104,5 +104,12 @@ bibliography: refs.bib
 ## [Unsupervised speech decomposition via triple information bottleneck](https://dl.acm.org/doi/10.5555/3524938.3525664) [@qian2020unsupervised]
 - content, timbre, pitch, and rhythm
 
+## [Wav2CLIP: Learning Robust Audio Representations from Clip](https://ieeexplore.ieee.org/abstract/document/9747669) [@wu2022wav2clip]
+- [arXiv](https://arxiv.org/abs/2110.11499)
+- [code](https://github.com/descriptinc/lyrebird-wav2clip) --- MIT
+
+## [CommonAccent: Exploring Large Acoustic Pretrained Models for Accent Classification Based on Common Voice](https://www.isca-archive.org/interspeech_2023/zuluagagomez23_interspeech.html) [@zuluagagomez23_interspeech]
+- [arXiv](https://arxiv.org/abs/2305.18283)
+
 ::: {#refs}
 :::

@@ -44,5 +44,8 @@ bibliography: refs.bib
 
 ## [Stress Assignment in Letter to Sound Rules for Speech Synthesis](https://aclanthology.org/P85-1030/) [@church-1985-stress]
 
+## [Etymological Wordnet: Tracing The History of Words](https://aclanthology.org/L14-1063/) [@de-melo-2014-etymological]
+- [site](http://etym.org/)
+
 ::: {#refs}
 :::

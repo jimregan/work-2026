@@ -46,11 +46,14 @@ class Decoder:
     def __init__(
         self,
         model_id: str,
-        lexicon_path: str,
+        lexicon_path: Optional[str] = None,
+        lexicon_entries: Optional[list[tuple[str, str]]] = None,
         rules_path: Optional[str] = None,
         sim_matrix_path: Optional[str] = None,
         device: str = "cpu",
     ):
+        if lexicon_path is None and lexicon_entries is None:
+            raise ValueError("Provide either lexicon_path or lexicon_entries")
         self.device = device
 
         # 1. Extract vocab and build symbol tables
@@ -60,7 +63,10 @@ class Decoder:
 
         # 2. Build the lexicon list (for index-to-string lookups)
         #    and the lexicon FST
-        self.lexicon_entries = load_lexicon(lexicon_path)
+        self.lexicon_entries = (
+            lexicon_entries if lexicon_entries is not None
+            else load_lexicon(lexicon_path)
+        )
         self.lexicon_fst = build_lexicon_fst(
             self.lexicon_entries,
             input_token_type="utf8",

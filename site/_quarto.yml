@@ -30,6 +30,8 @@ website:
             href: spoken-sentence-transformers/refs.qmd
           - text: "KBLabb Notes"
             href: kblabb-notes/index.qmd
+          - text: "Aligning Whisper Output"
+            href: align-whisper/index.qmd
       - text: "Papers"
         menu:
           - text: "My Papers"

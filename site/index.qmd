@@ -18,6 +18,7 @@ Notes, reading lists, and works in progress for my thesis.
 - [North Sami ASR](north-sami-asr-notes/papers.qmd)
 - [Spoken Sentence Transformers](spoken-sentence-transformers/refs.qmd)
 - [KBLabb Notes](kblabb-notes/index.qmd)
+- [Aligning Whisper Output](align-whisper/index.qmd)
 
 ## Papers
 

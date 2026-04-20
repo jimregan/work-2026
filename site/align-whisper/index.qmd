@@ -1,0 +1,9 @@
+---
+title: "Aligning Whisper Output to Reference Transcripts"
+---
+
+Two scripts for aligning WhisperX/HuggingFace ASR JSON output against reference transcripts.
+
+**`align_whisper_ref.py`** aligns a hypothesis JSON with a reference text using Smith-Waterman alignment (adapted from Kaldi's `align_ctm_ref.py`), producing CTM-edit format output. Supports multiple reference formats: TSV, Kaldi-style, numbered sentence lists.
+
+**`align_to_json.py`** aligns a hypothesis JSON against a sentence-split reference and outputs one JSONL record per sentence, including timing, speaker, and optional gender fields. A second hypothesis (`--hyp2`) can act as a tie-breaker. Supports a two-pass normalization workflow for handling spelling variants and ASR errors: pass 1 generates a candidate TSV for manual curation, pass 2 applies it during alignment.

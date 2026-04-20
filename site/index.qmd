@@ -3,3 +3,23 @@ title: "Work 2026"
 ---
 
 Notes, reading lists, and works in progress for my thesis.
+
+## Reading
+
+- [2025](reading-2025/papers.qmd)
+- [January 2026](reading-01-2026/papers.qmd)
+- [February 2026](reading-02-2026/papers.qmd)
+- [March 2026](reading-03-2026/papers.qmd)
+
+## Notes
+
+- [CTC Segmentation](ctc-segmentation/index.qmd)
+- [Irish ASR](irish-asr-notes/refs.qmd)
+- [North Sami ASR](north-sami-asr-notes/papers.qmd)
+- [Spoken Sentence Transformers](spoken-sentence-transformers/refs.qmd)
+- [KBLabb Notes](kblabb-notes/index.qmd)
+
+## Papers
+
+- [My Papers](my-papers/papers.qmd)
+- [Colleagues' Theses](colleagues-theses/theses.qmd)

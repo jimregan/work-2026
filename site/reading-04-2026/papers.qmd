@@ -21,6 +21,99 @@ Method:
   - rendered greyscale, 80 dB dynamic range
   - 300 dpi, 8 x 5 inches
 
+## [Evaluating the Representation of Vowels in Wav2Vec Feature Extractor: A Layer-Wise Analysis Using MFCCs](https://arxiv.org/abs/2508.17914) [@decristofaro2025evaluatingrepresentationvowelswav2vec]
+
+
+
+## [Listening for “You”: Enhancing Speech Image Retrieval via Target Speaker Extraction](https://ieeexplore.ieee.org/document/11271847)
+
+```bibtex
+@ARTICLE{11271847,
+  author={Yang, Wenhao and Wei, Jianguo and Lu, Wenhuan and Song, Xinyue and Yue, Xianghu},
+  journal={IEEE Signal Processing Letters}, 
+  title={Listening for “You”: Enhancing Speech Image Retrieval via Target Speaker Extraction}, 
+  year={2026},
+  volume={33},
+  number={},
+  pages={201-205},
+  doi={10.1109/LSP.2025.3639371}
+}
+```
+
+## [Comparative Analysis of Automatic Speech Recognition Fine-Tuning Strategies for Speech From Cochlear Implant Users](https://ieeexplore.ieee.org/document/11278050)
+```bibtex
+@ARTICLE{11278050,
+  author={Yoon, Seojin and Kim, Hyunji and Kim, Kyusung and Lee, Sangmin},
+  journal={IEEE Signal Processing Letters}, 
+  title={Comparative Analysis of Automatic Speech Recognition Fine-Tuning Strategies for Speech From Cochlear Implant Users}, 
+  year={2026},
+  volume={33},
+  number={},
+  pages={236-240},
+  keywords={Speech recognition;Adaptation models;Training;Computational modeling;Decoding;Speech processing;Data models;Analytical models;Cochlear implants;Auditory system;Automatic speech recognition;cochlear implant;parameter-efficient learning;Whisper},
+  doi={10.1109/LSP.2025.3640524}
+}
+```
+> Notably, LoRA-encoder approach, which involved training only 2.15% of the total parameters, achieved the best performance with a character error rate of 11.57%, demonstrating superior performance and efficiency. Furthermore, strategies that fine-tuned only the encoder consistently showed higher performance than those that adjusted the decoder, confirming that the encoder’s role is crucial in modeling the unique acoustic characteristics of CI users’ speech.
+
+## [Wavelet-Based Denoising Transformer With Fourier Adjustment for UAV Nighttime Tracking](https://ieeexplore.ieee.org/document/11304559)
+
+```bibtex
+@ARTICLE{11304559,
+  author={Wang, Haijun and Hao, Wei and Qi, Lihua and Qu, Haoyu and Su, Zihao},
+  journal={IEEE Signal Processing Letters}, 
+  title={Wavelet-Based Denoising Transformer With Fourier Adjustment for UAV Nighttime Tracking}, 
+  year={2026},
+  volume={33},
+  number={},
+  pages={341-345},
+  keywords={Autonomous aerial vehicles;Transformers;Wavelet transforms;Noise reduction;Noise;Feature extraction;Decoding;Convolution;Cameras;Object tracking;Uncrewed aerial vehicles;nighttime tracking;wavelet transform;Fourier adjustment},
+  doi={10.1109/LSP.2025.3646140}
+}
+```
+
+## [VoiceBench: Benchmarking LLM-Based Voice Assistants](https://direct.mit.edu/tacl/article/doi/10.1162/TACL.a.628/136245/VoiceBench-Benchmarking-LLM-Based-Voice-Assistants)
+
+```bibtex
+@article{10.1162/TACL.a.628,
+    author = {Chen, Yiming and Yue, Xianghu and Zhang, Chen and Gao, Xiaoxue and Tan, Robby T. and Li, Haizhou},
+    title = {VoiceBench: Benchmarking LLM-Based Voice Assistants},
+    journal = {Transactions of the Association for Computational Linguistics},
+    volume = {14},
+    pages = {378-398},
+    year = {2026},
+    month = {04},
+    issn = {2307-387X},
+    doi = {10.1162/TACL.a.628},
+    url = {https://doi.org/10.1162/TACL.a.628},
+    eprint = {https://direct.mit.edu/tacl/article-pdf/doi/10.1162/TACL.a.628/2593104/tacl.a.628.pdf},
+}
+```
+- [dataset](https://huggingface.co/datasets/lmms-lab/voicebench)
+
+
+## [Exploring Practical Gaps in Using Cross Entropy to Implement Maximum Mutual Information Criterion for Rationalization](https://direct.mit.edu/tacl/article/doi/10.1162/tacl_a_00758/131564/Exploring-Practical-Gaps-in-Using-Cross-Entropy-to)
+
+## [Phonetic Reconstruction of the Consonant System of Middle Chinese via Mixed Integer Optimization](https://direct.mit.edu/tacl/article/doi/10.1162/tacl_a_00742/128937/Phonetic-Reconstruction-of-the-Consonant-System-of)
+
+## [Salute the Classic: Revisiting Challenges of Machine Translation in the Age of Large Language Models](https://direct.mit.edu/tacl/article/doi/10.1162/tacl_a_00730/127458/Salute-the-Classic-Revisiting-Challenges-of)
+
+## [Object detection for cross-linguistic vowel analysis: A novel language-agnostic method for forensic speech processing](https://www.sciencedirect.com/science/article/pii/S0167639326000166)
+
+```bibtex
+@article{GANGOPADHYAY2026103368,
+title = {Object detection for cross-linguistic vowel analysis: A novel language-agnostic method for forensic speech processing},
+journal = {Speech Communication},
+volume = {179},
+pages = {103368},
+year = {2026},
+issn = {0167-6393},
+doi = {https://doi.org/10.1016/j.specom.2026.103368},
+url = {https://www.sciencedirect.com/science/article/pii/S0167639326000166},
+author = {Soham Gangopadhyay and Inderpreet Singh and Prateek Pandya and Ashish Mani and Sumit Goswami},
+}
+```
+
 
 ::: {#refs}
 :::

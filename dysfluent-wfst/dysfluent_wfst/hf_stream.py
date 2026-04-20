@@ -150,10 +150,10 @@ class HFStreamRunner:
                 print(f"Warning: '{clean}' not in lexicon", file=sys.stderr)
         return phonemes
 
-    def infer(self, array: np.ndarray) -> tuple[torch.Tensor, int]:
+    def infer(self, array: np.ndarray) -> tuple[torch.Tensor, int, float]:
         """Run wav2vec2 inference on a 16 kHz float32 array.
 
-        Returns ``(log_probs, length)`` where ``log_probs`` has shape ``(T, C)``.
+        Returns ``(log_probs, length, frame_shift_ms)`` where ``log_probs`` has shape ``(T, C)``.
         """
         processor = self._get_processor()
         model = self._get_model()
@@ -166,7 +166,8 @@ class HFStreamRunner:
         with torch.no_grad():
             logits = model(input_values).logits  # (1, T, C)
         length = logits.shape[1]
-        return logits.squeeze(0), length
+        frame_shift_ms = (len(array) / 16000.0) * 1000.0 / length if length else 0.0
+        return logits.squeeze(0), length, frame_shift_ms
 
     def run(
         self,
@@ -228,7 +229,7 @@ class HFStreamRunner:
 
             try:
                 array = self.get_audio_array(row)
-                log_probs, length = self.infer(array)
+                log_probs, length, frame_shift_ms = self.infer(array)
                 alignment = self.decoder.decode_utterance(
                     log_probs=log_probs,
                     length=length,
@@ -240,6 +241,7 @@ class HFStreamRunner:
                     skip=self.skip,
                     sub=self.sub,
                     output_beam=self.output_beam,
+                    frame_shift_ms=frame_shift_ms,
                 )
                 yield asdict(alignment)
             except Exception as exc:

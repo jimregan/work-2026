@@ -89,7 +89,7 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
 def load_audio(audio_path: str, model_id: str, device: str):
     """Load audio and run wav2vec2 inference.
 
-    Returns (logits, length, processor) where ``logits`` is a FloatTensor of
+    Returns (logits, length, processor, frame_shift_ms) where ``logits`` is a FloatTensor of
     shape ``(T, C)`` containing raw (unnormalized) scores.
     """
     import torchaudio
@@ -115,7 +115,9 @@ def load_audio(audio_path: str, model_id: str, device: str):
         logits = model(input_values).logits  # (1, T, C)
 
     length = logits.shape[1]
-    return logits.squeeze(0), length, processor
+    num_samples = waveform.shape[-1]
+    frame_shift_ms = (num_samples / 16000.0) * 1000.0 / length if length else 0.0
+    return logits.squeeze(0), length, processor, frame_shift_ms
 
 
 def get_phonemes_from_text(
@@ -154,7 +156,7 @@ def process_single(args: argparse.Namespace) -> dict:
     from dysfluent_wfst.decoder import Decoder
 
     # Load audio and run inference
-    log_probs, length, processor = load_audio(
+    log_probs, length, processor, frame_shift_ms = load_audio(
         args.audio, args.model_id, args.device
     )
 
@@ -188,6 +190,7 @@ def process_single(args: argparse.Namespace) -> dict:
         skip=args.skip,
         sub=args.sub,
         output_beam=args.beam,
+        frame_shift_ms=frame_shift_ms,
     )
 
     if args.output:
@@ -233,7 +236,7 @@ def process_batch(args: argparse.Namespace) -> list[dict]:
             ref_text = item.get("ref_text", "")
             utterance_id = item.get("id", f"utt_{line_num}")
 
-            log_probs, length, _ = load_audio(
+            log_probs, length, _, frame_shift_ms = load_audio(
                 audio_path, args.model_id, args.device
             )
             ref_phonemes = get_phonemes_from_text(ref_text, args.lexicon)
@@ -256,6 +259,7 @@ def process_batch(args: argparse.Namespace) -> list[dict]:
                 skip=args.skip,
                 sub=args.sub,
                 output_beam=args.beam,
+                frame_shift_ms=frame_shift_ms,
             )
             results.append(asdict(alignment))
 

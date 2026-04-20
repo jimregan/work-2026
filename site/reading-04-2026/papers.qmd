@@ -1,0 +1,26 @@
+---
+title: "Papers, April 2026"
+bibliography: refs.bib
+---
+
+## [Object detection for cross-linguistic vowel analysis: A novel language-agnostic method for forensic speech processing](https://www.sciencedirect.com/science/article/pii/S0167639326000166) [@GANGOPADHYAY2026103368]
+- YOLOv5l trained on 8925 spectrograms
+- CMU Arctic + LibriSpeech dev-clean and test-clean
+- Evaluation languages: English, French, Russian, German, Spanish, Greek, Japanese, Dutch, Hungarian, and Kiswahili
+- outperforms Montreal Forced Alignment by 58.5% in F1-score
+- [data/model](https://universe.roboflow.com/inderpreet-singh-soham-gangopadhyay/vowel-detection)
+
+Method:
+
+- Audio segmented into 500 ms sections
+- Parselmouth generates spectrograms
+  - Window length: 12 ms
+  - maximum frequency: 5500 Hz
+  - time step: 0.25 ms
+  - frequency step: 5 Hz
+  - rendered greyscale, 80 dB dynamic range
+  - 300 dpi, 8 x 5 inches
+
+
+::: {#refs}
+:::

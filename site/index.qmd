@@ -21,6 +21,8 @@ Notes, reading lists, and works in progress for my thesis.
 - [Aligning Whisper Output](align-whisper/index.qmd)
 - [Correcting Whisper Splits](correct-whisper/index.qmd)
 - [Literary Edition Alignment](editions-alignment/index.qmd)
+- [Preprocessing Seanchló OCR Labels](preprocess-ocr-labels/index.qmd)
+- [Recording HLS Streams](record-streams/index.qmd)
 
 ## Papers
 

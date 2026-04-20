@@ -1,0 +1,11 @@
+---
+title: "Preprocessing Seanchló OCR Training Data"
+---
+
+**[`preprocess-ocr-labels.py`](preprocess-ocr-labels.py)** reads a `labels.txt` file for seanchló (traditional Irish script) OCR training data, prints the character inventory grouped by category, and splits the data into train/val/test sets.
+
+```bash
+python preprocess-ocr-labels.py labels.txt --outdir splits/ --train 0.9 --val 0.05
+```
+
+The character inventory is reported in categories: ASCII letters, dotted consonants (ḃċḋḟġṁṗṡṫ), accented vowels (áéíóú), insular letters (ꝺꝼᵹꞇꞃꞅ), digits, and punctuation.

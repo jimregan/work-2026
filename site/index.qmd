@@ -19,6 +19,7 @@ Notes, reading lists, and works in progress for my thesis.
 - [Spoken Sentence Transformers](spoken-sentence-transformers/refs.qmd)
 - [KBLabb Notes](kblabb-notes/index.qmd)
 - [Aligning Whisper Output](align-whisper/index.qmd)
+- [Correcting Whisper Splits](correct-whisper/index.qmd)
 
 ## Papers
 

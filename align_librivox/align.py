@@ -26,11 +26,7 @@ from pathlib import Path
 
 import yaml
 
-REPO_ROOT = Path(__file__).resolve().parents[1]
-if str(REPO_ROOT) not in sys.path:
-    sys.path.insert(0, str(REPO_ROOT))
-
-from align_whisper.align_to_json import align_file_to_sentences
+from align_to_json import align_file_to_sentences
 
 try:
     import spacy

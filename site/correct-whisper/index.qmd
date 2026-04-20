@@ -1,0 +1,19 @@
+---
+title: "Correcting WhisperX Segment Splits"
+---
+
+**[`correct_splits.py`](correct_splits.py)** is a Flask-based browser editor for correcting WhisperX segment boundaries. Each word is rendered as a `<span>` with its timing data; segments are `<div>` lines.
+
+Editing works like a text editor:
+
+- Backspace across a space → merge adjacent words
+- Backspace at line start → merge segment with the previous one
+- Space inside a word → split the word at cursor (timing interpolated)
+- Enter → split segment before the word at/after the cursor
+
+On save, segments are rebuilt from the edited words, with `start`/`end` taken from the first/last word.
+
+```bash
+python correct_splits.py path/to/file.json
+# open http://127.0.0.1:5000
+```

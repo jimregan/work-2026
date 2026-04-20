@@ -1,0 +1,11 @@
+---
+title: "Recording HLS Streams"
+---
+
+**[`record_streams.py`](record_streams.py)** records HLS (m3u8) streams, saving raw segments as downloaded. Supports both master playlists (automatically selects the highest-bandwidth variant) and media playlists. Segments can be saved as raw files or wrapped in WARC format (requires `warcio`).
+
+```bash
+python record_streams.py --url https://example.com/stream.m3u8 --outdir recordings/
+```
+
+Handles graceful shutdown on Ctrl-C via a threading stop event.

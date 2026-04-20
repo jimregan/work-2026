@@ -1,0 +1,16 @@
+{
+  "name": "claudemail-mcp",
+  "version": "1.0.0",
+  "description": "MCP server: Claude Code asks you questions via email",
+  "type": "module",
+  "bin": {
+    "claudemail-mcp": "./index.js"
+  },
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.0.0",
+    "nodemailer": "^6.9.0"
+  }
+}

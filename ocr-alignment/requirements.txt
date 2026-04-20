@@ -1,9 +1,0 @@
-# Required
-rapidfuzz>=3.0          # C++ Levenshtein distance (replaces pure-Python implementation)
-
-# Required for hOCR input (--hocr flag)
-beautifulsoup4>=4.12
-lxml>=4.9
-
-# Optional: improves dictionary checking (step 1)
-# pyenchant>=3.2

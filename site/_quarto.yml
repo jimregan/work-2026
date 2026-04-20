@@ -34,6 +34,8 @@ website:
             href: align-whisper/index.qmd
           - text: "Correcting Whisper Splits"
             href: correct-whisper/index.qmd
+          - text: "Literary Edition Alignment"
+            href: editions-alignment/index.qmd
       - text: "Papers"
         menu:
           - text: "My Papers"

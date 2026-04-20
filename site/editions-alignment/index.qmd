@@ -1,0 +1,42 @@
+---
+title: "Literary Edition Alignment"
+---
+
+A CLI tool for aligning multiple editions of literary texts at the sentence level. It uses [MosesSentenceSplitter](https://github.com/alvations/sacremoses) for sentence splitting, [Sentence Transformers](https://www.sbert.net/) for semantic similarity scoring, and dynamic programming with a contiguity penalty to favour sequential matches.
+
+## Usage
+
+```bash
+# Basic run with JSON output
+python aligner.py frankenstein_1818.txt frankenstein_1831.txt --output aligned.json
+
+# Stricter contiguity, XML output
+python aligner.py paradise_lost_1667.txt paradise_lost_1674.txt \
+  --penalty 0.2 --threshold 0.3 --format xml --output aligned.xml
+
+# Multilingual alignment (e.g. two French editions)
+python aligner.py hugo_ed1.txt hugo_ed2.txt \
+  --lang fr --model paraphrase-multilingual-MiniLM-L12-v2 --output hugo_aligned.json
+```
+
+## Files
+
+- [`aligner.py`](aligner.py) — CLI entry point (`click`)
+- [`align.py`](align.py) — DP alignment with contiguity penalty
+- [`embedder.py`](embedder.py) — Sentence Transformer embedding and cosine similarity matrix
+- [`tokenizer.py`](tokenizer.py) — Sentence splitting via MosesSentenceSplitter
+- [`exporter.py`](exporter.py) — CSV / JSON / XML output
+- [`requirements.txt`](requirements.txt)
+
+## How it works
+
+Sentences from both editions are embedded with a Sentence Transformer model (default: `all-MiniLM-L6-v2`), producing an M×N cosine similarity matrix. DP alignment then finds the best mapping, penalising gaps beyond a single contiguous step. Unmatched sentences are represented explicitly as `(i, None)` or `(None, j)` rather than silently dropped.
+
+Key tunable parameters:
+
+| Flag | Default | Effect |
+|------|---------|--------|
+| `--penalty` | 0.1 | Cost per skipped sentence; raise for lightly edited texts |
+| `--threshold` | 0.2 | Minimum similarity to form a match; raise to avoid weak pairings |
+| `--band` | 10 | DP search radius; raise for heavily reordered texts |
+| `--model` | `all-MiniLM-L6-v2` | Use `all-mpnet-base-v2` for better accuracy, `paraphrase-multilingual-MiniLM-L12-v2` for multilingual |

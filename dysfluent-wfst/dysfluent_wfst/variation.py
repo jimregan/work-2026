@@ -16,37 +16,59 @@ _SPECIAL_TOKENS = frozenset({
 })
 
 
-def deduplicate_and_filter(
+def collapse_label_runs(
     label_ids: list[int],
     output_syms: pynini.SymbolTable,
-) -> list[str]:
-    """Consecutive deduplication and special-token filtering.
+) -> list[dict]:
+    """Collapse consecutive labels into runs with frame spans.
 
-    Converts label IDs to symbol strings, removes consecutive
-    duplicates, and filters out special tokens.
+    Converts label IDs to symbol strings, removes consecutive duplicates,
+    filters out special tokens, and retains the frame interval for each
+    surviving run.
 
     Args:
         label_ids: Output label IDs from the shortest path.
         output_syms: Symbol table for ID-to-string lookup.
 
     Returns:
-        Filtered list of phoneme/marker strings.
+        List of dicts with keys ``symbol``, ``start_frame``, ``end_frame``.
+        ``end_frame`` is exclusive.
     """
-    filtered: list[str] = []
-    prev_label: str | None = None
+    runs: list[dict] = []
+    prev_symbol: str | None = None
+    run_start = 0
 
-    for lid in label_ids:
+    for frame_idx, lid in enumerate(label_ids):
         symbol = output_syms.find(lid)
         if symbol == "" or symbol is None:
             continue
-        if symbol != prev_label and symbol not in _SPECIAL_TOKENS:
-            filtered.append(symbol)
-        prev_label = symbol
 
-    return filtered
+        if prev_symbol is None:
+            prev_symbol = symbol
+            run_start = frame_idx
+            continue
+
+        if symbol != prev_symbol:
+            if prev_symbol not in _SPECIAL_TOKENS:
+                runs.append({
+                    "symbol": prev_symbol,
+                    "start_frame": run_start,
+                    "end_frame": frame_idx,
+                })
+            prev_symbol = symbol
+            run_start = frame_idx
+
+    if prev_symbol is not None and prev_symbol not in _SPECIAL_TOKENS:
+        runs.append({
+            "symbol": prev_symbol,
+            "start_frame": run_start,
+            "end_frame": len(label_ids),
+        })
+
+    return runs
 
 
-def merge_trans_markers(phoneme_list: list[str]) -> list[str]:
+def merge_trans_markers(label_runs: list[dict]) -> list[dict]:
     """Merge consecutive ``<trans>`` markers.
 
     If two ``<trans>`` tokens appear consecutively, keep the source of
@@ -54,23 +76,25 @@ def merge_trans_markers(phoneme_list: list[str]) -> list[str]:
     ``3<trans>5`` followed by ``5<trans>7`` becomes ``3<trans>7``.
 
     Args:
-        phoneme_list: Deduplicated/filtered symbol list.
+        label_runs: Collapsed run list from ``collapse_label_runs``.
 
     Returns:
-        List with consecutive <trans> markers merged.
+        Run list with consecutive <trans> markers merged.
     """
-    merged: list[str] = []
-    current_merge: str | None = None
+    merged: list[dict] = []
+    current_merge: dict | None = None
 
-    for item in phoneme_list:
-        if "<trans>" in item:
+    for item in label_runs:
+        symbol = item["symbol"]
+        if "<trans>" in symbol:
             if current_merge is None:
-                current_merge = item
+                current_merge = dict(item)
             else:
                 # Keep source of first, destination of last
-                src = current_merge.split("<trans>")[0]
-                dst = item.split("<trans>")[-1]
-                current_merge = f"{src}<trans>{dst}"
+                src = current_merge["symbol"].split("<trans>")[0]
+                dst = symbol.split("<trans>")[-1]
+                current_merge["symbol"] = f"{src}<trans>{dst}"
+                current_merge["end_frame"] = item["end_frame"]
         else:
             if current_merge is not None:
                 merged.append(current_merge)
@@ -84,7 +108,7 @@ def merge_trans_markers(phoneme_list: list[str]) -> list[str]:
 
 
 def build_state_trajectory(
-    merged_seq: list[str],
+    merged_seq: list[dict],
     ref_phonemes: list[str] | None = None,
 ) -> list[dict]:
     """Build a state trajectory and classify each element.
@@ -117,24 +141,38 @@ def build_state_trajectory(
     current_state = 0
 
     for elem in merged_seq:
-        if "<trans>" in elem:
-            _, j_str = elem.split("<trans>")
+        symbol = elem["symbol"]
+        if "<trans>" in symbol:
+            _, j_str = symbol.split("<trans>")
             current_state = int(j_str)
         else:
             start = current_state
             end = start + 1
-            clean_states.append((start, end, elem))
+            clean_states.append((
+                start,
+                end,
+                symbol,
+                elem["start_frame"],
+                elem["end_frame"],
+            ))
             current_state = end
 
     # Second pass: classify each phoneme
-    for start, end, phoneme in clean_states:
+    for start, end, phoneme, start_frame, end_frame in clean_states:
         min_hist = min(state_history) if state_history else -1
+        expected = (
+            ref_phonemes[start]
+            if ref_phonemes is not None and 0 <= start < len(ref_phonemes)
+            else None
+        )
 
         if start in state_history:
             results.append({
                 "phoneme": phoneme,
                 "start_state": start,
                 "end_state": end,
+                "start_frame": start_frame,
+                "end_frame": end_frame,
                 "variation_type": "repetition",
             })
         elif start < min_hist:
@@ -142,6 +180,8 @@ def build_state_trajectory(
                 "phoneme": phoneme,
                 "start_state": start,
                 "end_state": end,
+                "start_frame": start_frame,
+                "end_frame": end_frame,
                 "variation_type": "insertion",
             })
         elif start > prev_end + 1:
@@ -150,20 +190,32 @@ def build_state_trajectory(
                 "phoneme": "<del>",
                 "start_state": prev_end,
                 "end_state": start,
+                "start_frame": start_frame,
+                "end_frame": start_frame,
                 "variation_type": "deletion",
             })
             results.append({
                 "phoneme": phoneme,
                 "start_state": start,
                 "end_state": end,
-                "variation_type": "normal",
+                "start_frame": start_frame,
+                "end_frame": end_frame,
+                "variation_type": (
+                    "substitution" if expected is not None and phoneme != expected
+                    else "normal"
+                ),
             })
         else:
             results.append({
                 "phoneme": phoneme,
                 "start_state": start,
                 "end_state": end,
-                "variation_type": "normal",
+                "start_frame": start_frame,
+                "end_frame": end_frame,
+                "variation_type": (
+                    "substitution" if expected is not None and phoneme != expected
+                    else "normal"
+                ),
             })
 
         state_history.add(start)

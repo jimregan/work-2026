@@ -25,7 +25,27 @@ done
 echo ""
 echo "▶ Starting Mailpit in Docker..."
 cd "$SCRIPT_DIR"
-docker compose up -d
+
+# Try 'docker compose' (v2 plugin), fall back to direct docker run
+if docker compose version &>/dev/null 2>&1; then
+  docker compose up -d
+else
+  echo "  (docker compose v2 not found, using docker run directly)"
+  docker rm -f claudemail 2>/dev/null || true
+  docker run -d \
+    --name claudemail \
+    --restart unless-stopped \
+    -p 1025:1025 \
+    -p 1143:1143 \
+    -p 8025:8025 \
+    -e MP_SMTP_AUTH_ACCEPT_ANY=true \
+    -e MP_SMTP_AUTH_ALLOW_INSECURE=true \
+    -e MP_IMAP_AUTH_ACCEPT_ANY=true \
+    -e MP_IMAP_AUTH_ALLOW_INSECURE=true \
+    -e MP_MAX_MESSAGES=500 \
+    -v mailpit_data:/data \
+    axllent/mailpit:latest
+fi
 echo "  ✓ Mailpit running"
 echo "  ✓ Web UI: http://localhost:8025"
 echo "  ✓ SMTP:   localhost:1025"

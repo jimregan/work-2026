@@ -8,6 +8,34 @@ website:
     left:
       - text: "Home"
         href: index.qmd
+      - text: "Reading"
+        menu:
+          - text: "2025"
+            href: reading-2025/papers.qmd
+          - text: "January 2026"
+            href: reading-01-2026/papers.qmd
+          - text: "February 2026"
+            href: reading-02-2026/papers.qmd
+          - text: "March 2026"
+            href: reading-03-2026/papers.qmd
+      - text: "Notes"
+        menu:
+          - text: "CTC Segmentation"
+            href: ctc-segmentation/index.qmd
+          - text: "Irish ASR"
+            href: irish-asr-notes/refs.qmd
+          - text: "North Sami ASR"
+            href: north-sami-asr-notes/papers.qmd
+          - text: "Spoken Sentence Transformers"
+            href: spoken-sentence-transformers/refs.qmd
+          - text: "KBLabb Notes"
+            href: kblabb-notes/index.qmd
+      - text: "Papers"
+        menu:
+          - text: "My Papers"
+            href: my-papers/papers.qmd
+          - text: "Colleagues' Theses"
+            href: colleagues-theses/theses.qmd
 
 execute:
   eval: false

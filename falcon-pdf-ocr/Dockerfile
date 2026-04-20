@@ -8,6 +8,7 @@ ENV OUTPUT_DIR=/output
 ENV HF_HOME=/models/huggingface
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
+    build-essential \
     git \
     libglib2.0-0 \
     libsm6 \
@@ -22,4 +23,5 @@ RUN pip install --upgrade pip && pip install -r requirements.txt
 
 COPY batch_ocr.py .
 
+ENTRYPOINT []
 CMD ["python", "/app/batch_ocr.py", "--input-root", "/data", "--output-root", "/output"]

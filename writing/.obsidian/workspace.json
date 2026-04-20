@@ -1,0 +1,477 @@
+{
+  "main": {
+    "id": "579817187746ecdd",
+    "type": "split",
+    "children": [
+      {
+        "id": "2d6fbcbaa22a10e2",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "088b5554327fc662",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "INDEX.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "INDEX"
+            }
+          },
+          {
+            "id": "e1a8fbe92a23b48b",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "riksvox 0.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "riksvox 0"
+            }
+          },
+          {
+            "id": "faeaf10308daa089",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "chapter 1.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "chapter 1"
+            }
+          },
+          {
+            "id": "c59837c0ede55a8a",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "phonetic corpus.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "phonetic corpus"
+            }
+          },
+          {
+            "id": "6bdaf8ac318a0fa5",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "Gemma4CTC.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "Gemma4CTC"
+            }
+          },
+          {
+            "id": "1447ff5ad681813c",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "Gemma4CTC.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "Gemma4CTC"
+            }
+          },
+          {
+            "id": "cacb08f52e6abc9e",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "TODO 12-04-2026.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "TODO 12-04-2026"
+            }
+          },
+          {
+            "id": "00a15b6000fa5ec9",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "Untitled.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "Untitled"
+            }
+          },
+          {
+            "id": "777d90edb52406be",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "LRE - Phonetic corpus/00 Abstract.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "00 Abstract"
+            }
+          },
+          {
+            "id": "5d1ccf8f7931da9b",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "LRE - Phonetic corpus/Master outline.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "Master outline"
+            }
+          },
+          {
+            "id": "7de7bf7cd9428ff2",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "LRE - Phonetic corpus/Master outline.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "Master outline"
+            }
+          },
+          {
+            "id": "86bbba2d9c8d9c63",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "LRE - Phonetic corpus/04 rules as acoustic hypotheses.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "04 rules as acoustic hypotheses"
+            }
+          },
+          {
+            "id": "c26cc52fea57e8f5",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "TSD strategy.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "TSD strategy"
+            }
+          },
+          {
+            "id": "b6d0793b8e29976b",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "LRE - Phonetic corpus/02 Why transcripts are not enough.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "02 Why transcripts are not enough"
+            }
+          },
+          {
+            "id": "58e3c27948ae2bc1",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "Gemini raw.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "Gemini raw"
+            }
+          },
+          {
+            "id": "c0eb6605a26a33a9",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "phonetic corpus.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "phonetic corpus"
+            }
+          },
+          {
+            "id": "e02f8aca422c8a37",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "Fant.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "Fant"
+            }
+          }
+        ],
+        "currentTab": 16
+      },
+      {
+        "id": "a8b92a944f5fcb73",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "cbf67ce757c5f169",
+            "type": "leaf",
+            "state": {
+              "type": "graph",
+              "state": {},
+              "icon": "lucide-git-fork",
+              "title": "Graph view"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "aca66eff4cbb5197",
+    "type": "split",
+    "children": [
+      {
+        "id": "d6531902575a4659",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "384701ade1de4af1",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {
+                "sortOrder": "alphabetical",
+                "autoReveal": false
+              },
+              "icon": "lucide-folder-closed",
+              "title": "Files"
+            }
+          },
+          {
+            "id": "eb964dbe173a774b",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              },
+              "icon": "lucide-search",
+              "title": "Search"
+            }
+          },
+          {
+            "id": "c9423891f5601be4",
+            "type": "leaf",
+            "state": {
+              "type": "bookmarks",
+              "state": {},
+              "icon": "lucide-bookmark",
+              "title": "Bookmarks"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300
+  },
+  "right": {
+    "id": "d3cc348befac607b",
+    "type": "split",
+    "children": [
+      {
+        "id": "0691bdf5651d6ba8",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "7682433b9f29e17a",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "file": "Welcome.md",
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-coming-in",
+              "title": "Backlinks for Welcome"
+            }
+          },
+          {
+            "id": "2802d60adf3b2101",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "file": "Welcome.md",
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-going-out",
+              "title": "Outgoing links from Welcome"
+            }
+          },
+          {
+            "id": "88dcc9e9dfe445d1",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-tags",
+              "title": "Tags"
+            }
+          },
+          {
+            "id": "6afc4853b2568754",
+            "type": "leaf",
+            "state": {
+              "type": "all-properties",
+              "state": {
+                "sortOrder": "frequency",
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-archive",
+              "title": "All properties"
+            }
+          },
+          {
+            "id": "2b5d7b0f7591a97b",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {
+                "file": "Welcome.md",
+                "followCursor": false,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-list",
+              "title": "Outline of Welcome"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300,
+    "collapsed": true
+  },
+  "left-ribbon": {
+    "hiddenItems": {
+      "switcher:Open quick switcher": false,
+      "graph:Open graph view": false,
+      "canvas:Create new canvas": false,
+      "daily-notes:Open today's daily note": false,
+      "templates:Insert template": false,
+      "command-palette:Open command palette": false,
+      "bases:Create new base": false,
+      "obsidian-importer:Open Importer": false
+    }
+  },
+  "active": "e02f8aca422c8a37",
+  "lastOpenFiles": [
+    "phonetic corpus.md",
+    "Fant.md",
+    "LRE - Phonetic corpus/01 Introduction.md",
+    "LRE - Phonetic corpus/08 Continuous expansion pipeline.md",
+    "LRE - Phonetic corpus/09 Future backend migration.md",
+    "LRE - Phonetic corpus/07 Use cases.md",
+    "LRE - Phonetic corpus/Master outline.md",
+    "LRE - Phonetic corpus/06 Released resource layers.md",
+    "LRE - Phonetic corpus/05 Swedish phonemic supervision lineage.md",
+    "LRE - Phonetic corpus/03 Parliamentary speech as a living substrate.md",
+    "LRE - Phonetic corpus/02 Why transcripts are not enough.md",
+    "Gemini raw.md",
+    "Gemini edited.md",
+    "2026-04-14.md",
+    "2026-04-05.md",
+    "eusipco journal list.md",
+    "TSD strategy.md",
+    "LRE - Phonetic corpus/04 rules as acoustic hypotheses.md",
+    "LRE - Phonetic corpus/old-towards.md",
+    "LRE - Phonetic corpus/00 Abstract.md",
+    "LRE - Phonetic corpus/old-towards/mybib.tex",
+    "LRE - Phonetic corpus/old-towards/old-towards.tex",
+    "LRE - Phonetic corpus/old-towards",
+    "LRE - Phonetic corpus/mybib.tex",
+    "LRE - Phonetic corpus/old-towards.tex",
+    "Untitled.md",
+    "TODO 12-04-2026.md",
+    "LRE - Phonetic corpus",
+    "Gemma4CTC.md",
+    "Lab 1.md",
+    "Hungarian Reels.md",
+    "riksvox 0.md",
+    "2026-03-24 hallevik_owov.jpg",
+    "2025-09-22 52624640855_e80a42baca_o.png",
+    "2025-06-04 Attachment.png",
+    "2025-05-29 459757307_1754348702040498_636700629624847119_n 4.jpg",
+    "2025-05-29 1f603 1.png",
+    "2025-05-29 459757307_1754348702040498_636700629624847119_n 3.jpg",
+    "2025-05-29 459757307_1754348702040498_636700629624847119_n 2.jpg",
+    "2025-05-29 498008603_1435179517661645_2793001163747447278_n.jpg",
+    "2025-05-29 496451706_17843355759484572_2656396903327291175_n.jpg",
+    "2025-05-29 494822274_699989302784650_7999584269872308286_n.png",
+    "2024-09-23 recording.m4a",
+    "2023-10-30 Royal Institute of Technology.m4a",
+    "Apple Notes",
+    "recording.m4a"
+  ]
+}

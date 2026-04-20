@@ -17,6 +17,5 @@ __pycache__
 .DS_Store
 
 /.quarto/
-papers_files/
-paper_files/
-spoken-sentence-transformers/refs.html
+*_files/
+*.html

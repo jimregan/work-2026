@@ -35,11 +35,11 @@ Method:
 
 - [dataset](https://huggingface.co/datasets/lmms-lab/voicebench)
 
-## [Exploring Practical Gaps in Using Cross Entropy to Implement Maximum Mutual Information Criterion for Rationalization](https://direct.mit.edu/tacl/article/doi/10.1162/tacl_a_00758/131564/Exploring-Practical-Gaps-in-Using-Cross-Entropy-to)
+## [Exploring Practical Gaps in Using Cross Entropy to Implement Maximum Mutual Information Criterion for Rationalization](https://direct.mit.edu/tacl/article/doi/10.1162/tacl_a_00758/131564/Exploring-Practical-Gaps-in-Using-Cross-Entropy-to) [@liu2025exploring]
 
-## [Phonetic Reconstruction of the Consonant System of Middle Chinese via Mixed Integer Optimization](https://direct.mit.edu/tacl/article/doi/10.1162/tacl_a_00742/128937/Phonetic-Reconstruction-of-the-Consonant-System-of)
+## [Phonetic Reconstruction of the Consonant System of Middle Chinese via Mixed Integer Optimization](https://direct.mit.edu/tacl/article/doi/10.1162/tacl_a_00742/128937/Phonetic-Reconstruction-of-the-Consonant-System-of) [@luo2025middlechinese]
 
-## [Salute the Classic: Revisiting Challenges of Machine Translation in the Age of Large Language Models](https://direct.mit.edu/tacl/article/doi/10.1162/tacl_a_00730/127458/Salute-the-Classic-Revisiting-Challenges-of)
+## [Salute the Classic: Revisiting Challenges of Machine Translation in the Age of Large Language Models](https://direct.mit.edu/tacl/article/doi/10.1162/tacl_a_00730/127458/Salute-the-Classic-Revisiting-Challenges-of) [@pang2025salute]
 
 ## [Object detection for cross-linguistic vowel analysis: A novel language-agnostic method for forensic speech processing](https://www.sciencedirect.com/science/article/pii/S0167639326000166) [@GANGOPADHYAY2026103368]
 

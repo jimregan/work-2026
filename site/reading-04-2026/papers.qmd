@@ -45,5 +45,7 @@ Method:
 
 ## [Recallable Question Answering-Based Re-Ranking Considering Semantic Region for Cross-Modal Retrieval](https://ieeexplore.ieee.org/document/10022040) [@yanagi2023recallable]
 
+## [Simulating Hard Attention Using Soft Attention](https://aclanthology.org/2026.tacl-1.8/) [@yang-etal-2026-simulating]
+
 ::: {#refs}
 :::

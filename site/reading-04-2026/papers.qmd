@@ -43,6 +43,7 @@ Method:
 
 ## [Object detection for cross-linguistic vowel analysis: A novel language-agnostic method for forensic speech processing](https://www.sciencedirect.com/science/article/pii/S0167639326000166) [@GANGOPADHYAY2026103368]
 
+## [Recallable Question Answering-Based Re-Ranking Considering Semantic Region for Cross-Modal Retrieval](https://ieeexplore.ieee.org/document/10022040) [@yanagi2023recallable]
 
 ::: {#refs}
 :::

@@ -47,5 +47,7 @@ Method:
 
 ## [Simulating Hard Attention Using Soft Attention](https://aclanthology.org/2026.tacl-1.8/) [@yang-etal-2026-simulating]
 
+## [Universal NER v2: Towards a Massively Multilingual Named Entity Recognition Benchmark](https://arxiv.org/abs/2604.12744)
+
 ::: {#refs}
 :::

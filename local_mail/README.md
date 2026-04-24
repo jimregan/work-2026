@@ -58,6 +58,9 @@ When Claude uses the tools, it should pass the full `ask_question` result into
 | SMTP host | 127.0.0.1     |
 | SMTP port | 1025          |
 
+In Apple Mail, you also need to manually allow insecure connections for both
+POP and SMTP. Leaving TLS off was not sufficient by itself.
+
 ## Mailpit web UI
 
 http://localhost:8025 — see all messages, great for debugging.

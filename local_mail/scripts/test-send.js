@@ -25,7 +25,7 @@ const info = await transport.sendMail({
   text:    [
     "This is a test message from the claudemail MCP setup.",
     "",
-    "If you see this in Apple Mail, your IMAP connection is working.",
+    "If you see this in Apple Mail, your POP connection is working.",
     "Reply to this message — Claude Code will be able to receive your answer.",
     "",
     "❓ Question",
@@ -39,4 +39,4 @@ const info = await transport.sendMail({
 
 console.log("✓ Test email sent:", info.messageId);
 console.log("  Check http://localhost:8025 to see it in the web UI");
-console.log("  Or check Apple Mail if IMAP is configured");
+console.log("  Or check Apple Mail if POP is configured");

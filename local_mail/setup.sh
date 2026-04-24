@@ -95,14 +95,14 @@ echo "  claude mcp add claudemail \\"
 echo "    -e CLAUDEMAIL_TO=you@localhost \\"
 echo "    -e CLAUDEMAIL_FROM=claude@localhost \\"
 echo "    -e CLAUDEMAIL_MAILPIT_URL=http://localhost:8025 \\"
-echo "    -- node $MCP_DIR/index.js"
+echo "    -- node $SCRIPT_DIR/index.js"
 echo ""
 echo "  Or add manually to ~/.claude.json mcpServers:"
 cat <<JSON
   {
     "claudemail": {
       "command": "node",
-      "args": ["$MCP_DIR/index.js"],
+      "args": ["$SCRIPT_DIR/index.js"],
       "env": {
         "CLAUDEMAIL_TO": "you@localhost",
         "CLAUDEMAIL_FROM": "claude@localhost",

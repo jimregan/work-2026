@@ -49,7 +49,9 @@ result = ask_question(
 # 2. Wait for the reply (default 5 min timeout)
 reply = wait_for_reply(
     subject=result["subject"],
-    sent_at=result["sentAt"],
+    sent_at=result["sent_at"],
+    conversation_id=result["conversation_id"],
+    message_id=result["message_id"],
     timeout_seconds=600   # 10 min for bigger decisions
 )
 

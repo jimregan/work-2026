@@ -19,6 +19,10 @@ Claude Code ← wait_for_reply() ← Mailpit REST API ← your reply
   - `wait_for_reply` — polls Mailpit until you reply (or timeout)
   - `check_inbox` — debug tool to see what's in the inbox
 
+Replies are matched by normal mail thread metadata first (`Message-ID`,
+`In-Reply-To`, `References`), with a conversation token in the body as a
+fallback. That makes the loop much more reliable than matching on subject alone.
+
 ## Quick start
 
 ```bash
@@ -31,6 +35,10 @@ claude mcp add claudemail -e CLAUDEMAIL_TO=you@localhost ... -- node .../index.j
 # 3. Test it
 node scripts/test-send.js
 ```
+
+When Claude uses the tools, it should pass the full `ask_question` result into
+`wait_for_reply`, especially `subject`, `sent_at`, `conversation_id`, and
+`message_id`.
 
 ## Apple Mail config
 
@@ -65,12 +73,15 @@ http://localhost:8025 — see all messages, great for debugging.
 
 ```
 claudemail/
+├── index.js               # thin wrapper to the MCP server
 ├── docker-compose.yml     # Mailpit container
 ├── setup.sh               # One-shot setup
 ├── CLAUDE.md              # Prompt guidance for Claude Code
 ├── mcp-server/
 │   ├── package.json
-│   └── index.js           # MCP server (ask_question, wait_for_reply)
+│   ├── index.js           # MCP server entrypoint
+│   ├── lib/claudemail.js  # reply matching and parsing
+│   └── test/              # node:test coverage for reply parsing
 └── scripts/
     └── test-send.js       # Smoke test
 ```

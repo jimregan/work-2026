@@ -2,7 +2,7 @@
 /**
  * claudemail-mcp
  * MCP server that lets Claude Code ask you questions via email.
- * You reply in your mail client → Claude Code polls for the answer.
+ * You reply in your mail client and Claude Code polls for the answer.
  */
 
 import { Server } from "@modelcontextprotocol/sdk/server/index.js";
@@ -12,17 +12,20 @@ import {
   ListToolsRequestSchema,
 } from "@modelcontextprotocol/sdk/types.js";
 import nodemailer from "nodemailer";
+import {
+  buildQuestionEmail,
+  extractReplyText,
+  generateConversationId,
+  getMessageId,
+  isReplyMatch,
+} from "./lib/claudemail.js";
 
-// ── Config (override with env vars) ──────────────────────────────────────────
-const SMTP_HOST  = process.env.CLAUDEMAIL_SMTP_HOST  || "localhost";
-const SMTP_PORT  = parseInt(process.env.CLAUDEMAIL_SMTP_PORT  || "1025");
-const IMAP_HOST  = process.env.CLAUDEMAIL_IMAP_HOST  || "localhost";
-const IMAP_PORT  = parseInt(process.env.CLAUDEMAIL_IMAP_PORT  || "1143");
-const MAILPIT_URL= process.env.CLAUDEMAIL_MAILPIT_URL || "http://localhost:8025";
-const YOUR_EMAIL = process.env.CLAUDEMAIL_TO          || "you@localhost";
-const FROM_EMAIL = process.env.CLAUDEMAIL_FROM        || "claude@localhost";
+const SMTP_HOST = process.env.CLAUDEMAIL_SMTP_HOST || "localhost";
+const SMTP_PORT = parseInt(process.env.CLAUDEMAIL_SMTP_PORT || "1025", 10);
+const MAILPIT_URL = process.env.CLAUDEMAIL_MAILPIT_URL || "http://localhost:8025";
+const YOUR_EMAIL = process.env.CLAUDEMAIL_TO || "you@localhost";
+const FROM_EMAIL = process.env.CLAUDEMAIL_FROM || "claude@localhost";
 
-// ── SMTP transport ────────────────────────────────────────────────────────────
 const transport = nodemailer.createTransport({
   host: SMTP_HOST,
   port: SMTP_PORT,
@@ -31,7 +34,6 @@ const transport = nodemailer.createTransport({
   tls: { rejectUnauthorized: false },
 });
 
-// ── Mailpit REST API helpers ──────────────────────────────────────────────────
 async function listMessages() {
   const res = await fetch(`${MAILPIT_URL}/api/v1/messages`);
   if (!res.ok) throw new Error(`Mailpit API error: ${res.status}`);
@@ -45,109 +47,155 @@ async function getMessage(id) {
 }
 
 async function deleteMessage(id) {
-  await fetch(`${MAILPIT_URL}/api/v1/message/${id}`, { method: "DELETE" });
+  const res = await fetch(`${MAILPIT_URL}/api/v1/message/${id}`, { method: "DELETE" });
+  if (!res.ok) throw new Error(`Mailpit API error: ${res.status}`);
 }
 
-// ── Find a reply to a sent message by subject ─────────────────────────────────
-async function findReply(subject, sentAt) {
+async function findReply({ subject, sentAt, conversationId, originalMessageId }) {
   const data = await listMessages();
   const messages = data.messages || [];
-  const reSubject = `Re: ${subject}`;
 
-  for (const msg of messages) {
-    const msgTime = new Date(msg.Created).getTime();
-    const isReply = msg.Subject === reSubject || msg.Subject.includes(subject);
-    const isNewer = msgTime > sentAt;
-    const toClaudeAddress = (msg.To || []).some(
-      (t) => t.Address === FROM_EMAIL
-    );
-
-    if (isReply && isNewer && toClaudeAddress) {
-      const full = await getMessage(msg.ID);
+  for (const message of messages) {
+    const fullMessage = await getMessage(message.ID);
+    if (
+      isReplyMatch({
+        message,
+        fullMessage,
+        expectedSubject: subject,
+        sentAt,
+        replyAddress: FROM_EMAIL,
+        conversationId,
+        originalMessageId,
+      })
+    ) {
       return {
-        id:      msg.ID,
-        subject: msg.Subject,
-        from:    msg.From?.Address,
-        body:    full.Text || full.HTML || "(empty reply)",
-        receivedAt: msg.Created,
+        id: message.ID,
+        subject: message.Subject,
+        from: message.From?.Address,
+        body: extractReplyText(fullMessage.Text || fullMessage.HTML || ""),
+        receivedAt: message.Created,
       };
     }
   }
+
   return null;
 }
 
-// ── Tool: ask_question ────────────────────────────────────────────────────────
 async function askQuestion({ subject, body, context }) {
-  const now    = Date.now();
+  const sentAt = Date.now();
   const fullSubject = subject || "Claude needs your input";
+  const conversationId = generateConversationId();
+  const messageId = `<${conversationId}@claudemail.local>`;
+  const emailBody = buildQuestionEmail({ body, context, conversationId, sentAt });
 
-  const emailBody = [
-    context ? `📋 Context\n──────────\n${context}\n` : null,
-    `❓ Question\n──────────\n${body}`,
-    `\nReply to this email to answer. Claude Code is waiting.`,
-    `\n─\nSent at: ${new Date(now).toLocaleString()}`,
-  ]
-    .filter(Boolean)
-    .join("\n");
-
-  await transport.sendMail({
-    from:    FROM_EMAIL,
-    to:      YOUR_EMAIL,
+  const info = await transport.sendMail({
+    from: FROM_EMAIL,
+    to: YOUR_EMAIL,
     subject: fullSubject,
-    text:    emailBody,
+    text: emailBody,
     replyTo: FROM_EMAIL,
+    messageId,
+    headers: {
+      "X-ClaudeMail-Conversation": conversationId,
+      "X-Auto-Response-Suppress": "All",
+    },
   });
 
   return {
-    sentAt:  now,
+    sentAt,
+    sent_at: sentAt,
     subject: fullSubject,
+    conversation_id: conversationId,
+    message_id: info.messageId || messageId,
     message: `Question sent to ${YOUR_EMAIL}. Use wait_for_reply to poll for your answer.`,
   };
 }
 
-// ── Tool: wait_for_reply ──────────────────────────────────────────────────────
-async function waitForReply({ subject, sent_at, timeout_seconds = 300, poll_interval_seconds = 10 }) {
-  const deadline = Date.now() + timeout_seconds * 1000;
-  const interval = poll_interval_seconds * 1000;
-  const sentAt   = typeof sent_at === "number" ? sent_at : Date.now() - 60_000;
+async function waitForReply({
+  subject,
+  sent_at,
+  sentAt,
+  conversation_id,
+  conversationId,
+  message_id,
+  messageId,
+  timeout_seconds = 300,
+  poll_interval_seconds = 10,
+}) {
+  const timeoutSeconds = Number(timeout_seconds);
+  const pollIntervalSeconds = Number(poll_interval_seconds);
+
+  if (!subject) throw new Error("wait_for_reply requires a subject");
+  if (!Number.isFinite(timeoutSeconds) || timeoutSeconds <= 0) {
+    throw new Error("timeout_seconds must be a positive number");
+  }
+  if (!Number.isFinite(pollIntervalSeconds) || pollIntervalSeconds <= 0) {
+    throw new Error("poll_interval_seconds must be a positive number");
+  }
+
+  const sentTimestamp = Number.isFinite(Number(sent_at))
+    ? Number(sent_at)
+    : Number.isFinite(Number(sentAt))
+      ? Number(sentAt)
+      : Date.now() - 60_000;
+  const expectedConversationId = conversation_id || conversationId || null;
+  const expectedMessageId = message_id || messageId || null;
+  const deadline = Date.now() + timeoutSeconds * 1000;
+  const interval = pollIntervalSeconds * 1000;
 
   while (Date.now() < deadline) {
-    const reply = await findReply(subject, sentAt);
+    const reply = await findReply({
+      subject,
+      sentAt: sentTimestamp,
+      conversationId: expectedConversationId,
+      originalMessageId: expectedMessageId,
+    });
+
     if (reply) {
-      await deleteMessage(reply.id); // clean up after reading
+      await deleteMessage(reply.id);
       return {
         answered: true,
-        answer:   reply.body.trim(),
-        from:     reply.from,
+        answer: reply.body.trim(),
+        from: reply.from,
         received_at: reply.receivedAt,
+        subject: reply.subject,
       };
     }
-    await new Promise((r) => setTimeout(r, interval));
+
+    await new Promise((resolve) => setTimeout(resolve, interval));
   }
 
   return {
     answered: false,
-    answer:   null,
-    message:  `No reply received within ${timeout_seconds}s. Ask again or proceed without input.`,
+    answer: null,
+    message: `No reply received within ${timeoutSeconds}s. Ask again or proceed without input.`,
   };
 }
 
-// ── Tool: check_inbox ─────────────────────────────────────────────────────────
 async function checkInbox() {
   const data = await listMessages();
-  const messages = (data.messages || []).slice(0, 10).map((m) => ({
-    id:      m.ID,
-    subject: m.Subject,
-    from:    m.From?.Address,
-    to:      (m.To || []).map((t) => t.Address),
-    date:    m.Created,
-  }));
+  const messages = await Promise.all(
+    (data.messages || []).slice(0, 10).map(async (message) => {
+      const fullMessage = await getMessage(message.ID);
+      const preview = extractReplyText(fullMessage.Text || fullMessage.HTML || "").slice(0, 160);
+
+      return {
+        id: message.ID,
+        subject: message.Subject,
+        from: message.From?.Address,
+        to: (message.To || []).map((recipient) => recipient.Address),
+        date: message.Created,
+        message_id: getMessageId(fullMessage),
+        preview,
+      };
+    })
+  );
+
   return { count: data.total || 0, recent: messages };
 }
 
-// ── MCP server ────────────────────────────────────────────────────────────────
 const server = new Server(
-  { name: "claudemail-mcp", version: "1.0.0" },
+  { name: "claudemail-mcp", version: "1.1.0" },
   { capabilities: { tools: {} } }
 );
 
@@ -156,13 +204,13 @@ server.setRequestHandler(ListToolsRequestSchema, async () => ({
     {
       name: "ask_question",
       description:
-        "Send an email to the user asking a question. Returns metadata needed to poll for the reply. Use this when you need human input to continue.",
+        "Send an email to the user asking a question. Returns the subject, send timestamp, and thread metadata needed to poll for the reply.",
       inputSchema: {
         type: "object",
         properties: {
           subject: {
             type: "string",
-            description: "Email subject line (short, descriptive)",
+            description: "Email subject line.",
           },
           body: {
             type: "string",
@@ -170,8 +218,7 @@ server.setRequestHandler(ListToolsRequestSchema, async () => ({
           },
           context: {
             type: "string",
-            description:
-              "Optional: brief context about what you're working on, shown above the question.",
+            description: "Optional context shown above the question.",
           },
         },
         required: ["body"],
@@ -180,25 +227,33 @@ server.setRequestHandler(ListToolsRequestSchema, async () => ({
     {
       name: "wait_for_reply",
       description:
-        "Poll Mailpit for a reply to a question previously sent with ask_question. Blocks (with polling) until a reply arrives or timeout is reached.",
+        "Poll Mailpit for a reply to a previous question. Prefer passing subject, sent_at, conversation_id, and message_id from ask_question for reliable matching.",
       inputSchema: {
         type: "object",
         properties: {
           subject: {
             type: "string",
-            description: "The subject of the question you sent",
+            description: "The subject returned by ask_question.",
           },
           sent_at: {
             type: "number",
-            description: "Epoch ms timestamp from ask_question result (sent_at field)",
+            description: "Epoch ms timestamp from ask_question.",
+          },
+          conversation_id: {
+            type: "string",
+            description: "Conversation token returned by ask_question.",
+          },
+          message_id: {
+            type: "string",
+            description: "Message-ID returned by ask_question.",
           },
           timeout_seconds: {
             type: "number",
-            description: "How long to wait for a reply (default: 300 = 5 min)",
+            description: "How long to wait for a reply. Default: 300.",
           },
           poll_interval_seconds: {
             type: "number",
-            description: "How often to check (default: 10s)",
+            description: "How often to poll for new messages. Default: 10.",
           },
         },
         required: ["subject", "sent_at"],
@@ -206,21 +261,20 @@ server.setRequestHandler(ListToolsRequestSchema, async () => ({
     },
     {
       name: "check_inbox",
-      description:
-        "List recent messages in the Mailpit inbox. Useful for debugging or checking if your email setup is working.",
+      description: "List recent Mailpit messages with a short preview for debugging.",
       inputSchema: { type: "object", properties: {} },
     },
   ],
 }));
 
 server.setRequestHandler(CallToolRequestSchema, async (request) => {
-  const { name, arguments: args } = request.params;
+  const { name, arguments: args = {} } = request.params;
 
   try {
     let result;
-    if      (name === "ask_question")  result = await askQuestion(args);
+    if (name === "ask_question") result = await askQuestion(args);
     else if (name === "wait_for_reply") result = await waitForReply(args);
-    else if (name === "check_inbox")   result = await checkInbox();
+    else if (name === "check_inbox") result = await checkInbox();
     else throw new Error(`Unknown tool: ${name}`);
 
     return {
@@ -234,6 +288,5 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
   }
 });
 
-// ── Start ─────────────────────────────────────────────────────────────────────
-const transport2 = new StdioServerTransport();
-await server.connect(transport2);
+const stdioTransport = new StdioServerTransport();
+await server.connect(stdioTransport);

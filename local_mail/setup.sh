@@ -36,12 +36,11 @@ else
     --name claudemail \
     --restart unless-stopped \
     -p 1025:1025 \
-    -p 1143:1143 \
+    -p 1110:1110 \
     -p 8025:8025 \
     -e MP_SMTP_AUTH_ACCEPT_ANY=true \
     -e MP_SMTP_AUTH_ALLOW_INSECURE=true \
-    -e MP_IMAP_AUTH_ACCEPT_ANY=true \
-    -e MP_IMAP_AUTH_ALLOW_INSECURE=true \
+    -e MP_POP3_AUTH=you:anything \
     -e MP_MAX_MESSAGES=500 \
     -v mailpit_data:/data \
     axllent/mailpit:latest
@@ -49,7 +48,7 @@ fi
 echo "  ✓ Mailpit running"
 echo "  ✓ Web UI: http://localhost:8025"
 echo "  ✓ SMTP:   localhost:1025"
-echo "  ✓ IMAP:   localhost:1143"
+echo "  ✓ POP3:   localhost:1110"
 
 # ── 3. Install MCP server deps ────────────────────────────
 echo ""
@@ -64,22 +63,22 @@ chmod +x "$MCP_DIR/index.js"
 # ── 5. Configure Apple Mail ──────────────────────────────
 echo ""
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-echo "  Apple Mail setup (IMAP)"
+echo "  Apple Mail setup (POP)"
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
 echo ""
 echo "  Add this account in Mail → Settings → Accounts → +"
 echo ""
-echo "  IMAP (incoming):"
-echo "    Server:    localhost"
-echo "    Port:      1143"
-echo "    Username:  you@localhost"
+echo "  POP (incoming):"
+echo "    Server:    127.0.0.1"
+echo "    Port:      1110"
+echo "    Username:  you"
 echo "    Password:  anything"
 echo "    TLS:       OFF (plain)"
 echo ""
 echo "  SMTP (outgoing — for replies):"
-echo "    Server:    localhost"
+echo "    Server:    127.0.0.1"
 echo "    Port:      1025"
-echo "    Username:  you@localhost"
+echo "    Username:  you"
 echo "    Password:  anything"
 echo "    TLS:       OFF (plain)"
 echo ""

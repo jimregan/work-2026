@@ -8,12 +8,12 @@ while staring at a blank terminal prompt does not.
 ## How it works
 
 ```
-Claude Code → ask_question() → SMTP → Mailpit → IMAP → Apple Mail
+Claude Code → ask_question() → SMTP → Mailpit → POP3 → Apple Mail
                                                               ↓
 Claude Code ← wait_for_reply() ← Mailpit REST API ← your reply
 ```
 
-- **Mailpit** runs in Docker: a tiny (~10 MB) local mail server with SMTP, IMAP, and a web UI
+- **Mailpit** runs in Docker: a tiny (~10 MB) local mail server with SMTP, POP3, and a web UI
 - **claudemail-mcp** is a Node.js MCP server that gives Claude Code two tools:
   - `ask_question` — sends you an email
   - `wait_for_reply` — polls Mailpit until you reply (or timeout)
@@ -49,13 +49,13 @@ When Claude uses the tools, it should pass the full `ask_question` result into
 
 | Setting   | Value         |
 |-----------|---------------|
-| Protocol  | IMAP          |
-| Host      | localhost     |
-| Port      | 1143          |
-| Username  | you@localhost |
+| Protocol  | POP           |
+| Host      | 127.0.0.1     |
+| Port      | 1110          |
+| Username  | you           |
 | Password  | anything      |
 | TLS       | OFF           |
-| SMTP host | localhost     |
+| SMTP host | 127.0.0.1     |
 | SMTP port | 1025          |
 
 ## Mailpit web UI
@@ -70,8 +70,6 @@ http://localhost:8025 — see all messages, great for debugging.
 | `CLAUDEMAIL_FROM`         | `claude@localhost`       | Claude's "from" address  |
 | `CLAUDEMAIL_SMTP_HOST`    | `localhost`              | SMTP host                |
 | `CLAUDEMAIL_SMTP_PORT`    | `1025`                   | SMTP port                |
-| `CLAUDEMAIL_IMAP_HOST`    | `localhost`              | IMAP host                |
-| `CLAUDEMAIL_IMAP_PORT`    | `1143`                   | IMAP port                |
 | `CLAUDEMAIL_MAILPIT_URL`  | `http://localhost:8025`  | Mailpit REST API base    |
 
 ## Files

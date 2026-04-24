@@ -3,7 +3,12 @@
  * test-send.js — smoke test for the claudemail setup
  * Run: node scripts/test-send.js
  */
-import nodemailer from "nodemailer";
+import { createRequire } from "node:module";
+
+const requireFromMcp = createRequire(
+  new URL("../mcp-server/package.json", import.meta.url)
+);
+const nodemailer = requireFromMcp("nodemailer");
 
 const transport = nodemailer.createTransport({
   host: "localhost",

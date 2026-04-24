@@ -5,13 +5,12 @@ services:
     restart: unless-stopped
     ports:
       - "1025:1025"   # SMTP
-      - "1143:1143"   # IMAP
+      - "1110:1110"   # POP3
       - "8025:8025"   # Web UI
     environment:
       MP_SMTP_AUTH_ACCEPT_ANY: "true"
       MP_SMTP_AUTH_ALLOW_INSECURE: "true"
-      MP_IMAP_AUTH_ACCEPT_ANY: "true"
-      MP_IMAP_AUTH_ALLOW_INSECURE: "true"
+      MP_POP3_AUTH: "you:anything"
       MP_MAX_MESSAGES: 500
       MP_UI_AUTH: ""        # no UI password (local only)
     volumes:

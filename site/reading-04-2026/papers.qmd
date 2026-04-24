@@ -49,5 +49,16 @@ Method:
 
 ## [Universal NER v2: Towards a Massively Multilingual Named Entity Recognition Benchmark](https://arxiv.org/abs/2604.12744)
 
+## [Attention to Mamba: A Recipe for Cross-Architecture Distillation](https://arxiv.org/abs/2604.14191)
+
+## [Retrieval Augmented Generation based context discovery for ASR](https://aclanthology.org/2025.findings-emnlp.768/) [@dimitrios-etal-2025-retrieval]
+- [arXiv](https://arxiv.org/abs/2509.19567)
+
+## [Bridging the Modality Gap: Softly Discretizing Audio Representation for LLM-based Automatic Speech Recognition](https://ieeexplore.ieee.org/document/11434631) [@yang2025llmasr]
+- [arXiv](https://arxiv.org/abs/2506.05706)
+
+## [Contrastive and non-contrastive self-supervised learning recover global and local spectral embedding methods](https://dl.acm.org/doi/10.5555/3600270.3602204) [@balestriero2022spectral]
+- [arXiv](https://arxiv.org/abs/2205.11508)
+
 ::: {#refs}
 :::

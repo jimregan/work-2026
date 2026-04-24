@@ -19,6 +19,11 @@ Claude Code ← wait_for_reply() ← Mailpit REST API ← your reply
   - `wait_for_reply` — polls Mailpit until you reply (or timeout)
   - `check_inbox` — debug tool to see what's in the inbox
 
+On top of the mail transport, this repo now includes a staged writing workflow:
+- **Respondent** for getting words onto the page
+- **Supervisor** once you have paragraphs and need structure
+- **Harsh reviewer** once there is enough draft to critique hard
+
 Replies are matched by normal mail thread metadata first (`Message-ID`,
 `In-Reply-To`, `References`), with a conversation token in the body as a
 fallback. That makes the loop much more reliable than matching on subject alone.
@@ -77,6 +82,7 @@ claudemail/
 ├── docker-compose.yml     # Mailpit container
 ├── setup.sh               # One-shot setup
 ├── CLAUDE.md              # Prompt guidance for Claude Code
+├── WRITING_AGENTS.md      # staged respondent/supervisor/reviewer workflow
 ├── mcp-server/
 │   ├── package.json
 │   ├── index.js           # MCP server entrypoint
@@ -85,3 +91,11 @@ claudemail/
 └── scripts/
     └── test-send.js       # Smoke test
 ```
+
+## Suggested Writing Use
+
+Use the respondent role until you have at least a couple of paragraphs. Then
+switch to the supervisor role to diagnose shape and decide the next moves.
+Only after that should you bring in a harsh reviewer to attack vagueness,
+padding, and weak paragraphs. The full role definitions live in
+`WRITING_AGENTS.md`.

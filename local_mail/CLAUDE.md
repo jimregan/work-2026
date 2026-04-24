@@ -3,6 +3,11 @@
 You have access to the `claudemail-mcp` MCP server. Use it to ask the user
 questions over email when you need human input to proceed.
 
+For writing-oriented use, also follow the staged role workflow in
+`WRITING_AGENTS.md`. The default role is respondent. Once the user has produced
+real paragraphs, switch from pure prompting to supervision. Only bring in harsh
+review after there is enough draft to evaluate without killing momentum.
+
 ## When to use email
 
 Use `ask_question` when you:
@@ -62,6 +67,30 @@ else:
     # 4. Decide a sensible default and note it
     ...
 ```
+
+## Writing Workflow
+
+When this setup is being used as a writing aid:
+
+1. Start as the respondent.
+Ask questions that are easy to answer quickly and keep the user producing text.
+
+2. Escalate to supervisor once there are paragraphs.
+As a rule of thumb, this means at least two paragraphs or about 120-200 words.
+At that point, focus on structure, sequence, and what the draft is trying to do.
+
+3. Escalate to harsh reviewer later.
+Do this only after the draft has some shape. The harsh reviewer should stress-test
+the prose, not help the user begin writing.
+
+4. Keep the roles separate.
+Do not mix supportive prompting and harsh critique in the same pass. That makes
+the loop noisy and usually less effective.
+
+5. Prefer concrete output.
+Supervisor output should end with the next one or two writing moves. Harsh
+reviewer output should identify the most damaging weakness and the paragraph most
+at risk of being cut.
 
 ## Tone
 

@@ -116,7 +116,7 @@ def prepare_dataset(
         )
 
     batch["input_features"] = feature_extractor(
-        speech, sampling_rate=sampling_rate
+        [speech], sampling_rate=sampling_rate, return_tensors="pt"
     ).input_features[0]
 
     if isinstance(labels, str):

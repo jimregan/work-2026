@@ -26,7 +26,10 @@ from transformers.models.gemma4.configuration_gemma4 import Gemma4AudioConfig
 from transformers.models.gemma4.modeling_gemma4 import Gemma4AudioModel
 from transformers.utils import logging
 
-from .configuration_gemma4_ctc import Gemma4CTCConfig
+try:
+    from .configuration_gemma4_ctc import Gemma4CTCConfig
+except ImportError:
+    from configuration_gemma4_ctc import Gemma4CTCConfig
 
 
 assert tuple(int(x) for x in _transformers_version.split(".")[:2]) >= (5, 5), \

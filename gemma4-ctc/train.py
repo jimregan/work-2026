@@ -139,6 +139,12 @@ def load_training_dataset(dataset_name: str, dataset_config: str | None, train_s
     return load_dataset(dataset_name, dataset_config)
 
 
+def iter_text_column_values(raw_datasets: DatasetDict, text_column: str):
+    for split in raw_datasets.values():
+        for value in split[text_column]:
+            yield value
+
+
 def build_model(
     *,
     model_dir: str,
@@ -190,7 +196,7 @@ def main():
 
     if args.rebuild_vocab:
         vocab_units = collect_ctc_units(
-            (example for split in raw_datasets.values() for example in split),
+            iter_text_column_values(raw_datasets, args.text_column),
             args.text_column,
         )
         vocab = build_ctc_vocab(vocab_units, tokenizer_template)

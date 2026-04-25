@@ -17,6 +17,7 @@ import argparse
 import math
 import os
 import sys
+from pathlib import Path
 
 import torch
 from accelerate import Accelerator
@@ -30,6 +31,7 @@ from transformers.models.gemma4.feature_extraction_gemma4 import Gemma4AudioFeat
 
 sys.path.insert(0, os.path.dirname(__file__))
 from collator import DataCollatorCTCWithPadding
+from ctc_vocab import build_ctc_vocab, collect_ctc_units, save_ctc_tokenizer
 
 
 logger = get_logger(__name__)
@@ -47,6 +49,8 @@ def parse_args():
     parser.add_argument("--audio_column", default="audio")
     parser.add_argument("--text_column", default="text")
     parser.add_argument("--output_dir", required=True)
+    parser.add_argument("--rebuild_vocab", action="store_true",
+                        help="Rebuild the CTC tokenizer vocab from the dataset text column")
     parser.add_argument("--num_train_epochs", type=int, default=10)
     parser.add_argument("--per_device_train_batch_size", type=int, default=8)
     parser.add_argument("--per_device_eval_batch_size", type=int, default=8)
@@ -85,10 +89,38 @@ def main():
 
     logger.info(accelerator.state)
 
-    feature_extractor = Gemma4AudioFeatureExtractor.from_pretrained(args.model_dir)
-    tokenizer = Wav2Vec2CTCTokenizer.from_pretrained(args.model_dir)
+    raw_datasets = load_dataset(args.dataset_name, args.dataset_config)
 
-    model = AutoModelForCTC.from_pretrained(args.model_dir, trust_remote_code=True)
+    feature_extractor = Gemma4AudioFeatureExtractor.from_pretrained(args.model_dir)
+    tokenizer_template = Wav2Vec2CTCTokenizer.from_pretrained(args.model_dir)
+
+    if args.rebuild_vocab:
+        vocab_units = collect_ctc_units(
+            (example for split in raw_datasets.values() for example in split),
+            args.text_column,
+        )
+        vocab = build_ctc_vocab(vocab_units, tokenizer_template)
+        tokenizer_dir = Path(args.output_dir) / "rebuilt_tokenizer"
+        tokenizer = save_ctc_tokenizer(vocab, tokenizer_template, tokenizer_dir)
+
+        config = AutoConfig.from_pretrained(args.model_dir, trust_remote_code=True)
+        config.vocab_size = len(tokenizer)
+        config.pad_token_id = tokenizer.pad_token_id
+        model = AutoModelForCTC.from_pretrained(
+            args.model_dir,
+            config=config,
+            trust_remote_code=True,
+            ignore_mismatched_sizes=True,
+        )
+
+        if accelerator.is_main_process:
+            logger.info(
+                f"Rebuilt tokenizer with {len(tokenizer)} entries from column '{args.text_column}'"
+            )
+            logger.info(f"Saved rebuilt tokenizer to {tokenizer_dir}")
+    else:
+        tokenizer = tokenizer_template
+        model = AutoModelForCTC.from_pretrained(args.model_dir, trust_remote_code=True)
 
     if args.gradient_checkpointing:
         model.gradient_checkpointing_enable()
@@ -102,8 +134,6 @@ def main():
         trainable = sum(p.numel() for p in model.parameters() if p.requires_grad)
         total = sum(p.numel() for p in model.parameters())
         logger.info(f"Trainable parameters: {trainable:,} / {total:,}")
-
-    raw_datasets = load_dataset(args.dataset_name, args.dataset_config)
 
     with accelerator.main_process_first():
         processed = raw_datasets.map(

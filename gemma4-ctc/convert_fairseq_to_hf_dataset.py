@@ -16,9 +16,12 @@ def parse_args():
     return parser.parse_args()
 
 
-def decode_fairseq_transcript(line: str) -> str:
-    tokens = line.strip().split()
-    return "".join(" " if token == "|" else token for token in tokens)
+def parse_fairseq_transcript(line: str) -> list[str]:
+    return line.strip().split()
+
+
+def format_fairseq_transcript(tokens: list[str]) -> str:
+    return " ".join(tokens)
 
 
 def read_fairseq_manifest(tsv_path: str | Path, transcripts_path: str | Path) -> list[dict]:
@@ -56,15 +59,16 @@ def read_fairseq_manifest(tsv_path: str | Path, transcripts_path: str | Path) ->
         )
 
     with transcripts_path.open("r", encoding="utf-8") as transcripts_file:
-        transcripts = [decode_fairseq_transcript(line) for line in transcripts_file]
+        transcripts = [parse_fairseq_transcript(line) for line in transcripts_file]
 
     if len(manifest_entries) != len(transcripts):
         raise ValueError(
             f"Manifest/transcript length mismatch: {len(manifest_entries)} entries vs {len(transcripts)} transcripts"
         )
 
-    for entry, transcript in zip(manifest_entries, transcripts, strict=True):
-        entry["text"] = transcript
+    for entry, transcript_tokens in zip(manifest_entries, transcripts, strict=True):
+        entry["text"] = format_fairseq_transcript(transcript_tokens)
+        entry["phonemes"] = transcript_tokens
 
     return manifest_entries
 

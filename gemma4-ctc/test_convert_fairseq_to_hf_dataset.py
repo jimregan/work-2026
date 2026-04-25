@@ -2,12 +2,14 @@ from pathlib import Path
 import wave
 
 import pytest
+from transformers import Wav2Vec2CTCTokenizer
 
 datasets = pytest.importorskip("datasets")
 load_from_disk = datasets.load_from_disk
 from convert_fairseq_to_hf_dataset import (
     build_dataset,
-    decode_fairseq_transcript,
+    format_fairseq_transcript,
+    parse_fairseq_transcript,
     read_fairseq_manifest,
 )
 
@@ -20,8 +22,20 @@ def write_test_wav(path: Path, sample_rate: int = 16000, num_samples: int = 160)
         wav_file.writeframes(b"\x00\x00" * num_samples)
 
 
-def test_decode_fairseq_transcript():
-    assert decode_fairseq_transcript("h e l l o | w o r l d\n") == "hello world"
+def test_parse_fairseq_transcript():
+    assert parse_fairseq_transcript("h e l l o | w o r l d\n") == [
+        "h", "e", "l", "l", "o", "|", "w", "o", "r", "l", "d"
+    ]
+
+
+def test_format_fairseq_transcript():
+    assert format_fairseq_transcript(["ɑː", "b", "|", "d"]) == "ɑː b | d"
+
+
+def test_pretokenized_labels_work_with_local_tokenizer():
+    tokenizer = Wav2Vec2CTCTokenizer.from_pretrained(".")
+    encoded = tokenizer(["ɑː", "b", "|", "d"], is_split_into_words=True).input_ids
+    assert tokenizer.convert_ids_to_tokens(encoded) == ["ɑː", "b", "|", "d"]
 
 
 def test_manifest_round_trip(tmp_path):
@@ -43,7 +57,8 @@ def test_manifest_round_trip(tmp_path):
             "audio": str(wav_path),
             "path": str(wav_path),
             "num_samples": 160,
-            "text": "hi there",
+            "text": "h i | t h e r e",
+            "phonemes": ["h", "i", "|", "t", "h", "e", "r", "e"],
         }
     ]
 
@@ -55,5 +70,6 @@ def test_manifest_round_trip(tmp_path):
     row = loaded[0]
     assert row["path"] == str(wav_path)
     assert row["num_samples"] == 160
-    assert row["text"] == "hi there"
+    assert row["text"] == "h i | t h e r e"
+    assert row["phonemes"] == ["h", "i", "|", "t", "h", "e", "r", "e"]
     assert row["audio"]["sampling_rate"] == 16000

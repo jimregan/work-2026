@@ -64,10 +64,17 @@ def parse_args():
 
 def prepare_dataset(batch, feature_extractor, tokenizer, audio_column, text_column):
     audio = batch[audio_column]
+    labels = batch[text_column]
+
     batch["input_features"] = feature_extractor(
         audio["array"], sampling_rate=audio["sampling_rate"]
     ).input_features[0]
-    batch["labels"] = tokenizer(batch[text_column]).input_ids
+
+    if isinstance(labels, str):
+        batch["labels"] = tokenizer(labels).input_ids
+    else:
+        batch["labels"] = tokenizer(labels, is_split_into_words=True).input_ids
+
     return batch
 
 

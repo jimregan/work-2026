@@ -64,6 +64,8 @@ def parse_args():
     parser.add_argument("--output_dir", required=True)
     parser.add_argument("--rebuild_vocab", action="store_true",
                         help="Rebuild the CTC tokenizer vocab from the dataset text column")
+    parser.add_argument("--eval_only", action="store_true",
+                        help="Skip training and run evaluation on --eval_split only")
     parser.add_argument("--num_train_epochs", type=int, default=10)
     parser.add_argument("--per_device_train_batch_size", type=int, default=8)
     parser.add_argument("--per_device_eval_batch_size", type=int, default=8)
@@ -358,6 +360,19 @@ def main():
             f"optimizer_steps={num_update_steps}, "
             f"warmup_steps={warmup_steps}"
         )
+
+    if args.eval_only:
+        model, eval_dataloader = accelerator.prepare(model, eval_dataloader)
+        eval_loss = evaluate(model, eval_dataloader, accelerator)
+        if accelerator.is_main_process:
+            logger.info(f"{args.eval_split}_loss {eval_loss:.4f}")
+            if writer is not None:
+                writer.add_scalar(f"{args.eval_split}/loss", eval_loss, 0)
+        if writer is not None:
+            writer.close()
+        if dist.is_available() and dist.is_initialized():
+            dist.destroy_process_group()
+        return
 
     lr_scheduler = get_scheduler(
         "cosine",

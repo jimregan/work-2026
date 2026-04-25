@@ -27,12 +27,14 @@ if str(SCRIPT_DIR) not in sys.path:
 
 import numpy as np
 import torch
+import torch.distributed as dist
 from accelerate import Accelerator
 from accelerate.logging import get_logger
 from accelerate.utils import set_seed
 from datasets import Dataset, DatasetDict, load_dataset, load_from_disk
 from torch.optim import AdamW
 from torch.utils.data import DataLoader
+from torch.utils.tensorboard import SummaryWriter
 from transformers import AutoConfig, AutoModelForCTC, Wav2Vec2CTCTokenizer, get_scheduler
 from transformers.models.gemma4.feature_extraction_gemma4 import Gemma4AudioFeatureExtractor
 
@@ -71,6 +73,9 @@ def parse_args():
     parser.add_argument("--seed", type=int, default=42)
     parser.add_argument("--save_steps", type=int, default=500)
     parser.add_argument("--eval_steps", type=int, default=500)
+    parser.add_argument("--log_steps", type=int, default=1)
+    parser.add_argument("--tensorboard_dir", default=None,
+                        help="TensorBoard log dir; defaults to <output_dir>/runs")
     parser.add_argument("--unfreeze_norms", action="store_true",
                         help="Keep encoder layer norms trainable instead of freezing everything")
     parser.add_argument("--gradient_checkpointing", action="store_true")
@@ -224,14 +229,33 @@ def build_model(
     return Gemma4ForCTC(config)
 
 
+def evaluate(model, dataloader, accelerator) -> float:
+    model.eval()
+    eval_loss = 0.0
+    num_batches = 0
+
+    for eval_batch in dataloader:
+        with torch.no_grad():
+            eval_outputs = model(**eval_batch)
+        eval_loss += accelerator.gather(eval_outputs.loss.detach()).mean().item()
+        num_batches += 1
+
+    model.train()
+    return eval_loss / max(num_batches, 1)
+
+
 def main():
     args = parse_args()
     accelerator = Accelerator(gradient_accumulation_steps=args.gradient_accumulation_steps)
     set_seed(args.seed)
+    writer = None
 
     logger.info(accelerator.state)
 
     raw_datasets = load_training_dataset(args.dataset_name, args.dataset_config, args.train_split)
+    if accelerator.is_main_process:
+        split_sizes = ", ".join(f"{name}={len(split)}" for name, split in raw_datasets.items())
+        logger.info(f"Loaded dataset splits: {split_sizes}")
 
     ctc_repo_dir = args.model_dir if is_ctc_model_dir(args.model_dir) else str(SCRIPT_DIR)
 
@@ -279,6 +303,9 @@ def main():
         trainable = sum(p.numel() for p in model.parameters() if p.requires_grad)
         total = sum(p.numel() for p in model.parameters())
         logger.info(f"Trainable parameters: {trainable:,} / {total:,}")
+        tb_dir = args.tensorboard_dir or str(Path(args.output_dir) / "runs")
+        writer = SummaryWriter(log_dir=tb_dir)
+        logger.info(f"TensorBoard logging to {tb_dir}")
 
     with accelerator.main_process_first():
         processed = raw_datasets.map(
@@ -321,6 +348,17 @@ def main():
     ) * args.num_train_epochs
     warmup_steps = int(num_update_steps * args.warmup_ratio)
 
+    if accelerator.is_main_process:
+        logger.info(
+            "Training plan: "
+            f"epochs={args.num_train_epochs}, "
+            f"train_batches_per_epoch={len(train_dataloader)}, "
+            f"eval_batches={len(eval_dataloader)}, "
+            f"grad_accum={args.gradient_accumulation_steps}, "
+            f"optimizer_steps={num_update_steps}, "
+            f"warmup_steps={warmup_steps}"
+        )
+
     lr_scheduler = get_scheduler(
         "cosine",
         optimizer=optimizer,
@@ -333,50 +371,81 @@ def main():
     )
 
     global_step = 0
+    running_train_loss = 0.0
+    running_train_steps = 0
 
-    for epoch in range(args.num_train_epochs):
-        model.train()
-        for batch in train_dataloader:
-            with accelerator.accumulate(model):
-                outputs = model(**batch)
-                loss = outputs.loss
-                accelerator.backward(loss)
+    try:
+        for epoch in range(args.num_train_epochs):
+            model.train()
+            if accelerator.is_main_process:
+                logger.info(f"Starting epoch {epoch + 1}/{args.num_train_epochs}")
+
+            for batch_idx, batch in enumerate(train_dataloader, start=1):
+                with accelerator.accumulate(model):
+                    outputs = model(**batch)
+                    loss = outputs.loss
+                    accelerator.backward(loss)
+                    if accelerator.sync_gradients:
+                        accelerator.clip_grad_norm_(model.parameters(), 1.0)
+                    optimizer.step()
+                    lr_scheduler.step()
+                    optimizer.zero_grad()
+
                 if accelerator.sync_gradients:
-                    accelerator.clip_grad_norm_(model.parameters(), 1.0)
-                optimizer.step()
-                lr_scheduler.step()
-                optimizer.zero_grad()
+                    global_step += 1
+                    step_loss = accelerator.gather(loss.detach()).mean().item()
+                    running_train_loss += step_loss
+                    running_train_steps += 1
 
-            if accelerator.sync_gradients:
-                global_step += 1
+                    if accelerator.is_main_process and (
+                        global_step == 1 or global_step % args.log_steps == 0
+                    ):
+                        avg_train_loss = running_train_loss / max(running_train_steps, 1)
+                        current_lr = lr_scheduler.get_last_lr()[0]
+                        logger.info(
+                            f"epoch={epoch + 1}/{args.num_train_epochs} "
+                            f"batch={batch_idx}/{len(train_dataloader)} "
+                            f"step={global_step}/{num_update_steps} "
+                            f"train_loss={avg_train_loss:.4f} "
+                            f"lr={current_lr:.6g}"
+                        )
+                        if writer is not None:
+                            writer.add_scalar("train/loss", avg_train_loss, global_step)
+                            writer.add_scalar("train/lr", current_lr, global_step)
+                        running_train_loss = 0.0
+                        running_train_steps = 0
 
-                if global_step % args.eval_steps == 0:
-                    model.eval()
-                    eval_loss = 0.0
-                    for eval_batch in eval_dataloader:
-                        with torch.no_grad():
-                            eval_outputs = model(**eval_batch)
-                        eval_loss += accelerator.gather(eval_outputs.loss).mean().item()
-                    eval_loss /= len(eval_dataloader)
-                    logger.info(f"step {global_step} | eval_loss {eval_loss:.4f}")
-                    model.train()
+                    if global_step % args.eval_steps == 0:
+                        eval_loss = evaluate(model, eval_dataloader, accelerator)
+                        if accelerator.is_main_process:
+                            logger.info(f"step {global_step}/{num_update_steps} | eval_loss {eval_loss:.4f}")
+                            if writer is not None:
+                                writer.add_scalar("eval/loss", eval_loss, global_step)
 
-                if global_step % args.save_steps == 0 and accelerator.is_main_process:
-                    unwrapped = accelerator.unwrap_model(model)
-                    unwrapped.save_pretrained(
-                        f"{args.output_dir}/checkpoint-{global_step}",
-                        save_function=accelerator.save,
-                    )
+                    if global_step % args.save_steps == 0 and accelerator.is_main_process:
+                        checkpoint_dir = f"{args.output_dir}/checkpoint-{global_step}"
+                        unwrapped = accelerator.unwrap_model(model)
+                        unwrapped.save_pretrained(
+                            checkpoint_dir,
+                            save_function=accelerator.save,
+                        )
+                        logger.info(f"Saved checkpoint to {checkpoint_dir}")
 
-        logger.info(f"Epoch {epoch + 1} done")
+            if accelerator.is_main_process:
+                logger.info(f"Epoch {epoch + 1} done")
 
-    accelerator.wait_for_everyone()
-    if accelerator.is_main_process:
-        unwrapped = accelerator.unwrap_model(model)
-        unwrapped.save_pretrained(args.output_dir, save_function=accelerator.save)
-        feature_extractor.save_pretrained(args.output_dir)
-        tokenizer.save_pretrained(args.output_dir)
-        logger.info(f"Saved to {args.output_dir}")
+        accelerator.wait_for_everyone()
+        if accelerator.is_main_process:
+            unwrapped = accelerator.unwrap_model(model)
+            unwrapped.save_pretrained(args.output_dir, save_function=accelerator.save)
+            feature_extractor.save_pretrained(args.output_dir)
+            tokenizer.save_pretrained(args.output_dir)
+            logger.info(f"Saved to {args.output_dir}")
+    finally:
+        if writer is not None:
+            writer.close()
+        if dist.is_available() and dist.is_initialized():
+            dist.destroy_process_group()
 
 
 if __name__ == "__main__":

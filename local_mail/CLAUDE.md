@@ -44,7 +44,7 @@ Any preference, or should I pick based on your near-term plans?
 ## Workflow pattern
 
 ```python
-# 1. Send the question
+# 1. Send the first question
 result = ask_question(
     subject="Which approach for X?",
     body="...",
@@ -61,8 +61,13 @@ reply = wait_for_reply(
 )
 
 if reply["answered"]:
-    # 3. Use reply["answer"] to proceed
-    ...
+    # 3. Use reply["answer"] to proceed, and thread the next question
+    result2 = ask_question(
+        subject="Re: Which approach for X?",
+        body="Follow-up question...",
+        in_reply_to=reply["reply_message_id"],
+        references=reply["next_references"],
+    )
 else:
     # 4. Decide a sensible default and note it
     ...

@@ -17,6 +17,7 @@ import {
   extractReplyText,
   generateConversationId,
   getMessageId,
+  getThreadReferences,
   isReplyMatch,
 } from "./lib/claudemail.js";
 
@@ -56,7 +57,12 @@ async function findReply({ subject, sentAt, conversationId, originalMessageId })
   const messages = data.messages || [];
 
   for (const message of messages) {
-    const fullMessage = await getMessage(message.ID);
+    let fullMessage;
+    try {
+      fullMessage = await getMessage(message.ID);
+    } catch {
+      continue;
+    }
     if (
       isReplyMatch({
         message,
@@ -68,12 +74,17 @@ async function findReply({ subject, sentAt, conversationId, originalMessageId })
         originalMessageId,
       })
     ) {
+      const replyMessageId = getMessageId(fullMessage);
+      const existingRefs = getThreadReferences(fullMessage);
+      const nextReferences = [...new Set([...existingRefs, replyMessageId])].filter(Boolean).join(" ");
       return {
         id: message.ID,
         subject: message.Subject,
         from: message.From?.Address,
         body: extractReplyText(fullMessage.Text || fullMessage.HTML || ""),
         receivedAt: message.Created,
+        messageId: replyMessageId,
+        nextReferences,
       };
     }
   }
@@ -81,14 +92,14 @@ async function findReply({ subject, sentAt, conversationId, originalMessageId })
   return null;
 }
 
-async function askQuestion({ subject, body, context }) {
+async function askQuestion({ subject, body, context, in_reply_to, references }) {
   const sentAt = Date.now();
   const fullSubject = subject || "Claude needs your input";
   const conversationId = generateConversationId();
   const messageId = `<${conversationId}@claudemail.local>`;
   const emailBody = buildQuestionEmail({ body, context, conversationId, sentAt });
 
-  const info = await transport.sendMail({
+  const mail = {
     from: FROM_EMAIL,
     to: YOUR_EMAIL,
     subject: fullSubject,
@@ -99,7 +110,11 @@ async function askQuestion({ subject, body, context }) {
       "X-ClaudeMail-Conversation": conversationId,
       "X-Auto-Response-Suppress": "All",
     },
-  });
+  };
+  if (in_reply_to) mail.inReplyTo = in_reply_to;
+  if (references) mail.references = references;
+
+  const info = await transport.sendMail(mail);
 
   return {
     sentAt,
@@ -144,12 +159,18 @@ async function waitForReply({
   const interval = pollIntervalSeconds * 1000;
 
   while (Date.now() < deadline) {
-    const reply = await findReply({
-      subject,
-      sentAt: sentTimestamp,
-      conversationId: expectedConversationId,
-      originalMessageId: expectedMessageId,
-    });
+    let reply = null;
+    try {
+      reply = await findReply({
+        subject,
+        sentAt: sentTimestamp,
+        conversationId: expectedConversationId,
+        originalMessageId: expectedMessageId,
+      });
+    } catch {
+      await new Promise((resolve) => setTimeout(resolve, interval));
+      continue;
+    }
 
     if (reply) {
       await deleteMessage(reply.id);
@@ -159,6 +180,8 @@ async function waitForReply({
         from: reply.from,
         received_at: reply.receivedAt,
         subject: reply.subject,
+        reply_message_id: reply.messageId,
+        next_references: reply.nextReferences,
       };
     }
 
@@ -195,7 +218,7 @@ async function checkInbox() {
 }
 
 const server = new Server(
-  { name: "claudemail-mcp", version: "1.1.0" },
+  { name: "claudemail-mcp", version: "1.2.0" },
   { capabilities: { tools: {} } }
 );
 
@@ -219,6 +242,14 @@ server.setRequestHandler(ListToolsRequestSchema, async () => ({
           context: {
             type: "string",
             description: "Optional context shown above the question.",
+          },
+          in_reply_to: {
+            type: "string",
+            description: "Message-ID to thread against. Use reply_message_id from wait_for_reply.",
+          },
+          references: {
+            type: "string",
+            description: "Space-separated reference chain for threading. Use next_references from wait_for_reply.",
           },
         },
         required: ["body"],

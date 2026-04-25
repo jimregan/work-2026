@@ -46,6 +46,11 @@ logger = get_logger(__name__)
 DEFAULT_MODEL_DIR = str(SCRIPT_DIR)
 
 
+def announce(message: str):
+    print(message, flush=True)
+    logger.info(message)
+
+
 def parse_args():
     parser = argparse.ArgumentParser()
     parser.add_argument("--model_dir", default=DEFAULT_MODEL_DIR,
@@ -252,12 +257,12 @@ def main():
     set_seed(args.seed)
     writer = None
 
-    logger.info(accelerator.state)
+    announce(str(accelerator.state))
 
     raw_datasets = load_training_dataset(args.dataset_name, args.dataset_config, args.train_split)
     if accelerator.is_main_process:
         split_sizes = ", ".join(f"{name}={len(split)}" for name, split in raw_datasets.items())
-        logger.info(f"Loaded dataset splits: {split_sizes}")
+        announce(f"Loaded dataset splits: {split_sizes}")
 
     ctc_repo_dir = args.model_dir if is_ctc_model_dir(args.model_dir) else str(SCRIPT_DIR)
 
@@ -274,10 +279,10 @@ def main():
         tokenizer = save_ctc_tokenizer(vocab, tokenizer_template, tokenizer_dir)
 
         if accelerator.is_main_process:
-            logger.info(
+            announce(
                 f"Rebuilt tokenizer with {len(tokenizer)} entries from column '{args.text_column}'"
             )
-            logger.info(f"Saved rebuilt tokenizer to {tokenizer_dir}")
+            announce(f"Saved rebuilt tokenizer to {tokenizer_dir}")
     else:
         tokenizer = tokenizer_template
 
@@ -290,8 +295,8 @@ def main():
     )
 
     if accelerator.is_main_process and ctc_repo_dir != args.model_dir:
-        logger.info(f"Using local CTC repo assets from {ctc_repo_dir}")
-        logger.info(f"Using base Gemma checkpoint from {args.base_model_id or args.model_dir}")
+        announce(f"Using local CTC repo assets from {ctc_repo_dir}")
+        announce(f"Using base Gemma checkpoint from {args.base_model_id or args.model_dir}")
 
     if args.gradient_checkpointing:
         model.gradient_checkpointing_enable()
@@ -304,10 +309,10 @@ def main():
     if accelerator.is_main_process:
         trainable = sum(p.numel() for p in model.parameters() if p.requires_grad)
         total = sum(p.numel() for p in model.parameters())
-        logger.info(f"Trainable parameters: {trainable:,} / {total:,}")
+        announce(f"Trainable parameters: {trainable:,} / {total:,}")
         tb_dir = args.tensorboard_dir or str(Path(args.output_dir) / "runs")
         writer = SummaryWriter(log_dir=tb_dir)
-        logger.info(f"TensorBoard logging to {tb_dir}")
+        announce(f"TensorBoard logging to {tb_dir}")
 
     with accelerator.main_process_first():
         processed = raw_datasets.map(
@@ -351,7 +356,7 @@ def main():
     warmup_steps = int(num_update_steps * args.warmup_ratio)
 
     if accelerator.is_main_process:
-        logger.info(
+        announce(
             "Training plan: "
             f"epochs={args.num_train_epochs}, "
             f"train_batches_per_epoch={len(train_dataloader)}, "
@@ -365,7 +370,7 @@ def main():
         model, eval_dataloader = accelerator.prepare(model, eval_dataloader)
         eval_loss = evaluate(model, eval_dataloader, accelerator)
         if accelerator.is_main_process:
-            logger.info(f"{args.eval_split}_loss {eval_loss:.4f}")
+            announce(f"{args.eval_split}_loss {eval_loss:.4f}")
             if writer is not None:
                 writer.add_scalar(f"{args.eval_split}/loss", eval_loss, 0)
         if writer is not None:
@@ -393,9 +398,11 @@ def main():
         for epoch in range(args.num_train_epochs):
             model.train()
             if accelerator.is_main_process:
-                logger.info(f"Starting epoch {epoch + 1}/{args.num_train_epochs}")
+                announce(f"Starting epoch {epoch + 1}/{args.num_train_epochs}")
 
             for batch_idx, batch in enumerate(train_dataloader, start=1):
+                if global_step == 0 and batch_idx == 1 and accelerator.is_main_process:
+                    announce("Entered first training batch")
                 with accelerator.accumulate(model):
                     outputs = model(**batch)
                     loss = outputs.loss
@@ -417,7 +424,7 @@ def main():
                     ):
                         avg_train_loss = running_train_loss / max(running_train_steps, 1)
                         current_lr = lr_scheduler.get_last_lr()[0]
-                        logger.info(
+                        announce(
                             f"epoch={epoch + 1}/{args.num_train_epochs} "
                             f"batch={batch_idx}/{len(train_dataloader)} "
                             f"step={global_step}/{num_update_steps} "
@@ -433,7 +440,7 @@ def main():
                     if global_step % args.eval_steps == 0:
                         eval_loss = evaluate(model, eval_dataloader, accelerator)
                         if accelerator.is_main_process:
-                            logger.info(f"step {global_step}/{num_update_steps} | eval_loss {eval_loss:.4f}")
+                            announce(f"step {global_step}/{num_update_steps} | eval_loss {eval_loss:.4f}")
                             if writer is not None:
                                 writer.add_scalar("eval/loss", eval_loss, global_step)
 
@@ -444,18 +451,20 @@ def main():
                             checkpoint_dir,
                             save_function=accelerator.save,
                         )
-                        logger.info(f"Saved checkpoint to {checkpoint_dir}")
+                        announce(f"Saved checkpoint to {checkpoint_dir}")
 
             if accelerator.is_main_process:
-                logger.info(f"Epoch {epoch + 1} done")
+                announce(f"Epoch {epoch + 1} done")
 
         accelerator.wait_for_everyone()
         if accelerator.is_main_process:
+            if global_step == 0:
+                raise RuntimeError("Training reached final save without taking any optimizer steps")
             unwrapped = accelerator.unwrap_model(model)
             unwrapped.save_pretrained(args.output_dir, save_function=accelerator.save)
             feature_extractor.save_pretrained(args.output_dir)
             tokenizer.save_pretrained(args.output_dir)
-            logger.info(f"Saved to {args.output_dir}")
+            announce(f"Saved to {args.output_dir}")
     finally:
         if writer is not None:
             writer.close()

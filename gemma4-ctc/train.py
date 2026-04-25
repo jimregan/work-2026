@@ -14,6 +14,7 @@ self-contained: reloading them does not require the upstream model.
 """
 
 import argparse
+import shutil
 import json
 import math
 import os
@@ -44,11 +45,25 @@ from ctc_vocab import build_ctc_vocab, collect_ctc_units, save_ctc_tokenizer
 
 logger = get_logger(__name__)
 DEFAULT_MODEL_DIR = str(SCRIPT_DIR)
+REMOTE_CODE_FILES = (
+    "modeling_gemma4_ctc.py",
+    "configuration_gemma4_ctc.py",
+)
 
 
 def announce(message: str):
     print(message, flush=True)
     logger.info(message)
+
+
+def copy_remote_code_files(output_dir: str | os.PathLike):
+    output_dir = Path(output_dir)
+    output_dir.mkdir(parents=True, exist_ok=True)
+
+    for filename in REMOTE_CODE_FILES:
+        src = SCRIPT_DIR / filename
+        if src.exists():
+            shutil.copy2(src, output_dir / filename)
 
 
 def parse_args():
@@ -350,22 +365,6 @@ def main():
         lr=args.learning_rate,
     )
 
-    num_update_steps = math.ceil(
-        len(train_dataloader) / args.gradient_accumulation_steps
-    ) * args.num_train_epochs
-    warmup_steps = int(num_update_steps * args.warmup_ratio)
-
-    if accelerator.is_main_process:
-        announce(
-            "Training plan: "
-            f"epochs={args.num_train_epochs}, "
-            f"train_batches_per_epoch={len(train_dataloader)}, "
-            f"eval_batches={len(eval_dataloader)}, "
-            f"grad_accum={args.gradient_accumulation_steps}, "
-            f"optimizer_steps={num_update_steps}, "
-            f"warmup_steps={warmup_steps}"
-        )
-
     if args.eval_only:
         model, eval_dataloader = accelerator.prepare(model, eval_dataloader)
         eval_loss = evaluate(model, eval_dataloader, accelerator)
@@ -379,16 +378,33 @@ def main():
             dist.destroy_process_group()
         return
 
+    model, optimizer, train_dataloader, eval_dataloader = accelerator.prepare(
+        model, optimizer, train_dataloader, eval_dataloader
+    )
+
+    num_update_steps = math.ceil(
+        len(train_dataloader) / args.gradient_accumulation_steps
+    ) * args.num_train_epochs
+    warmup_steps = int(num_update_steps * args.warmup_ratio)
+
     lr_scheduler = get_scheduler(
         "cosine",
         optimizer=optimizer,
         num_warmup_steps=warmup_steps,
         num_training_steps=num_update_steps,
     )
+    lr_scheduler = accelerator.prepare(lr_scheduler)
 
-    model, optimizer, train_dataloader, eval_dataloader, lr_scheduler = accelerator.prepare(
-        model, optimizer, train_dataloader, eval_dataloader, lr_scheduler
-    )
+    if accelerator.is_main_process:
+        announce(
+            "Training plan: "
+            f"epochs={args.num_train_epochs}, "
+            f"train_batches_per_epoch={len(train_dataloader)}, "
+            f"eval_batches={len(eval_dataloader)}, "
+            f"grad_accum={args.gradient_accumulation_steps}, "
+            f"optimizer_steps={num_update_steps}, "
+            f"warmup_steps={warmup_steps}"
+        )
 
     global_step = 0
     running_train_loss = 0.0
@@ -451,6 +467,7 @@ def main():
                             checkpoint_dir,
                             save_function=accelerator.save,
                         )
+                        copy_remote_code_files(checkpoint_dir)
                         announce(f"Saved checkpoint to {checkpoint_dir}")
 
             if accelerator.is_main_process:
@@ -464,6 +481,7 @@ def main():
             unwrapped.save_pretrained(args.output_dir, save_function=accelerator.save)
             feature_extractor.save_pretrained(args.output_dir)
             tokenizer.save_pretrained(args.output_dir)
+            copy_remote_code_files(args.output_dir)
             announce(f"Saved to {args.output_dir}")
     finally:
         if writer is not None:

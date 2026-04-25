@@ -202,6 +202,12 @@ def build_model(
     from configuration_gemma4_ctc import Gemma4CTCConfig
     from modeling_gemma4_ctc import Gemma4ForCTC
 
+    if not hasattr(tokenizer, "__len__"):
+        raise ValueError(
+            "No concrete CTC tokenizer is available. "
+            "Pass --rebuild_vocab to build one from the dataset, or provide a CTC model repo with vocab.json."
+        )
+
     if is_ctc_model_dir(model_dir):
         config = AutoConfig.from_pretrained(model_dir, trust_remote_code=True)
         if base_model_id is not None:

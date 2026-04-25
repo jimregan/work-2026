@@ -18,6 +18,7 @@ import json
 import math
 import os
 import sys
+import wave
 from pathlib import Path
 from types import SimpleNamespace
 
@@ -25,11 +26,12 @@ SCRIPT_DIR = Path(__file__).resolve().parent
 if str(SCRIPT_DIR) not in sys.path:
     sys.path.insert(0, str(SCRIPT_DIR))
 
+import numpy as np
 import torch
 from accelerate import Accelerator
 from accelerate.logging import get_logger
 from accelerate.utils import set_seed
-from datasets import Dataset, DatasetDict, load_dataset, load_from_disk
+from datasets import Audio, Dataset, DatasetDict, load_dataset, load_from_disk
 from torch.optim import AdamW
 from torch.utils.data import DataLoader
 from transformers import AutoConfig, AutoModelForCTC, Wav2Vec2CTCTokenizer, get_scheduler
@@ -55,6 +57,9 @@ def parse_args():
     parser.add_argument("--eval_split", default="validation")
     parser.add_argument("--audio_column", default="audio")
     parser.add_argument("--text_column", default="text")
+    parser.add_argument("--audio_channel_strategy", default="error",
+                        choices=["error", "first"],
+                        help="How to handle multi-channel audio: fail or take the first channel")
     parser.add_argument("--output_dir", required=True)
     parser.add_argument("--rebuild_vocab", action="store_true",
                         help="Rebuild the CTC tokenizer vocab from the dataset text column")
@@ -73,12 +78,43 @@ def parse_args():
     return parser.parse_args()
 
 
-def prepare_dataset(batch, feature_extractor, tokenizer, audio_column, text_column):
+def prepare_dataset(
+    batch,
+    feature_extractor,
+    tokenizer,
+    audio_column,
+    text_column,
+    audio_channel_strategy,
+):
     audio = batch[audio_column]
     labels = batch[text_column]
 
+    audio_path = batch.get("path") or getattr(audio, "get", lambda *_: None)("path") or "<unknown>"
+    with wave.open(audio_path, "rb") as wav_file:
+        sample_width = wav_file.getsampwidth()
+        num_channels = wav_file.getnchannels()
+        sampling_rate = wav_file.getframerate()
+        num_frames = wav_file.getnframes()
+        raw_frames = wav_file.readframes(num_frames)
+
+    if sample_width != 2:
+        raise ValueError(
+            f"Expected 16-bit PCM WAV input, got sample_width={sample_width} for {audio_path}"
+        )
+
+    speech = np.frombuffer(raw_frames, dtype="<i2").astype(np.float32) / 32768.0
+
+    if num_channels == 1:
+        pass
+    elif audio_channel_strategy == "first":
+        speech = speech.reshape(-1, num_channels)[:, 0]
+    else:
+        raise ValueError(
+            f"Multi-channel WAV encountered: path={audio_path}, sampling_rate={sampling_rate}, channels={num_channels}"
+        )
+
     batch["input_features"] = feature_extractor(
-        audio["array"], sampling_rate=audio["sampling_rate"]
+        speech, sampling_rate=sampling_rate
     ).input_features[0]
 
     if isinstance(labels, str):
@@ -145,6 +181,16 @@ def iter_text_column_values(raw_datasets: DatasetDict, text_column: str):
             yield value
 
 
+def disable_audio_decoding(raw_datasets: DatasetDict, audio_column: str) -> DatasetDict:
+    updated = {}
+    for split_name, split in raw_datasets.items():
+        if audio_column in split.column_names:
+            updated[split_name] = split.cast_column(audio_column, Audio(decode=False))
+        else:
+            updated[split_name] = split
+    return DatasetDict(updated)
+
+
 def build_model(
     *,
     model_dir: str,
@@ -188,6 +234,7 @@ def main():
     logger.info(accelerator.state)
 
     raw_datasets = load_training_dataset(args.dataset_name, args.dataset_config, args.train_split)
+    raw_datasets = disable_audio_decoding(raw_datasets, args.audio_column)
 
     ctc_repo_dir = args.model_dir if is_ctc_model_dir(args.model_dir) else str(SCRIPT_DIR)
 
@@ -244,6 +291,7 @@ def main():
                 "tokenizer": tokenizer,
                 "audio_column": args.audio_column,
                 "text_column": args.text_column,
+                "audio_channel_strategy": args.audio_channel_strategy,
             },
             remove_columns=raw_datasets[args.train_split].column_names,
             num_proc=4,

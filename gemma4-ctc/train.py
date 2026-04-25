@@ -19,6 +19,7 @@ import math
 import os
 import sys
 from pathlib import Path
+from types import SimpleNamespace
 
 SCRIPT_DIR = Path(__file__).resolve().parent
 if str(SCRIPT_DIR) not in sys.path:
@@ -101,6 +102,29 @@ def is_ctc_model_dir(model_dir: str | os.PathLike) -> bool:
     return config.get("model_type") == "gemma4_ctc"
 
 
+def load_tokenizer_template(model_dir: str | os.PathLike):
+    model_dir = Path(model_dir)
+    vocab_path = model_dir / "vocab.json"
+    if vocab_path.exists():
+        return Wav2Vec2CTCTokenizer.from_pretrained(str(model_dir))
+
+    config = {}
+    tokenizer_config_path = model_dir / "tokenizer_config.json"
+    if tokenizer_config_path.exists():
+        config = json.loads(tokenizer_config_path.read_text(encoding="utf-8"))
+
+    return SimpleNamespace(
+        bos_token=config.get("bos_token", "<s>"),
+        eos_token=config.get("eos_token", "</s>"),
+        unk_token=config.get("unk_token", "<unk>"),
+        pad_token=config.get("pad_token", "<pad>"),
+        word_delimiter_token=config.get("word_delimiter_token", "|"),
+        replace_word_delimiter_char=config.get("replace_word_delimiter_char", " "),
+        do_lower_case=config.get("do_lower_case", False),
+        pad_token_id=0,
+    )
+
+
 def load_training_dataset(dataset_name: str, dataset_config: str | None, train_split: str) -> DatasetDict:
     dataset_path = Path(dataset_name).expanduser()
 
@@ -162,7 +186,7 @@ def main():
     ctc_repo_dir = args.model_dir if is_ctc_model_dir(args.model_dir) else str(SCRIPT_DIR)
 
     feature_extractor = Gemma4AudioFeatureExtractor.from_pretrained(ctc_repo_dir)
-    tokenizer_template = Wav2Vec2CTCTokenizer.from_pretrained(ctc_repo_dir)
+    tokenizer_template = load_tokenizer_template(ctc_repo_dir)
 
     if args.rebuild_vocab:
         vocab_units = collect_ctc_units(

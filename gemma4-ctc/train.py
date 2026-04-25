@@ -14,6 +14,7 @@ self-contained: reloading them does not require the upstream model.
 """
 
 import argparse
+import json
 import math
 import os
 import sys
@@ -47,6 +48,8 @@ def parse_args():
                         help="Repo dir containing config.json, vocab.json, etc.")
     parser.add_argument("--dataset_name", required=True)
     parser.add_argument("--dataset_config", default=None)
+    parser.add_argument("--base_model_id", default=None,
+                        help="Optional Gemma checkpoint override for the audio tower")
     parser.add_argument("--train_split", default="train")
     parser.add_argument("--eval_split", default="validation")
     parser.add_argument("--audio_column", default="audio")
@@ -85,6 +88,19 @@ def prepare_dataset(batch, feature_extractor, tokenizer, audio_column, text_colu
     return batch
 
 
+def is_ctc_model_dir(model_dir: str | os.PathLike) -> bool:
+    config_path = Path(model_dir) / "config.json"
+    if not config_path.exists():
+        return False
+
+    try:
+        config = json.loads(config_path.read_text(encoding="utf-8"))
+    except json.JSONDecodeError:
+        return False
+
+    return config.get("model_type") == "gemma4_ctc"
+
+
 def load_training_dataset(dataset_name: str, dataset_config: str | None, train_split: str) -> DatasetDict:
     dataset_path = Path(dataset_name).expanduser()
 
@@ -99,6 +115,41 @@ def load_training_dataset(dataset_name: str, dataset_config: str | None, train_s
     return load_dataset(dataset_name, dataset_config)
 
 
+def build_model(
+    *,
+    model_dir: str,
+    ctc_repo_dir: str,
+    tokenizer,
+    rebuild_vocab: bool,
+    base_model_id: str | None,
+):
+    from configuration_gemma4_ctc import Gemma4CTCConfig
+    from modeling_gemma4_ctc import Gemma4ForCTC
+
+    if is_ctc_model_dir(model_dir):
+        config = AutoConfig.from_pretrained(model_dir, trust_remote_code=True)
+        if base_model_id is not None:
+            config.gemma4_audio_model_id = base_model_id
+
+        if rebuild_vocab:
+            config.vocab_size = len(tokenizer)
+            config.pad_token_id = tokenizer.pad_token_id
+            return AutoModelForCTC.from_pretrained(
+                model_dir,
+                config=config,
+                trust_remote_code=True,
+                ignore_mismatched_sizes=True,
+            )
+
+        return AutoModelForCTC.from_pretrained(model_dir, config=config, trust_remote_code=True)
+
+    config = Gemma4CTCConfig.from_pretrained(ctc_repo_dir)
+    config.vocab_size = len(tokenizer)
+    config.pad_token_id = tokenizer.pad_token_id
+    config.gemma4_audio_model_id = base_model_id or model_dir
+    return Gemma4ForCTC(config)
+
+
 def main():
     args = parse_args()
     accelerator = Accelerator(gradient_accumulation_steps=args.gradient_accumulation_steps)
@@ -108,8 +159,10 @@ def main():
 
     raw_datasets = load_training_dataset(args.dataset_name, args.dataset_config, args.train_split)
 
-    feature_extractor = Gemma4AudioFeatureExtractor.from_pretrained(args.model_dir)
-    tokenizer_template = Wav2Vec2CTCTokenizer.from_pretrained(args.model_dir)
+    ctc_repo_dir = args.model_dir if is_ctc_model_dir(args.model_dir) else str(SCRIPT_DIR)
+
+    feature_extractor = Gemma4AudioFeatureExtractor.from_pretrained(ctc_repo_dir)
+    tokenizer_template = Wav2Vec2CTCTokenizer.from_pretrained(ctc_repo_dir)
 
     if args.rebuild_vocab:
         vocab_units = collect_ctc_units(
@@ -120,16 +173,6 @@ def main():
         tokenizer_dir = Path(args.output_dir) / "rebuilt_tokenizer"
         tokenizer = save_ctc_tokenizer(vocab, tokenizer_template, tokenizer_dir)
 
-        config = AutoConfig.from_pretrained(args.model_dir, trust_remote_code=True)
-        config.vocab_size = len(tokenizer)
-        config.pad_token_id = tokenizer.pad_token_id
-        model = AutoModelForCTC.from_pretrained(
-            args.model_dir,
-            config=config,
-            trust_remote_code=True,
-            ignore_mismatched_sizes=True,
-        )
-
         if accelerator.is_main_process:
             logger.info(
                 f"Rebuilt tokenizer with {len(tokenizer)} entries from column '{args.text_column}'"
@@ -137,7 +180,18 @@ def main():
             logger.info(f"Saved rebuilt tokenizer to {tokenizer_dir}")
     else:
         tokenizer = tokenizer_template
-        model = AutoModelForCTC.from_pretrained(args.model_dir, trust_remote_code=True)
+
+    model = build_model(
+        model_dir=args.model_dir,
+        ctc_repo_dir=ctc_repo_dir,
+        tokenizer=tokenizer,
+        rebuild_vocab=args.rebuild_vocab,
+        base_model_id=args.base_model_id,
+    )
+
+    if accelerator.is_main_process and ctc_repo_dir != args.model_dir:
+        logger.info(f"Using local CTC repo assets from {ctc_repo_dir}")
+        logger.info(f"Using base Gemma checkpoint from {args.base_model_id or args.model_dir}")
 
     if args.gradient_checkpointing:
         model.gradient_checkpointing_enable()

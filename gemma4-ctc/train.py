@@ -19,23 +19,26 @@ import os
 import sys
 from pathlib import Path
 
+SCRIPT_DIR = Path(__file__).resolve().parent
+if str(SCRIPT_DIR) not in sys.path:
+    sys.path.insert(0, str(SCRIPT_DIR))
+
 import torch
 from accelerate import Accelerator
 from accelerate.logging import get_logger
 from accelerate.utils import set_seed
-from datasets import load_dataset
+from datasets import Dataset, DatasetDict, load_dataset, load_from_disk
 from torch.optim import AdamW
 from torch.utils.data import DataLoader
 from transformers import AutoConfig, AutoModelForCTC, Wav2Vec2CTCTokenizer, get_scheduler
 from transformers.models.gemma4.feature_extraction_gemma4 import Gemma4AudioFeatureExtractor
 
-sys.path.insert(0, os.path.dirname(__file__))
 from collator import DataCollatorCTCWithPadding
 from ctc_vocab import build_ctc_vocab, collect_ctc_units, save_ctc_tokenizer
 
 
 logger = get_logger(__name__)
-DEFAULT_MODEL_DIR = os.path.dirname(os.path.abspath(__file__))
+DEFAULT_MODEL_DIR = str(SCRIPT_DIR)
 
 
 def parse_args():
@@ -82,6 +85,20 @@ def prepare_dataset(batch, feature_extractor, tokenizer, audio_column, text_colu
     return batch
 
 
+def load_training_dataset(dataset_name: str, dataset_config: str | None, train_split: str) -> DatasetDict:
+    dataset_path = Path(dataset_name).expanduser()
+
+    if dataset_path.exists():
+        loaded = load_from_disk(str(dataset_path))
+        if isinstance(loaded, DatasetDict):
+            return loaded
+        if isinstance(loaded, Dataset):
+            return DatasetDict({train_split: loaded})
+        raise TypeError(f"Unsupported dataset type returned from load_from_disk: {type(loaded).__name__}")
+
+    return load_dataset(dataset_name, dataset_config)
+
+
 def main():
     args = parse_args()
     accelerator = Accelerator(gradient_accumulation_steps=args.gradient_accumulation_steps)
@@ -89,7 +106,7 @@ def main():
 
     logger.info(accelerator.state)
 
-    raw_datasets = load_dataset(args.dataset_name, args.dataset_config)
+    raw_datasets = load_training_dataset(args.dataset_name, args.dataset_config, args.train_split)
 
     feature_extractor = Gemma4AudioFeatureExtractor.from_pretrained(args.model_dir)
     tokenizer_template = Wav2Vec2CTCTokenizer.from_pretrained(args.model_dir)

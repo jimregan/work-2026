@@ -18,7 +18,6 @@ import json
 import math
 import os
 import sys
-import wave
 from pathlib import Path
 from types import SimpleNamespace
 
@@ -31,7 +30,7 @@ import torch
 from accelerate import Accelerator
 from accelerate.logging import get_logger
 from accelerate.utils import set_seed
-from datasets import Audio, Dataset, DatasetDict, load_dataset, load_from_disk
+from datasets import Dataset, DatasetDict, load_dataset, load_from_disk
 from torch.optim import AdamW
 from torch.utils.data import DataLoader
 from transformers import AutoConfig, AutoModelForCTC, Wav2Vec2CTCTokenizer, get_scheduler
@@ -88,29 +87,32 @@ def prepare_dataset(
 ):
     audio = batch[audio_column]
     labels = batch[text_column]
+    audio_path = batch.get("path", "<unknown>")
 
-    audio_path = batch.get("path") or getattr(audio, "get", lambda *_: None)("path") or "<unknown>"
-    with wave.open(audio_path, "rb") as wav_file:
-        sample_width = wav_file.getsampwidth()
-        num_channels = wav_file.getnchannels()
-        sampling_rate = wav_file.getframerate()
-        num_frames = wav_file.getnframes()
-        raw_frames = wav_file.readframes(num_frames)
-
-    if sample_width != 2:
-        raise ValueError(
-            f"Expected 16-bit PCM WAV input, got sample_width={sample_width} for {audio_path}"
+    if hasattr(audio, "get_all_samples"):
+        samples = audio.get_all_samples()
+        speech = samples.data.detach().cpu().numpy().astype(np.float32, copy=False)
+        sampling_rate = int(samples.sample_rate)
+    elif isinstance(audio, dict) and "array" in audio and "sampling_rate" in audio:
+        speech = np.asarray(audio["array"], dtype=np.float32)
+        sampling_rate = int(audio["sampling_rate"])
+    else:
+        raise TypeError(
+            f"Unsupported audio object for {audio_path}: {type(audio).__name__}"
         )
 
-    speech = np.frombuffer(raw_frames, dtype="<i2").astype(np.float32) / 32768.0
-
-    if num_channels == 1:
-        pass
-    elif audio_channel_strategy == "first":
-        speech = speech.reshape(-1, num_channels)[:, 0]
-    else:
+    if speech.ndim == 2:
+        if speech.shape[0] == 1 or speech.shape[1] == 1:
+            speech = speech.reshape(-1)
+        elif audio_channel_strategy == "first":
+            speech = speech[0] if speech.shape[0] <= speech.shape[1] else speech[:, 0]
+        else:
+            raise ValueError(
+                f"Multi-channel decoded audio encountered: path={audio_path}, sampling_rate={sampling_rate}, shape={speech.shape}"
+            )
+    elif speech.ndim != 1:
         raise ValueError(
-            f"Multi-channel WAV encountered: path={audio_path}, sampling_rate={sampling_rate}, channels={num_channels}"
+            f"Unexpected decoded audio rank: path={audio_path}, sampling_rate={sampling_rate}, shape={speech.shape}"
         )
 
     batch["input_features"] = feature_extractor(
@@ -181,16 +183,6 @@ def iter_text_column_values(raw_datasets: DatasetDict, text_column: str):
             yield value
 
 
-def disable_audio_decoding(raw_datasets: DatasetDict, audio_column: str) -> DatasetDict:
-    updated = {}
-    for split_name, split in raw_datasets.items():
-        if audio_column in split.column_names:
-            updated[split_name] = split.cast_column(audio_column, Audio(decode=False))
-        else:
-            updated[split_name] = split
-    return DatasetDict(updated)
-
-
 def build_model(
     *,
     model_dir: str,
@@ -240,7 +232,6 @@ def main():
     logger.info(accelerator.state)
 
     raw_datasets = load_training_dataset(args.dataset_name, args.dataset_config, args.train_split)
-    raw_datasets = disable_audio_decoding(raw_datasets, args.audio_column)
 
     ctc_repo_dir = args.model_dir if is_ctc_model_dir(args.model_dir) else str(SCRIPT_DIR)
 

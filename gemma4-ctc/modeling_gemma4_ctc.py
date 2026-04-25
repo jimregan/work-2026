@@ -183,6 +183,7 @@ class Gemma4ForCTC(Gemma4CTCPreTrainedModel):
         output_mask = outputs.attention_mask
 
         hidden_states = self.dropout(hidden_states)
+        hidden_states = hidden_states.to(self.lm_head.weight.dtype)
         logits = self.lm_head(hidden_states)
 
         loss = None

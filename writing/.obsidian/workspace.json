@@ -27,12 +27,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Labs 2.md",
+                "file": "LRE - Phonetic corpus/old-towards.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Labs 2"
+              "title": "old-towards"
             }
           }
         ],
@@ -217,15 +217,17 @@
   },
   "active": "1590a48f6166dfa3",
   "lastOpenFiles": [
-    "2026-04-14.md",
+    "LRE - Phonetic corpus/01 Introduction.md",
+    "LRE - Phonetic corpus/00 Abstract.md",
+    "chapter 1.md",
     "Labs 2.md",
+    "2026-04-14.md",
     "INDEX.md",
     "2026-04-05.md",
     "LRE - Phonetic corpus/XX-Old-intro.md",
     "riksvox 0.md",
     "phonetic corpus.md",
     "eusipco journal list.md",
-    "chapter 1.md",
     "Untitled.md",
     "TSD strategy.md",
     "TODO 12-04-2026.md",
@@ -242,8 +244,6 @@
     "LRE - Phonetic corpus/04 rules as acoustic hypotheses.md",
     "LRE - Phonetic corpus/03 Parliamentary speech as a living substrate.md",
     "LRE - Phonetic corpus/02 Why transcripts are not enough.md",
-    "LRE - Phonetic corpus/01 Introduction.md",
-    "LRE - Phonetic corpus/00 Abstract.md",
     "LRE - Phonetic corpus",
     "Hungarian Reels.md",
     "Gemma4CTC.md",

@@ -96,6 +96,10 @@ def parse_args():
     parser.add_argument("--save_steps", type=int, default=500)
     parser.add_argument("--eval_steps", type=int, default=500)
     parser.add_argument("--log_steps", type=int, default=1)
+    parser.add_argument("--save_best", action="store_true",
+                        help="Track best validation loss and save it to <output_dir>/best")
+    parser.add_argument("--early_stopping_patience", type=int, default=None,
+                        help="Stop after this many evals without validation-loss improvement")
     parser.add_argument("--tensorboard_dir", default=None,
                         help="TensorBoard log dir; defaults to <output_dir>/runs")
     parser.add_argument("--unfreeze_norms", action="store_true",
@@ -409,6 +413,10 @@ def main():
     global_step = 0
     running_train_loss = 0.0
     running_train_steps = 0
+    best_eval_loss = float("inf")
+    best_global_step = None
+    evals_without_improvement = 0
+    should_stop = False
 
     try:
         for epoch in range(args.num_train_epochs):
@@ -460,6 +468,43 @@ def main():
                             if writer is not None:
                                 writer.add_scalar("eval/loss", eval_loss, global_step)
 
+                            if args.save_best:
+                                if eval_loss < best_eval_loss:
+                                    best_eval_loss = eval_loss
+                                    best_global_step = global_step
+                                    evals_without_improvement = 0
+                                    best_dir = f"{args.output_dir}/best"
+                                    unwrapped = accelerator.unwrap_model(model)
+                                    unwrapped.save_pretrained(
+                                        best_dir,
+                                        save_function=accelerator.save,
+                                    )
+                                    feature_extractor.save_pretrained(best_dir)
+                                    tokenizer.save_pretrained(best_dir)
+                                    copy_remote_code_files(best_dir)
+                                    announce(
+                                        f"Saved new best model to {best_dir} "
+                                        f"(step={global_step}, eval_loss={eval_loss:.4f})"
+                                    )
+                                else:
+                                    evals_without_improvement += 1
+                                    announce(
+                                        "No validation improvement "
+                                        f"(best_eval_loss={best_eval_loss:.4f}, "
+                                        f"current_eval_loss={eval_loss:.4f}, "
+                                        f"stale_evals={evals_without_improvement})"
+                                    )
+
+                                if (
+                                    args.early_stopping_patience is not None
+                                    and evals_without_improvement >= args.early_stopping_patience
+                                ):
+                                    announce(
+                                        "Early stopping triggered "
+                                        f"after {evals_without_improvement} stale evals"
+                                    )
+                                    should_stop = True
+
                     if global_step % args.save_steps == 0 and accelerator.is_main_process:
                         checkpoint_dir = f"{args.output_dir}/checkpoint-{global_step}"
                         unwrapped = accelerator.unwrap_model(model)
@@ -472,6 +517,8 @@ def main():
 
             if accelerator.is_main_process:
                 announce(f"Epoch {epoch + 1} done")
+            if should_stop:
+                break
 
         accelerator.wait_for_everyone()
         if accelerator.is_main_process:
@@ -483,6 +530,11 @@ def main():
             tokenizer.save_pretrained(args.output_dir)
             copy_remote_code_files(args.output_dir)
             announce(f"Saved to {args.output_dir}")
+            if args.save_best and best_global_step is not None:
+                announce(
+                    f"Best validation-loss checkpoint: step={best_global_step}, "
+                    f"eval_loss={best_eval_loss:.4f}, dir={args.output_dir}/best"
+                )
     finally:
         if writer is not None:
             writer.close()

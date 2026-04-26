@@ -90,7 +90,7 @@ def parse_args():
     parser.add_argument("--per_device_train_batch_size", type=int, default=8)
     parser.add_argument("--per_device_eval_batch_size", type=int, default=8)
     parser.add_argument("--gradient_accumulation_steps", type=int, default=4)
-    parser.add_argument("--learning_rate", type=float, default=1e-4)
+    parser.add_argument("--learning_rate", type=float, default=3e-5)
     parser.add_argument("--warmup_ratio", type=float, default=0.1)
     parser.add_argument("--seed", type=int, default=42)
     parser.add_argument("--save_steps", type=int, default=500)
@@ -102,6 +102,10 @@ def parse_args():
                         help="Stop after this many evals without validation-loss improvement")
     parser.add_argument("--tensorboard_dir", default=None,
                         help="TensorBoard log dir; defaults to <output_dir>/runs")
+    parser.add_argument("--normalize_waveform", action="store_true", default=True,
+                        help="Apply per-utterance waveform normalization before feature extraction")
+    parser.add_argument("--no_normalize_waveform", action="store_false", dest="normalize_waveform",
+                        help="Disable per-utterance waveform normalization")
     parser.add_argument("--unfreeze_norms", action="store_true",
                         help="Keep encoder layer norms trainable instead of freezing everything")
     parser.add_argument("--gradient_checkpointing", action="store_true")
@@ -115,6 +119,7 @@ def prepare_dataset(
     audio_column,
     text_column,
     audio_channel_strategy,
+    normalize_waveform,
 ):
     audio = batch[audio_column]
     labels = batch[text_column]
@@ -145,6 +150,14 @@ def prepare_dataset(
         raise ValueError(
             f"Unexpected decoded audio rank: path={audio_path}, sampling_rate={sampling_rate}, shape={speech.shape}"
         )
+
+    if normalize_waveform:
+        mean = float(speech.mean())
+        std = float(speech.std())
+        if std > 0.0:
+            speech = (speech - mean) / std
+        else:
+            speech = speech - mean
 
     batch["input_features"] = feature_extractor(
         [speech], sampling_rate=sampling_rate, return_tensors="pt"
@@ -342,6 +355,7 @@ def main():
                 "audio_column": args.audio_column,
                 "text_column": args.text_column,
                 "audio_channel_strategy": args.audio_channel_strategy,
+                "normalize_waveform": args.normalize_waveform,
             },
             remove_columns=raw_datasets[args.train_split].column_names,
             num_proc=4,

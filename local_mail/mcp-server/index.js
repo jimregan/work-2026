@@ -14,8 +14,10 @@ import {
 import nodemailer from "nodemailer";
 import {
   buildQuestionEmail,
+  extractModelNotes,
   extractReplyText,
   generateConversationId,
+  getHeaderValues,
   getMessageId,
   getThreadReferences,
   isReplyMatch,
@@ -77,14 +79,17 @@ async function findReply({ subject, sentAt, conversationId, originalMessageId })
       const replyMessageId = getMessageId(fullMessage);
       const existingRefs = getThreadReferences(fullMessage);
       const nextReferences = [...new Set([...existingRefs, replyMessageId])].filter(Boolean).join(" ");
+      const rawText = fullMessage.Text || fullMessage.HTML || "";
+      const { notes: modelNotes, cleaned } = extractModelNotes(rawText);
       return {
         id: message.ID,
         subject: message.Subject,
         from: message.From?.Address,
-        body: extractReplyText(fullMessage.Text || fullMessage.HTML || ""),
+        body: extractReplyText(cleaned),
         receivedAt: message.Created,
         messageId: replyMessageId,
         nextReferences,
+        modelNotes,
       };
     }
   }

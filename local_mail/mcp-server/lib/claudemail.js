@@ -100,6 +100,15 @@ function trimQuotedReplyLines(text) {
   return kept.join("\n").trim();
 }
 
+export function extractModelNotes(text) {
+  const notes = [];
+  const cleaned = `${text || ""}`.replace(/\[model:\s*([^\]]+)\]/gi, (_, note) => {
+    notes.push(note.trim());
+    return "";
+  });
+  return { notes: notes.filter(Boolean), cleaned: cleaned.trim() };
+}
+
 export function extractReplyText(messageBody) {
   const trimmed = `${messageBody || ""}`.trim();
   if (!trimmed) return "";

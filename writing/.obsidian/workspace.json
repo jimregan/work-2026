@@ -34,9 +34,37 @@
               "icon": "lucide-file",
               "title": "old-towards"
             }
+          },
+          {
+            "id": "3bb101748866f8a8",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "TODO 25-04-2026.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "TODO 25-04-2026"
+            }
+          },
+          {
+            "id": "051579b329b0f4b8",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "LRE - Phonetic corpus/03 Parliamentary speech as a living substrate.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "03 Parliamentary speech as a living substrate"
+            }
           }
         ],
-        "currentTab": 1
+        "currentTab": 3
       },
       {
         "id": "a8b92a944f5fcb73",
@@ -215,8 +243,17 @@
       "obsidian-importer:Open Importer": false
     }
   },
-  "active": "1590a48f6166dfa3",
+  "active": "051579b329b0f4b8",
   "lastOpenFiles": [
+    "LRE - Phonetic corpus/04 rules as acoustic hypotheses.md",
+    "LRE - Phonetic corpus/06 Released resource layers.md",
+    "TODO 25-04-2026.md",
+    "Gemma4CTC.md",
+    "Gemini edited.md",
+    "Fant.md",
+    "eusipco journal list.md",
+    "TODO 24-04-2026.md",
+    "LRE - Phonetic corpus/old-towards.md",
     "LRE - Phonetic corpus/01 Introduction.md",
     "LRE - Phonetic corpus/00 Abstract.md",
     "chapter 1.md",
@@ -227,26 +264,17 @@
     "LRE - Phonetic corpus/XX-Old-intro.md",
     "riksvox 0.md",
     "phonetic corpus.md",
-    "eusipco journal list.md",
     "Untitled.md",
     "TSD strategy.md",
     "TODO 12-04-2026.md",
     "LRE - Phonetic corpus/old-towards/old-towards.tex",
     "LRE - Phonetic corpus/old-towards/mybib.tex",
-    "LRE - Phonetic corpus/old-towards.md",
     "LRE - Phonetic corpus/old-towards",
     "LRE - Phonetic corpus/Master outline.md",
     "LRE - Phonetic corpus/09 Future backend migration.md",
     "LRE - Phonetic corpus/08 Continuous expansion pipeline.md",
     "LRE - Phonetic corpus/07 Use cases.md",
-    "LRE - Phonetic corpus/06 Released resource layers.md",
-    "LRE - Phonetic corpus/05 Swedish phonemic supervision lineage.md",
-    "LRE - Phonetic corpus/04 rules as acoustic hypotheses.md",
-    "LRE - Phonetic corpus/03 Parliamentary speech as a living substrate.md",
-    "LRE - Phonetic corpus/02 Why transcripts are not enough.md",
     "LRE - Phonetic corpus",
-    "Hungarian Reels.md",
-    "Gemma4CTC.md",
     "LRE - Phonetic corpus/mybib.tex",
     "LRE - Phonetic corpus/old-towards.tex",
     "2026-03-24 hallevik_owov.jpg",

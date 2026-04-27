@@ -22,6 +22,8 @@ def parse_args():
     parser.add_argument("--audio_column", default="audio")
     parser.add_argument("--text_column", default="phonemes")
     parser.add_argument("--audio_channel_strategy", default="error", choices=["error", "first"])
+    parser.add_argument("--normalize_waveform", action="store_true", default=False)
+    parser.add_argument("--no_normalize_waveform", action="store_false", dest="normalize_waveform")
     parser.add_argument("--batch_size", type=int, default=8)
     parser.add_argument("--device", default="cuda" if torch.cuda.is_available() else "cpu")
     parser.add_argument("--max_examples", type=int, default=None)
@@ -112,6 +114,7 @@ def main():
             "audio_column": args.audio_column,
             "text_column": args.text_column,
             "audio_channel_strategy": args.audio_channel_strategy,
+            "normalize_waveform": args.normalize_waveform,
         },
         remove_columns=dataset.column_names,
         num_proc=4,

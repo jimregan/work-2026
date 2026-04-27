@@ -25,6 +25,7 @@ def parse_args():
     parser.add_argument("--batch_size", type=int, default=8)
     parser.add_argument("--device", default="cuda" if torch.cuda.is_available() else "cpu")
     parser.add_argument("--max_examples", type=int, default=None)
+    parser.add_argument("--show_examples", type=int, default=0)
     return parser.parse_args()
 
 
@@ -128,6 +129,7 @@ def main():
 
     total_edits = 0
     total_ref_tokens = 0
+    shown_examples = 0
 
     offset = 0
     with torch.no_grad():
@@ -148,8 +150,16 @@ def main():
             hyps = decode_prediction_ids(tokenizer, pred_ids)
 
             for ref, hyp in zip(refs, hyps, strict=True):
-                total_edits += edit_distance(ref, hyp)
+                edits = edit_distance(ref, hyp)
+                total_edits += edits
                 total_ref_tokens += len(ref)
+                if shown_examples < args.show_examples:
+                    print(f"example={shown_examples}")
+                    print(f"ref={' '.join(ref)}")
+                    print(f"hyp={' '.join(hyp)}")
+                    print(f"edits={edits}")
+                    print()
+                    shown_examples += 1
 
     per = total_edits / total_ref_tokens if total_ref_tokens else 0.0
     print(f"split={args.split}")

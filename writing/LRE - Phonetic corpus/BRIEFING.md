@@ -117,6 +117,12 @@ The hypotheses are tested against acoustic evidence from the corpus. The CTC dec
 - False positive rate: what prevents the system from "validating" a variant that is actually a recognition error rather than a genuine pronunciation variant? This is a real methodological concern.
 - The pipeline description says "phonemic recognizer / CTC posterior lattice" — but what is the actual decoding setup? Beam search? What vocabulary? This is technical but reviewers will ask.
 
+### Active technical blocker
+
+The reimplementation of `dysfluent-wfst` — the WFST-based component for handling disfluencies (false starts, hesitations, partial words) in the alignment pipeline — is currently being tested. An extension to it also needs to be verified. Crucially, the intended behaviour of the extension may have shifted since work on it a few weeks ago, so the first task is clarifying what it is currently supposed to do before testing whether it does it.
+
+**Implication for the skill:** This is a real blocker, not a writing problem. Questions about the disfluency annotation layer (how false starts are detected and annotated, how the pipeline handles partial words) should be flagged as "this may depend on how dysfluent-wfst resolves." A useful question here is: "Before you can write the pipeline section confidently, do you need to settle what the current intended behaviour of dysfluent-wfst is?" — i.e., push the author to write down the spec, even informally, which may itself resolve the uncertainty.
+
 ---
 
 ## §5 — RELATED METHODOLOGICAL BACKGROUND: SWEDISH PHONEMIC SUPERVISION **[ESSENTIAL, but can be brief]**
@@ -230,14 +236,9 @@ This is not a single-paper project. The author is considering at least three out
 The full living phonetic corpus and lexicon ecosystem. Resource paper. Peer-reviewed, archival. This is the primary target and the one these outline documents are for.
 
 **2. arXiv pre-print and/or Fonetik submission — the "initial lexicon"**
-The initial lexicon is an intermediate step in the pipeline: the pronunciation lexicon as it exists *before* acoustic validation — canonical forms plus rule-expanded variants, derived from the canonical citation lexicon and the phonological rule inventory. This is a separable, self-contained contribution: a large-coverage Swedish pronunciation lexicon with phonological rule provenance, even without the acoustic validation layer on top.
+The initial lexicon is an intermediate step in the pipeline: the pronunciation lexicon as it exists *before* acoustic validation — canonical forms plus rule-expanded variants, derived from the canonical citation lexicon and the phonological rule inventory. The raw data and code already exist; this is not a writing-blocked item but a decision about whether it is worth writing up separately at all. Fonetik is non-archival, so a submission there carries no risk. The question is simply whether the effort of writing it up is worth the return.
 
-Fonetik is a local Swedish phonetics meeting (non-archival), which makes it a low-stakes venue for presenting work in progress and getting community feedback. An arXiv pre-print would establish priority and make the lexicon citable before the LRE paper is through review.
-
-**Implications for the skill's questions:**
-- If the author is describing something that belongs to the initial lexicon specifically (canonical forms, rule expansion, the rule inventory itself), it may be worth asking whether that content is primarily for the LRE paper or for the Fonetik/arXiv piece.
-- The two outputs share material but have different centres of gravity: the LRE paper's centre is the acoustic validation loop and the living/growing architecture; the initial lexicon paper's centre is the lexicon itself as a resource, independent of whether it has been acoustically validated.
-- A useful question: does the Fonetik submission need to be written first, since the meeting is likely sooner than LRE review? If so, working on the initial lexicon description might be a more time-sensitive task than it appears.
+**Implication for the skill:** Do not generate questions about the initial lexicon as though it were a writing problem. If it comes up, the useful question is: "Have you decided yet whether the initial lexicon is worth a separate write-up, and what would tip you towards doing it?"
 
 ---
 

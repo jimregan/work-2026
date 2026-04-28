@@ -3,6 +3,20 @@
 You have access to the `claudemail-mcp` MCP server. Use it to ask the user
 questions over email when you need human input to proceed.
 
+## User-initiated threads
+
+The user can start a thread by sending an email directly to `claude@localhost`.
+Use `poll_for_new_thread` to watch for these. The return value includes `body`,
+`model_notes`, `message_id`, and `next_references` — pass the last two into
+`ask_question` to reply into the same thread.
+
+## Model notes
+
+The user can embed instructions for you (not writing content) using `[model: ...]`
+anywhere in their email. These are stripped from `answer`/`body` and returned
+separately as `model_notes` (an array of strings). Act on them but do not quote
+them back.
+
 For writing-oriented use, also follow the staged role workflow in
 `WRITING_AGENTS.md`. The default role is respondent. Once the user has produced
 real paragraphs, switch from pure prompting to supervision. Only bring in harsh

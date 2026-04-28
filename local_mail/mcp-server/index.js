@@ -17,7 +17,6 @@ import {
   extractModelNotes,
   extractReplyText,
   generateConversationId,
-  getHeaderValues,
   getMessageId,
   getThreadReferences,
   isReplyMatch,
@@ -50,7 +49,11 @@ async function getMessage(id) {
 }
 
 async function deleteMessage(id) {
-  const res = await fetch(`${MAILPIT_URL}/api/v1/message/${id}`, { method: "DELETE" });
+  const res = await fetch(`${MAILPIT_URL}/api/v1/messages`, {
+    method: "DELETE",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ IDs: [id] }),
+  });
   if (!res.ok) throw new Error(`Mailpit API error: ${res.status}`);
 }
 
@@ -187,6 +190,7 @@ async function waitForReply({
         subject: reply.subject,
         reply_message_id: reply.messageId,
         next_references: reply.nextReferences,
+        model_notes: reply.modelNotes,
       };
     }
 
@@ -198,6 +202,59 @@ async function waitForReply({
     answer: null,
     message: `No reply received within ${timeoutSeconds}s. Ask again or proceed without input.`,
   };
+}
+
+async function pollForNewThread({ timeout_seconds = 300, poll_interval_seconds = 10 }) {
+  const timeoutSeconds = Number(timeout_seconds);
+  const pollIntervalSeconds = Number(poll_interval_seconds);
+  const deadline = Date.now() + timeoutSeconds * 1000;
+  const interval = pollIntervalSeconds * 1000;
+
+  while (Date.now() < deadline) {
+    let data;
+    try {
+      data = await listMessages();
+    } catch {
+      await new Promise((resolve) => setTimeout(resolve, interval));
+      continue;
+    }
+
+    for (const message of (data.messages || [])) {
+      const fromAddress = message.From?.Address?.toLowerCase() || "";
+      if (fromAddress === FROM_EMAIL.toLowerCase()) continue;
+
+      let fullMessage;
+      try {
+        fullMessage = await getMessage(message.ID);
+      } catch {
+        continue;
+      }
+
+      const rawText = fullMessage.Text || fullMessage.HTML || "";
+      const isReply = /\[claudemail:[a-f0-9-]+\]/i.test(rawText);
+      if (isReply) continue;
+
+      await deleteMessage(message.ID);
+
+      const { notes: modelNotes, cleaned } = extractModelNotes(rawText);
+      const body = extractReplyText(cleaned);
+      const messageId = getMessageId(fullMessage);
+      return {
+        found: true,
+        subject: message.Subject,
+        from: message.From?.Address,
+        body,
+        model_notes: modelNotes,
+        received_at: message.Created,
+        message_id: messageId,
+        next_references: messageId || "",
+      };
+    }
+
+    await new Promise((resolve) => setTimeout(resolve, interval));
+  }
+
+  return { found: false, message: `No new thread received within ${timeoutSeconds}s.` };
 }
 
 async function checkInbox() {
@@ -223,7 +280,7 @@ async function checkInbox() {
 }
 
 const server = new Server(
-  { name: "claudemail-mcp", version: "1.2.0" },
+  { name: "claudemail-mcp", version: "1.3.1" },
   { capabilities: { tools: {} } }
 );
 
@@ -300,6 +357,24 @@ server.setRequestHandler(ListToolsRequestSchema, async () => ({
       description: "List recent Mailpit messages with a short preview for debugging.",
       inputSchema: { type: "object", properties: {} },
     },
+    {
+      name: "poll_for_new_thread",
+      description:
+        "Poll for a new email sent by the user (not a reply to an existing Claude thread). Returns the message body, any [model: ...] notes, and thread metadata so ask_question can reply into it.",
+      inputSchema: {
+        type: "object",
+        properties: {
+          timeout_seconds: {
+            type: "number",
+            description: "How long to wait. Default: 300.",
+          },
+          poll_interval_seconds: {
+            type: "number",
+            description: "How often to poll. Default: 10.",
+          },
+        },
+      },
+    },
   ],
 }));
 
@@ -311,6 +386,7 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
     if (name === "ask_question") result = await askQuestion(args);
     else if (name === "wait_for_reply") result = await waitForReply(args);
     else if (name === "check_inbox") result = await checkInbox();
+    else if (name === "poll_for_new_thread") result = await pollForNewThread(args);
     else throw new Error(`Unknown tool: ${name}`);
 
     return {

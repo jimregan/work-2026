@@ -156,11 +156,10 @@ def process_single(args: argparse.Namespace) -> dict:
     from dysfluent_wfst.decoder import Decoder
 
     # Load audio and run inference
-    log_probs, length, processor, frame_shift_ms = load_audio(
+    logits, length, processor, frame_shift_ms = load_audio(
         args.audio, args.model_id, args.device
     )
 
-    # Get reference phonemes
     if args.ref_text is None:
         print("Error: --ref-text is required for single-file mode", file=sys.stderr)
         sys.exit(1)
@@ -170,7 +169,6 @@ def process_single(args: argparse.Namespace) -> dict:
         print("Error: no phonemes found for reference text", file=sys.stderr)
         sys.exit(1)
 
-    # Build decoder and run
     decoder = Decoder(
         model_id=args.model_id,
         lexicon_path=args.lexicon,
@@ -180,7 +178,7 @@ def process_single(args: argparse.Namespace) -> dict:
     )
 
     alignment = decoder.decode_utterance(
-        log_probs=log_probs,
+        logits=logits,
         length=length,
         ref_phonemes=ref_phonemes,
         audio_path=args.audio,
@@ -236,7 +234,7 @@ def process_batch(args: argparse.Namespace) -> list[dict]:
             ref_text = item.get("ref_text", "")
             utterance_id = item.get("id", f"utt_{line_num}")
 
-            log_probs, length, _, frame_shift_ms = load_audio(
+            logits, length, _, frame_shift_ms = load_audio(
                 audio_path, args.model_id, args.device
             )
             ref_phonemes = get_phonemes_from_text(ref_text, args.lexicon)
@@ -248,7 +246,7 @@ def process_batch(args: argparse.Namespace) -> list[dict]:
                 continue
 
             alignment = decoder.decode_utterance(
-                log_probs=log_probs,
+                logits=logits,
                 length=length,
                 ref_phonemes=ref_phonemes,
                 utterance_id=utterance_id,

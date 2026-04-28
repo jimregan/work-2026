@@ -1,7 +1,4 @@
-"""Alignment dataclasses and JSON serialisation.
-
-Format matches CLAUDE.md Section 9.2 (the Praat stage contract).
-"""
+"""Alignment dataclasses and JSON serialisation."""
 
 from __future__ import annotations
 

@@ -76,9 +76,37 @@
               "icon": "lucide-file",
               "title": "Labs 2"
             }
+          },
+          {
+            "id": "efbd0419bccd04a2",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "Gemini edited.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "Gemini edited"
+            }
+          },
+          {
+            "id": "b5b0eebe7a24d0ec",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "LRE - Phonetic corpus/threads/2026-04-29 16-37 [jim] LRE §8 — what does forced alignment get wrong.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "2026-04-29 16-37 [jim] LRE §8 — what does forced alignment get wrong"
+            }
           }
         ],
-        "currentTab": 4
+        "currentTab": 6
       },
       {
         "id": "a8b92a944f5fcb73",
@@ -257,34 +285,35 @@
       "obsidian-importer:Open Importer": false
     }
   },
-  "active": "32a56cf72bb3abe7",
+  "active": "b5b0eebe7a24d0ec",
   "lastOpenFiles": [
-    "Thoughts about spontaneous speech.md",
-    "Welcome.md",
-    "LRE - Phonetic corpus/BRIEFING.md",
-    "LRE - Phonetic corpus/03 Parliamentary speech as a living substrate.md",
-    "LRE - Phonetic corpus/04 rules as acoustic hypotheses.md",
-    "LRE - Phonetic corpus/06 Released resource layers.md",
-    "TODO 25-04-2026.md",
-    "Gemma4CTC.md",
-    "Gemini edited.md",
-    "Fant.md",
-    "eusipco journal list.md",
-    "TODO 24-04-2026.md",
-    "LRE - Phonetic corpus/old-towards.md",
-    "LRE - Phonetic corpus/01 Introduction.md",
-    "LRE - Phonetic corpus/00 Abstract.md",
-    "chapter 1.md",
-    "Labs 2.md",
-    "2026-04-14.md",
-    "INDEX.md",
-    "2026-04-05.md",
-    "LRE - Phonetic corpus/XX-Old-intro.md",
-    "riksvox 0.md",
-    "phonetic corpus.md",
-    "Untitled.md",
-    "TSD strategy.md",
-    "TODO 12-04-2026.md",
+    "LRE - Phonetic corpus/threads/2026-04-29 14-51 [claude] LRE §8 — what does forced alignment get wrong.md",
+    "LRE - Phonetic corpus/threads/2026-04-24 21-26 [claude] LRE §4 — how does a rule become a pronunciation.md",
+    "LRE - Phonetic corpus/threads/2026-04-24 15-18 [claude] Test claudemail is working 🎉.md",
+    "Little Women.md",
+    "LRE - Phonetic corpus/threads/2026-04-29 16-37 [jim] LRE §8 — what does forced alignment get wrong.md",
+    "LRE - Phonetic corpus/threads/2026-04-29 14-51 [claude] Gemma4 report.md",
+    "LRE - Phonetic corpus/threads/2026-04-28 19-21 [jim] Gemma4 report.md",
+    "LRE - Phonetic corpus/threads/2026-04-28 18-11 [claude] Gemma4 report.md",
+    "LRE - Phonetic corpus/threads/2026-04-28 18-00 [claude] Gemma4 report.md",
+    "LRE - Phonetic corpus/threads/2026-04-27 13-51 [jim] LRE §7.2 — more central and the Östermalm context.md",
+    "LRE - Phonetic corpus/threads/2026-04-27 13-50 [jim] LRE §8 — not forced alignment, so what.md",
+    "LRE - Phonetic corpus/threads/2026-04-27 13-30 [claude] LRE §8 — not forced alignment, so what.md",
+    "LRE - Phonetic corpus/threads/2026-04-27 13-30 [claude] LRE §7.2 — more central and the Östermalm context.md",
+    "LRE - Phonetic corpus/threads/2026-04-27 10-50 [jim] LRE §8 — the third model and the phonetic transcri.md",
+    "LRE - Phonetic corpus/threads/2026-04-27 10-40 [jim] LRE §4 — how does a rule get higher weight than an.md",
+    "LRE - Phonetic corpus/threads/2026-04-26 17-01 [jim] LRE §7.2 — the speaker using both iː forms.md",
+    "LRE - Phonetic corpus/threads/2026-04-26 16-53 [claude] LRE §8 — the third model and the phonetic transcri.md",
+    "LRE - Phonetic corpus/threads/2026-04-26 16-53 [claude] LRE §7.2 — the speaker using both iː forms.md",
+    "LRE - Phonetic corpus/threads/2026-04-26 16-53 [claude] LRE §4 — how does a rule get higher weight than an.md",
+    "LRE - Phonetic corpus/threads/2026-04-26 16-53 [claude] LRE §2 — what gets lost in the transcript.md",
+    "LRE - Phonetic corpus/threads/2026-04-26 16-51 [jim] LRE §2 — what gets lost in the transcript.md",
+    "LRE - Phonetic corpus/threads/2026-04-26 16-48 [jim] LRE §3 — what makes 60 years of Riksdag speech spe.md",
+    "LRE - Phonetic corpus/threads/2026-04-26 16-35 [jim] LRE §8 — what happens when a new sitting arrives.md",
+    "LRE - Phonetic corpus/threads/2026-04-26 16-25 [jim] LRE §7.2 — describe the Lidingö iː in plain langua.md",
+    "LRE - Phonetic corpus/threads/2026-04-26 16-20 [jim] LRE §5 — what is Waxholm and why does it matter.md",
+    "LRE - Phonetic corpus/threads/2026-04-26 16-19 [jim] LRE §4 — what does the acoustic evidence look like.md",
+    "LRE - Phonetic corpus/threads",
     "LRE - Phonetic corpus/old-towards/old-towards.tex",
     "LRE - Phonetic corpus/old-towards/mybib.tex",
     "LRE - Phonetic corpus/old-towards",
@@ -303,7 +332,6 @@
     "2025-05-29 494822274_699989302784650_7999584269872308286_n.png",
     "2024-09-23 recording.m4a",
     "2023-10-30 Royal Institute of Technology.m4a",
-    "Apple Notes",
-    "recording.m4a"
+    "Apple Notes"
   ]
 }

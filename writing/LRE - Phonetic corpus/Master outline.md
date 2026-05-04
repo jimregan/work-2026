@@ -40,6 +40,8 @@ This is the root note.
 
 This is the main motivation note.
 
+
+
 ### Core argument
 
 Both:
@@ -406,3 +408,4 @@ Then jump straight to:
 > **7.2 Lidingö /iː/**
 
 because that use case will keep the whole paper scientifically grounded instead of drifting into pure infrastructure.
+

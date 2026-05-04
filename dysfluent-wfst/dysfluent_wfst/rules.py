@@ -271,14 +271,11 @@ def load_rules(path: str) -> list[dict]:
     if not isinstance(rules, list):
         raise ValueError(f"'rules' must be a list, got {type(rules)}")
 
-    required_keys = {"segment", "replacement", "preceding_context", "following_context"}
     for i, rule in enumerate(rules):
-        missing = required_keys - set(rule.keys())
-        if missing:
-            raise ValueError(
-                f"Rule {i} is missing keys: {missing}. "
-                f"Required: {required_keys}"
-            )
+        if "segment" not in rule:
+            raise ValueError(f"Rule {i} is missing required key 'segment'")
+        if "replacement" not in rule:
+            raise ValueError(f"Rule {i} is missing required key 'replacement'")
 
     return rules
 

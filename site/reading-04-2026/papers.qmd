@@ -1,0 +1,64 @@
+---
+title: "Papers, April 2026"
+bibliography: refs.bib
+---
+
+## [Object detection for cross-linguistic vowel analysis: A novel language-agnostic method for forensic speech processing](https://www.sciencedirect.com/science/article/pii/S0167639326000166) [@GANGOPADHYAY2026103368]
+- YOLOv5l trained on 8925 spectrograms
+- CMU Arctic + LibriSpeech dev-clean and test-clean
+- Evaluation languages: English, French, Russian, German, Spanish, Greek, Japanese, Dutch, Hungarian, and Kiswahili
+- outperforms Montreal Forced Alignment by 58.5% in F1-score
+- [data/model](https://universe.roboflow.com/inderpreet-singh-soham-gangopadhyay/vowel-detection)
+
+Method:
+
+- Audio segmented into 500 ms sections
+- Parselmouth generates spectrograms
+  - Window length: 12 ms
+  - maximum frequency: 5500 Hz
+  - time step: 0.25 ms
+  - frequency step: 5 Hz
+  - rendered greyscale, 80 dB dynamic range
+  - 300 dpi, 8 x 5 inches
+
+## [Evaluating the Representation of Vowels in Wav2Vec Feature Extractor: A Layer-Wise Analysis Using MFCCs](https://arxiv.org/abs/2508.17914) [@decristofaro2025evaluatingrepresentationvowelswav2vec]
+
+## [Listening for “You”: Enhancing Speech Image Retrieval via Target Speaker Extraction](https://ieeexplore.ieee.org/document/11271847) [@yang2026listening]
+
+## [Comparative Analysis of Automatic Speech Recognition Fine-Tuning Strategies for Speech From Cochlear Implant Users](https://ieeexplore.ieee.org/document/11278050) [@yoon2026cochlear]
+
+> Notably, LoRA-encoder approach, which involved training only 2.15% of the total parameters, achieved the best performance with a character error rate of 11.57%, demonstrating superior performance and efficiency. Furthermore, strategies that fine-tuned only the encoder consistently showed higher performance than those that adjusted the decoder, confirming that the encoder’s role is crucial in modeling the unique acoustic characteristics of CI users’ speech.
+
+## [Wavelet-Based Denoising Transformer With Fourier Adjustment for UAV Nighttime Tracking](https://ieeexplore.ieee.org/document/11304559) [@wang2026uav]
+
+## [VoiceBench: Benchmarking LLM-Based Voice Assistants](https://direct.mit.edu/tacl/article/doi/10.1162/TACL.a.628/136245/VoiceBench-Benchmarking-LLM-Based-Voice-Assistants) [@chen2026voicebench]
+
+- [dataset](https://huggingface.co/datasets/lmms-lab/voicebench)
+
+## [Exploring Practical Gaps in Using Cross Entropy to Implement Maximum Mutual Information Criterion for Rationalization](https://direct.mit.edu/tacl/article/doi/10.1162/tacl_a_00758/131564/Exploring-Practical-Gaps-in-Using-Cross-Entropy-to) [@liu2025exploring]
+
+## [Phonetic Reconstruction of the Consonant System of Middle Chinese via Mixed Integer Optimization](https://direct.mit.edu/tacl/article/doi/10.1162/tacl_a_00742/128937/Phonetic-Reconstruction-of-the-Consonant-System-of) [@luo2025middlechinese]
+
+## [Salute the Classic: Revisiting Challenges of Machine Translation in the Age of Large Language Models](https://direct.mit.edu/tacl/article/doi/10.1162/tacl_a_00730/127458/Salute-the-Classic-Revisiting-Challenges-of) [@pang2025salute]
+
+## [Object detection for cross-linguistic vowel analysis: A novel language-agnostic method for forensic speech processing](https://www.sciencedirect.com/science/article/pii/S0167639326000166) [@GANGOPADHYAY2026103368]
+
+## [Recallable Question Answering-Based Re-Ranking Considering Semantic Region for Cross-Modal Retrieval](https://ieeexplore.ieee.org/document/10022040) [@yanagi2023recallable]
+
+## [Simulating Hard Attention Using Soft Attention](https://aclanthology.org/2026.tacl-1.8/) [@yang-etal-2026-simulating]
+
+## [Universal NER v2: Towards a Massively Multilingual Named Entity Recognition Benchmark](https://arxiv.org/abs/2604.12744)
+
+## [Attention to Mamba: A Recipe for Cross-Architecture Distillation](https://arxiv.org/abs/2604.14191)
+
+## [Retrieval Augmented Generation based context discovery for ASR](https://aclanthology.org/2025.findings-emnlp.768/) [@dimitrios-etal-2025-retrieval]
+- [arXiv](https://arxiv.org/abs/2509.19567)
+
+## [Bridging the Modality Gap: Softly Discretizing Audio Representation for LLM-based Automatic Speech Recognition](https://ieeexplore.ieee.org/document/11434631) [@yang2025llmasr]
+- [arXiv](https://arxiv.org/abs/2506.05706)
+
+## [Contrastive and non-contrastive self-supervised learning recover global and local spectral embedding methods](https://dl.acm.org/doi/10.5555/3600270.3602204) [@balestriero2022spectral]
+- [arXiv](https://arxiv.org/abs/2205.11508)
+
+::: {#refs}
+:::

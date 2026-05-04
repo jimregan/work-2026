@@ -1,0 +1,323 @@
+{
+  "main": {
+    "id": "579817187746ecdd",
+    "type": "split",
+    "children": [
+      {
+        "id": "2d6fbcbaa22a10e2",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "088b5554327fc662",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "2026-04-14.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "2026-04-14"
+            }
+          },
+          {
+            "id": "1590a48f6166dfa3",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "LRE - Phonetic corpus/old-towards.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "old-towards"
+            }
+          },
+          {
+            "id": "3bb101748866f8a8",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "TODO 25-04-2026.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "TODO 25-04-2026"
+            }
+          },
+          {
+            "id": "051579b329b0f4b8",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "Welcome.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "Welcome"
+            }
+          },
+          {
+            "id": "32a56cf72bb3abe7",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "Labs 2.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "Labs 2"
+            }
+          },
+          {
+            "id": "efbd0419bccd04a2",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "Thesis/01 01 Phonemes and phones.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "01 01 Phonemes and phones"
+            }
+          }
+        ],
+        "currentTab": 5
+      },
+      {
+        "id": "a8b92a944f5fcb73",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "cbf67ce757c5f169",
+            "type": "leaf",
+            "state": {
+              "type": "graph",
+              "state": {},
+              "icon": "lucide-git-fork",
+              "title": "Graph view"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "aca66eff4cbb5197",
+    "type": "split",
+    "children": [
+      {
+        "id": "d6531902575a4659",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "384701ade1de4af1",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {
+                "sortOrder": "alphabetical",
+                "autoReveal": false
+              },
+              "icon": "lucide-folder-closed",
+              "title": "Files"
+            }
+          },
+          {
+            "id": "eb964dbe173a774b",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              },
+              "icon": "lucide-search",
+              "title": "Search"
+            }
+          },
+          {
+            "id": "c9423891f5601be4",
+            "type": "leaf",
+            "state": {
+              "type": "bookmarks",
+              "state": {},
+              "icon": "lucide-bookmark",
+              "title": "Bookmarks"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300
+  },
+  "right": {
+    "id": "d3cc348befac607b",
+    "type": "split",
+    "children": [
+      {
+        "id": "0691bdf5651d6ba8",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "7682433b9f29e17a",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "file": "Welcome.md",
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-coming-in",
+              "title": "Backlinks for Welcome"
+            }
+          },
+          {
+            "id": "2802d60adf3b2101",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "file": "Welcome.md",
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-going-out",
+              "title": "Outgoing links from Welcome"
+            }
+          },
+          {
+            "id": "88dcc9e9dfe445d1",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-tags",
+              "title": "Tags"
+            }
+          },
+          {
+            "id": "6afc4853b2568754",
+            "type": "leaf",
+            "state": {
+              "type": "all-properties",
+              "state": {
+                "sortOrder": "frequency",
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-archive",
+              "title": "All properties"
+            }
+          },
+          {
+            "id": "2b5d7b0f7591a97b",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {
+                "file": "Welcome.md",
+                "followCursor": false,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-list",
+              "title": "Outline of Welcome"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300,
+    "collapsed": true
+  },
+  "left-ribbon": {
+    "hiddenItems": {
+      "switcher:Open quick switcher": false,
+      "graph:Open graph view": false,
+      "canvas:Create new canvas": false,
+      "daily-notes:Open today's daily note": false,
+      "templates:Insert template": false,
+      "command-palette:Open command palette": false,
+      "bases:Create new base": false,
+      "obsidian-importer:Open Importer": false
+    }
+  },
+  "active": "efbd0419bccd04a2",
+  "lastOpenFiles": [
+    "LRE - Phonetic corpus/Master outline.md",
+    "LRE - Phonetic corpus/01 Introduction.md",
+    "LRE - Phonetic corpus/02 Why transcripts are not enough.md",
+    "Thesis/01 01 Phonemes and phones.md",
+    "chapter 1.md",
+    "Thesis",
+    "LRE - Phonetic corpus/threads/2026-04-24 15-55 [jim] LRE intro — what's the problem in one sentence.md",
+    "LRE - Phonetic corpus/threads/2026-04-24 15-46 [claude] LRE intro — what's the problem in one sentence.md",
+    "LRE - Phonetic corpus/threads/2026-04-27 13-51 [jim] LRE §7.2 — more central and the Östermalm context.md",
+    "LRE - Phonetic corpus/threads/2026-04-29 14-51 [claude] Gemma4 report.md",
+    "LRE - Phonetic corpus/threads/2026-04-28 18-11 [claude] Gemma4 report.md",
+    "LRE - Phonetic corpus/threads/2026-04-28 19-21 [jim] Gemma4 report.md",
+    "LRE - Phonetic corpus/threads/2026-04-29 14-51 [claude] LRE §8 — what does forced alignment get wrong.md",
+    "LRE - Phonetic corpus/threads/2026-04-29 16-37 [jim] LRE §8 — what does forced alignment get wrong.md",
+    "LRE - Phonetic corpus/threads/2026-04-24 15-59 [jim] LRE intro — what's the problem in one sentence.md",
+    "LRE - Phonetic corpus/threads/2026-04-24 15-59 [claude] LRE intro — the word you couldn't find.md",
+    "LRE - Phonetic corpus/threads/2026-04-24 15-18 [claude] Test claudemail is working 🎉.md",
+    "LRE - Phonetic corpus/threads/2026-04-24 21-26 [claude] LRE §4 — how does a rule become a pronunciation.md",
+    "Little Women.md",
+    "LRE - Phonetic corpus/threads/2026-04-28 18-00 [claude] Gemma4 report.md",
+    "LRE - Phonetic corpus/threads/2026-04-27 13-50 [jim] LRE §8 — not forced alignment, so what.md",
+    "LRE - Phonetic corpus/threads/2026-04-27 13-30 [claude] LRE §8 — not forced alignment, so what.md",
+    "LRE - Phonetic corpus/threads/2026-04-27 13-30 [claude] LRE §7.2 — more central and the Östermalm context.md",
+    "LRE - Phonetic corpus/threads/2026-04-27 10-50 [jim] LRE §8 — the third model and the phonetic transcri.md",
+    "LRE - Phonetic corpus/threads/2026-04-27 10-40 [jim] LRE §4 — how does a rule get higher weight than an.md",
+    "LRE - Phonetic corpus/threads/2026-04-26 17-01 [jim] LRE §7.2 — the speaker using both iː forms.md",
+    "LRE - Phonetic corpus/threads/2026-04-26 16-53 [claude] LRE §8 — the third model and the phonetic transcri.md",
+    "LRE - Phonetic corpus/threads",
+    "LRE - Phonetic corpus/old-towards/old-towards.tex",
+    "LRE - Phonetic corpus/old-towards/mybib.tex",
+    "LRE - Phonetic corpus/old-towards",
+    "LRE - Phonetic corpus",
+    "LRE - Phonetic corpus/mybib.tex",
+    "LRE - Phonetic corpus/old-towards.tex",
+    "2026-03-24 hallevik_owov.jpg",
+    "2025-09-22 52624640855_e80a42baca_o.png",
+    "2025-06-04 Attachment.png",
+    "2025-05-29 459757307_1754348702040498_636700629624847119_n 4.jpg",
+    "2025-05-29 1f603 1.png",
+    "2025-05-29 459757307_1754348702040498_636700629624847119_n 3.jpg",
+    "2025-05-29 459757307_1754348702040498_636700629624847119_n 2.jpg",
+    "2025-05-29 498008603_1435179517661645_2793001163747447278_n.jpg",
+    "2025-05-29 496451706_17843355759484572_2656396903327291175_n.jpg",
+    "2025-05-29 494822274_699989302784650_7999584269872308286_n.png",
+    "2024-09-23 recording.m4a",
+    "2023-10-30 Royal Institute of Technology.m4a"
+  ]
+}

@@ -55,16 +55,16 @@ def fst_to_k2_str(fst: pynini.Fst, to_log_probs: bool = True) -> str:
 
 
 def create_dense_fsa_vec(
-    log_probs: torch.Tensor,
+    logits: torch.Tensor,
     lengths: torch.Tensor,
 ) -> "k2.DenseFsaVec":
-    """Create a k2 DenseFsaVec from model output log-probabilities.
+    """Create a k2 DenseFsaVec from model output logits.
 
     Applies log_softmax normalisation and builds supervision segments.
 
     Args:
-        log_probs: Tensor of shape (B, T, C) — batch of frame-level
-            logits/log-probs from the CTC model.
+        logits: Tensor of shape (B, T, C) — batch of raw frame-level
+            logits from the CTC model (before softmax).
         lengths: Tensor of shape (B,) — valid frame count per sample.
 
     Returns:
@@ -75,19 +75,19 @@ def create_dense_fsa_vec(
     """
     import k2
 
-    if log_probs.ndim != 3:
+    if logits.ndim != 3:
         raise ValueError(
-            f"log_probs must be 3D (B, T, C), got {log_probs.ndim}D"
+            f"logits must be 3D (B, T, C), got {logits.ndim}D"
         )
 
-    B, T, C = log_probs.shape
+    B, T, C = logits.shape
     if lengths.shape[0] != B:
         raise ValueError(
-            f"lengths batch size {lengths.shape[0]} != log_probs batch size {B}"
+            f"lengths batch size {lengths.shape[0]} != logits batch size {B}"
         )
 
     lengths = lengths.to(dtype=torch.int32)
-    log_probs = F.log_softmax(log_probs, dim=-1)
+    log_probs = F.log_softmax(logits, dim=-1)
 
     supervision_segments = torch.tensor(
         [[i, 0, lengths[i].item()] for i in range(B)],
@@ -99,21 +99,16 @@ def create_dense_fsa_vec(
 
 def intersect_and_decode(
     fst_str: str,
-    log_probs: torch.Tensor,
+    logits: torch.Tensor,
     lengths: torch.Tensor,
     device: str = "cpu",
     output_beam: float = 25.0,
 ) -> list[int]:
-    """Import FST into k2, intersect with dense log-probs, return best path.
-
-    This is the k2-only portion of the pipeline: it takes the text-format
-    FST (from ``fst_to_k2_str``), builds a DenseFsaVec from the neural
-    network output, performs dense intersection, and extracts the
-    shortest path's auxiliary (output) labels.
+    """Import FST into k2, intersect with dense logits, return best path.
 
     Args:
         fst_str: FST in k2 text format (from ``fst_to_k2_str``).
-        log_probs: Tensor of shape (1, T, C) — single utterance.
+        logits: Tensor of shape (1, T, C) — single utterance raw logits.
         lengths: Tensor of shape (1,) — valid frame count.
         device: Torch device string.
         output_beam: Beam width for ``k2.intersect_dense``.
@@ -126,13 +121,11 @@ def intersect_and_decode(
 
     dev = torch.device(device)
 
-    # Import composed FST into k2
     composed_k2 = k2.Fsa.from_str(fst_str, acceptor=False)
     composed_k2 = k2.arc_sort(composed_k2).to(dev)
 
-    # Build dense FSA from log-probs
     dense_fsa = create_dense_fsa_vec(
-        log_probs.to(dev), lengths.to(dev)
+        logits.to(dev), lengths.to(dev)
     )
 
     # Intersect and find shortest path

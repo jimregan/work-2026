@@ -1,0 +1,35 @@
+---
+title: "Papers, May 2026"
+bibliography: refs.bib
+---
+
+## [A Dual-Channel ASR-LLM Architecture with a Progressive Training Strategy for Low-Resource Speech Recognition](https://ieeexplore.ieee.org/document/11462861) [@ma2026dualchannel]
+
+## [OCR-Enhanced Multimodal ASR Can Read While Listening](https://ieeexplore.ieee.org/document/11463873) [@chen2026ocrasr]
+- [arXiv](https://arxiv.org/abs/2601.18393)
+
+## [F5E-TTS: Enhancing Speech Synthesis by Aligning Text with Rich Semantic Representations](https://ieeexplore.ieee.org/document/11462167) [@chen2026f5etts]
+- [code](https://github.com/kaleo996/F5E-TTS)
+
+## [Leveraging Large Language Models for Text Normalization of Non-Standard Words in Text-to-Speech Synthesis](https://ieeexplore.ieee.org/document/11463552) [@ma2026llmtn]
+- Prompting + LoRA
+
+## [Align2speak: Improving TTS for Low Resource Languages via ASR-Guided Online Preference Optimization](https://ieeexplore.ieee.org/document/11460913) [@hussain2026align2speak]
+- [arXiv](https://arxiv.org/abs/2509.21718)
+- uses Group Relative Policy Optimization (GRPO) to adapt an autoregressive, multilingual TTS model to new languages
+
+## [Super Monotonic Alignment Search](https://ieeexplore.ieee.org/document/11464903) [@lee2026smas]
+- [arXiv](https://arxiv.org/abs/2409.07704)
+- [code](https://github.com/supertone-inc/super-monotonic-align) --- MIT
+- GPU accelerated MAS; 19x to 72x faster
+
+## [Length-Aware Rotary Position Embedding for Text-Speech Alignment](https://ieeexplore.ieee.org/document/11461230) [@kim2026lengthaware]
+- [arXiv](https://arxiv.org/abs/2509.11084)
+
+## [UniDiff-TTS: Aligner-Free Diffusion Speech Synthesis with Duration Guidance](https://ieeexplore.ieee.org/document/11461388) [@chen2026unidifftts]
+
+## [CC-G2PNP: Streaming Grapheme-to-Phoneme and Prosody with Conformer-CTC for Unsegmented Languages](https://ieeexplore.ieee.org/document/11463299) [@shirahata2026ccg2pnp]
+- [arXiv](https://arxiv.org/abs/2602.17157)
+
+::: {#refs}
+:::

@@ -31,5 +31,8 @@ bibliography: refs.bib
 ## [CC-G2PNP: Streaming Grapheme-to-Phoneme and Prosody with Conformer-CTC for Unsegmented Languages](https://ieeexplore.ieee.org/document/11463299) [@shirahata2026ccg2pnp]
 - [arXiv](https://arxiv.org/abs/2602.17157)
 
+## [VICReg: Variance-Invariance-Covariance Regularization for Self-Supervised Learning](https://openreview.net/forum?id=xm6YD62D1Ub) [@bardes2022vicreg]
+- [arXiv](https://arxiv.org/abs/2105.04906)
+
 ::: {#refs}
 :::

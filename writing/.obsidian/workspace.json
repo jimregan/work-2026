@@ -83,12 +83,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "LRE - Phonetic corpus/Master outline.md",
+                "file": "Thesis/01 01 Phonemes and phones.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Master outline"
+              "title": "01 01 Phonemes and phones"
             }
           }
         ],
@@ -273,9 +273,9 @@
   },
   "active": "efbd0419bccd04a2",
   "lastOpenFiles": [
+    "LRE - Phonetic corpus/Master outline.md",
     "LRE - Phonetic corpus/01 Introduction.md",
     "LRE - Phonetic corpus/02 Why transcripts are not enough.md",
-    "LRE - Phonetic corpus/Master outline.md",
     "Thesis/01 01 Phonemes and phones.md",
     "chapter 1.md",
     "Thesis",

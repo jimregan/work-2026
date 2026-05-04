@@ -23,7 +23,13 @@ bibliography: refs.bib
 - [code](https://github.com/supertone-inc/super-monotonic-align) --- MIT
 - GPU accelerated MAS; 19x to 72x faster
 
-## [Length-Aware Rotary Position Embedding for Text-Speech Alignment](https://ieeexplore.ieee.org/document/11461230)
+## [Length-Aware Rotary Position Embedding for Text-Speech Alignment](https://ieeexplore.ieee.org/document/11461230) [@kim2026lengthaware]
+- [arXiv](https://arxiv.org/abs/2509.11084)
+
+## [UniDiff-TTS: Aligner-Free Diffusion Speech Synthesis with Duration Guidance](https://ieeexplore.ieee.org/document/11461388) [@chen2026unidifftts]
+
+## [CC-G2PNP: Streaming Grapheme-to-Phoneme and Prosody with Conformer-CTC for Unsegmented Languages](https://ieeexplore.ieee.org/document/11463299) [@shirahata2026ccg2pnp]
+- [arXiv](https://arxiv.org/abs/2602.17157)
 
 ::: {#refs}
 :::

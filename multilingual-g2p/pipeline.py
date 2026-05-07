@@ -397,7 +397,8 @@ def run_pipeline(braxen_path: Path,
                  output_dir: Path,
                  min_entries: int = 100,
                  test_ratio: float = 0.1,
-                 seed: int = 42):
+                 seed: int = 42,
+                 strip_accents_flag: bool = False):
     """Run the full pipeline."""
 
     print("=" * 60)
@@ -437,19 +438,13 @@ def run_pipeline(braxen_path: Path,
     print("Stage 6: Write training files")
     print("=" * 60)
 
-    # With accents
-    print("\nWith accent markers:")
-    write_training_files(train, output_dir / "with_accents", suffix=".train")
-    write_training_files(test, output_dir / "with_accents", suffix=".test")
-    write_merged_training_file(train, output_dir / "with_accents" / "merged.train.txt", add_prefix=True)
-    write_merged_training_file(train, output_dir / "with_accents" / "raw.train.txt", add_prefix=False)
-
-    # Without accents
-    print("\nWithout accent markers:")
-    write_training_files(train, output_dir / "no_accents", suffix=".train", strip_stress=True)
-    write_training_files(test, output_dir / "no_accents", suffix=".test", strip_stress=True)
-    write_merged_training_file(train, output_dir / "no_accents" / "merged.train.txt", add_prefix=True, strip_stress=True)
-    write_merged_training_file(train, output_dir / "no_accents" / "raw.train.txt", add_prefix=False, strip_stress=True)
+    strip = strip_accents_flag
+    label = "without" if strip else "with"
+    print(f"\nAccent markers: {label}")
+    write_training_files(train, output_dir, suffix=".train", strip_stress=strip)
+    write_training_files(test, output_dir, suffix=".test", strip_stress=strip)
+    write_merged_training_file(train, output_dir / "merged.train.txt", add_prefix=True, strip_stress=strip)
+    write_merged_training_file(train, output_dir / "raw.train.txt", add_prefix=False, strip_stress=strip)
 
     print()
     print("=" * 60)
@@ -476,6 +471,8 @@ def main():
                         help="Fraction of data for test set")
     parser.add_argument("--seed", type=int, default=42,
                         help="Random seed for reproducibility")
+    parser.add_argument("--strip-accents", action="store_true", default=False,
+                        help="Strip stress/accent markers from transcripts (default: keep them)")
 
     args = parser.parse_args()
 
@@ -485,7 +482,8 @@ def main():
         output_dir=args.output,
         min_entries=args.min_entries,
         test_ratio=args.test_ratio,
-        seed=args.seed
+        seed=args.seed,
+        strip_accents_flag=args.strip_accents,
     )
 
 

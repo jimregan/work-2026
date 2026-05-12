@@ -139,16 +139,44 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "NEJLT page.md",
+                "file": "Thesis/01 01 Phonemes and phones.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "NEJLT page"
+              "title": "01 01 Phonemes and phones"
+            }
+          },
+          {
+            "id": "0b8b7f3cb51e4ac2",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "Disk space.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "Disk space"
+            }
+          },
+          {
+            "id": "3b2ac51cb59eaee0",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "Disk space.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "Disk space"
             }
           }
         ],
-        "currentTab": 9
+        "currentTab": 11
       },
       {
         "id": "a8b92a944f5fcb73",
@@ -327,15 +355,17 @@
       "obsidian-importer:Open Importer": false
     }
   },
-  "active": "0aaa948a645570cd",
+  "active": "3b2ac51cb59eaee0",
   "lastOpenFiles": [
-    "Northern European Journal of Language Technology -- Reviewer Guidelines.md",
+    "Disk space 2.md",
+    "Disk space.md",
+    "Thesis/01 01 Phonemes and phones.md",
     "NEJLT page.md",
+    "Northern European Journal of Language Technology -- Reviewer Guidelines.md",
     "lab 3 groups.md",
     "Hungarian reels 5 may.md",
     "eusipco journal list.md",
     "LRE - Phonetic corpus/old-towards.md",
-    "Thesis/01 01 Phonemes and phones.md",
     "LRE - Phonetic corpus/Master outline.md",
     "LRE - Phonetic corpus/01 Introduction.md",
     "LRE - Phonetic corpus/02 Why transcripts are not enough.md",
@@ -354,8 +384,6 @@
     "LRE - Phonetic corpus/threads/2026-04-24 15-18 [claude] Test claudemail is working 🎉.md",
     "LRE - Phonetic corpus/threads/2026-04-24 21-26 [claude] LRE §4 — how does a rule become a pronunciation.md",
     "Little Women.md",
-    "LRE - Phonetic corpus/threads/2026-04-28 18-00 [claude] Gemma4 report.md",
-    "LRE - Phonetic corpus/threads/2026-04-27 13-50 [jim] LRE §8 — not forced alignment, so what.md",
     "LRE - Phonetic corpus/threads",
     "LRE - Phonetic corpus/old-towards/old-towards.tex",
     "LRE - Phonetic corpus/old-towards/mybib.tex",

@@ -1,28 +1,30 @@
 from __future__ import annotations
 
 import argparse
+import base64
 import io
 import json
 import os
 import re
 from dataclasses import dataclass
 from pathlib import Path
+from typing import Protocol
 
 import fitz
 import torch
 from PIL import Image
 from tqdm import tqdm
-from transformers import AutoModelForImageTextToText, AutoProcessor
 
 
 DEFAULT_MODEL_ID = "google/gemma-4-27b-it"
+DEFAULT_OLLAMA_MODEL_ID = "gemma4:27b"
 
 _OCR_PROMPT = (
     "Perform OCR on this document image with layout analysis. "
     "Return a JSON array where each element is a text block with: "
     '"text" (recognized text), '
     '"category" (one of: title, section-header, page-header, text, list-item, caption, table), '
-    '"bbox" ([y1, x1, y2, x2] normalized to a 0–1000 grid). '
+    '"bbox" ([y1, x1, y2, x2] normalized to a 0-1000 grid). '
     "Return only the JSON array, no prose."
 )
 
@@ -37,19 +39,120 @@ class RenderedPage:
     height: int
 
 
+class Backend(Protocol):
+    model_id: str
+
+    def generate(self, image: Image.Image, prompt: str, max_new_tokens: int) -> str: ...
+
+
+@dataclass
+class TransformersBackend:
+    model_id: str
+    _model: object
+    _processor: object
+
+    def generate(self, image: Image.Image, prompt: str, max_new_tokens: int) -> str:
+        messages = [
+            {
+                "role": "user",
+                "content": [
+                    {"type": "image", "image": image},
+                    {"type": "text", "text": prompt},
+                ],
+            }
+        ]
+        inputs = self._processor.apply_chat_template(
+            messages,
+            add_generation_prompt=True,
+            tokenize=True,
+            return_dict=True,
+            return_tensors="pt",
+        ).to(self._model.device)
+
+        with torch.inference_mode():
+            output_ids = self._model.generate(**inputs, max_new_tokens=max_new_tokens)
+
+        new_ids = output_ids[0][inputs["input_ids"].shape[1]:]
+        return self._processor.decode(new_ids, skip_special_tokens=True).strip()
+
+
+@dataclass
+class VLLMBackend:
+    model_id: str
+    _client: object
+
+    def generate(self, image: Image.Image, prompt: str, max_new_tokens: int) -> str:
+        buf = io.BytesIO()
+        image.save(buf, format="PNG")
+        b64 = base64.b64encode(buf.getvalue()).decode()
+
+        response = self._client.chat.completions.create(
+            model=self.model_id,
+            messages=[
+                {
+                    "role": "user",
+                    "content": [
+                        {"type": "image_url", "image_url": {"url": f"data:image/png;base64,{b64}"}},
+                        {"type": "text", "text": prompt},
+                    ],
+                }
+            ],
+            max_tokens=max_new_tokens,
+        )
+        return response.choices[0].message.content.strip()
+
+
+@dataclass
+class OllamaBackend:
+    model_id: str
+    _client: object
+
+    def generate(self, image: Image.Image, prompt: str, max_new_tokens: int) -> str:
+        buf = io.BytesIO()
+        image.save(buf, format="PNG")
+
+        response = self._client.chat(
+            model=self.model_id,
+            messages=[
+                {
+                    "role": "user",
+                    "content": prompt,
+                    "images": [buf.getvalue()],
+                }
+            ],
+            options={"num_predict": max_new_tokens},
+        )
+        return response["message"]["content"].strip()
+
+
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(
         description="Run Gemma 4 OCR with layout on PDFs under /data and write page outputs to /output."
     )
     parser.add_argument("--input-root", type=Path, default=Path(os.environ.get("DATA_DIR", "/data")))
     parser.add_argument("--output-root", type=Path, default=Path(os.environ.get("OUTPUT_DIR", "/output")))
-    parser.add_argument("--model-id", default=os.environ.get("GEMMA_MODEL_ID", DEFAULT_MODEL_ID))
+    parser.add_argument(
+        "--backend",
+        choices=["transformers", "vllm", "ollama"],
+        default=os.environ.get("BACKEND", "transformers"),
+    )
+    parser.add_argument("--model-id", default=None, help="Model ID; defaults vary by backend.")
     parser.add_argument("--dpi", type=int, default=int(os.environ.get("RENDER_DPI", "200")))
     parser.add_argument(
         "--max-new-tokens",
         type=int,
         default=int(os.environ.get("MAX_NEW_TOKENS", "4096")),
-        help="Maximum tokens for Gemma to generate per page.",
+        help="Maximum tokens to generate per page.",
+    )
+    parser.add_argument(
+        "--vllm-url",
+        default=os.environ.get("VLLM_URL", "http://localhost:8000"),
+        help="Base URL of the vLLM server (vllm backend only).",
+    )
+    parser.add_argument(
+        "--ollama-url",
+        default=os.environ.get("OLLAMA_URL", "http://localhost:11434"),
+        help="Base URL of the Ollama server (ollama backend only).",
     )
     parser.add_argument(
         "--skip-existing",
@@ -78,7 +181,11 @@ def _env_bool(name: str, default: bool) -> bool:
     return value.strip().lower() in {"1", "true", "yes", "on"}
 
 
-def select_dtype() -> torch.dtype:
+def _default_model_id(backend: str) -> str:
+    return DEFAULT_OLLAMA_MODEL_ID if backend == "ollama" else DEFAULT_MODEL_ID
+
+
+def _select_dtype() -> torch.dtype:
     if torch.cuda.is_available():
         if torch.cuda.is_bf16_supported():
             return torch.bfloat16
@@ -86,17 +193,36 @@ def select_dtype() -> torch.dtype:
     return torch.float32
 
 
-def load_model(model_id: str) -> tuple[AutoModelForImageTextToText, AutoProcessor]:
-    dtype = select_dtype()
-    kwargs = {"torch_dtype": dtype}
-    if torch.cuda.is_available():
-        kwargs["device_map"] = "auto"
+def load_backend(backend: str, model_id: str, vllm_url: str, ollama_url: str) -> Backend:
+    if backend == "transformers":
+        from transformers import AutoModelForImageTextToText, AutoProcessor
 
-    print(f"Loading model {model_id} with dtype={dtype} ...")
-    processor = AutoProcessor.from_pretrained(model_id)
-    model = AutoModelForImageTextToText.from_pretrained(model_id, **kwargs)
-    print("Model loaded.")
-    return model, processor
+        dtype = _select_dtype()
+        kwargs: dict = {"torch_dtype": dtype}
+        if torch.cuda.is_available():
+            kwargs["device_map"] = "auto"
+
+        print(f"Loading model {model_id} with dtype={dtype} ...")
+        processor = AutoProcessor.from_pretrained(model_id)
+        model = AutoModelForImageTextToText.from_pretrained(model_id, **kwargs)
+        print("Model loaded.")
+        return TransformersBackend(model_id=model_id, _model=model, _processor=processor)
+
+    if backend == "vllm":
+        from openai import OpenAI
+
+        print(f"Connecting to vLLM at {vllm_url} ...")
+        client = OpenAI(base_url=f"{vllm_url}/v1", api_key="vllm")
+        return VLLMBackend(model_id=model_id, _client=client)
+
+    if backend == "ollama":
+        import ollama
+
+        print(f"Connecting to Ollama at {ollama_url} ...")
+        client = ollama.Client(host=ollama_url)
+        return OllamaBackend(model_id=model_id, _client=client)
+
+    raise ValueError(f"Unknown backend: {backend!r}")
 
 
 def find_pdfs(root: Path) -> list[Path]:
@@ -136,37 +262,6 @@ def render_pages(pdf_path: Path, dpi: int, max_pages: int) -> list[RenderedPage]
     return rendered_pages
 
 
-def _gemma_generate(
-    model: AutoModelForImageTextToText,
-    processor: AutoProcessor,
-    image: Image.Image,
-    prompt: str,
-    max_new_tokens: int,
-) -> str:
-    messages = [
-        {
-            "role": "user",
-            "content": [
-                {"type": "image", "image": image},
-                {"type": "text", "text": prompt},
-            ],
-        }
-    ]
-    inputs = processor.apply_chat_template(
-        messages,
-        add_generation_prompt=True,
-        tokenize=True,
-        return_dict=True,
-        return_tensors="pt",
-    ).to(model.device)
-
-    with torch.inference_mode():
-        output_ids = model.generate(**inputs, max_new_tokens=max_new_tokens)
-
-    new_ids = output_ids[0][inputs["input_ids"].shape[1]:]
-    return processor.decode(new_ids, skip_special_tokens=True).strip()
-
-
 def _parse_json_blocks(response: str) -> list[dict] | None:
     match = re.search(r"\[.*\]", response, re.DOTALL)
     if not match:
@@ -191,13 +286,8 @@ def _normalize_bbox(bbox: list, width: int, height: int) -> list[int]:
     ]
 
 
-def ocr_page(
-    model: AutoModelForImageTextToText,
-    processor: AutoProcessor,
-    page: RenderedPage,
-    max_new_tokens: int,
-) -> list[dict]:
-    response = _gemma_generate(model, processor, page.image, _OCR_PROMPT, max_new_tokens)
+def ocr_page(backend: Backend, page: RenderedPage, max_new_tokens: int) -> list[dict]:
+    response = backend.generate(page.image, _OCR_PROMPT, max_new_tokens)
     blocks = _parse_json_blocks(response)
 
     if blocks:
@@ -215,8 +305,7 @@ def ocr_page(
             )
         return result
 
-    # Fallback: plain transcription with no layout
-    fallback_text = _gemma_generate(model, processor, page.image, _FALLBACK_PROMPT, max_new_tokens)
+    fallback_text = backend.generate(page.image, _FALLBACK_PROMPT, max_new_tokens)
     return [
         {
             "index": 0,
@@ -271,8 +360,7 @@ def write_page_outputs(
 
 
 def process_pdf(
-    model: AutoModelForImageTextToText,
-    processor: AutoProcessor,
+    backend: Backend,
     pdf_path: Path,
     input_root: Path,
     output_root: Path,
@@ -293,7 +381,7 @@ def process_pdf(
         }
 
     for page in rendered_pages:
-        detections = ocr_page(model, processor, page, max_new_tokens)
+        detections = ocr_page(backend, page, max_new_tokens)
         write_page_outputs(
             output_dir=pdf_output_dir,
             page_number=page.page_number,
@@ -307,7 +395,7 @@ def process_pdf(
         "output_dir": str(pdf_output_dir.relative_to(output_root)),
         "pages": len(rendered_pages),
         "dpi": dpi,
-        "model_id": DEFAULT_MODEL_ID,
+        "model_id": backend.model_id,
         "status": "completed",
     }
     (pdf_output_dir / "manifest.json").write_text(
@@ -325,6 +413,9 @@ def main() -> None:
     if not args.input_root.exists():
         raise SystemExit(f"Input root does not exist: {args.input_root}")
 
+    model_id = args.model_id or _default_model_id(args.backend)
+    backend = load_backend(args.backend, model_id, args.vllm_url, args.ollama_url)
+
     pdfs = find_pdfs(args.input_root)
     if args.max_docs > 0:
         pdfs = pdfs[: args.max_docs]
@@ -332,8 +423,6 @@ def main() -> None:
     print(f"Found {len(pdfs)} PDF files under {args.input_root}")
     if not pdfs:
         return
-
-    model, processor = load_model(args.model_id)
 
     processed = skipped = failed = 0
 
@@ -345,8 +434,7 @@ def main() -> None:
 
         try:
             manifest = process_pdf(
-                model=model,
-                processor=processor,
+                backend=backend,
                 pdf_path=pdf_path,
                 input_root=args.input_root,
                 output_root=args.output_root,
@@ -360,7 +448,10 @@ def main() -> None:
             failed += 1
             pdf_output_dir.mkdir(parents=True, exist_ok=True)
             (pdf_output_dir / "error.json").write_text(
-                json.dumps({"pdf": str(pdf_path.relative_to(args.input_root)), "error": str(exc), "status": "failed"}, indent=2) + "\n",
+                json.dumps(
+                    {"pdf": str(pdf_path.relative_to(args.input_root)), "error": str(exc), "status": "failed"},
+                    indent=2,
+                ) + "\n",
                 encoding="utf-8",
             )
             print(f"Failed {pdf_path}: {exc}")
@@ -371,7 +462,7 @@ def main() -> None:
         "processed": processed,
         "skipped": skipped,
         "failed": failed,
-        "model_id": args.model_id,
+        "model_id": backend.model_id,
         "dpi": args.dpi,
     }
     (args.output_root / "_summary.json").write_text(

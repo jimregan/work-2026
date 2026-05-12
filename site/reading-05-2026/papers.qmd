@@ -33,6 +33,7 @@ bibliography: refs.bib
 
 ## [VICReg: Variance-Invariance-Covariance Regularization for Self-Supervised Learning](https://openreview.net/forum?id=xm6YD62D1Ub) [@bardes2022vicreg]
 - [arXiv](https://arxiv.org/abs/2105.04906)
+- [code](https://github.com/facebookresearch/vicreg) --- MIT
 
 ## [MM-Conv: A Multimodal Dataset and Benchmark for Context-Aware Grounding in 3D Dialogue](https://lrec.elra.info/lrec2026-main-726) [@deichler-etal-2026-mm]
 -

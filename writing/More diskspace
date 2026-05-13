@@ -131,11 +131,7 @@ tmh@deepwave:~$ sudo du -sh ../*/.cache
 24G	../smehta/.cache
 
 tmh@deepwave:~$ sudo du -sh ../*/*conda*
-6.5G	../beskow/miniconda3
-70M	../beskow/Miniconda3-py310_23.3.1-0-Linux-x86_64.sh
 19G	../bmoell/miniconda3
-83G	../bramw/miniconda3
-116M	../bramw/Miniconda3-latest-Linux-x86_64.sh
 86G	../deichler/anaconda3
 659M	../deichler/Anaconda3-2022.05-Linux-x86_64.sh
 12G	../fmalmb/miniconda3

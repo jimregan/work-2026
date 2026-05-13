@@ -63,10 +63,10 @@ joregan@deepflow:~$ sudo du -sh ../*/.cache
 7.8G	../jawester/.cache
 772K	../njona/.cache
 240G	../smehta/.cache
+15G	../bmoell/anaconda3
 
 joregan@deepflow:~$ sudo du -sh ../*/*conda*
 19G	../beskow/miniconda3
-15G	../bmoell/anaconda3
 4.0K	../deichler/checkconda.sh
 132G	../deichler/miniconda3
 12G	../fmalmb/miniconda3
@@ -84,3 +84,11 @@ joregan@deepflow:~$ sudo du -sh ../*/*conda*
 14G	../siyangw/miniconda3
 446M	../tmh/miniconda3
 67M	../tmh/Miniconda3-py39_22.11.1-1-Linux-x86_64.s
+
+
+joregan@deepflow:~$ sudo ls ../bmoell/.cache/huggingface/datasets
+downloads
+_home_bmoell_.cache_huggingface_datasets_mozilla-foundation___common_voice_11_0_sv-SE_11.0.0_8975395f1d50a6b61f707acd3416761702d3b25412f5fb1004e1db51fe7c304a.lock
+mozilla-foundation___common_voice_11_0
+joregan@deepflow:~$ sudo ls ../bmoell/.cache/huggingface/hub
+models--openai--whisper-small  version.txt

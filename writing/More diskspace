@@ -1,36 +1,16 @@
 tmh@deepspeech:~$ sudo du -sh ../*/*conda*
-685M	../annkle/miniconda3
-2,7G	../beskow/miniconda3
-59M	../beskow/Miniconda3-py39_4.9.2-Linux-x86_64.sh
 4,9G	../bmoell/miniconda3
-20G	../deichler/anaconda3
-659M	../deichler/Anaconda3-2022.05-Linux-x86_64.sh
-4,0K	../deichler/start_conda.sh
 21G	../erikekst/miniconda3
-74G	../fmalmb/miniconda3
-136M	../fmalmb/Miniconda3-latest-Linux-x86_64.sh
-8,0G	../joregan/miniconda3
-153M	../joregan/miniconda.sh
-59G	../liviaq/miniconda3
 5,1G	../panesar/miniconda3
-41G	../rajmundn/miniconda3
-85M	../rajmundn/Miniconda3-py37_4.10.3-Linux-x86_64.sh
-48G	../simonal/miniconda3
-72M	../simonal/Miniconda3-latest-Linux-x86_64.sh
-73M	../siyangw/install_conda
-26G	../siyangw/miniconda3
 18G	../smehta/anaconda3
 529M	../smehta/Anaconda3-2020.11-Linux-x86_64.sh
-33G	../szekely/miniconda3
 4,9G	../ulme/miniconda3
 
 tmh@deepspeech:~$ sudo du -sh ../*/.cache
 1,4G	../agnaxe/.cache
 960K	../alfredwa/.cache
 960K	../aljonass/.cache
-23M	../annkle/.cache
 960K	../atap/.cache
-27G	../beskow/.cache
 378G	../bmoell/.cache
 960K	../bobs/.cache
 26G	../bramw/.cache
@@ -76,3 +56,38 @@ tmh@deepspeech:~$ sudo du -sh ../*/.cache
 21G	../ulme/.cache
 212K	../yinyink/.cache
 
+tmh@deepspeech:~$ sudo ls ../bmoell/.cache/huggingface/datasets
+common_voice
+csv
+downloads
+_home_bmoell_.cache_huggingface_datasets_common_voice_ab_6.1.0_0041e06ab061b91d0a23234a2221e87970a19cf3a81b20901474cffffeb7869f.incomplete.lock
+_home_bmoell_.cache_huggingface_datasets_common_voice_ab_6.1.0_0041e06ab061b91d0a23234a2221e87970a19cf3a81b20901474cffffeb7869f.lock
+_home_bmoell_.cache_huggingface_datasets_common_voice_sv-SE_6.1.0_0041e06ab061b91d0a23234a2221e87970a19cf3a81b20901474cffffeb7869f.incomplete.lock
+_home_bmoell_.cache_huggingface_datasets_common_voice_sv-SE_6.1.0_0041e06ab061b91d0a23234a2221e87970a19cf3a81b20901474cffffeb7869f.lock
+_home_bmoell_.cache_huggingface_datasets_common_voice_sv-SE-ad9f7b76efa9f3a0_6.1.0_0041e06ab061b91d0a23234a2221e87970a19cf3a81b20901474cffffeb7869f.incomplete.lock
+_home_bmoell_.cache_huggingface_datasets_common_voice_sv-SE-ad9f7b76efa9f3a0_6.1.0_0041e06ab061b91d0a23234a2221e87970a19cf3a81b20901474cffffeb7869f.lock
+_home_bmoell_.cache_huggingface_datasets_csv_default-3df0b54707941ca0_0.0.0_2dc6629a9ff6b5697d82c25b73731dd440507a69cbce8b425db50b751e8fcfd0.lock
+_home_bmoell_.cache_huggingface_datasets_csv_default-551e2a81599b17ce_0.0.0_2dc6629a9ff6b5697d82c25b73731dd440507a69cbce8b425db50b751e8fcfd0.incomplete.lock
+_home_bmoell_.cache_huggingface_datasets_csv_default-551e2a81599b17ce_0.0.0_2dc6629a9ff6b5697d82c25b73731dd440507a69cbce8b425db50b751e8fcfd0.lock
+_home_bmoell_.cache_huggingface_datasets_csv_default-79ebf0c4bf86d4f4_0.0.0_2dc6629a9ff6b5697d82c25b73731dd440507a69cbce8b425db50b751e8fcfd0.incomplete.lock
+_home_bmoell_.cache_huggingface_datasets_csv_default-79ebf0c4bf86d4f4_0.0.0_2dc6629a9ff6b5697d82c25b73731dd440507a69cbce8b425db50b751e8fcfd0.lock
+_home_bmoell_.cache_huggingface_datasets_csv_default-93e6aadfe5a285cf_0.0.0_2dc6629a9ff6b5697d82c25b73731dd440507a69cbce8b425db50b751e8fcfd0.incomplete.lock
+_home_bmoell_.cache_huggingface_datasets_csv_default-93e6aadfe5a285cf_0.0.0_2dc6629a9ff6b5697d82c25b73731dd440507a69cbce8b425db50b751e8fcfd0.lock
+_home_bmoell_.cache_huggingface_datasets_json_default-242a35be4c18b9cd_0.0.0_83d5b3a2f62630efc6b5315f00f20209b4ad91a00ac586597caee3a4da0bef02.incomplete.lock
+_home_bmoell_.cache_huggingface_datasets_json_default-242a35be4c18b9cd_0.0.0_83d5b3a2f62630efc6b5315f00f20209b4ad91a00ac586597caee3a4da0bef02.lock
+_home_bmoell_.cache_huggingface_datasets_json_default-33479f31fd9e58bc_0.0.0_83d5b3a2f62630efc6b5315f00f20209b4ad91a00ac586597caee3a4da0bef02.incomplete.lock
+_home_bmoell_.cache_huggingface_datasets_json_default-33479f31fd9e58bc_0.0.0_83d5b3a2f62630efc6b5315f00f20209b4ad91a00ac586597caee3a4da0bef02.lock
+_home_bmoell_.cache_huggingface_datasets_json_default-440f725842e7bbfa_0.0.0_83d5b3a2f62630efc6b5315f00f20209b4ad91a00ac586597caee3a4da0bef02.incomplete.lock
+_home_bmoell_.cache_huggingface_datasets_json_default-440f725842e7bbfa_0.0.0_83d5b3a2f62630efc6b5315f00f20209b4ad91a00ac586597caee3a4da0bef02.lock
+_home_bmoell_.cache_huggingface_datasets_json_default-489852148e17ee2d_0.0.0_83d5b3a2f62630efc6b5315f00f20209b4ad91a00ac586597caee3a4da0bef02.incomplete.lock
+_home_bmoell_.cache_huggingface_datasets_json_default-489852148e17ee2d_0.0.0_83d5b3a2f62630efc6b5315f00f20209b4ad91a00ac586597caee3a4da0bef02.lock
+_home_bmoell_.cache_huggingface_datasets_json_default-4d6a40fec7104123_0.0.0_83d5b3a2f62630efc6b5315f00f20209b4ad91a00ac586597caee3a4da0bef02.incomplete.lock
+_home_bmoell_.cache_huggingface_datasets_json_default-4d6a40fec7104123_0.0.0_83d5b3a2f62630efc6b5315f00f20209b4ad91a00ac586597caee3a4da0bef02.lock
+_home_bmoell_.cache_huggingface_datasets_json_default-560fc54ef7ebf4ea_0.0.0_83d5b3a2f62630efc6b5315f00f20209b4ad91a00ac586597caee3a4da0bef02.incomplete.lock
+_home_bmoell_.cache_huggingface_datasets_json_default-560fc54ef7ebf4ea_0.0.0_83d5b3a2f62630efc6b5315f00f20209b4ad91a00ac586597caee3a4da0bef02.lock
+_home_bmoell_.cache_huggingface_datasets_json_default-5db66810f203747c_0.0.0_83d5b3a2f62630efc6b5315f00f20209b4ad91a00ac586597caee3a4da0bef02.lock
+_home_bmoell_.cache_huggingface_datasets_json_default-5de4cd54fa0a2c51_0.0.0_83d5b3a2f62630efc6b5315f00f20209b4ad91a00ac586597caee3a4da0bef02.lock
+_home_bmoell_.cache_huggingface_datasets_json_default-b36b9e03f73be551_0.0.0_83d5b3a2f62630efc6b5315f00f20209b4ad91a00ac586597caee3a4da0bef02.incomplete.lock
+_home_bmoell_.cache_huggingface_datasets_json_default-b36b9e03f73be551_0.0.0_83d5b3a2f62630efc6b5315f00f20209b4ad91a00ac586597caee3a4da0bef02.lock
+_home_bmoell_.cache_huggingface_datasets_json_default-f3500b3ad113a4f3_0.0.0_83d5b3a2f62630efc6b5315f00f20209b4ad91a00ac586597caee3a4da0bef02.incomplete.lock
+_home_bmoell_.cache_huggingface_datasets_json_default-f3500b3ad113a4f3_0.0.0_83d5b3a2f62630efc6b5315f00f20209b4ad91a00ac586597caee3a4da0bef02.lock

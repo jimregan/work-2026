@@ -126,7 +126,5 @@ tmh@deepsleep:~$ sudo du -sh ../*/*conda*
 529M	../smehta/Anaconda3-2020.11-Linux-x86_64.sh
 29G	../smehta/anaconda3
 
-$ sudo ls ../joregan/.cache/huggingface/hub
-models--KBLab--wav2vec2-large-voxrex-swedish
-models--facebook--wav2vec2-lv-60-espeak-cv-ft
-models--jimregan--wav2vec2-swedish-phonetic-waxholm
+$ sudo ls ../isaknor/.cache/huggingface/hub
+models--AI-Sweden-Models--Llama-3-8B-instruct

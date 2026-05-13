@@ -100,75 +100,33 @@ joregan@deepflow:~$ sudo du -sh ../*/*conda*
 8.4G	../tarask/miniconda3
 
 tmh@deepsleep:~$ sudo du -sh ../*/.cache
-[sudo] password for tmh: 
-83M	../annkle/.cache
-69M	../beskow/.cache
 121G	../binger/.cache
-4.0K	../birfan/.cache
 19G	../bmoell/.cache
-4.0K	../bobs/.cache
 15G	../bramw/.cache
-4.0K	../carolf_fh/.cache
 3.4G	../chhatre/.cache
-4.0K	../chreri/.cache
-32K	../deichler/.cache
-4.0K	../dmytroka/.cache
-8.0K	../enekoassets/.cache
 4.9M	../erikekst/.cache
-340K	../fmalmb/.cache
-1.2G	../grouwels/.cache
 19G	../isaknor/.cache
-196M	../jfrancis/.cache
-3.8G	../jkgu/.cache
 14G	../joregan/.cache
-4.0K	../karrfe/.cache
-4.0K	../kirkland/.cache
-4.0K	../konradma/.cache
-27G	../lameris/.cache
-4.6M	../liviaq/.cache
-4.0K	../njona/.cache
 1.8G	../pablopz/.cache
-4.0K	../panesar/.cache
 863M	../pjjonell/.cache
-4.0K	../rajmundn/.cache
-4.0K	../ruibo/.cache
-25G	../shbs/.cache
-3.3G	../simonal/.cache
-3.5G	../siyangw/.cache
-4.0K	../skantze/.cache
 12G	../smehta/.cache
-23M	../szekely/.cache
 394M	../tarask/.cache
-4.0K	../tmh/.cache
-4.0K	../ulme/.cache
-76K	../wberner/.cache
-90M	../yinyink/.cache
 
 tmh@deepsleep:~$ sudo du -sh ../*/*conda*
-4.0K	../annkle/conda_install_explained.sh
-602M	../beskow/miniconda3
 64M	../binger/Miniconda3-py39_4.10.3-Linux-x86_64.sh
 48G	../binger/miniconda3
 8.0G	../bmoell/miniconda3
 17G	../chhatre/miniconda3
 143M	../isaknor/Miniconda3-latest-Linux-x86_64.sh
 6.2G	../isaknor/miniconda3
-64M	../jkgu/Miniconda3-latest-Linux-x86_64.sh
-7.1G	../jkgu/miniconda3
 15G	../joregan/miniconda3
-41G	../lameris/miniconda3
-73M	../liviaq/Miniconda3-latest-Linux-x86_64.sh
-16G	../liviaq/miniconda3
 5.6G	../pablopz/miniconda3
 82M	../pjjonell/Miniconda3-latest-Linux-x86_64.sh
 4.3G	../pjjonell/miniconda3
-148M	../shbs/Miniconda3-latest-Linux-x86_64.sh
-7.1G	../shbs/miniconda3
-82M	../simonal/Miniconda3-latest-Linux-x86_64.sh
-30G	../simonal/miniconda3
-73M	../siyangw/install_conda
-41G	../siyangw/miniconda3
 529M	../smehta/Anaconda3-2020.11-Linux-x86_64.sh
 29G	../smehta/anaconda3
-4.0K	../yinyink/conda_install.sh
-9.2G	../yinyink/miniconda3
+
+$ sudo ls ../joregan/.cache/huggingface/hub
+models--KBLab--wav2vec2-large-voxrex-swedish
+models--facebook--wav2vec2-lv-60-espeak-cv-ft
+models--jimregan--wav2vec2-swedish-phonetic-waxholm

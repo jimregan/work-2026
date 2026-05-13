@@ -22,16 +22,25 @@ xet
 
 ```
 **joregan@deepwave**:**~**$ sudo du -sh ~maoxuan/.cache/models
-
 177G /home/maoxuan/.cache/models
 
 **joregan@deepwave**:**~**$ sudo ls ~maoxuan/.cache/models
-
 GroundingGPT-7B  ferret-7b-delta.zip  llama-7b-official
-
 README.md ferret-7b-v1-3       shikra-7b-official-llama
-
 __MACOSX ggpt       vicuna-7b-v1-3
-
 ferret-7b-delta  groundinggpt
 ```
+
+```
+joregan@deepwave:/home/mehdiaam$ sudo ls .cache/huggingface/hub
+models--meta-llama--Meta-Llama-3.1-70B-Instruct
+models--meta-llama--Meta-Llama-3.1-8B-Instruct
+models--speechbrain--sepformer-wsj02mix
+version.txt
+```
+
+```
+joregan@deepwave:/home/chhatre$ ls .insightface/models/
+antelopev2  antelopev2.zip  buffalo_l  buffalo_l.zip
+```
+[Models](https://github.com/deepinsight/insightface/tree/master/model_zoo)

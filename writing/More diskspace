@@ -85,30 +85,77 @@ joregan@deepflow:~$ sudo du -sh ../*/*conda*
 446M	../tmh/miniconda3
 67M	../tmh/Miniconda3-py39_22.11.1-1-Linux-x86_64.s
 
+(base) tmh@deepvoice:~$ sudo du -sh ../*/.cache
+4.0K    ../alfredwa/.cache
+4.0K    ../aljonass/.cache
+80K     ../annkle/.cache
+2.5M    ../atap/.cache
+70M     ../beskow/.cache
+12K     ../binger/.cache
+4.0K    ../birfan/.cache
+31G     ../bmoell/.cache
+4.0K    ../bobs/.cache
+4.0K    ../bramw/.cache
+4.0K    ../chhatre/.cache
+4.0K    ../chreri/.cache
+1.9G    ../deichler/.cache
+4.0K    ../diko/.cache
+4.0K    ../dmytroka/.cache
+8.0K    ../enekoassets/.cache
+4.8G    ../erikekst/.cache
+532K    ../fmalmb/.cache
+4.0K    ../ghe/.cache
+1.2G    ../grouwels/.cache
+4.0K    ../huanchen/.cache
+4.0K    ../jboye/.cache
+3.6G    ../jkgu/.cache
+3.8G    ../joregan/.cache
+8.3G    ../kirkland/.cache
+15G     ../lameris/.cache
+4.0K    ../liviaq/.cache
+4.0K    ../njona/.cache
+4.0K    ../pablopz/.cache
+4.0K    ../panesar/.cache
+4.0K    ../perfall/.cache
+73M     ../pjjonell/.cache
+13G     ../rajmundn/.cache
+4.0K    ../ronaldcg/.cache
+4.0K    ../ruibo/.cache
+6.7G    ../simonal/.cache
+7.5G    ../siyangw/.cache
+6.3G    ../skantze/.cache
+5.3G    ../smehta/.cache
+672M    ../szekely/.cache
+1.7G    ../tarask/.cache
+1.9M    ../tmh/.cache
+3.0G    ../ulme/.cache
+76K     ../wberner/.cache
+140K    ../yinyink/.cache
 
-joregan@deepflow:~$ sudo ls ../smehta/.cache/huggingface/hub
-models--bert-base-multilingual-cased
-models--facebook--data2vec-text-base
-models--facebook--wav2vec2-large-xlsr-53
-models--facebook--wav2vec2-xlsr-53-espeak-cv-ft
-models--google--ddpm-celebahq-256
-models--google--gemma-7b
-models--gpt2
-models--openai--clip-vit-large-patch14
-models--openai--whisper-large-v2
-models--runwayml--stable-diffusion-v1-5
-models--speechbrain--spkrec-ecapa-voxceleb
-models--suno--bark
-version_diffusers_cache.txt
-version.txt
-
-joregan@deepflow:~$ sudo ls ../smehta/.cache/huggingface/datasets
-csv
-downloads
-_home_smehta_.cache_huggingface_datasets_csv_default-0a97f95da97408f0_0.0.0_6b34fb8fcf56f7c8ba51dc895bfa2bfbe43546f190a60fcf74bb5e8afdcc2317.lock
-_home_smehta_.cache_huggingface_datasets_csv_default-3d889e2ade141e9e_0.0.0_6b34fb8fcf56f7c8ba51dc895bfa2bfbe43546f190a60fcf74bb5e8afdcc2317.lock
-_home_smehta_.cache_huggingface_datasets_csv_default-a3a2dd1bc9ade249_0.0.0_6b34fb8fcf56f7c8ba51dc895bfa2bfbe43546f190a60fcf74bb5e8afdcc2317.lock
-_home_smehta_.cache_huggingface_datasets_csv_default-b0fc5c5d4cc3cc35_0.0.0_6b34fb8fcf56f7c8ba51dc895bfa2bfbe43546f190a60fcf74bb5e8afdcc2317.lock
-_home_smehta_.cache_huggingface_datasets_csv_default-d0292683a57df418_0.0.0_6b34fb8fcf56f7c8ba51dc895bfa2bfbe43546f190a60fcf74bb5e8afdcc2317.lock
-_home_smehta_.cache_huggingface_datasets_mnist_mnist_1.0.0_fda16c03c4ecfb13f165ba7e29cf38129ce035011519968cdaf74894ce91c9d4.lock
-mnist
+(base) tmh@deepvoice:~$ sudo du -sh ../*/*conda*
+25G	../bmoell/miniconda3
+15G	../deichler/miniconda3
+73M	../deichler/Miniconda3-py38_4.12.0-Linux-x86_64.sh
+8.8G	../erikekst/miniconda3
+7.6G	../jkgu/miniconda3
+64M	../jkgu/Miniconda3-latest-Linux-x86_64.sh
+7.7G	../joregan/miniconda3
+13G	../kirkland/miniconda3
+27G	../lameris/miniconda3
+3.3G	../liviaq/miniconda3
+73M	../liviaq/Miniconda3-latest-Linux-x86_64.sh
+24G	../pjjonell/miniconda3
+78G	../rajmundn/miniconda3
+48G	../simonal/miniconda3
+67M	../simonal/Miniconda3-latest-Linux-x86_64.sh
+71M	../siyangw/conda_install
+4.0K	../siyangw/conda_user.sh
+74M	../siyangw/install-conda
+44G	../siyangw/miniconda3
+138M	../siyangw/Miniconda3-latest-Linux-x86_64.sh
+13G	../skantze/miniconda3
+64M	../skantze/miniconda.sh
+16G	../smehta/anaconda3
+2.7G	../szekely/miniconda3
+8.4G	../tarask/miniconda3
+4.0K	../tmh/activate_conda_for_all.sh

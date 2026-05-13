@@ -60,10 +60,10 @@ tmh@deepspeech:~$ sudo du -sh ../*/.cache
 joregan@deepflow:~$ sudo du -sh ../*/.cache
 2.1G	../birfan/.cache
 112G	../bmoell/.cache
-7.8G	../jawester/.cache
-772K	../njona/.cache
 240G	../smehta/.cache
 15G	../bmoell/anaconda3
+
+7.8G	../jawester/.cache
 
 joregan@deepflow:~$ sudo du -sh ../*/*conda*
 19G	../beskow/miniconda3
@@ -86,9 +86,29 @@ joregan@deepflow:~$ sudo du -sh ../*/*conda*
 67M	../tmh/Miniconda3-py39_22.11.1-1-Linux-x86_64.s
 
 
-joregan@deepflow:~$ sudo ls ../bmoell/.cache/huggingface/datasets
+joregan@deepflow:~$ sudo ls ../smehta/.cache/huggingface/hub
+models--bert-base-multilingual-cased
+models--facebook--data2vec-text-base
+models--facebook--wav2vec2-large-xlsr-53
+models--facebook--wav2vec2-xlsr-53-espeak-cv-ft
+models--google--ddpm-celebahq-256
+models--google--gemma-7b
+models--gpt2
+models--openai--clip-vit-large-patch14
+models--openai--whisper-large-v2
+models--runwayml--stable-diffusion-v1-5
+models--speechbrain--spkrec-ecapa-voxceleb
+models--suno--bark
+version_diffusers_cache.txt
+version.txt
+
+joregan@deepflow:~$ sudo ls ../smehta/.cache/huggingface/datasets
+csv
 downloads
-_home_bmoell_.cache_huggingface_datasets_mozilla-foundation___common_voice_11_0_sv-SE_11.0.0_8975395f1d50a6b61f707acd3416761702d3b25412f5fb1004e1db51fe7c304a.lock
-mozilla-foundation___common_voice_11_0
-joregan@deepflow:~$ sudo ls ../bmoell/.cache/huggingface/hub
-models--openai--whisper-small  version.txt
+_home_smehta_.cache_huggingface_datasets_csv_default-0a97f95da97408f0_0.0.0_6b34fb8fcf56f7c8ba51dc895bfa2bfbe43546f190a60fcf74bb5e8afdcc2317.lock
+_home_smehta_.cache_huggingface_datasets_csv_default-3d889e2ade141e9e_0.0.0_6b34fb8fcf56f7c8ba51dc895bfa2bfbe43546f190a60fcf74bb5e8afdcc2317.lock
+_home_smehta_.cache_huggingface_datasets_csv_default-a3a2dd1bc9ade249_0.0.0_6b34fb8fcf56f7c8ba51dc895bfa2bfbe43546f190a60fcf74bb5e8afdcc2317.lock
+_home_smehta_.cache_huggingface_datasets_csv_default-b0fc5c5d4cc3cc35_0.0.0_6b34fb8fcf56f7c8ba51dc895bfa2bfbe43546f190a60fcf74bb5e8afdcc2317.lock
+_home_smehta_.cache_huggingface_datasets_csv_default-d0292683a57df418_0.0.0_6b34fb8fcf56f7c8ba51dc895bfa2bfbe43546f190a60fcf74bb5e8afdcc2317.lock
+_home_smehta_.cache_huggingface_datasets_mnist_mnist_1.0.0_fda16c03c4ecfb13f165ba7e29cf38129ce035011519968cdaf74894ce91c9d4.lock
+mnist

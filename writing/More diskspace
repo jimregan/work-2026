@@ -132,22 +132,7 @@ tmh@deepwave:~$ sudo du -sh ../*/.cache
 
 tmh@deepwave:~$ sudo du -sh ../*/*conda*
 19G	../bmoell/miniconda3
-86G	../deichler/anaconda3
-659M	../deichler/Anaconda3-2022.05-Linux-x86_64.sh
-12G	../fmalmb/miniconda3
-2.4G	../haotianq/miniconda3
-94G	../lameris/miniconda3
-57G	../liviaq/miniconda3
-27G	../lubos/miniconda3
 15G	../maoxuan/miniconda3
 155M	../maoxuan/miniconda.sh
 7.2G	../mehdiaam/miniconda3
-55G	../nikitat/miniconda3
-4.0K	../shbs/conda_auto_env.sh
-49M	../shbs/miniconda
-323M	../shbs/miniconda2
-23G	../silviaag/miniconda3
-155M	../silviaag/Miniconda3-latest-Linux-x86_64.sh
-138M	../siyangw/install_miniconda
-15G	../siyangw/miniconda3
 76G	../smehta/anaconda3

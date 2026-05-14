@@ -9,15 +9,6 @@ import pynini
 import torch
 
 
-def dynamic_error_probability(error_score: float, distance: int) -> float:
-    """Return the distance-scaled non-forward transition probability."""
-    return (
-        error_score
-        * (1 / math.sqrt(2 * math.pi))
-        * math.exp(-(distance ** 2) / 2)
-    )
-
-
 def build_ref_fst(
     phoneme_ids: list[int],
     beta: float,
@@ -78,8 +69,7 @@ def build_ref_fst(
                 w = -math.log(alpha) if alpha > 0 else 0.0
                 fst.add_arc(i, pynini.Arc(phone, phone, w, j))
 
-                if (sub and error_score > 0 and similarity_matrix is not None
-                        and lexicon is not None and phn2idx is not None):
+                if sub and similarity_matrix is not None and lexicon is not None and phn2idx is not None:
                     # (b) Substitution arcs
                     phone_text = lexicon[phone]
                     if is_ipa and ipa_to_cmu_fn is not None:
@@ -136,8 +126,6 @@ def build_ref_fst(
                     )
                     fst.add_arc(i, pynini.Arc(0, mid, w_back, j))
 
-    fst.set_final(L, 0)
+    compiler.set_final(L, 0)
 
-    fst.set_input_symbols(input_syms)
-    fst.set_output_symbols(output_syms)
-    return fst
+    return compiler.compile()

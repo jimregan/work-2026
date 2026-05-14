@@ -1,0 +1,24 @@
+---
+title: "OCR Alignment"
+---
+
+**[`aligner.py`](aligner.py)** aligns OCR'd text to a reference (ground-truth) text using
+confidence-weighted sequential search, based on the algorithm described in
+[Chiron et al. (2017)](https://link.springer.com/chapter/10.1007/978-3-030-22871-2_58).
+
+Input can be plain text or hOCR (Tesseract output). Alignment uses exact and
+fuzzy (Levenshtein) forward/backward window search, with confidence scores
+adjusted by dictionary membership.
+
+```bash
+# Plain text input, TSV output
+python aligner.py ocr.txt reference.txt
+
+# hOCR input with bounding boxes, JSON output
+python aligner.py --hocr --format json ocr.hocr reference.txt
+```
+
+**Output fields:** `ocr_word`, `ref_word`, `ref_position`, `confidence`, `failed`;
+with hOCR input also `bbox`, `x_wconf`, `word_id`, `page_num`.
+
+**Dependencies:** `rapidfuzz`; optionally `beautifulsoup4` + `lxml` (hOCR), `pyenchant` (dictionary check).

@@ -1,0 +1,17 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.backends.legacy:build"
+
+[project]
+name = "papermill-hfmount"
+version = "0.1.0"
+requires-python = ">=3.10"
+dependencies = [
+    "papermill",
+]
+
+[project.entry-points."papermill.io"]
+"hf://" = "papermill_hfmount:HFMountHandler"
+
+[tool.setuptools]
+py-modules = ["papermill_hfmount"]

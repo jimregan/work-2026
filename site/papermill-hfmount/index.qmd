@@ -1,0 +1,21 @@
+---
+title: "Papermill HuggingFace Mount"
+---
+
+**[`papermill_hfmount.py`](papermill_hfmount.py)** is a
+[Papermill](https://papermill.readthedocs.io/) I/O handler that lets notebooks be read
+from and written to HuggingFace repositories using `hf://` URIs, via
+[hf-mount](https://github.com/huggingface/hf-mount).
+
+```python
+import papermill as pm
+import papermill_hfmount  # registers the handler
+
+pm.execute_notebook(
+    "hf://owner/repo/notebooks/analysis.ipynb",
+    "hf://owner/repo/notebooks/analysis_out.ipynb",
+)
+```
+
+Repos are mounted on first access under `~/.cache/papermill-hfmount/` and reused if
+already mounted.

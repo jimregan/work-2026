@@ -40,6 +40,8 @@ website:
             href: preprocess-ocr-labels/index.qmd
           - text: "Recording HLS Streams"
             href: record-streams/index.qmd
+          - text: "LibriVox Index JSON"
+            href: extract-index-json/index.qmd
       - text: "Papers"
         menu:
           - text: "My Papers"

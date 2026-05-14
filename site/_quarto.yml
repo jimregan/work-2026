@@ -18,6 +18,10 @@ website:
             href: reading-02-2026/papers.qmd
           - text: "March 2026"
             href: reading-03-2026/papers.qmd
+          - text: "April 2026"
+            href: reading-04-2026/papers.qmd
+          - text: "May 2026"
+            href: reading-05-2026/papers.qmd
       - text: "Notes"
         menu:
           - text: "CTC Segmentation"
@@ -40,6 +44,12 @@ website:
             href: preprocess-ocr-labels/index.qmd
           - text: "Recording HLS Streams"
             href: record-streams/index.qmd
+          - text: "LibriVox Index JSON"
+            href: extract-index-json/index.qmd
+          - text: "OCR Alignment"
+            href: ocr-alignment/index.qmd
+          - text: "Papermill HuggingFace Mount"
+            href: papermill-hfmount/index.qmd
       - text: "Papers"
         menu:
           - text: "My Papers"

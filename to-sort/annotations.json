@@ -1,0 +1,808 @@
+[
+  {
+    "segment_index": 1,
+    "start": 19.22,
+    "end": 32.48,
+    "vibevoice": "Around the World in Eighty Days by Jules Verne. Chapter One. In which Phileas Fogg and Passepartout accept each other. The one is master, the other is man. Mr.",
+    "etext": "Around the World in Eighty Days by Jules Verne. Chapter I. In which Phileas Fogg and Passepartout accept each other, the one as master, the other as man Mr.",
+    "diff_op_index": 1,
+    "op": "replace",
+    "vv_words": [
+      "One."
+    ],
+    "et_words": [
+      "I."
+    ],
+    "classification": "normalisation"
+  },
+  {
+    "segment_index": 1,
+    "start": 19.22,
+    "end": 32.48,
+    "vibevoice": "Around the World in Eighty Days by Jules Verne. Chapter One. In which Phileas Fogg and Passepartout accept each other. The one is master, the other is man. Mr.",
+    "etext": "Around the World in Eighty Days by Jules Verne. Chapter I. In which Phileas Fogg and Passepartout accept each other, the one as master, the other as man Mr.",
+    "diff_op_index": 3,
+    "op": "replace",
+    "vv_words": [
+      "is"
+    ],
+    "et_words": [
+      "as"
+    ],
+    "classification": "asr"
+  },
+  {
+    "segment_index": 1,
+    "start": 19.22,
+    "end": 32.48,
+    "vibevoice": "Around the World in Eighty Days by Jules Verne. Chapter One. In which Phileas Fogg and Passepartout accept each other. The one is master, the other is man. Mr.",
+    "etext": "Around the World in Eighty Days by Jules Verne. Chapter I. In which Phileas Fogg and Passepartout accept each other, the one as master, the other as man Mr.",
+    "diff_op_index": 5,
+    "op": "replace",
+    "vv_words": [
+      "is"
+    ],
+    "et_words": [
+      "as"
+    ],
+    "classification": "asr"
+  },
+  {
+    "segment_index": 2,
+    "start": 32.48,
+    "end": 60.79,
+    "vibevoice": "Phileas Fogg lived in 1872 at number seven Savile Road, Burlington Gardens, the house in which Sir Eden died in 1814. He was one of the most noticeable members of the Reform Club, though he seemed always to avoid attracting attention, an enigmatical personage about whom little was known, except that he was a polished man of the world.",
+    "etext": "Phileas Fogg lived, in 1872, at No. 7, Saville Row, Burlington Gardens, the house in which Sheridan died in 1814. He was one of the most noticeable members of the Reform Club, though he seemed always to avoid attracting attention; an enigmatical personage, about whom little was known, except that he was a polished man of the world.",
+    "diff_op_index": 3,
+    "op": "replace",
+    "vv_words": [
+      "Sir",
+      "Eden"
+    ],
+    "et_words": [
+      "Sheridan"
+    ],
+    "classification": "reading"
+  },
+  {
+    "segment_index": 3,
+    "start": 60.79,
+    "end": 96.32,
+    "vibevoice": "People said that he resembled Byron, at least that he was Byronic, but he was a bearded, tranquil Byron, who might live on a thousand years without growing old. Certainly an Englishman, it was more doubtful whether Phileas Fogg was a Londoner. He was never seen on charge, nor at the bank, nor in the counting rooms of the city. No ships ever came into London docks of which he was the owner. He had no public employment.",
+    "etext": "People said that he resembled Byron—at least that his head was Byronic; but he was a bearded, tranquil Byron, who might live on a thousand years without growing old. Certainly an Englishman, it was more doubtful whether Phileas Fogg was a Londoner. He was never seen on ’Change, nor at the Bank, nor in the counting-rooms of the “City”; no ships ever came into London docks of which he was the owner; he had no public employment;",
+    "diff_op_index": 3,
+    "op": "replace",
+    "vv_words": [
+      "he"
+    ],
+    "et_words": [
+      "his",
+      "head"
+    ],
+    "classification": "reading"
+  },
+  {
+    "segment_index": 3,
+    "start": 60.79,
+    "end": 96.32,
+    "vibevoice": "People said that he resembled Byron, at least that he was Byronic, but he was a bearded, tranquil Byron, who might live on a thousand years without growing old. Certainly an Englishman, it was more doubtful whether Phileas Fogg was a Londoner. He was never seen on charge, nor at the bank, nor in the counting rooms of the city. No ships ever came into London docks of which he was the owner. He had no public employment.",
+    "etext": "People said that he resembled Byron—at least that his head was Byronic; but he was a bearded, tranquil Byron, who might live on a thousand years without growing old. Certainly an Englishman, it was more doubtful whether Phileas Fogg was a Londoner. He was never seen on ’Change, nor at the Bank, nor in the counting-rooms of the “City”; no ships ever came into London docks of which he was the owner; he had no public employment;",
+    "diff_op_index": 5,
+    "op": "replace",
+    "vv_words": [
+      "charge,"
+    ],
+    "et_words": [
+      "’Change,"
+    ],
+    "classification": "reading"
+  },
+  {
+    "segment_index": 4,
+    "start": 96.32,
+    "end": 126.91,
+    "vibevoice": "He had never been entered at any of the inns of court, either at the Temple, or Lincoln's Inn, or Gray's Inn, nor had his voice ever resounded in the court of Chancery, or in the ex-chiquoir, or the Queen's Bench, or the ecclesiastical courts. He certainly was not a manufacturer, nor was he a merchant, or gentleman farmer.",
+    "etext": "he had never been entered at any of the Inns of Court, either at the Temple, or Lincoln’s Inn, or Gray’s Inn; nor had his voice ever resounded in the Court of Chancery, or in the Exchequer, or the Queen’s Bench, or the Ecclesiastical Courts. He certainly was not a manufacturer; nor was he a merchant or a gentleman farmer.",
+    "diff_op_index": 1,
+    "op": "replace",
+    "vv_words": [
+      "ex-chiquoir,"
+    ],
+    "et_words": [
+      "Exchequer,"
+    ],
+    "classification": "reading"
+  },
+  {
+    "segment_index": 4,
+    "start": 96.32,
+    "end": 126.91,
+    "vibevoice": "He had never been entered at any of the inns of court, either at the Temple, or Lincoln's Inn, or Gray's Inn, nor had his voice ever resounded in the court of Chancery, or in the ex-chiquoir, or the Queen's Bench, or the ecclesiastical courts. He certainly was not a manufacturer, nor was he a merchant, or gentleman farmer.",
+    "etext": "he had never been entered at any of the Inns of Court, either at the Temple, or Lincoln’s Inn, or Gray’s Inn; nor had his voice ever resounded in the Court of Chancery, or in the Exchequer, or the Queen’s Bench, or the Ecclesiastical Courts. He certainly was not a manufacturer; nor was he a merchant or a gentleman farmer.",
+    "diff_op_index": 3,
+    "op": "delete",
+    "vv_words": [],
+    "et_words": [
+      "a"
+    ],
+    "classification": "reading"
+  },
+  {
+    "segment_index": 6,
+    "start": 150.21,
+    "end": 186.56,
+    "vibevoice": "He belonged, in fact, to none of the numerous societies which swarm in the English capital, from the Harmonic to that of the Entomologists, founded mainly for the purpose of abolishing pernicious insects. Phileas Fogg was a member of the reform, and that was all. The way in which he got admission to his exclusive club was simple enough. He was recommended by the bearings with whom he had an open credit.",
+    "etext": "He belonged, in fact, to none of the numerous societies which swarm in the English capital, from the Harmonic to that of the Entomologists, founded mainly for the purpose of abolishing pernicious insects. Phileas Fogg was a member of the Reform, and that was all. The way in which he got admission to this exclusive club was simple enough. He was recommended by the Barings, with whom he had an open credit.",
+    "diff_op_index": 1,
+    "op": "replace",
+    "vv_words": [
+      "his"
+    ],
+    "et_words": [
+      "this"
+    ],
+    "classification": "reading"
+  },
+  {
+    "segment_index": 7,
+    "start": 186.56,
+    "end": 226.42,
+    "vibevoice": "His checklist was regularly paid at sight from his account current, which was always flush. Was Phileas Fogg rich? Undoubtedly, but those who knew him best could not imagine how he had made his fortune, and Mr. Fogg was the last person to whom to apply for the information. He was not lavish, nor, on the contrary, avaricious, for whenever he knew that money was needed for a noble, useful, or benevolent purpose, he supplied it quietly and sometimes anonymously.",
+    "etext": "His cheques were regularly paid at sight from his account current, which was always flush. Was Phileas Fogg rich? Undoubtedly. But those who knew him best could not imagine how he had made his fortune, and Mr. Fogg was the last person to whom to apply for the information. He was not lavish, nor, on the contrary, avaricious; for, whenever he knew that money was needed for a noble, useful, or benevolent purpose, he supplied it quietly and sometimes anonymously.",
+    "diff_op_index": 1,
+    "op": "replace",
+    "vv_words": [
+      "checklist",
+      "was"
+    ],
+    "et_words": [
+      "cheques",
+      "were"
+    ],
+    "classification": "reading"
+  },
+  {
+    "segment_index": 8,
+    "start": 226.42,
+    "end": 266.05,
+    "vibevoice": "He was, in short, the least communicative of men. He talked very little, and seemed all the more mysterious for his taciturn manner. His daily habits were quite open to observation, but whenever he did so exactly the same thing that he had always done before that his wits of the curious were fairly puzzled. Had he traveled? It was likely, for no one seemed to know the world more familiarly than was no spot so secluded that he did not appear to have an intimate acquaintance with it.",
+    "etext": "He was, in short, the least communicative of men. He talked very little, and seemed all the more mysterious for his taciturn manner. His daily habits were quite open to observation; but whatever he did was so exactly the same thing that he had always done before, that the wits of the curious were fairly puzzled. Had he travelled? It was likely, for no one seemed to know the world more familiarly; there was no spot so secluded that he did not appear to have an intimate acquaintance with it.",
+    "diff_op_index": 1,
+    "op": "replace",
+    "vv_words": [
+      "whenever"
+    ],
+    "et_words": [
+      "whatever"
+    ],
+    "classification": "reading"
+  },
+  {
+    "segment_index": 8,
+    "start": 226.42,
+    "end": 266.05,
+    "vibevoice": "He was, in short, the least communicative of men. He talked very little, and seemed all the more mysterious for his taciturn manner. His daily habits were quite open to observation, but whenever he did so exactly the same thing that he had always done before that his wits of the curious were fairly puzzled. Had he traveled? It was likely, for no one seemed to know the world more familiarly than was no spot so secluded that he did not appear to have an intimate acquaintance with it.",
+    "etext": "He was, in short, the least communicative of men. He talked very little, and seemed all the more mysterious for his taciturn manner. His daily habits were quite open to observation; but whatever he did was so exactly the same thing that he had always done before, that the wits of the curious were fairly puzzled. Had he travelled? It was likely, for no one seemed to know the world more familiarly; there was no spot so secluded that he did not appear to have an intimate acquaintance with it.",
+    "diff_op_index": 3,
+    "op": "delete",
+    "vv_words": [],
+    "et_words": [
+      "was"
+    ],
+    "classification": "reading"
+  },
+  {
+    "segment_index": 8,
+    "start": 226.42,
+    "end": 266.05,
+    "vibevoice": "He was, in short, the least communicative of men. He talked very little, and seemed all the more mysterious for his taciturn manner. His daily habits were quite open to observation, but whenever he did so exactly the same thing that he had always done before that his wits of the curious were fairly puzzled. Had he traveled? It was likely, for no one seemed to know the world more familiarly than was no spot so secluded that he did not appear to have an intimate acquaintance with it.",
+    "etext": "He was, in short, the least communicative of men. He talked very little, and seemed all the more mysterious for his taciturn manner. His daily habits were quite open to observation; but whatever he did was so exactly the same thing that he had always done before, that the wits of the curious were fairly puzzled. Had he travelled? It was likely, for no one seemed to know the world more familiarly; there was no spot so secluded that he did not appear to have an intimate acquaintance with it.",
+    "diff_op_index": 5,
+    "op": "replace",
+    "vv_words": [
+      "his"
+    ],
+    "et_words": [
+      "the"
+    ],
+    "classification": "reading"
+  },
+  {
+    "segment_index": 8,
+    "start": 226.42,
+    "end": 266.05,
+    "vibevoice": "He was, in short, the least communicative of men. He talked very little, and seemed all the more mysterious for his taciturn manner. His daily habits were quite open to observation, but whenever he did so exactly the same thing that he had always done before that his wits of the curious were fairly puzzled. Had he traveled? It was likely, for no one seemed to know the world more familiarly than was no spot so secluded that he did not appear to have an intimate acquaintance with it.",
+    "etext": "He was, in short, the least communicative of men. He talked very little, and seemed all the more mysterious for his taciturn manner. His daily habits were quite open to observation; but whatever he did was so exactly the same thing that he had always done before, that the wits of the curious were fairly puzzled. Had he travelled? It was likely, for no one seemed to know the world more familiarly; there was no spot so secluded that he did not appear to have an intimate acquaintance with it.",
+    "diff_op_index": 9,
+    "op": "replace",
+    "vv_words": [
+      "than"
+    ],
+    "et_words": [
+      "there"
+    ],
+    "classification": "reading"
+  },
+  {
+    "segment_index": 9,
+    "start": 266.05,
+    "end": 304.15,
+    "vibevoice": "He often corrected with a few clear words the thousand conjectures advanced by members of the club as to lost and unheard-of travelers, pointing out the true probabilities and seeming as if gifted with a sort of second sight. So often did events justify his predications, he must have traveled everywhere, at least in the spirit. It was at least certain that Phileas Fogg had not absented himself from London for many years.",
+    "etext": "He often corrected, with a few clear words, the thousand conjectures advanced by members of the club as to lost and unheard-of travellers, pointing out the true probabilities, and seeming as if gifted with a sort of second sight, so often did events justify his predictions. He must have travelled everywhere, at least in the spirit. It was at least certain that Phileas Fogg had not absented himself from London for many years.",
+    "diff_op_index": 3,
+    "op": "replace",
+    "vv_words": [
+      "predications,"
+    ],
+    "et_words": [
+      "predictions."
+    ],
+    "classification": "reading"
+  },
+  {
+    "segment_index": 11,
+    "start": 343.62,
+    "end": 351.42,
+    "vibevoice": "A struggle with a difficulty yet motionless, a wearing struggle, congenial to his tastes.",
+    "etext": "a struggle with a difficulty, yet a motionless, unwearying struggle, congenial to his tastes.",
+    "diff_op_index": 1,
+    "op": "delete",
+    "vv_words": [],
+    "et_words": [
+      "a"
+    ],
+    "classification": "reading"
+  },
+  {
+    "segment_index": 11,
+    "start": 343.62,
+    "end": 351.42,
+    "vibevoice": "A struggle with a difficulty yet motionless, a wearing struggle, congenial to his tastes.",
+    "etext": "a struggle with a difficulty, yet a motionless, unwearying struggle, congenial to his tastes.",
+    "diff_op_index": 3,
+    "op": "replace",
+    "vv_words": [
+      "a",
+      "wearing"
+    ],
+    "et_words": [
+      "unwearying"
+    ],
+    "classification": "reading"
+  },
+  {
+    "segment_index": 12,
+    "start": 351.54,
+    "end": 380.12,
+    "vibevoice": "Phileas Fogg was not known to have either wife or children, which may happen to the most honest people, either relatives or near friends, which is certainly more unusual. He lived alone in his house in Savile Road, whither none penetrated. A single domestic sufficed to serve him. He breakfasted and dined at the club.",
+    "etext": "Phileas Fogg was not known to have either wife or children, which may happen to the most honest people; either relatives or near friends, which is certainly more unusual. He lived alone in his house in Saville Row, whither none penetrated. A single domestic sufficed to serve him. He breakfasted and dined at the club,",
+    "diff_op_index": 1,
+    "op": "replace",
+    "vv_words": [
+      "Savile",
+      "Road,"
+    ],
+    "et_words": [
+      "Saville",
+      "Row,"
+    ],
+    "classification": "reading"
+  },
+  {
+    "segment_index": 13,
+    "start": 380.12,
+    "end": 410.25,
+    "vibevoice": "At hours mathematically fixed, in the same room, at the same table, never taking his meals with other members, much less bringing a guest with him, and went home at exactly midnight, only to retire at once to bed. He never used the cozy chambers which the reform provided for its favored members. He passed ten hours out of the twenty-four in Savile Row, either in sleeping or making his toilet.",
+    "etext": "at hours mathematically fixed, in the same room, at the same table, never taking his meals with other members, much less bringing a guest with him; and went home at exactly midnight, only to retire at once to bed. He never used the cosy chambers which the Reform provides for its favoured members. He passed ten hours out of the twenty-four in Saville Row, either in sleeping or making his toilet.",
+    "diff_op_index": 3,
+    "op": "replace",
+    "vv_words": [
+      "provided"
+    ],
+    "et_words": [
+      "provides"
+    ],
+    "classification": "reading"
+  },
+  {
+    "segment_index": 13,
+    "start": 380.12,
+    "end": 410.25,
+    "vibevoice": "At hours mathematically fixed, in the same room, at the same table, never taking his meals with other members, much less bringing a guest with him, and went home at exactly midnight, only to retire at once to bed. He never used the cozy chambers which the reform provided for its favored members. He passed ten hours out of the twenty-four in Savile Row, either in sleeping or making his toilet.",
+    "etext": "at hours mathematically fixed, in the same room, at the same table, never taking his meals with other members, much less bringing a guest with him; and went home at exactly midnight, only to retire at once to bed. He never used the cosy chambers which the Reform provides for its favoured members. He passed ten hours out of the twenty-four in Saville Row, either in sleeping or making his toilet.",
+    "diff_op_index": 7,
+    "op": "replace",
+    "vv_words": [
+      "Savile"
+    ],
+    "et_words": [
+      "Saville"
+    ],
+    "classification": "reading"
+  },
+  {
+    "segment_index": 14,
+    "start": 410.25,
+    "end": 447.31,
+    "vibevoice": "When he chose to take a walk, it was with a regular step in the entrance hall with its mosaic flooring, or in the circular gallery with its dome supported by twenty red porphyry ionic columns, and illuminated by blue-painted windows. When he breakfasted or dined, all the resources of the club, its kitchens and pastries, its buttery and dairy, aided to crowd his table with their most succulent stories.",
+    "etext": "When he chose to take a walk it was with a regular step in the entrance hall with its mosaic flooring, or in the circular gallery with its dome supported by twenty red porphyry Ionic columns, and illumined by blue painted windows. When he breakfasted or dined all the resources of the club—its kitchens and pantries, its buttery and dairy—aided to crowd his table with their most succulent stores;",
+    "diff_op_index": 1,
+    "op": "replace",
+    "vv_words": [
+      "illuminated"
+    ],
+    "et_words": [
+      "illumined"
+    ],
+    "classification": "reading"
+  },
+  {
+    "segment_index": 14,
+    "start": 410.25,
+    "end": 447.31,
+    "vibevoice": "When he chose to take a walk, it was with a regular step in the entrance hall with its mosaic flooring, or in the circular gallery with its dome supported by twenty red porphyry ionic columns, and illuminated by blue-painted windows. When he breakfasted or dined, all the resources of the club, its kitchens and pastries, its buttery and dairy, aided to crowd his table with their most succulent stories.",
+    "etext": "When he chose to take a walk it was with a regular step in the entrance hall with its mosaic flooring, or in the circular gallery with its dome supported by twenty red porphyry Ionic columns, and illumined by blue painted windows. When he breakfasted or dined all the resources of the club—its kitchens and pantries, its buttery and dairy—aided to crowd his table with their most succulent stores;",
+    "diff_op_index": 7,
+    "op": "replace",
+    "vv_words": [
+      "pastries,"
+    ],
+    "et_words": [
+      "pantries,"
+    ],
+    "classification": "reading"
+  },
+  {
+    "segment_index": 14,
+    "start": 410.25,
+    "end": 447.31,
+    "vibevoice": "When he chose to take a walk, it was with a regular step in the entrance hall with its mosaic flooring, or in the circular gallery with its dome supported by twenty red porphyry ionic columns, and illuminated by blue-painted windows. When he breakfasted or dined, all the resources of the club, its kitchens and pastries, its buttery and dairy, aided to crowd his table with their most succulent stories.",
+    "etext": "When he chose to take a walk it was with a regular step in the entrance hall with its mosaic flooring, or in the circular gallery with its dome supported by twenty red porphyry Ionic columns, and illumined by blue painted windows. When he breakfasted or dined all the resources of the club—its kitchens and pantries, its buttery and dairy—aided to crowd his table with their most succulent stores;",
+    "diff_op_index": 11,
+    "op": "replace",
+    "vv_words": [
+      "stories."
+    ],
+    "et_words": [
+      "stores;"
+    ],
+    "classification": "reading"
+  },
+  {
+    "segment_index": 15,
+    "start": 447.31,
+    "end": 482.62,
+    "vibevoice": "He was served by the gravest waiters in dress coats and shoes with swan-skin soles, with proffered the veins in special porcelain and on the finest linen club decanters of a lost mold containing his sherry, his port, and his cinnamon-spiced claret, while his beverages were refreshingly cool with ice, brought at great cost from the American lakes.",
+    "etext": "he was served by the gravest waiters, in dress coats, and shoes with swan-skin soles, who proffered the viands in special porcelain, and on the finest linen; club decanters, of a lost mould, contained his sherry, his port, and his cinnamon-spiced claret; while his beverages were refreshingly cooled with ice, brought at great cost from the American lakes.",
+    "diff_op_index": 1,
+    "op": "replace",
+    "vv_words": [
+      "with"
+    ],
+    "et_words": [
+      "who"
+    ],
+    "classification": "reading"
+  },
+  {
+    "segment_index": 15,
+    "start": 447.31,
+    "end": 482.62,
+    "vibevoice": "He was served by the gravest waiters in dress coats and shoes with swan-skin soles, with proffered the veins in special porcelain and on the finest linen club decanters of a lost mold containing his sherry, his port, and his cinnamon-spiced claret, while his beverages were refreshingly cool with ice, brought at great cost from the American lakes.",
+    "etext": "he was served by the gravest waiters, in dress coats, and shoes with swan-skin soles, who proffered the viands in special porcelain, and on the finest linen; club decanters, of a lost mould, contained his sherry, his port, and his cinnamon-spiced claret; while his beverages were refreshingly cooled with ice, brought at great cost from the American lakes.",
+    "diff_op_index": 3,
+    "op": "replace",
+    "vv_words": [
+      "veins"
+    ],
+    "et_words": [
+      "viands"
+    ],
+    "classification": "reading"
+  },
+  {
+    "segment_index": 15,
+    "start": 447.31,
+    "end": 482.62,
+    "vibevoice": "He was served by the gravest waiters in dress coats and shoes with swan-skin soles, with proffered the veins in special porcelain and on the finest linen club decanters of a lost mold containing his sherry, his port, and his cinnamon-spiced claret, while his beverages were refreshingly cool with ice, brought at great cost from the American lakes.",
+    "etext": "he was served by the gravest waiters, in dress coats, and shoes with swan-skin soles, who proffered the viands in special porcelain, and on the finest linen; club decanters, of a lost mould, contained his sherry, his port, and his cinnamon-spiced claret; while his beverages were refreshingly cooled with ice, brought at great cost from the American lakes.",
+    "diff_op_index": 5,
+    "op": "replace",
+    "vv_words": [
+      "mold",
+      "containing"
+    ],
+    "et_words": [
+      "mould,",
+      "contained"
+    ],
+    "classification": "reading"
+  },
+  {
+    "segment_index": 15,
+    "start": 447.31,
+    "end": 482.62,
+    "vibevoice": "He was served by the gravest waiters in dress coats and shoes with swan-skin soles, with proffered the veins in special porcelain and on the finest linen club decanters of a lost mold containing his sherry, his port, and his cinnamon-spiced claret, while his beverages were refreshingly cool with ice, brought at great cost from the American lakes.",
+    "etext": "he was served by the gravest waiters, in dress coats, and shoes with swan-skin soles, who proffered the viands in special porcelain, and on the finest linen; club decanters, of a lost mould, contained his sherry, his port, and his cinnamon-spiced claret; while his beverages were refreshingly cooled with ice, brought at great cost from the American lakes.",
+    "diff_op_index": 7,
+    "op": "replace",
+    "vv_words": [
+      "cool"
+    ],
+    "et_words": [
+      "cooled"
+    ],
+    "classification": "reading"
+  },
+  {
+    "segment_index": 16,
+    "start": 482.62,
+    "end": 512.62,
+    "vibevoice": "If to live in this style is to be eccentric, it must be confessed that there is something good in eccentricity. The mansion in Savile Row, thought not sumptuous, was exceedingly comfortable. The habits of its occupants were such as to demand but little from the sole dome stick, but Phileas Fogg required him to be almost superhumanly prompt and regular.",
+    "etext": "If to live in this style is to be eccentric, it must be confessed that there is something good in eccentricity. The mansion in Saville Row, though not sumptuous, was exceedingly comfortable. The habits of its occupant were such as to demand but little from the sole domestic, but Phileas Fogg required him to be almost superhumanly prompt and regular.",
+    "diff_op_index": 1,
+    "op": "replace",
+    "vv_words": [
+      "Savile"
+    ],
+    "et_words": [
+      "Saville"
+    ],
+    "classification": "reading"
+  },
+  {
+    "segment_index": 16,
+    "start": 482.62,
+    "end": 512.62,
+    "vibevoice": "If to live in this style is to be eccentric, it must be confessed that there is something good in eccentricity. The mansion in Savile Row, thought not sumptuous, was exceedingly comfortable. The habits of its occupants were such as to demand but little from the sole dome stick, but Phileas Fogg required him to be almost superhumanly prompt and regular.",
+    "etext": "If to live in this style is to be eccentric, it must be confessed that there is something good in eccentricity. The mansion in Saville Row, though not sumptuous, was exceedingly comfortable. The habits of its occupant were such as to demand but little from the sole domestic, but Phileas Fogg required him to be almost superhumanly prompt and regular.",
+    "diff_op_index": 3,
+    "op": "replace",
+    "vv_words": [
+      "thought"
+    ],
+    "et_words": [
+      "though"
+    ],
+    "classification": "reading"
+  },
+  {
+    "segment_index": 16,
+    "start": 482.62,
+    "end": 512.62,
+    "vibevoice": "If to live in this style is to be eccentric, it must be confessed that there is something good in eccentricity. The mansion in Savile Row, thought not sumptuous, was exceedingly comfortable. The habits of its occupants were such as to demand but little from the sole dome stick, but Phileas Fogg required him to be almost superhumanly prompt and regular.",
+    "etext": "If to live in this style is to be eccentric, it must be confessed that there is something good in eccentricity. The mansion in Saville Row, though not sumptuous, was exceedingly comfortable. The habits of its occupant were such as to demand but little from the sole domestic, but Phileas Fogg required him to be almost superhumanly prompt and regular.",
+    "diff_op_index": 5,
+    "op": "replace",
+    "vv_words": [
+      "occupants"
+    ],
+    "et_words": [
+      "occupant"
+    ],
+    "classification": "reading"
+  },
+  {
+    "segment_index": 16,
+    "start": 482.62,
+    "end": 512.62,
+    "vibevoice": "If to live in this style is to be eccentric, it must be confessed that there is something good in eccentricity. The mansion in Savile Row, thought not sumptuous, was exceedingly comfortable. The habits of its occupants were such as to demand but little from the sole dome stick, but Phileas Fogg required him to be almost superhumanly prompt and regular.",
+    "etext": "If to live in this style is to be eccentric, it must be confessed that there is something good in eccentricity. The mansion in Saville Row, though not sumptuous, was exceedingly comfortable. The habits of its occupant were such as to demand but little from the sole domestic, but Phileas Fogg required him to be almost superhumanly prompt and regular.",
+    "diff_op_index": 7,
+    "op": "replace",
+    "vv_words": [
+      "dome",
+      "stick,"
+    ],
+    "et_words": [
+      "domestic,"
+    ],
+    "classification": "reading"
+  },
+  {
+    "segment_index": 17,
+    "start": 512.62,
+    "end": 544.27,
+    "vibevoice": "On this very second of October, he had dismissed James Forrester, being that luckless youth had brought him, serving water at eighty-four degrees Fahrenheit instead of eighty-six, and he was awaiting his successor, who was due at the house between eleven and half-past. Phileas Fogg was seated squarely in his armchair, his feet close together like those of a grenadier on parade.",
+    "etext": "On this very 2nd of October he had dismissed James Forster, because that luckless youth had brought him shaving-water at eighty-four degrees Fahrenheit instead of eighty-six; and he was awaiting his successor, who was due at the house between eleven and half-past. Phileas Fogg was seated squarely in his armchair, his feet close together like those of a grenadier on parade,",
+    "diff_op_index": 1,
+    "op": "replace",
+    "vv_words": [
+      "second"
+    ],
+    "et_words": [
+      "2nd"
+    ],
+    "classification": "normalisation"
+  },
+  {
+    "segment_index": 17,
+    "start": 512.62,
+    "end": 544.27,
+    "vibevoice": "On this very second of October, he had dismissed James Forrester, being that luckless youth had brought him, serving water at eighty-four degrees Fahrenheit instead of eighty-six, and he was awaiting his successor, who was due at the house between eleven and half-past. Phileas Fogg was seated squarely in his armchair, his feet close together like those of a grenadier on parade.",
+    "etext": "On this very 2nd of October he had dismissed James Forster, because that luckless youth had brought him shaving-water at eighty-four degrees Fahrenheit instead of eighty-six; and he was awaiting his successor, who was due at the house between eleven and half-past. Phileas Fogg was seated squarely in his armchair, his feet close together like those of a grenadier on parade,",
+    "diff_op_index": 3,
+    "op": "replace",
+    "vv_words": [
+      "Forrester,",
+      "being"
+    ],
+    "et_words": [
+      "Forster,",
+      "because"
+    ],
+    "classification": "reading"
+  },
+  {
+    "segment_index": 17,
+    "start": 512.62,
+    "end": 544.27,
+    "vibevoice": "On this very second of October, he had dismissed James Forrester, being that luckless youth had brought him, serving water at eighty-four degrees Fahrenheit instead of eighty-six, and he was awaiting his successor, who was due at the house between eleven and half-past. Phileas Fogg was seated squarely in his armchair, his feet close together like those of a grenadier on parade.",
+    "etext": "On this very 2nd of October he had dismissed James Forster, because that luckless youth had brought him shaving-water at eighty-four degrees Fahrenheit instead of eighty-six; and he was awaiting his successor, who was due at the house between eleven and half-past. Phileas Fogg was seated squarely in his armchair, his feet close together like those of a grenadier on parade,",
+    "diff_op_index": 5,
+    "op": "replace",
+    "vv_words": [
+      "serving",
+      "water"
+    ],
+    "et_words": [
+      "shaving-water"
+    ],
+    "classification": "reading"
+  },
+  {
+    "segment_index": 18,
+    "start": 544.27,
+    "end": 584.2,
+    "vibevoice": "His hands resting on his knees, his body straight, his head erect, he was steadily watching a complicated clock which indicated the hours, the minutes, the seconds, the days, the months, and the years. At exactly half-past eight, Mr. Fogg would, according to his daily habits, quit Savile Row and repair to the reform. A rap at this moment sounded on the door of the cozy apartment where Phileas Fogg was seated, and James Forrester, the dismissed servant, appeared. The new servant, said he. A young man of thirty advanced and bowed.",
+    "etext": "his hands resting on his knees, his body straight, his head erect; he was steadily watching a complicated clock which indicated the hours, the minutes, the seconds, the days, the months, and the years. At exactly half-past eleven Mr. Fogg would, according to his daily habit, quit Saville Row, and repair to the Reform. A rap at this moment sounded on the door of the cosy apartment where Phileas Fogg was seated, and James Forster, the dismissed servant, appeared. “The new servant,” said he. A young man of thirty advanced and bowed.",
+    "diff_op_index": 1,
+    "op": "replace",
+    "vv_words": [
+      "eight,"
+    ],
+    "et_words": [
+      "eleven"
+    ],
+    "classification": "reading"
+  },
+  {
+    "segment_index": 18,
+    "start": 544.27,
+    "end": 584.2,
+    "vibevoice": "His hands resting on his knees, his body straight, his head erect, he was steadily watching a complicated clock which indicated the hours, the minutes, the seconds, the days, the months, and the years. At exactly half-past eight, Mr. Fogg would, according to his daily habits, quit Savile Row and repair to the reform. A rap at this moment sounded on the door of the cozy apartment where Phileas Fogg was seated, and James Forrester, the dismissed servant, appeared. The new servant, said he. A young man of thirty advanced and bowed.",
+    "etext": "his hands resting on his knees, his body straight, his head erect; he was steadily watching a complicated clock which indicated the hours, the minutes, the seconds, the days, the months, and the years. At exactly half-past eleven Mr. Fogg would, according to his daily habit, quit Saville Row, and repair to the Reform. A rap at this moment sounded on the door of the cosy apartment where Phileas Fogg was seated, and James Forster, the dismissed servant, appeared. “The new servant,” said he. A young man of thirty advanced and bowed.",
+    "diff_op_index": 3,
+    "op": "replace",
+    "vv_words": [
+      "habits,"
+    ],
+    "et_words": [
+      "habit,"
+    ],
+    "classification": "reading"
+  },
+  {
+    "segment_index": 18,
+    "start": 544.27,
+    "end": 584.2,
+    "vibevoice": "His hands resting on his knees, his body straight, his head erect, he was steadily watching a complicated clock which indicated the hours, the minutes, the seconds, the days, the months, and the years. At exactly half-past eight, Mr. Fogg would, according to his daily habits, quit Savile Row and repair to the reform. A rap at this moment sounded on the door of the cozy apartment where Phileas Fogg was seated, and James Forrester, the dismissed servant, appeared. The new servant, said he. A young man of thirty advanced and bowed.",
+    "etext": "his hands resting on his knees, his body straight, his head erect; he was steadily watching a complicated clock which indicated the hours, the minutes, the seconds, the days, the months, and the years. At exactly half-past eleven Mr. Fogg would, according to his daily habit, quit Saville Row, and repair to the Reform. A rap at this moment sounded on the door of the cosy apartment where Phileas Fogg was seated, and James Forster, the dismissed servant, appeared. “The new servant,” said he. A young man of thirty advanced and bowed.",
+    "diff_op_index": 5,
+    "op": "replace",
+    "vv_words": [
+      "Savile"
+    ],
+    "et_words": [
+      "Saville"
+    ],
+    "classification": "reading"
+  },
+  {
+    "segment_index": 19,
+    "start": 584.2,
+    "end": 623.46,
+    "vibevoice": "You are a Frenchman, I believe, asked Phileas Fogg, and your name is John? Jean, if monsieur pleases, replied the newcomer. Jean Passepartout, a surname which has clung to me because I have a natural aptness for going out of one business into another. I believe I'm honest, monsieur, but to be outspoken, I've had several trades. I've been an itinerant singer, a circus rider, when I used to vault like leotard and dance on a rope like Blondin. Then I got to be a professional",
+    "etext": "“You are a Frenchman, I believe,” asked Phileas Fogg, “and your name is John?” “Jean, if monsieur pleases,” replied the newcomer, “Jean Passepartout, a surname which has clung to me because I have a natural aptness for going out of one business into another. I believe I’m honest, monsieur, but, to be outspoken, I’ve had several trades. I’ve been an itinerant singer, a circus-rider, when I used to vault like Leotard, and dance on a rope like Blondin. Then I got to be a professor",
+    "diff_op_index": 3,
+    "op": "replace",
+    "vv_words": [
+      "professional"
+    ],
+    "et_words": [
+      "professor"
+    ],
+    "classification": "reading"
+  },
+  {
+    "segment_index": 20,
+    "start": 623.46,
+    "end": 656.47,
+    "vibevoice": "of gymnastics, so as to make better use of my talents. Then I was a surgeon fireman at Paris, and associate at many a big fire. But I quitted France five years ago, and wishing to taste the sweet of domestic life, took service as a valet here in England. Finding myself out of place, and hearing that Monsieur Phileas Fogg was the most exact and subtle gentleman in the United Kingdom.",
+    "etext": "of gymnastics, so as to make better use of my talents; and then I was a sergeant fireman at Paris, and assisted at many a big fire. But I quitted France five years ago, and, wishing to taste the sweets of domestic life, took service as a valet here in England. Finding myself out of place, and hearing that Monsieur Phileas Fogg was the most exact and settled gentleman in the United Kingdom,",
+    "diff_op_index": 1,
+    "op": "delete",
+    "vv_words": [],
+    "et_words": [
+      "and"
+    ],
+    "classification": "reading"
+  },
+  {
+    "segment_index": 20,
+    "start": 623.46,
+    "end": 656.47,
+    "vibevoice": "of gymnastics, so as to make better use of my talents. Then I was a surgeon fireman at Paris, and associate at many a big fire. But I quitted France five years ago, and wishing to taste the sweet of domestic life, took service as a valet here in England. Finding myself out of place, and hearing that Monsieur Phileas Fogg was the most exact and subtle gentleman in the United Kingdom.",
+    "etext": "of gymnastics, so as to make better use of my talents; and then I was a sergeant fireman at Paris, and assisted at many a big fire. But I quitted France five years ago, and, wishing to taste the sweets of domestic life, took service as a valet here in England. Finding myself out of place, and hearing that Monsieur Phileas Fogg was the most exact and settled gentleman in the United Kingdom,",
+    "diff_op_index": 3,
+    "op": "replace",
+    "vv_words": [
+      "surgeon"
+    ],
+    "et_words": [
+      "sergeant"
+    ],
+    "classification": "reading"
+  },
+  {
+    "segment_index": 20,
+    "start": 623.46,
+    "end": 656.47,
+    "vibevoice": "of gymnastics, so as to make better use of my talents. Then I was a surgeon fireman at Paris, and associate at many a big fire. But I quitted France five years ago, and wishing to taste the sweet of domestic life, took service as a valet here in England. Finding myself out of place, and hearing that Monsieur Phileas Fogg was the most exact and subtle gentleman in the United Kingdom.",
+    "etext": "of gymnastics, so as to make better use of my talents; and then I was a sergeant fireman at Paris, and assisted at many a big fire. But I quitted France five years ago, and, wishing to taste the sweets of domestic life, took service as a valet here in England. Finding myself out of place, and hearing that Monsieur Phileas Fogg was the most exact and settled gentleman in the United Kingdom,",
+    "diff_op_index": 5,
+    "op": "replace",
+    "vv_words": [
+      "associate"
+    ],
+    "et_words": [
+      "assisted"
+    ],
+    "classification": "reading"
+  },
+  {
+    "segment_index": 20,
+    "start": 623.46,
+    "end": 656.47,
+    "vibevoice": "of gymnastics, so as to make better use of my talents. Then I was a surgeon fireman at Paris, and associate at many a big fire. But I quitted France five years ago, and wishing to taste the sweet of domestic life, took service as a valet here in England. Finding myself out of place, and hearing that Monsieur Phileas Fogg was the most exact and subtle gentleman in the United Kingdom.",
+    "etext": "of gymnastics, so as to make better use of my talents; and then I was a sergeant fireman at Paris, and assisted at many a big fire. But I quitted France five years ago, and, wishing to taste the sweets of domestic life, took service as a valet here in England. Finding myself out of place, and hearing that Monsieur Phileas Fogg was the most exact and settled gentleman in the United Kingdom,",
+    "diff_op_index": 7,
+    "op": "replace",
+    "vv_words": [
+      "sweet"
+    ],
+    "et_words": [
+      "sweets"
+    ],
+    "classification": "reading"
+  },
+  {
+    "segment_index": 21,
+    "start": 656.47,
+    "end": 674.01,
+    "vibevoice": "I have come to Monsieur in the hope of living with him a tranquil life and forgetting even the name of Passepartout. Passepartout suits me, replied Mr. Fogg. You are well recommended to me. I hear a good report of you. You know my conditions?",
+    "etext": "I have come to monsieur in the hope of living with him a tranquil life, and forgetting even the name of Passepartout.” “Passepartout suits me,” responded Mr. Fogg. “You are well recommended to me; I hear a good report of you. You know my conditions?”",
+    "diff_op_index": 1,
+    "op": "replace",
+    "vv_words": [
+      "replied"
+    ],
+    "et_words": [
+      "responded"
+    ],
+    "classification": "reading"
+  },
+  {
+    "segment_index": 22,
+    "start": 674.01,
+    "end": 686.77,
+    "vibevoice": "Yes, monsieur. Good. What time is it? Twenty-two minutes after eleven, replied Passepartout, drawing an enormous silver watch from the depths of his pocket. You're too slow, said Mr. Fogg.",
+    "etext": "“Yes, monsieur.” “Good! What time is it?” “Twenty-two minutes after eleven,” returned Passepartout, drawing an enormous silver watch from the depths of his pocket. “You are too slow,” said Mr. Fogg.",
+    "diff_op_index": 1,
+    "op": "replace",
+    "vv_words": [
+      "replied"
+    ],
+    "et_words": [
+      "returned"
+    ],
+    "classification": "reading"
+  },
+  {
+    "segment_index": 22,
+    "start": 674.01,
+    "end": 686.77,
+    "vibevoice": "Yes, monsieur. Good. What time is it? Twenty-two minutes after eleven, replied Passepartout, drawing an enormous silver watch from the depths of his pocket. You're too slow, said Mr. Fogg.",
+    "etext": "“Yes, monsieur.” “Good! What time is it?” “Twenty-two minutes after eleven,” returned Passepartout, drawing an enormous silver watch from the depths of his pocket. “You are too slow,” said Mr. Fogg.",
+    "diff_op_index": 3,
+    "op": "replace",
+    "vv_words": [
+      "You're"
+    ],
+    "et_words": [
+      "“You",
+      "are"
+    ],
+    "classification": "reading"
+  },
+  {
+    "segment_index": 24,
+    "start": 692.3,
+    "end": 731.63,
+    "vibevoice": "It's enough to mention the error. Now, from this time, twenty-nine minutes after eleven a.m. this Wednesday, second October, you are in my service. Phileas Fogg got up, took his hat in his left hand, put it on his head with an automatic motion, and went off without a word. Passepartout heard the street door shut once. It was his new master going out. He heard it shut again. It was his predecessor, James Forrester, departing in his turn. Passepartout remained alone at the house in Savile Row.",
+    "etext": "it’s enough to mention the error. Now from this moment, twenty-nine minutes after eleven, a.m., this Wednesday, 2nd October, you are in my service.” Phileas Fogg got up, took his hat in his left hand, put it on his head with an automatic motion, and went off without a word. Passepartout heard the street door shut once; it was his new master going out. He heard it shut again; it was his predecessor, James Forster, departing in his turn. Passepartout remained alone in the house in Saville Row.",
+    "diff_op_index": 1,
+    "op": "replace",
+    "vv_words": [
+      "time,"
+    ],
+    "et_words": [
+      "moment,"
+    ],
+    "classification": "reading"
+  },
+  {
+    "segment_index": 24,
+    "start": 692.3,
+    "end": 731.63,
+    "vibevoice": "It's enough to mention the error. Now, from this time, twenty-nine minutes after eleven a.m. this Wednesday, second October, you are in my service. Phileas Fogg got up, took his hat in his left hand, put it on his head with an automatic motion, and went off without a word. Passepartout heard the street door shut once. It was his new master going out. He heard it shut again. It was his predecessor, James Forrester, departing in his turn. Passepartout remained alone at the house in Savile Row.",
+    "etext": "it’s enough to mention the error. Now from this moment, twenty-nine minutes after eleven, a.m., this Wednesday, 2nd October, you are in my service.” Phileas Fogg got up, took his hat in his left hand, put it on his head with an automatic motion, and went off without a word. Passepartout heard the street door shut once; it was his new master going out. He heard it shut again; it was his predecessor, James Forster, departing in his turn. Passepartout remained alone in the house in Saville Row.",
+    "diff_op_index": 3,
+    "op": "replace",
+    "vv_words": [
+      "second"
+    ],
+    "et_words": [
+      "2nd"
+    ],
+    "classification": "normalisation"
+  },
+  {
+    "segment_index": 24,
+    "start": 692.3,
+    "end": 731.63,
+    "vibevoice": "It's enough to mention the error. Now, from this time, twenty-nine minutes after eleven a.m. this Wednesday, second October, you are in my service. Phileas Fogg got up, took his hat in his left hand, put it on his head with an automatic motion, and went off without a word. Passepartout heard the street door shut once. It was his new master going out. He heard it shut again. It was his predecessor, James Forrester, departing in his turn. Passepartout remained alone at the house in Savile Row.",
+    "etext": "it’s enough to mention the error. Now from this moment, twenty-nine minutes after eleven, a.m., this Wednesday, 2nd October, you are in my service.” Phileas Fogg got up, took his hat in his left hand, put it on his head with an automatic motion, and went off without a word. Passepartout heard the street door shut once; it was his new master going out. He heard it shut again; it was his predecessor, James Forster, departing in his turn. Passepartout remained alone in the house in Saville Row.",
+    "diff_op_index": 5,
+    "op": "replace",
+    "vv_words": [
+      "Forrester,"
+    ],
+    "et_words": [
+      "Forster,"
+    ],
+    "classification": "reading"
+  },
+  {
+    "segment_index": 24,
+    "start": 692.3,
+    "end": 731.63,
+    "vibevoice": "It's enough to mention the error. Now, from this time, twenty-nine minutes after eleven a.m. this Wednesday, second October, you are in my service. Phileas Fogg got up, took his hat in his left hand, put it on his head with an automatic motion, and went off without a word. Passepartout heard the street door shut once. It was his new master going out. He heard it shut again. It was his predecessor, James Forrester, departing in his turn. Passepartout remained alone at the house in Savile Row.",
+    "etext": "it’s enough to mention the error. Now from this moment, twenty-nine minutes after eleven, a.m., this Wednesday, 2nd October, you are in my service.” Phileas Fogg got up, took his hat in his left hand, put it on his head with an automatic motion, and went off without a word. Passepartout heard the street door shut once; it was his new master going out. He heard it shut again; it was his predecessor, James Forster, departing in his turn. Passepartout remained alone in the house in Saville Row.",
+    "diff_op_index": 7,
+    "op": "replace",
+    "vv_words": [
+      "at"
+    ],
+    "et_words": [
+      "in"
+    ],
+    "classification": "reading"
+  },
+  {
+    "segment_index": 24,
+    "start": 692.3,
+    "end": 731.63,
+    "vibevoice": "It's enough to mention the error. Now, from this time, twenty-nine minutes after eleven a.m. this Wednesday, second October, you are in my service. Phileas Fogg got up, took his hat in his left hand, put it on his head with an automatic motion, and went off without a word. Passepartout heard the street door shut once. It was his new master going out. He heard it shut again. It was his predecessor, James Forrester, departing in his turn. Passepartout remained alone at the house in Savile Row.",
+    "etext": "it’s enough to mention the error. Now from this moment, twenty-nine minutes after eleven, a.m., this Wednesday, 2nd October, you are in my service.” Phileas Fogg got up, took his hat in his left hand, put it on his head with an automatic motion, and went off without a word. Passepartout heard the street door shut once; it was his new master going out. He heard it shut again; it was his predecessor, James Forster, departing in his turn. Passepartout remained alone in the house in Saville Row.",
+    "diff_op_index": 9,
+    "op": "replace",
+    "vv_words": [
+      "Savile"
+    ],
+    "et_words": [
+      "Saville"
+    ],
+    "classification": "reading"
+  }
+]

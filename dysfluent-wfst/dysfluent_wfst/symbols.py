@@ -41,9 +41,4 @@ def build_output_symbol_table(input_syms: pynini.SymbolTable) -> pynini.SymbolTa
     of the form ``{i}<trans>{j}`` that encode state transitions for
     variation detection.
     """
-    output_syms = pynini.SymbolTable()
-    for idx in range(input_syms.num_symbols()):
-        symbol = input_syms.find(idx)
-        if symbol != "":
-            output_syms.add_symbol(symbol, idx)
-    return output_syms
+    return input_syms.copy()

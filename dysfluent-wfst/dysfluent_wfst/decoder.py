@@ -203,7 +203,7 @@ class Decoder:
 
     def decode_utterance(
         self,
-        log_probs: torch.Tensor,
+        logits: torch.Tensor,
         length: int,
         ref_phonemes: list[str],
         utterance_id: str = "",
@@ -220,7 +220,7 @@ class Decoder:
         """Run the full decoding pipeline for a single utterance.
 
         Args:
-            log_probs: CTC logits tensor of shape (T, C).
+            logits: Raw CTC logits tensor of shape (T, C) (before softmax).
             length: Number of valid frames.
             ref_phonemes: Reference phoneme sequence (list of strings).
             utterance_id: Identifier for this utterance.
@@ -242,7 +242,7 @@ class Decoder:
         dev = torch.device(self.device)
 
         # 1. Build dense FSA from CTC posteriors
-        emission = log_probs.unsqueeze(0).to(dev)
+        emission = logits.unsqueeze(0).to(dev)
         lengths_t = torch.tensor([length], dtype=torch.int32)
         dense_fsa = create_dense_fsa_vec(emission, lengths_t).to(dev)
 
@@ -268,14 +268,10 @@ class Decoder:
             )
             for phoneme_ids in candidate_paths
         ]
-        ref = ref_fsts[0]
-        for ref_alt in ref_fsts[1:]:
-            ref |= ref_alt
-        ref = ref.optimize()
+        ref = pynini.union(*ref_fsts).optimize()
 
         # 5. Compose CTC topology with reference FST
         ctc_copy = self.ctc_topo.copy()
-        ctc_copy.arcsort("olabel")
         ref.arcsort("ilabel")
         composed = pynini.compose(ctc_copy, ref)
 
@@ -379,7 +375,7 @@ class Decoder:
             utt_len = int(lengths[idx])
             emission = emissions[idx, :utt_len]
             alignment = self.decode_utterance(
-                log_probs=emission,
+                logits=emission,
                 length=utt_len,
                 ref_phonemes=ref_phonemes_list[idx],
                 utterance_id=sample_id,

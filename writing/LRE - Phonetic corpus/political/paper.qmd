@@ -1,0 +1,162 @@
+---
+title: "What Was Actually Said? Transcription Practices and the Representation of Parliamentary Speech"
+
+abstract: |
+  Parliamentary transcripts are widely used as primary data in political
+  science and natural language processing. However, such transcripts are
+  produced through institutional editorial practices that may diverge
+  substantially from the spoken debate they are assumed to represent. In this
+  paper, we examine how spoken parliamentary speech is transformed when
+  rendered into text for computational analysis. Focusing on Swedish Riksdag
+  debates, we compare audio recordings, official parliamentary transcripts,
+  and automatic speech recognition (ASR) outputs. We pay particular attention
+  to disfluencies, self-repairs, and evaluative insertions, which are often
+  treated as noise but are analytically relevant for studying affect and
+  stance in political discourse. Our analysis shows that these features are
+  systematically altered or removed in different ways across transcription
+  systems, leading to divergent interpretations of speaker attitude. We argue
+  that transcription should be treated as an analytical decision rather than a
+  neutral preprocessing step in political NLP.
+
+keywords:
+  - political NLP
+  - parliamentary speech
+  - transcription
+  - ASR
+  - affect
+  - stance
+
+format:
+  latex:
+    keep-tex: true
+    standalone: false
+    number-sections: false
+    cite-method: natbib
+    bibliography: refs.bib
+    include-in-header:
+      - header.tex
+---
+
+## Introduction
+
+In modern parliamentary democracies, it has become standard practice to
+publish written records of parliamentary debates as part of the public record.
+From the historical development of parliamentary reporting to contemporary
+publishing practices, these records serve essential democratic functions,
+including transparency, accountability, and accessibility. As a result,
+parliamentary transcripts function as authoritative secondary records of
+political speech and are widely used as primary textual data in political
+science and natural language processing, including large-scale initiatives
+such as ParlaCLARIN.
+
+At the same time, these records are produced through institutional
+transcription and editorial processes that prioritise readability, procedural
+accuracy, and consistency over verbatim reproduction of spoken language.
+Consequently, the published transcript represents a transformed version of the
+spoken debate rather than a direct textual rendering of the speech event
+itself.
+
+In the SweTerror project, which studies terrorism-related discourse in the
+Swedish Parliament, we encountered systematic discrepancies between spoken
+debate, official transcripts, and automatic speech recognition (ASR) outputs.
+These discrepancies are not limited to recognition errors, but include
+omissions, insertions, and rephrasings that affect the representation of
+affective and evaluative cues. In several cases, features such as hesitations,
+false starts, or dismissive insertions (e.g. the equivalent of “so-called”)
+play a crucial role in interpreting speaker stance.
+
+This paper examines how spoken parliamentary debate is transformed when
+rendered into text for computational analysis. We ask whether official
+parliamentary transcripts and ASR outputs preserve the speech phenomena
+required to analyse affect and evaluative stance in political discourse. Our
+analysis focuses on Swedish Riksdag debates and a limited set of speech
+phenomena—disfluencies, self-repairs, and evaluative insertions—that are
+particularly relevant for terrorism-related discourse analysis. Through
+aligned comparisons between audio, official transcripts, and ASR outputs, we
+show that these features are systematically altered or removed in different
+ways across transcription systems, leading to substantively different
+interpretations of speaker attitude. These findings suggest that transcription
+should be treated as an analytical decision rather than a neutral
+preprocessing step in political NLP.
+
+## Institutional Context
+
+In the Swedish Riksdag, parliamentary speeches are typically submitted in
+advance of in-chamber debates. While spoken delivery may deviate from the
+filed text through reactions, hesitations, or evaluative modifications,
+official transcripts are produced according to established editorial
+guidelines. These guidelines aim to ensure readability and consistency, and
+allow for post-hoc editing of the spoken record.
+
+Importantly, editorial intervention in official transcripts is not inherently
+detrimental. In some cases, speakers misread or misspeak when referring to
+procedural elements such as protocols or document identifiers. Transcribers
+may correct these references in the published transcript to ensure accuracy
+and coherence. While such corrections improve the usability of the transcript
+as a procedural record, they nevertheless introduce a divergence between what
+was spoken and what is recorded, with implications for analyses that rely on
+the spoken delivery itself.
+
+As a result, the official transcript reflects a hybrid document shaped by
+pre-filed material, spoken delivery, and editorial intervention. This
+institutional context is central to understanding why certain speech phenomena
+may be selectively preserved or normalised in the published record.
+
+## Data and Representations
+
+Our analysis considers three representations of the same parliamentary speech
+events: (i) the audio recordings of parliamentary debate, (ii) the official
+parliamentary transcripts, and (iii) automatic transcriptions produced using
+ASR systems. We treat each representation as a distinct transformation of the
+underlying speech event, shaped by different optimisation goals and
+constraints.
+
+The ASR systems used in this study include Whisper and VoxRex, which are based
+on different modelling principles and training data. Rather than treating ASR
+output as a replacement for official transcripts, we compare these
+representations to examine how different transcription practices affect the
+preservation of analytically relevant speech features.
+
+## Divergence Phenomena
+
+Through aligned comparison of audio, official transcripts, and ASR outputs, we
+identify several recurring classes of divergence. These include omissions of
+filled pauses and hesitations, insertions or substitutions introduced through
+editorial normalisation or correction, and reordering or restructuring of
+phrases.
+
+In particular, we observe that features often treated as noise—such as false
+starts or self-repairs—can function as signals of stance and affect in
+political discourse. Whether such features are preserved or removed leads to
+different interpretations of speaker attitude toward sensitive topics such as
+terrorism.
+
+## Implications for Political NLP
+
+For political NLP tasks that rely on textual data, these divergences have
+important consequences. Analyses of framing, affect, or stance may yield
+different results depending on which representation of speech is used.
+Treating official transcripts as ground truth may obscure analytically
+relevant signals, while ASR outputs introduce different forms of distortion.
+
+These findings highlight the need for greater transparency regarding
+transcription practices and for methods that make representational choices
+explicit in political NLP workflows.
+
+## Conclusion
+
+This paper has examined how institutional transcription practices and ASR
+systems differently transform spoken parliamentary debate. We have shown that
+transcription is not a neutral preprocessing step, but a substantive
+analytical choice that can affect the interpretation of political speech.
+Recognising and accounting for these transformations is essential for
+responsible and reproducible political NLP research.
+
+## Limitations
+
+Our analysis focuses on a limited set of speech phenomena and on a single
+parliamentary context. While the Swedish Riksdag provides a particularly
+informative case due to its institutional transcription practices, the
+findings may not generalise directly to other parliamentary settings or
+languages.
+

@@ -88,6 +88,9 @@ def build_utterance_fst(
         An FST over the phoneme symbol table containing all
         pronunciation paths for the utterance.
     """
+    if not words:
+        raise ValueError("words must be non-empty")
+
     word_fsts = []
     for word in words:
         word_pron = lookup_word(word, lexicon_fst)

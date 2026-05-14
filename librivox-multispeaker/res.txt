@@ -1,0 +1,133 @@
+Loading model from ./output/wavlm-multiaxis ...
+Loading dataset from ./merged_dataset ...
+Embedding 256 samples ...
+
+=== Nearest-neighbour retrieval ===
+
+  semantic  —  precision@1 = 15/15 = 1.000
+    query  [p282_296]  label=vctk_2266
+      1. [p245_296]  label=vctk_2266  sim=0.9952 ✓
+      2. [p361_339]  label=p361_339  sim=0.8617 ✗
+      3. [p269_287]  label=vctk_2187  sim=0.8323 ✗
+      4. [p256_230]  label=vctk_6272  sim=0.8212 ✗
+      5. [p259_304]  label=vctk_3159  sim=0.8027 ✗
+    query  [p276_271]  label=s5_285
+      1. [p286_276]  label=s5_285  sim=0.8989 ✓
+      2. [p269_287]  label=vctk_2187  sim=0.8935 ✗
+      3. [p292_314]  label=vctk_6276  sim=0.8909 ✗
+      4. [p301_077]  label=vctk_1546  sim=0.6764 ✗
+      5. [p245_296]  label=vctk_2266  sim=0.6623 ✗
+    query  [nof_02484_01584340124]  label=EN0023
+      1. [scm_02484_00462811403]  label=EN0023  sim=0.9751 ✓
+      2. [p343_003]  label=vctk_7275  sim=0.9265 ✗
+      3. [nof_04310_01828652235]  label=EN0222  sim=0.8457 ✗
+      4. [scf_04310_00952517880]  label=BI0045  sim=0.8026 ✗
+      5. [som_00610_00912400128]  label=BI0067  sim=0.7836 ✗
+    query  [scm_02484_00462811403]  label=EN0023
+      1. [nof_02484_01584340124]  label=EN0023  sim=0.9751 ✓
+      2. [p343_003]  label=vctk_7275  sim=0.9520 ✗
+      3. [nof_04310_01828652235]  label=EN0222  sim=0.7790 ✗
+      4. [scf_04310_00952517880]  label=BI0045  sim=0.7661 ✗
+      5. [som_00610_00912400128]  label=BI0067  sim=0.7357 ✗
+    query  [wef_04310_00369044412]  label=EN0049
+      1. [sof_08421_01027905749]  label=EN0049  sim=0.9506 ✓
+      2. [p292_224]  label=vctk_1400  sim=0.7695 ✗
+      3. [som_03502_01370806758]  label=EN0818  sim=0.7600 ✗
+      4. [som_00712_01972756669]  label=EN0118  sim=0.7597 ✗
+      5. [p329_383]  label=vctk_7667  sim=0.7568 ✗
+
+  speaker_id  —  precision@1 = 8/217 = 0.037
+    query  [p274_470]  label=p274
+      1. [p260_339]  label=p260  sim=0.8021 ✗
+      2. [cmu_us_lnh_arctic_a0285]  label=lnh  sim=0.7451 ✗
+      3. [nom_05223_00346469329]  label=05223  sim=0.7413 ✗
+      4. [p267_187]  label=p267  sim=0.7126 ✗
+      5. [p323_277]  label=p323  sim=0.6782 ✗
+    query  [cmu_us_slt_arctic_a0364]  label=slt
+      1. [p271_394]  label=p271  sim=0.8467 ✗
+      2. [p283_254]  label=p283  sim=0.7838 ✗
+      3. [p246_026]  label=p246  sim=0.7554 ✗
+      4. [cmu_us_slt_arctic_a0542]  label=slt  sim=0.7344 ✓
+      5. [p267_187]  label=p267  sim=0.7322 ✗
+    query  [cmu_us_rms_arctic_b0042]  label=rms
+      1. [cmu_us_rms_arctic_b0247]  label=rms  sim=0.7677 ✓
+      2. [cmu_us_slt_arctic_a0529]  label=slt  sim=0.7237 ✗
+      3. [cmu_us_clb_arctic_a0012]  label=clb  sim=0.7021 ✗
+      4. [cmu_us_clb_arctic_a0127]  label=clb  sim=0.6981 ✗
+      5. [som_03502_01092966956]  label=03502  sim=0.6884 ✗
+    query  [p295_353]  label=p295
+      1. [p347_344]  label=p347  sim=0.8700 ✗
+      2. [cmu_us_lnh_arctic_a0285]  label=lnh  sim=0.7590 ✗
+      3. [p361_339]  label=p361  sim=0.7143 ✗
+      4. [p297_295]  label=p297  sim=0.7096 ✗
+      5. [p256_230]  label=p256  sim=0.7076 ✗
+    query  [scm_03397_01203592734]  label=03397
+      1. [p266_255]  label=p266  sim=0.8068 ✗
+      2. [p333_400]  label=p333  sim=0.7787 ✗
+      3. [nom_07508_01648816257]  label=07508  sim=0.7319 ✗
+      4. [p292_224]  label=p292  sim=0.7205 ✗
+      5. [wef_04310_00369044412]  label=04310  sim=0.7098 ✗
+
+  dialect  —  precision@1 = 50/256 = 0.195
+    query  [p274_470]  label=Southern English
+      1. [p270_230]  label=Northern English  sim=0.7241 ✗
+      2. [cmu_us_lnh_arctic_a0285]  label=American  sim=0.6816 ✗
+      3. [p260_339]  label=Scottish  sim=0.6534 ✗
+      4. [cmu_us_lnh_arctic_a0247]  label=American  sim=0.6486 ✗
+      5. [p236_101]  label=Northern English  sim=0.6417 ✗
+    query  [cmu_us_slt_arctic_a0364]  label=American
+      1. [p246_026]  label=Scottish  sim=0.7836 ✗
+      2. [p271_394]  label=Scottish  sim=0.7693 ✗
+      3. [p283_254]  label=Irish  sim=0.7673 ✗
+      4. [cmu_us_slt_arctic_a0542]  label=American  sim=0.6983 ✓
+      5. [p314_153]  label=South African  sim=0.6798 ✗
+    query  [cmu_us_rms_arctic_b0042]  label=American
+      1. [cmu_us_rms_arctic_b0247]  label=American  sim=0.7928 ✓
+      2. [cmu_us_slt_arctic_a0529]  label=American  sim=0.7846 ✓
+      3. [cmu_us_clb_arctic_a0012]  label=American  sim=0.7388 ✓
+      4. [cmu_us_lnh_arctic_b0062]  label=American  sim=0.6619 ✓
+      5. [cmu_us_clb_arctic_a0127]  label=American  sim=0.6573 ✓
+    query  [p295_353]  label=Irish
+      1. [p347_344]  label=South African  sim=0.8198 ✗
+      2. [p361_339]  label=American  sim=0.7157 ✗
+      3. [p272_385]  label=Scottish  sim=0.6746 ✗
+      4. [cmu_us_lnh_arctic_a0285]  label=American  sim=0.6545 ✗
+      5. [p236_101]  label=Northern English  sim=0.6431 ✗
+    query  [scm_03397_01203592734]  label=Scottish
+      1. [p333_400]  label=American  sim=0.7632 ✗
+      2. [p266_255]  label=Irish  sim=0.7327 ✗
+      3. [wef_04310_00369044412]  label=Welsh  sim=0.6891 ✗
+      4. [p292_224]  label=Irish  sim=0.6575 ✗
+      5. [nom_07508_01648816257]  label=Northern English  sim=0.6562 ✗
+
+  gender  —  precision@1 = 106/256 = 0.414
+    query  [p274_470]  label=M
+      1. [p260_339]  label=M  sim=0.8622 ✓
+      2. [p292_155]  label=M  sim=0.8122 ✓
+      3. [p236_101]  label=F  sim=0.7530 ✗
+      4. [p265_149]  label=F  sim=0.7301 ✗
+      5. [p333_400]  label=F  sim=0.7157 ✗
+    query  [cmu_us_slt_arctic_a0364]  label=female
+      1. [p283_254]  label=F  sim=0.7694 ✗
+      2. [cmu_us_awb_arctic_b0499]  label=male  sim=0.7332 ✗
+      3. [p271_394]  label=M  sim=0.7294 ✗
+      4. [cmu_us_lnh_arctic_a0285]  label=female  sim=0.6652 ✓
+      5. [p314_153]  label=F  sim=0.6429 ✗
+    query  [cmu_us_rms_arctic_b0042]  label=male
+      1. [cmu_us_jmk_arctic_b0157]  label=male  sim=0.8389 ✓
+      2. [cmu_us_clb_arctic_a0012]  label=female  sim=0.8106 ✗
+      3. [cmu_us_rms_arctic_b0247]  label=male  sim=0.7842 ✓
+      4. [som_03502_01092966956]  label=male  sim=0.7804 ✓
+      5. [cmu_us_slt_arctic_a0529]  label=female  sim=0.7772 ✗
+    query  [p295_353]  label=F
+      1. [p283_376]  label=F  sim=0.7819 ✓
+      2. [p347_344]  label=M  sim=0.7715 ✗
+      3. [p272_385]  label=M  sim=0.7596 ✗
+      4. [p318_123]  label=F  sim=0.7297 ✓
+      5. [p247_256]  label=M  sim=0.7010 ✗
+    query  [scm_03397_01203592734]  label=male
+      1. [nom_08784_01112048248]  label=male  sim=0.7790 ✓
+      2. [p236_101]  label=F  sim=0.7702 ✗
+      3. [nom_07508_01648816257]  label=male  sim=0.7602 ✓
+      4. [som_06592_01959364585]  label=male  sim=0.7597 ✓
+      5. [p336_135]  label=F  sim=0.7556 ✗

@@ -19,10 +19,6 @@ from rapidfuzz.distance import Levenshtein as _Lev
 levenshtein = _Lev.distance
 
 
-# ---------------------------------------------------------------------------
-# hOCR support
-# ---------------------------------------------------------------------------
-
 @dataclass
 class HocrWord:
     """A single word extracted from an hOCR file."""
@@ -86,10 +82,6 @@ def parse_hocr(path: str) -> List[HocrWord]:
     return words
 
 
-# ---------------------------------------------------------------------------
-# Dictionary
-# ---------------------------------------------------------------------------
-
 class DictionaryChecker:
     """Checks whether a word exists in a dictionary.
 
@@ -123,10 +115,6 @@ class DictionaryChecker:
         return False
 
 
-# ---------------------------------------------------------------------------
-# Result dataclass
-# ---------------------------------------------------------------------------
-
 @dataclass
 class WordAlignment:
     """Result of aligning one OCR word to the reference text."""
@@ -137,10 +125,6 @@ class WordAlignment:
     failed: bool = False
     ref_word: Optional[str] = None  # the reference word at ref_position
 
-
-# ---------------------------------------------------------------------------
-# Aligner
-# ---------------------------------------------------------------------------
 
 class OCRAligner:
     """Aligns a sequence of OCR words to a reference word list.
@@ -172,10 +156,6 @@ class OCRAligner:
         self.window_size = window_size
         self.max_edit_distance = max_edit_distance
         self.max_failures = max_failures
-
-    # ------------------------------------------------------------------
-    # Internal helpers
-    # ------------------------------------------------------------------
 
     @staticmethod
     def _norm(word: str) -> str:
@@ -218,10 +198,6 @@ class OCRAligner:
                 return i
         return None
 
-    # ------------------------------------------------------------------
-    # Main alignment loop
-    # ------------------------------------------------------------------
-
     def align(self, ocr_words: List[str]) -> List[WordAlignment]:
         """Align *ocr_words* to :attr:`ref_words`.
 
@@ -236,18 +212,12 @@ class OCRAligner:
         for ocr_word in ocr_words:
             confidence = 0.0
 
-            # ----------------------------------------------------------
-            # Step 1 — Dictionary check
-            # ----------------------------------------------------------
             if self.dictionary.check(ocr_word):
                 confidence += 0.5
 
             confidence_after_dict = confidence
             next_pos = last_pos + 1  # expected next position in reference
 
-            # ----------------------------------------------------------
-            # Step 2 — Immediate next word
-            # ----------------------------------------------------------
             if next_pos < len(self.ref_words):
                 if self._eq(ocr_word, self.ref_words[next_pos]):
                     # Hit: reward this word and the previous one
@@ -268,9 +238,6 @@ class OCRAligner:
                 if confidence_after_dict == 0.5 and alignments:
                     alignments[-1].confidence -= 0.25
 
-            # ----------------------------------------------------------
-            # Step 3 — Exact forward search (skip already-checked next_pos)
-            # ----------------------------------------------------------
             pos = self._exact_forward(ocr_word, next_pos + 1)
             if pos is not None:
                 confidence += 0.25
@@ -299,9 +266,6 @@ class OCRAligner:
                     ))
                     continue
 
-            # ----------------------------------------------------------
-            # Step 4 — Fuzzy forward search, iterating edit distance 1…Y
-            # ----------------------------------------------------------
             found = False
             for ed in range(1, self.max_edit_distance + 1):
                 pos = self._fuzzy_forward(ocr_word, next_pos, ed)
@@ -320,9 +284,6 @@ class OCRAligner:
             if found:
                 continue
 
-            # ----------------------------------------------------------
-            # Step 5 — Fuzzy backward search, iterating edit distance 1…Y
-            # ----------------------------------------------------------
             if last_pos > 0:
                 for ed in range(1, self.max_edit_distance + 1):
                     pos = self._fuzzy_backward(ocr_word, last_pos, ed)
@@ -341,9 +302,6 @@ class OCRAligner:
             if found:
                 continue
 
-            # ----------------------------------------------------------
-            # Step 6 — Alignment failure
-            # ----------------------------------------------------------
             failure_count += 1
             last_pos = min(last_pos + 1, len(self.ref_words) - 1)
             alignments.append(WordAlignment(
@@ -364,10 +322,6 @@ class OCRAligner:
 
         return alignments
 
-
-# ---------------------------------------------------------------------------
-# CLI helpers
-# ---------------------------------------------------------------------------
 
 def tokenise(text: str) -> List[str]:
     """Whitespace tokeniser that keeps only ASCII letters/digits and apostrophes."""

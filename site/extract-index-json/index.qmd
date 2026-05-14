@@ -1,0 +1,35 @@
+---
+title: "LibriVox index JSON extractor"
+---
+
+Parses downloaded LibriVox book-page HTML files and writes one JSON file per input,
+extracting the fields needed for speaker-level dataset construction.
+
+**Output fields per page:**
+
+| Field | Description |
+|---|---|
+| `title` | Book title from the page `<h1>` |
+| `author` | Author string from `.book-page-author` |
+| `online_text_link` | URL of the "Online text" anchor, if present |
+| `chapters` | List of `{section, chapter, reader, reader_id, time}` from the chapter-download table |
+| `cast_details` | List of `{character, reader_name, reader_id, reader_link}` from the cast description block (dramatic readings) |
+
+**Usage:**
+
+```bash
+# Scan the default input directory
+python3 extract-index-json.py
+
+# Scan a custom directory, write JSON to a separate tree
+python3 extract-index-json.py /data/index --outdir /data/json
+
+# Process a single file
+python3 extract-index-json.py /data/index/some-book/index.html
+```
+
+By default, output files are written beside the input HTML files, with the
+`index` path component replaced by `json`. Use `--overwrite` to replace
+existing JSON files.
+
+**Dependency:** `beautifulsoup4`

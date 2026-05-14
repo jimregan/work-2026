@@ -42,5 +42,8 @@ bibliography: refs.bib
 
 ## [Annotation in the SpeechDat Projects](https://link.springer.com/article/10.1023/A:1011375311203) [@vandenHeuvel2001]
 
+## [Whisper Based Cross-Lingual Phoneme Recognition Between Vietnamese and English](https://link.springer.com/chapter/10.1007/978-3-032-00972-2_20)
+- [arXiv](https://arxiv.org/abs/2508.19270)
+
 ::: {#refs}
 :::

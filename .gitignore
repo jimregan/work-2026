@@ -17,6 +17,13 @@ __pycache__
 .DS_Store
 
 /.quarto/
-papers_files/
-paper_files/
-spoken-sentence-transformers/refs.html
+*_files/
+*.html
+
+# Node
+node_modules/
+.package-lock.json
+package-lock.json
+npm-debug.log*
+.yarn/
+.pnpm-store/

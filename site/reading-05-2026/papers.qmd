@@ -40,5 +40,7 @@ bibliography: refs.bib
 
 ## [A Shoal of Voices: Parallel Read Speech from Professional Swedish Narrators](https://lrec.elra.info/lrec2026-main-666) [@tnnander-etal-2026-shoal]
 
+## [Annotation in the SpeechDat Projects](https://link.springer.com/article/10.1023/A:1011375311203) [@vandenHeuvel2001]
+
 ::: {#refs}
 :::

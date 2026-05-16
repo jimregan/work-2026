@@ -45,5 +45,14 @@ bibliography: refs.bib
 ## [Whisper Based Cross-Lingual Phoneme Recognition Between Vietnamese and English](https://link.springer.com/chapter/10.1007/978-3-032-00972-2_20) [@nguyen2026whisper]
 - [arXiv](https://arxiv.org/abs/2508.19270)
 
+## [Today’s Most Frequently Used F0 Estimation Methods, and Their Accuracy in Estimating Male and Female Pitch in Clean Speech](https://www.isca-archive.org/interspeech_2016/strombergsson16_interspeech.html) [@strombergsson16_interspeech]
+- Praat, RAPT, STRAIGHT and YIN most common
+- Praat most used in linguistics
+- Metrics:
+  - Gross Pitch Error (GPE): % of voiced frames with > 20% error --- YIN best, defaults
+  - Fine Pitch Error (FPE): std of error in correctly estimated frames --- YIN best, gender adapted
+  - Voicing Decision Error (VDE): % of frames with incorrect voiced/unvoiced --- Praat best, gender adapted
+  - F0 Frame Error (FFE): % of frames with gross pitch error or voicing error --- Praat best, gender adapted
+
 ::: {#refs}
 :::

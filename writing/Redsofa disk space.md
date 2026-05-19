@@ -30,3 +30,14 @@
 9,3G	../silviaag/anaconda3
 ```
 
+
+Redsofa1:
+```
+1,9G	../dezhiw
+34G	../fabianpr
+13G	../beskow
+8,7G	../aleixef
+```
+
+(~18.6G from tmh)
+

@@ -64,7 +64,6 @@ Redsofa1:
 3.6G	../konradma
 3.1G	../mossmyr
 197M	../nlindqv
-6.3G	../ronaldcg
 2.0G	../shualiu
 19G	../silviaag
 20G	../smfabrar

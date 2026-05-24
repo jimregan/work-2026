@@ -46,10 +46,12 @@ Redsofa1:
 2.3G	../mossmyr/miniconda3
 59M	../ronaldcg/Miniconda3-py39_4.9.2-Linux-x86_64.sh
 2.7G	../ronaldcg/miniconda3
-
+157M	../pjjonell
+585M	../shualiu/miniconda3/
+3.1G	../ronaldcg/.cache/
+3.2G	../kildo
 
 1.9G	../TMH
-11G	../aleixef
 8.0G	../and8
 2.2G	../beskow
 877M	../deichler
@@ -59,11 +61,9 @@ Redsofa1:
 2.7G	../jocke
 179M	../jsra2
 3.1G	../kawaji
-3.2G	../kildo
 3.6G	../konradma
 3.1G	../mossmyr
 197M	../nlindqv
-157M	../pjjonell
 6.3G	../ronaldcg
 2.0G	../shualiu
 19G	../silviaag

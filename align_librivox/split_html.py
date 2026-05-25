@@ -1,12 +1,12 @@
 """
-split_text.py
+split_html.py
 
 Split one downloaded book HTML into per-chapter HTML files, preserving markup.
 
 Usage:
-    python split_text.py --config book_config.yaml
-    python split_text.py --config book_config.yaml --html /path/to/book.html
-    python split_text.py --config book_config.yaml --outdir chapters/
+    python split_html.py --config book_config.yaml
+    python split_html.py --config book_config.yaml --html /path/to/book.html
+    python split_html.py --config book_config.yaml --outdir chapters/
 """
 
 from __future__ import annotations

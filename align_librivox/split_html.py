@@ -296,6 +296,81 @@ def wrap_html_document(source: BeautifulSoup, body_html: str) -> str:
     )
 
 
+def chapter_title(element: Tag, fallback: str) -> str:
+    heading = element.find(HEADING_TAGS)
+    if heading:
+        text = normalise_space(heading.get_text(" ", strip=True))
+        if text:
+            return text
+    text = normalise_space(element.get_text(" ", strip=True))
+    return text[:80] if text else fallback
+
+
+def expand_chapter_group(item) -> list[int]:
+    if isinstance(item, int):
+        return [item]
+    if isinstance(item, str):
+        match = re.fullmatch(r"\s*(\d+)\s*-\s*(\d+)\s*", item)
+        if match:
+            start, end = int(match.group(1)), int(match.group(2))
+            return list(range(start, end + 1))
+        if item.strip().isdigit():
+            return [int(item)]
+    if isinstance(item, dict):
+        if "chapters" in item:
+            return expand_chapter_group(item["chapters"])
+        if "from" in item and "to" in item:
+            return list(range(int(item["from"]), int(item["to"]) + 1))
+    if isinstance(item, list):
+        if len(item) == 2 and all(isinstance(value, int) for value in item):
+            start, end = item
+            if start <= end:
+                return list(range(start, end + 1))
+        return [int(value) for value in item]
+    raise ValueError(f"Unsupported combine entry: {item!r}")
+
+
+def build_groups(total: int, combine_entries: list) -> list[list[int]]:
+    combined_by_start = {group[0]: group for group in (expand_chapter_group(item) for item in combine_entries)}
+    groups = []
+    index = 1
+    while index <= total:
+        group = combined_by_start.get(index, [index])
+        groups.append(group)
+        index = max(group) + 1
+    return groups
+
+
+def split_by_chapter_divs(
+    html_path: Path,
+    selector: str,
+    combine_entries: list,
+) -> tuple[list[str], list[dict]]:
+    soup = BeautifulSoup(html_path.read_text(encoding="utf-8", errors="replace"), "lxml")
+    elements = soup.select(selector)
+    if not elements:
+        raise ValueError(f"No chapter elements matched selector: {selector}")
+    groups = build_groups(len(elements), combine_entries)
+    documents = []
+    chapters = []
+
+    for output_index, group in enumerate(groups, start=1):
+        selected = [elements[source_index - 1] for source_index in group]
+        body_html = "\n".join(element.decode(formatter="html") for element in selected)
+        documents.append(wrap_html_document(soup, body_html))
+        label = chapter_title(selected[0], f"Chapter {group[0]}")
+        chapters.append({
+            "chapter": label,
+            "source_chapters": group,
+            "split_match": {
+                "source": selector,
+                "matched_text": label,
+            },
+        })
+
+    return documents, chapters
+
+
 def split_book(html_path: Path, chapters: list[dict]) -> tuple[list[str], list[dict | None]]:
     soup = BeautifulSoup(html_path.read_text(encoding="utf-8", errors="replace"), "lxml")
     body = soup.find("body") or soup
@@ -326,14 +401,17 @@ def main() -> int:
     html_path = Path(args.html) if args.html else derive_text_html(config_path, config)
 
     chapters = config.get("chapters", [])
-    if not chapters:
-        print("ERROR: config has no chapters", file=sys.stderr)
-        return 1
-
     outdir = Path(args.outdir) if args.outdir else config_path.parent / "html"
     outdir.mkdir(parents=True, exist_ok=True)
 
-    segments, chosen = split_book(html_path, chapters)
+    if chapters:
+        segments, chosen = split_book(html_path, chapters)
+    else:
+        selector = config.get("chapter_selector", "div.chapter")
+        segments, chapters = split_by_chapter_divs(html_path, selector, config.get("combine", []))
+        chosen = [chapter.get("split_match") for chapter in chapters]
+        config["chapters"] = chapters
+
     config["text_html"] = str(html_path)
 
     failures = 0
@@ -354,7 +432,7 @@ def main() -> int:
             print(f"[{index + 1}/{len(chapters)}] Wrote {out_path}")
 
         chapter["html_file"] = str(out_path)
-        if chosen[index] is not None:
+        if chosen[index] is not None and "split_match" not in chapter:
             chapter["split_match"] = {
                 "source": chosen[index]["source"],
                 "matched_text": chosen[index]["text"],

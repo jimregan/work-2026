@@ -420,7 +420,7 @@ def main() -> int:
         segments, chosen = split_book(html_path, chapters)
     else:
         selector = config.get("chapter_selector", "div.chapter")
-        heading_pattern = config.get("chapter_heading", r"\bchapter\s+\d+\b")
+        heading_pattern = config.get("match_regex", config.get("chapter_heading", r"\bchapter\s+\d+\b"))
         segments, chapters = split_by_chapter_divs(
             html_path,
             selector,

@@ -306,6 +306,13 @@ def chapter_title(element: Tag, fallback: str) -> str:
     return text[:80] if text else fallback
 
 
+def chapter_heading_text(element: Tag) -> str:
+    heading = element.find(HEADING_TAGS)
+    if heading:
+        return normalise_space(heading.get_text(" ", strip=True))
+    return normalise_space(element.get_text(" ", strip=True))
+
+
 def expand_chapter_group(item) -> list[int]:
     if isinstance(item, int):
         return [item]
@@ -344,12 +351,17 @@ def build_groups(total: int, combine_entries: list) -> list[list[int]]:
 def split_by_chapter_divs(
     html_path: Path,
     selector: str,
+    heading_pattern: str,
     combine_entries: list,
 ) -> tuple[list[str], list[dict]]:
     soup = BeautifulSoup(html_path.read_text(encoding="utf-8", errors="replace"), "lxml")
     elements = soup.select(selector)
     if not elements:
         raise ValueError(f"No chapter elements matched selector: {selector}")
+    heading_re = re.compile(heading_pattern, re.I)
+    elements = [element for element in elements if heading_re.search(chapter_heading_text(element))]
+    if not elements:
+        raise ValueError(f"No chapter elements matched heading pattern: {heading_pattern}")
     groups = build_groups(len(elements), combine_entries)
     documents = []
     chapters = []
@@ -408,7 +420,13 @@ def main() -> int:
         segments, chosen = split_book(html_path, chapters)
     else:
         selector = config.get("chapter_selector", "div.chapter")
-        segments, chapters = split_by_chapter_divs(html_path, selector, config.get("combine", []))
+        heading_pattern = config.get("chapter_heading", r"\bchapter\s+\d+\b")
+        segments, chapters = split_by_chapter_divs(
+            html_path,
+            selector,
+            heading_pattern,
+            config.get("combine", []),
+        )
         chosen = [chapter.get("split_match") for chapter in chapters]
         config["chapters"] = chapters
 

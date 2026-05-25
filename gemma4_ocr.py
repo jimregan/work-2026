@@ -279,8 +279,18 @@ def _parse_json_blocks(response: str) -> list[dict] | None:
 
 
 def _normalize_bbox(bbox: list, width: int, height: int) -> list[int]:
-    """Convert Gemma's [y1, x1, y2, x2] 0-1000 grid to [x1, y1, x2, y2] pixels."""
-    y1, x1, y2, x2 = bbox
+    if len(bbox) == 4:
+        y1, x1, y2, x2 = bbox
+    elif len(bbox) == 2:
+        y1, x1 = bbox
+        y2, x2 = y1, x1
+    elif len(bbox) == 1:
+        y1 = x1 = bbox[0]
+        y2, x2 = y1, x1
+    else:
+        return [0, 0, width, height]
+    clamp = lambda v, lo, hi: max(lo, min(hi, v))
+    y1, x1, y2, x2 = (clamp(v, 0, 1000) for v in (y1, x1, y2, x2))
     return [
         int(x1 * width / 1000),
         int(y1 * height / 1000),

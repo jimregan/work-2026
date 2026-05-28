@@ -160,9 +160,23 @@
               "icon": "lucide-file",
               "title": "Rewritten"
             }
+          },
+          {
+            "id": "d9a4a821ada9e91d",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "Untitled 1.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "Untitled 1"
+            }
           }
         ],
-        "currentTab": 10
+        "currentTab": 11
       },
       {
         "id": "a8b92a944f5fcb73",
@@ -341,10 +355,16 @@
       "obsidian-importer:Open Importer": false
     }
   },
-  "active": "01aefb7ee69357f7",
+  "active": "d9a4a821ada9e91d",
   "lastOpenFiles": [
-    "ktts/Gen.md",
     "ktts/Rewritten.md",
+    "Untitled 1.md",
+    "LRE - Phonetic corpus/03 Parliamentary speech as a living substrate.md",
+    "LRE - Phonetic corpus/05 Swedish phonemic supervision lineage.md",
+    "LRE - Phonetic corpus/06 Released resource layers.md",
+    "LRE - Phonetic corpus/02 Why transcripts are not enough.md",
+    "LRE - Phonetic corpus/01 Introduction.md",
+    "ktts/Gen.md",
     "cv-sst-training.md",
     "ktts",
     "Redsofa disk space.md",
@@ -365,18 +385,12 @@
     "eusipco journal list.md",
     "LRE - Phonetic corpus/old-towards.md",
     "LRE - Phonetic corpus/Master outline.md",
-    "LRE - Phonetic corpus/01 Introduction.md",
-    "LRE - Phonetic corpus/02 Why transcripts are not enough.md",
     "chapter 1.md",
     "Thesis",
     "LRE - Phonetic corpus/threads/2026-04-24 15-55 [jim] LRE intro — what's the problem in one sentence.md",
     "LRE - Phonetic corpus/threads/2026-04-24 15-46 [claude] LRE intro — what's the problem in one sentence.md",
     "LRE - Phonetic corpus/threads/2026-04-27 13-51 [jim] LRE §7.2 — more central and the Östermalm context.md",
     "LRE - Phonetic corpus/threads/2026-04-29 14-51 [claude] Gemma4 report.md",
-    "LRE - Phonetic corpus/threads/2026-04-28 18-11 [claude] Gemma4 report.md",
-    "LRE - Phonetic corpus/threads/2026-04-28 19-21 [jim] Gemma4 report.md",
-    "LRE - Phonetic corpus/threads/2026-04-29 14-51 [claude] LRE §8 — what does forced alignment get wrong.md",
-    "LRE - Phonetic corpus/threads/2026-04-29 16-37 [jim] LRE §8 — what does forced alignment get wrong.md",
     "LRE - Phonetic corpus/threads",
     "LRE - Phonetic corpus/old-towards/old-towards.tex",
     "2026-03-24 hallevik_owov.jpg",

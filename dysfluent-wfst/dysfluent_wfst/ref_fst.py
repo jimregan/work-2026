@@ -9,6 +9,15 @@ import pynini
 import torch
 
 
+def dynamic_error_probability(error_score: float, distance: int) -> float:
+    """Return the distance-scaled non-forward transition probability."""
+    return (
+        error_score
+        * (1 / math.sqrt(2 * math.pi))
+        * math.exp(-(distance ** 2) / 2)
+    )
+
+
 def build_ref_fst(
     phoneme_ids: list[int],
     beta: float,

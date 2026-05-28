@@ -24,3 +24,4 @@ praat = ["praat-parselmouth>=0.4.3"]
 
 [project.scripts]
 dysfluent-decode = "dysfluent_wfst.cli:main"
+dysfluent-learn-rules = "dysfluent_wfst.rule_learning:main"

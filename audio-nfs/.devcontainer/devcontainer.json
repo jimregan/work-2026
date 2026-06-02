@@ -1,0 +1,17 @@
+{
+  "name": "audio-nfs",
+  "build": {
+    "dockerfile": "Dockerfile"
+  },
+  "runArgs": ["--cap-add=SYS_ADMIN", "--device=/dev/fuse"],
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "rust-lang.rust-analyzer",
+        "vadimcn.vscode-lldb"
+      ]
+    }
+  },
+  "forwardPorts": [11111],
+  "remoteUser": "vscode"
+}

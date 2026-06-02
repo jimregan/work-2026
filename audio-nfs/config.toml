@@ -1,0 +1,21 @@
+[server]
+port = 11111
+source_dir = "/data/audio"
+
+[formats]
+enabled = ["wav", "flac", "opus"]
+
+[samplerates]
+enabled = [8000, 16000, 22050, 44100, 48000]
+
+[passthrough]
+enabled = true
+
+[ffmpeg]
+use_library = true
+binary = "/usr/bin/ffmpeg"
+decode_and_discard_threshold = 8192
+
+[cache]
+max_open_handles = 64
+chunk_size_bytes = 65536

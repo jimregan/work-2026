@@ -1,0 +1,45 @@
+---
+title: "A Web-Derived Corpus of Spoken Irish"
+author: "Jim O'Regan"
+format:
+  html: default
+  pdf: default
+bibliography: refs.bib
+---
+
+## Abstract
+
+We describe a corpus of spoken Irish derived from audiobooks available on
+leighleat.ie, an Irish-language audiobook platform. Because the audio is
+under copyright, the corpus is distributed as stand-off annotations: time-
+aligned text and phonetic transcriptions that reference the original audio
+at its source URL. Users who obtain the audio — by streaming or downloading
+from leighleat.ie — can reconstruct the corpus locally. We describe the
+annotation pipeline, the stand-off format, and the linguistic properties of
+the material collected.
+
+## 1. Introduction
+
+FILL IN
+
+## 2. The Stand-Off Annotation Model
+
+FILL IN
+
+## 3. Source Material
+
+FILL IN
+
+## 4. Pipeline
+
+FILL IN
+
+## 5. Corpus Statistics
+
+FILL IN
+
+## 6. Conclusion
+
+FILL IN
+
+## References

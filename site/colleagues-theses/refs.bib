@@ -149,3 +149,18 @@
    ISBN = {978-91-8106-460-5},
    year = {2025}
 }
+
+@phdthesis{Deichler2062127,
+   author = {Deichler, Anna},
+   institution = {KTH, Speech, Music and Hearing},
+   note = {QC 20260525},
+   pages = {xxi, 103},
+   school = {KTH, Speech, Music and Hearing},
+   title = {Spatially Grounded Communication in Embodied Agents : From Gesture Generation to Referential Understanding},
+   series = {TRITA-EECS-AVL},
+   number = {2026:60},
+   keywords = {embodied agents, multimodal machine learning, diffusion models, multimodal communication, referential grounding},
+   abstract = {When a person says "put that over there" while pointing at a shelf, the meaning depends on the spatial relationship between speaker, listener, and shared physical scene. Embodied agents that participate in such interactions must both produce spatially grounded gestures and interpret multimodal references. Yet these capabilities have largely been studied in isolation, with separate data, methods, and evaluation paradigms. This thesis argues that gesture generation and referential grounding are two sides of the same communicative process, and that studying them jointly reveals structure that neither subfield surfaces alone. The argument is developed across seven papers. On the production side, contrastive speech-motion pretraining enables semantically aware co-speech gesture generation, while reinforcement learning with adversarial motion priors produces pointing gestures that are both spatially accurate and motorically natural, outperforming supervised baselines in a human referential identification study. A flow-matching architecture further combines semantic and spatial conditioning within a single generative system through distinct pathways. On the comprehension side, the thesis introduces multimodal conversational datasets recorded in virtual reality and with wearable AR sensors, combining full-body motion, gaze, speech, and 3D scene context. Experiments show that state-of-the-art vision–language models fail on conversational references not for lack of perceptual capability, but because they cannot determine what is being referred to from underspecified language. A rewrite-based decoupling experiment isolates this bottleneck: once the referent is explicitly described, even simple detectors localize it accurately. A central finding across both threads is that semantic reasoning, what is being communicated, and spatial reasoning, where it is directed, benefit from separate architectural treatment. On the production side, audio conditioning drives gesture timing while spatial targets determine direction; on the comprehension side, linguistic reasoning identifies the referent while visual perception localizes it. In both cases, architectures that maintain this separation outperform those that conflate heterogeneous signals into a shared representation. A shared data infrastructure, built incrementally across the papers, makes this parallel empirically testable: the same referential annotations that define conditioning targets for generation also define evaluation targets for grounding. The thesis contributes methods, datasets, benchmarks, and evaluation protocols that support a unified view of spatially grounded communication in embodied agents, where producing and interpreting meaning are coordinated processes grounded in language, body, and shared physical space. },
+   ISBN = {978-91-8106-641-8},
+   year = {2026}
+}

@@ -23,5 +23,7 @@ bibliography: refs.bib
 
 ## [Bittersweet Lessons in Music AI Research: Neural Instrument Synthesis, Multi-modal Representations, Symbolic Music Generation](https://urn.kb.se/resolve?urn=urn:nbn:se:kth:diva-377801) [@Jonason2043729]
 
+## [Spatially Grounded Communication in Embodied Agents: From Gesture Generation to Referential Understanding](https://urn.kb.se/resolve?urn=urn:nbn:se:kth:diva-382200) [@Deichler2062127]
+
 ::: {#refs}
 :::

@@ -1,0 +1,30 @@
+---
+title: "Intergaelic Modernizer — Claude Code Skill"
+---
+
+A Claude Code skill that modernizes archaic or classical Irish text into contemporary standard Irish (Caighdeán Oifigiúil) via the [Cadhán intergaelic API](https://cadhan.com).
+
+## What it does
+
+The skill triggers automatically when you paste old Irish text and ask for a readable version, or explicitly ask to modernize, normalize, or update the spelling of Irish text. It covers manuscript Irish, pre-standardization text, and early Modern Irish.
+
+The API accepts Irish (`ga`) as source and returns token pairs `[original, modernized]` from the intergaelic ga→ga roundtrip, which normalizes spelling and grammar. The script reassembles these into a single modernized string. Responses are cached locally under `~/.cache/intergaelic/` so repeated lookups are free.
+
+Scottish Gaelic (`gd`) and Manx (`gv`) are also supported by the underlying API.
+
+## Script
+
+**[`scripts/modernize_irish.py`](skills/intergaelic-modernize/scripts/modernize_irish.py)** — no dependencies beyond the Python standard library.
+
+```bash
+# inline
+python scripts/modernize_irish.py "Ní bhfuair sé aon ní"
+
+# from file
+python scripts/modernize_irish.py < input.txt
+```
+
+## Skill
+
+The skill file is at [`skills/intergaelic-modernize/SKILL.md`](skills/intergaelic-modernize/SKILL.md).
+It instructs Claude to present both original and modernized text, note unchanged tokens (likely proper nouns or already-modern forms), and chunk long inputs into ~500-word blocks.

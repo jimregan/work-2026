@@ -23,6 +23,8 @@ from bs4 import BeautifulSoup, Comment, Tag
 
 HEADING_TAGS = {"h1", "h2", "h3", "h4", "h5", "h6"}
 ROMAN_NUMERAL_RE = r"(?:[ivxlcdm]+|\d+)"
+DEFAULT_CHAPTER_SELECTOR = "div.chapter"
+DEFAULT_HEADING_PATTERN = rf"\bchapter\s+{ROMAN_NUMERAL_RE}\b"
 SECTION_PREFIX_RE = re.compile(
     rf"^(?:chapter|chapters|book|part|section|scene|letter|stave)\s+{ROMAN_NUMERAL_RE}"
     rf"(?:\s*[-–—.:]\s*|\s+from\s+|\s+)",
@@ -37,13 +39,6 @@ SECTION_RANGE_RE = re.compile(
 
 def normalise_space(value: str) -> str:
     return re.sub(r"\s+", " ", value.replace("\xa0", " ")).strip()
-
-
-def normalise_key(value: str) -> str:
-    value = value.lower()
-    value = value.replace("’", "'").replace("—", "-").replace("–", "-")
-    value = re.sub(r"[^a-z0-9]+", " ", value)
-    return normalise_space(value)
 
 
 def roman_to_int(value: str) -> int | None:
@@ -63,6 +58,23 @@ def roman_to_int(value: str) -> int | None:
             total += current
             previous = current
     return total
+
+
+_ROMAN_TOKEN_RE = re.compile(r"^[ivxlcdm]+$")
+
+
+def normalise_key(value: str) -> str:
+    value = value.lower()
+    value = value.replace("’", "’").replace("—", "-").replace("–", "-")
+    value = re.sub(r"[^a-z0-9]+", " ", value)
+    tokens = []
+    for token in value.split():
+        if _ROMAN_TOKEN_RE.fullmatch(token):
+            num = roman_to_int(token)
+            tokens.append(str(num) if num is not None else token)
+        else:
+            tokens.append(token)
+    return " ".join(tokens)
 
 
 def extract_section_numbers(label: str) -> tuple[int | None, int | None]:
@@ -362,15 +374,23 @@ def split_by_chapter_divs(
     elements = [element for element in elements if heading_re.search(chapter_heading_text(element))]
     if not elements:
         raise ValueError(f"No chapter elements matched heading pattern: {heading_pattern}")
+
+    body = soup.find("body") or soup
+    marker_names = []
+    for index, element in enumerate(elements):
+        name = f"__ALIGN_HTML_SPLIT_{index}__"
+        marker_names.append(name)
+        element.insert_before(Comment(name))
+
+    body_segments = split_body_html(body, marker_names)
     groups = build_groups(len(elements), combine_entries)
     documents = []
     chapters = []
 
     for output_index, group in enumerate(groups, start=1):
-        selected = [elements[source_index - 1] for source_index in group]
-        body_html = "\n".join(element.decode(formatter="html") for element in selected)
-        documents.append(wrap_html_document(soup, body_html))
-        label = chapter_title(selected[0], f"Chapter {group[0]}")
+        combined_html = "\n".join(body_segments[source_index - 1] for source_index in group)
+        documents.append(wrap_html_document(soup, combined_html))
+        label = chapter_title(elements[group[0] - 1], f"Chapter {group[0]}")
         chapters.append({
             "chapter": label,
             "source_chapters": group,
@@ -399,28 +419,49 @@ def split_book(html_path: Path, chapters: list[dict]) -> tuple[list[str], list[d
 
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(description="Split downloaded book HTML into per-chapter HTML files.")
-    parser.add_argument("--config", required=True, help="book_config.yaml to update")
-    parser.add_argument("--html", help="Downloaded book HTML. If omitted, infer from the config/source_html path.")
-    parser.add_argument("--outdir", help="Output directory for chapter HTML files. Defaults to config dir/html.")
+    parser.add_argument("html", nargs="?", help="Downloaded book HTML (positional). Required if --config is omitted or lacks source_html.")
+    parser.add_argument("--config", help="book_config.yaml to read from and update. Optional.")
+    parser.add_argument("--outdir", help="Output directory for chapter HTML files. Defaults to html/ next to the input file.")
+    parser.add_argument("--selector", default=None, help=f"CSS selector for chapter divs (default: {DEFAULT_CHAPTER_SELECTOR!r}).")
+    parser.add_argument("--heading-pattern", default=None, help=f"Regex to filter chapter headings (default: {DEFAULT_HEADING_PATTERN!r}).")
     parser.add_argument("--overwrite", action="store_true", help="Overwrite existing chapter HTML files.")
     return parser
 
 
 def main() -> int:
     args = build_parser().parse_args()
-    config_path = Path(args.config)
-    config = yaml.safe_load(config_path.read_text(encoding="utf-8"))
-    html_path = Path(args.html) if args.html else derive_text_html(config_path, config)
+
+    config_path = Path(args.config) if args.config else None
+    config = yaml.safe_load(config_path.read_text(encoding="utf-8")) if config_path else {}
+
+    if args.html:
+        html_path = Path(args.html)
+    elif config_path:
+        html_path = derive_text_html(config_path, config)
+    else:
+        print("ERROR: provide an HTML file as a positional argument or via --config with source_html set.", file=sys.stderr)
+        return 1
 
     chapters = config.get("chapters", [])
-    outdir = Path(args.outdir) if args.outdir else config_path.parent / "html"
+
+    if args.outdir:
+        outdir = Path(args.outdir)
+    elif config_path:
+        outdir = config_path.parent / "html"
+    else:
+        outdir = html_path.parent / "html"
     outdir.mkdir(parents=True, exist_ok=True)
 
     if chapters:
         segments, chosen = split_book(html_path, chapters)
     else:
-        selector = config.get("chapter_selector", "div.chapter")
-        heading_pattern = config.get("match_regex", config.get("chapter_heading", r"\bchapter\s+\d+\b"))
+        selector = args.selector or config.get("chapter_selector", DEFAULT_CHAPTER_SELECTOR)
+        heading_pattern = (
+            args.heading_pattern
+            or config.get("match_regex")
+            or config.get("chapter_heading")
+            or DEFAULT_HEADING_PATTERN
+        )
         segments, chapters = split_by_chapter_divs(
             html_path,
             selector,
@@ -456,8 +497,9 @@ def main() -> int:
                 "matched_text": chosen[index]["text"],
             }
 
-    config_path.write_text(yaml.dump(config, allow_unicode=True, sort_keys=False), encoding="utf-8")
-    print(f"\nConfig updated: {config_path}")
+    if config_path:
+        config_path.write_text(yaml.dump(config, allow_unicode=True, sort_keys=False), encoding="utf-8")
+        print(f"\nConfig updated: {config_path}")
     if failures:
         print(f"Unmatched chapters: {failures}", file=sys.stderr)
     return 0 if failures == 0 else 1

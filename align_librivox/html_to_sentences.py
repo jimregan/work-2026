@@ -41,31 +41,53 @@ TAG_MARKDOWN = {
     "sub": ("~", "~"),
 }
 ABBREVIATIONS = {
-    "adm", "capt", "col", "dr", "gen", "hon", "jr", "m", "mme", "mlle", "mr",
-    "mrs", "ms", "prof", "rev", "sr", "st",
+    “adm”, “capt”, “col”, “dr”, “gen”, “hon”, “jr”, “m”, “mme”, “mlle”, “mr”,
+    “mrs”, “ms”, “prof”, “rev”, “sr”, “st”,
 }
+
+_SENTENCISER_NORM_TABLE = str.maketrans({
+    ““”: ‘”’, “””: ‘”’,
+    “‘”: “’”, “’”: “’”,
+    “*”: “ “,
+    “[“: “(“,
+    “]”: “)”,
+})
 
 
 def normalise_space(value: str) -> str:
-    value = value.replace("\xa0", " ")
-    value = re.sub(r"\s+", " ", value)
+    value = value.replace(“\xa0”, “ “)
+    value = re.sub(r”\s+”, “ “, value)
     return value.strip()
+
+
+def _normalise_for_sentenciser(text: str) -> str:
+    “””Return a same-length normalised copy suitable for sentence boundary detection.
+
+    Inline markup markers (*) and editorial brackets ([]) are replaced with
+    neutral punctuation so they don’t mislead the splitter.  Curly quotes become
+    their ASCII equivalents.  All replacements are one-for-one so spaCy’s
+    start_char/end_char offsets remain valid against the original text.”””
+    return text.translate(_SENTENCISER_NORM_TABLE)
 
 
 def get_sentence_splitter(model: str | None = None):
     if _SPACY_AVAILABLE:
-        models = [model] if model else ["en_core_web_sm", "xx_sent_ud_sm", "xx_ent_wiki_sm"]
+        models = [model] if model else [“en_core_web_sm”, “xx_sent_ud_sm”, “xx_ent_wiki_sm”]
         for name in models:
             if not name:
                 continue
             try:
-                nlp = spacy.load(name, disable=["ner", "tagger", "lemmatizer"])
-                if "parser" in nlp.pipe_names:
-                    nlp.disable_pipe("parser")
-                if "sentencizer" not in nlp.pipe_names:
-                    nlp.add_pipe("sentencizer")
-                print(f"Using spaCy model: {name}", file=sys.stderr)
-                return lambda text: [sent.text.strip() for sent in nlp(text).sents if sent.text.strip()]
+                nlp = spacy.load(name, disable=[“ner”, “tagger”, “lemmatizer”])
+                if “parser” in nlp.pipe_names:
+                    nlp.disable_pipe(“parser”)
+                if “sentencizer” not in nlp.pipe_names:
+                    nlp.add_pipe(“sentencizer”)
+                print(f”Using spaCy model: {name}”, file=sys.stderr)
+                def _spacy_split(text, _nlp=nlp):
+                    doc = _nlp(_normalise_for_sentenciser(text))
+                    return [text[s.start_char:s.end_char].strip() for s in doc.sents
+                            if text[s.start_char:s.end_char].strip()]
+                return _spacy_split
             except OSError:
                 continue
 
@@ -74,14 +96,14 @@ def get_sentence_splitter(model: str | None = None):
 
 def is_abbreviation(text: str, period_index: int) -> bool:
     prefix = text[:period_index].rstrip()
-    match = re.search(r"([A-Za-zÀ-ÖØ-öø-ÿ]+)$", prefix)
+    match = re.search(r”([A-Za-zÀ-ÖØ-öø-ÿ]+)$”, prefix)
     return bool(match and match.group(1).lower() in ABBREVIATIONS)
 
 
 def starts_sentence(text: str, index: int) -> bool:
     while index < len(text) and text[index].isspace():
         index += 1
-    while index < len(text) and text[index] in "\"'“‘«":
+    while index < len(text) and text[index] in “\”“”’”’«”:
         index += 1
     if index >= len(text):
         return True
@@ -92,8 +114,8 @@ def split_sentences_regex(text: str) -> list[str]:
     sentences = []
     start = 0
     index = 0
-    end_punctuation = ".!?。！？"
-    closers = "\"'”’»)"
+    end_punctuation = “.!?。！？”
+    closers = “\”’”’”’»)”
 
     while index < len(text):
         char = text[index]

@@ -1,6 +1,5 @@
 
 Eóin Ua Míodhchán agus an Sionnach.
-
 Bhí Eóin Ua Míodhchán na chomhnuidhe i mbaile Ui Ára i bhfogus do na Cealla.
 Oidhche áirite ⁊ é leis fhéin, teine mhaith aige, luigh sé suas air leabaidh i dtaobh an tighe.
 Ní robh sé na chodladh acht ag deánadh a scíste.

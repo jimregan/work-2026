@@ -1,4 +1,4 @@
- vi꞉ bwæNʹtʹrʹαχ wrα̃꞉ ə Lʹetʹirʹ vĩkʹ ə ·wα꞉rdʹ.
+vi꞉ bwæNʹtʹrʹαχ wrα̃꞉ ə Lʹetʹirʹ vĩkʹ ə ·wα꞉rdʹ.
 vi꞉ bʹ_ï_rtʹ wα̃k ɛkʹi꞉—pα꞉drikʹ α ·kʹɔ꞉r̥iʃ ə fʹαr bə ʃinʹə αgəs ɛ꞉məN ə bɔ꞉gʹə.
 dα꞉ʃ ʃiəd suəs gə ro ʃiəd əNα mw⅄əχəLʹi꞉.
 əN Lα꞉ əwα̃꞉nʹ du꞉rtʹ ɛ꞉məN lʹɛ Nα wα̃hærʹ: ə wα̃hærʹ,_ ï_mʹαχə mʹiʃə gə viαχə mʹə mɔrtu꞉n α꞉lʹ dŨw̥einʹ.
@@ -22,7 +22,8 @@ fʹiəfriuw dè, gədʹe꞉ vi꞉ ʃə jiəri꞉_ (_j_ï_ri꞉_). _dʹiNʹiʃ 
 Nʹi꞉ ro mwidʹ ʃ_ï_Nʹə əN Lα꞉ ərʹiuw Nαχ ro bw⅄꞉χiLʹ ə jiç ɔriNʹ, ərsən gʹαftɔrʹ.
 gədʹe꞉_ (_ə_)_N o̤bwirʹ ə w_ï_L tuw mαiç ɛgʹə.
 ʃi꞉lʹəm Nαχ w_ï_lʹ o̤bwirʹ fα Nʹ tʹαχ Nαχ dʹigʹ lʹ_ï_m ə jα꞉nuw.
-gədʹe꞉ N tuərəstəl ətα꞉ tuw j_ï_ri꞉ gə kʹ_ï_N Lα꞉ αgəs bʹlʹi_ï_nʹ? fα꞉kə mʹə ʃ_ï_nʹ ɛgʹ ən ṟi꞉.
+gədʹe꞉ N tuərəstəl ətα꞉ tuw j_ï_ri꞉ gə kʹ_ï_N Lα꞉ αgəs bʹlʹi_ï_nʹ?
+fα꞉kə mʹə ʃ_ï_nʹ ɛgʹ ən ṟi꞉.
 kʹɛbʹerʹ ·bʹiç tuərəstəl əs fʹjuw mʹə vɛ꞉r̥i ʃə dŨw ə.
 erʹ mwædʹəN LαχərNə·wα꞉rαχ henʹi ʃə mɔrαn spʹi꞉kʹi꞉ erʹ ə wα꞉wən αgəs kʹ_ï_N di꞉nʹi꞉ ərʹ χydʹ ɔkuw.
 dʹiəfri꞉ ʃə, gə dʹe꞉ tα꞉ mʹɛ gɔl ə jα꞉nuw əNʹUw̥`.

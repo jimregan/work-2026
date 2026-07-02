@@ -328,9 +328,37 @@
               "icon": "lucide-file",
               "title": "sceal phones"
             }
+          },
+          {
+            "id": "c7f079df22c6a245",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "leadairt text.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "leadairt text"
+            }
+          },
+          {
+            "id": "d5e4cc65f8851d83",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "leadairt phones.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "leadairt phones"
+            }
           }
         ],
-        "currentTab": 22
+        "currentTab": 24
       }
     ],
     "direction": "vertical"
@@ -493,11 +521,13 @@
       "obsidian-importer:Open Importer": false
     }
   },
-  "active": "5a1f449877a18283",
+  "active": "d5e4cc65f8851d83",
   "lastOpenFiles": [
-    "sceal text.md",
-    "sceal phones.md",
     "tmp",
+    "leadairt text.md",
+    "leadairt phones.md",
+    "sceal phones.md",
+    "sceal text.md",
     "1.md",
     "Eoin phonetic.md",
     "Eoin.md",
@@ -519,8 +549,6 @@
     "ktts/Rewritten.md",
     "ktts/Gen.md",
     "LRE - Phonetic corpus/old-towards.md",
-    "LRE - Phonetic corpus/Master outline.md",
-    "LRE - Phonetic corpus/BRIEFING.md",
     "Teanga - Web corpus of Irish/refs.bib",
     "Teanga - Web corpus of Irish/paper.qmd",
     "Teanga - Web corpus of Irish",

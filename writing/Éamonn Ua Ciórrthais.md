@@ -85,9 +85,7 @@ Thug é‑fhéin léim eadar an ceann ⁊ an cholann.
 Níor bhac díod, ars’ an teangaidh a bhí sa cheann, dha bhfaghainn-se air an cholainn arís, thusa ⁊ fir an domhain (fir fagháil), ní bhainfeadh de mé.
 D’fhan sé annsin gur fhuaraigh an ceann ⁊ an cholann.
 Thainic abhaile.
-Labhair an Crochaire Tárrnochttha: A Éamuinn Ui Ciórrthais, a
-dheagh-ghaiscidhigh, mharbhuigh tú
-an faitheach aniu.
+Labhair an Crochaire Tárrnochttha: A Éamuinn Ui Ciórrthais, a dheagh-ghaiscidhigh, mharbhuigh tú an faitheach aniu.
 Buail buille beag de do chlaidhimh air an ghad seo ⁊ leig mise anuas.
 Ní bhuailfidh, arsa Éamonn.
 Is dóiche gur b’é do dhrochghniomharthaí fhéin a d’fhág innsin thú.
@@ -112,7 +110,8 @@ Buail buille beag de do chlaidhimh ⁊ leig mise anuas.
 Ní mé a chuir suas thú ⁊ ní me a leigfeas anuas thú, arsa Éamonn.
 Shiubhail leis síos ’un an ghleanna.
 Thainic an faitheach mór ann a aracais a bhí i bhfad níos mó na’n chéad cheann.
-A Éamuinn Ui Ciórrthais, a dhailtín bhig, bheadaigh! Mharbhuigh tú mo dhearbhbhrathair ané, acht bhéarfaidh tú díol ann aniu.
+A Éamuinn Ui Ciórrthais, a dhailtín bhig, bheadaigh!
+Mharbhuigh tú mo dhearbhbhrathair ané, acht bhéarfaidh tú díol ann aniu.
 An íde chéadna fuair do dhearbhbhrathair ané, gheóbh tusa é aniu.
 Thoisigh an troid ⁊ ní robh acht trumparacht ann go dtí sin.
 Throid siad go robh sé ’g éirigh dorcha.
@@ -133,8 +132,7 @@ Shiubhail leis sios ’un an ghleanna.
 Sé do bheatha, a Éamuinn, arsa’n Crochaire.
 Tá beirt de na fathaigh marbh agad.
 Tá dhá dtrian de nighean an rí bainte agad.
-Muirfidh
-tú an faitheach mór aniu.
+Muirfidh tú an faitheach mór aniu.
 ⁊ buail buille beag de do chlaidhimh air an ghad seo.
 A’s beidh mo chuideadh agad go bráthach.
 Ní mé chuir suas thú ⁊ ní mé bhéarfas anuas thú.
@@ -181,8 +179,7 @@ D’imthigh Éamonn ⁊ shiubhail sé mórán.
 Fa dheireadh ní robh fhios aige cá robh sé ’g dul.
 Ní fhuair sé aon tuairisc.
 Trathnóna amháin ⁊ é an-tuirseach tharlaidh gur chas dó teach i n‑imeall coilleadh.
-Chuaidh sé
-asteach.
+Chuaidh sé asteach.
 Ní robh aon duine ann acht aon seanóir amháin críonliath.
 D’iarr sé lóistín na h‑oidhche.
 Dubhairt an seanóir go bhfuigheadh ⁊ fáilte.
@@ -243,7 +240,8 @@ Leig thusa ort, arsa Éamonn go bhfuil cion mór agad air ⁊ go bhfuil buaidhre
 Deán iolghárdas mór nuair a thiocfaidh sé abhaile.
 Rinneadh sin uilig.
 Bhí bród mór ⁊ athas air an Chrochaire ⁊ dubhairt sé, dha mbéidheadh fhios agad fios an fhir atá agad, bhéidheadh tilleadh athais ort.
-An féidir do mharbhughadh? Ní shaoilimse go bhfuil aon ghaiscidheach anns an domhan ábalta do mharbhughadh.
+An féidir do mharbhughadh?
+Ní shaoilimse go bhfuil aon ghaiscidheach anns an domhan ábalta do mharbhughadh.
 Rinne sé gáire mór.
 Tím anois go bhfuil do ghrádh bainte agam.
 Innseachaidh mé dhuid go dé mhuirfeadh me.

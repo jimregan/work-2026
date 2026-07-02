@@ -18,7 +18,8 @@ kʹɛ bʹɛrʹ bʹiç α꞉tʹ ə mʹei tuw i ɲeivəN, dʹαN skαrtʹ erʹ χ
 ərʹ mwædʹəN LαχərNə·wα꞉rαχ gə Luə Luə dʹeirʹi꞉ αgəs χUi ʃə erʹ ·çu꞉l αgəs çu꞉l ṟï̃və Nʹi꞉s fwidʹə Nα higʹ lʹïms ïNʹʃə.
 fα jerʹuw trα·nõ꞉nə gə mαL henʹi ʃɛ ku꞉rtʹ αgəs kæʃLʹαn mo꞉r.
 henʹi ʃə əNə jαftə.
-fʹiəfriuw dè, gədʹe꞉ vi꞉ ʃə jiəri꞉ (jïri꞉). dʹiNʹiʃ ʃə dɔ꞉fə gər bw⅄əχiLʹ ə vi꞉ gʹïri꞉ αmʹʃirʹə.
+fʹiəfriuw dè, gədʹe꞉ vi꞉ ʃə jiəri꞉ (jïri꞉).
+dʹiNʹiʃ ʃə dɔ꞉fə gər bw⅄əχiLʹ ə vi꞉ gʹïri꞉ αmʹʃirʹə.
 Nʹi꞉ ro mwidʹ ʃïNʹə əN Lα꞉ ərʹiuw Nαχ ro bw⅄꞉χiLʹ ə jiç ɔriNʹ, ərsən gʹαftɔrʹ.
 gədʹe꞉ (ə)N o̤bwirʹ ə wïL tuw mαiç ɛgʹə.
 ʃi꞉lʹəm Nαχ wïlʹ o̤bwirʹ fα Nʹ tʹαχ Nαχ dʹigʹ lʹïm ə jα꞉nuw.
@@ -67,7 +68,8 @@ Nʹi꞉ wuil̥ʹə mʹə bwiLʹə.
 kʹɛbʹerʹbʹiç ərʹ χo̤r suəs huw, Lʹigʹitʹ ʃə əNuəs huw.
 çu꞉Lʹ Lʹeʃ ʃi꞉s əNə jlʹαNə αgəs Nʹi꞉r wαdə ꬶɔ꞉ gə wαkə ʃə ən fαihαχ ə tαrNʹtʹ erʹ.
 riNʹ ʃə gα꞉rʹə mo꞉r.
-gəde꞉ α꞉wər də ꬶα꞉rʹə ərs ɛ꞉məN? tα꞉, gə wïL dərədsə də jɔ꞉lʹ u꞉r əgəm lʹɛ hihçə əNʹUw̥`.
+gəde꞉ α꞉wər də ꬶα꞉rʹə ərs ɛ꞉məN?
+tα꞉, gə wïL dərədsə də jɔ꞉lʹ u꞉r əgəm lʹɛ hihçə əNʹUw̥`.
 əs mo꞉r lʹïm əN ən jrʹimʹ huw.
 əs bʹïg lʹïm əNə ꬶα꞉ jrʹimʹ huw, ərsə n fαihαχ.
 Nʹi꞉lʹ ïglə ɔrəm, ərs ɛ꞉məN.
@@ -195,7 +197,8 @@ dʹiNʹiʃ dɔ꞉ bʹrʹi꞉ α çu꞉lʹ.
 mα tʹi꞉ tuw, ərsiNʹ ʃαnɔrʹ, gə mʹəi grẽ꞉h əgəd lʹeʃ ə χy꞉çə, dʹαN skαrtʹ ərʹ ꬶo꞉rαn do̤N Lɔχ ə Nʹu꞉rʹ.
 mα nʹi꞉ tuw ʃu꞉l mαiç bʹei tuw ɛg(ʹ) dʹα꞉r̥αr dũ꞉sə trαnõ꞉nə gə mαL.
 ʃïN dʹα꞉r̥αr dŨw̥ ə rɔ tuw ɛgʹ ərɛirʹ.
-mər do̤gy꞉ n fʹαr ə mʹei tuw ɛgʹ əNo̤χt tuərʹiʃkʹ ꬶydʹ Nʹi꞉ wi꞉ tuw e꞉ ərʹ ꬶrïmʹ ə dα͠uwinʹ (dõ꞉nʹ). dʹïmʹi꞉ rï̃və αgəs Nʹi꞉ ʃu꞉l ə vi꞉ ʃə αχ ə rαhi꞉.
+mər do̤gy꞉ n fʹαr ə mʹei tuw ɛgʹ əNo̤χt tuərʹiʃkʹ ꬶydʹ Nʹi꞉ wi꞉ tuw e꞉ ərʹ ꬶrïmʹ ə dα͠uwinʹ (dõ꞉nʹ).
+dʹïmʹi꞉ rï̃və αgəs Nʹi꞉ ʃu꞉l ə vi꞉ ʃə αχ ə rαhi꞉.
 trαnõ꞉nα gə mαL fuərsə Nʹ tαχ.
 fwy꞉rsə bʹiə αgəs Lʹαbwi꞉ wα͠ıç.
 gə Luə ərʹ mwædʹïnʹ dʹeirʹi꞉ αgəs dʹiNʹiʃ dəNʹ tʹαnɔrʹ bʹrʹi꞉ ə çu꞉lʹ αgəs gədʹe꞉ mər χæ ʃɛ əN dα꞉ ĩ꞉ç elʹə ɛgʹ əN dα꞉ hαnɔrʹ elʹə.
@@ -236,7 +239,8 @@ Lʹigʹ hïs ɔrt, ərs ɛ꞉məN, gə wïlʹ kʹïn mo꞉r əgəd erʹ αgəs g
 dʹα꞉n o̤lꬶα꞉rdəs mo꞉r Nerʹ ə hïky ʃə əwelʹə.
 rïNʹuw ʃïnʹ əlʹigʹ.
 vi꞉ brɔ꞉d mo꞉r αgəs αhəs erʹ ə χrɔχirʹə αgəs du꞉r·se꞉, əmʹəwəs əgəd fʹïs ə Nʹirʹ ətα꞉ əgəd, vɛuw tʹiLʹuw αhiʃ ɔrt.
-ən fʹeidʹər də wαrəwə? Nʹi꞉ hi꞉lʹəmsə gə wïlʹ ən ꬶæʃkʹiαχ əNsə dõ꞉n α꞉bəLtə də wαrəwə.
+ən fʹeidʹər də wαrəwə?
+Nʹi꞉ hi꞉lʹəmsə gə wïlʹ ən ꬶæʃkʹiαχ əNsə dõ꞉n α꞉bəLtə də wαrəwə.
 riNʹ ʃɛ gα꞉rʹə mo꞉r.
 tʹi꞉m əniʃ gə wïL də ꬶrα꞉ bwiNʹtʹ əgəm.
 iNʹʃαχə mʹə ꬶydʹ gədʹe꞉ wir̥ʹuw mʹə.

@@ -349,12 +349,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "leadairt phones.md",
+                "file": "leadairt text.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "leadairt phones"
+              "title": "leadairt text"
             }
           }
         ],
@@ -523,9 +523,9 @@
   },
   "active": "d5e4cc65f8851d83",
   "lastOpenFiles": [
+    "leadairt phones.md",
     "tmp",
     "leadairt text.md",
-    "leadairt phones.md",
     "sceal phones.md",
     "sceal text.md",
     "1.md",

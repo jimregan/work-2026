@@ -1,3 +1,4 @@
+ɛ꞉məN α ·kʹɔ꞉r̥iʃ.
 vi꞉ bwæNʹtʹrʹαχ wrα̃꞉ ə Lʹetʹirʹ vĩkʹ ə ·wα꞉rdʹ.
 vi꞉ bʹïrtʹ wα̃k ɛkʹi꞉—pα꞉drikʹ α ·kʹɔ꞉r̥iʃ ə fʹαr bə ʃinʹə αgəs ɛ꞉məN ə bɔ꞉gʹə.
 dα꞉ʃ ʃiəd suəs gə ro ʃiəd əNα mw⅄əχəLʹi꞉.

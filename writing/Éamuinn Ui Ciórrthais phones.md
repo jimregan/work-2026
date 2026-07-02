@@ -1,8 +1,299 @@
-
-vi꞉ bwæNʹtʹrʹαχ wrα̃꞉ ə Lʹetʹirʹ vĩkʹ ə ·wα꞉rdʹ. vi꞉ bʹ_ï_rtʹ wα̃k ɛkʹi꞉—pα꞉drikʹ α ·kʹɔ꞉r̥iʃ ə fʹαr bə ʃinʹə αgəs ɛ꞉məN ə bɔ꞉gʹə. dα꞉ʃ ʃiəd suəs gə ro ʃiəd əNα mw⅄əχəLʹi꞉. əN Lα꞉ əwα̃꞉nʹ du꞉rtʹ ɛ꞉məN lʹɛ Nα wα̃hærʹ: ə wα̃hærʹ,_ ï_mʹαχə mʹiʃə gə viαχə mʹə mɔrtu꞉n α꞉lʹ dŨw̥einʹ. tα꞉ Ntαluw bʹ_ï_g gə Lʹɔ꞉r ɛgʹ mə jα꞉r̥ærʹ. kʹɔkuw fʹα꞉r lʹαt t_ï_rtʹi꞉nʹ bʹ_ï_g əs mɔ vαNαχt Nɔ t_ï_rtʹi꞉nʹ mo꞉r əgəs mə wαLαχt? əs fʹα꞉r lʹ_ï_m t_ï_rtʹi꞉nʹ bʹ_ï_g αgəs də vαNαχt. jlʹɛəs erʹ αgəs dα꞉g bʹαNαχt ɛgʹ Nə wo̤nuw. ho̤g ə wα̃hærʹ ə bʹαNαχt dɔ꞉. vi꞉ ʃə mαL trα·nõ꞉nə Nerʹ ə dα꞉k ʃə ən bwelʹə. Nʹi꞉lʹ əN αχt gə wuərsə trαsNə ꬶ⅄꞉·bʹαrα gə denʹikʹ ə Nĩ꞉çə αgəs χo̤diLʹʃə ə Nĩ꞉çɔ ʃ_ï_nʹ əNsə ꬶαrəχyLʹ. erʹ h_ï_tʹ_ï_mʹ Nə χo̤Luw dɔ꞉ henʹikʹ iNʹʃerʹ kuw bʹ_ï_g Nə gαrəχyLʹuw. ʃɛ də vαhə ɛ꞉mwiNʹ i꞉ kʹɔ꞉r̥iʃ ərsi꞉. kydʹ ər Lʹeç αgəs k_ï_vrʹəN αgəs ro̤d lʹɛ to꞉rtʹ iNʃər Nα k_ï_lʹænʹ. jo꞉ tuw ʃ_ï_nʹ, α χylænʹ uəsilʹ. ho̤g diçə kydʹ ər Lʹeç αgəs k_ï_vrʹəN αgəs ro̤d lʹɛ to꞉rtʹ iNʹʃər Nα k_ï_lænʹ. ɛ꞉mwiNʹ i꞉ kʹɔ꞉r̥iʃ, ərsən kuw, tα꞉ mʹə bwiαχ di꞉d. kʹɛ bʹɛrʹ bʹiç α꞉tʹ ə mʹei tuw i ɲeivəN, dʹαN skαrtʹ erʹ χuw bʹ_ï_g Nə gαrəχyLʹuw. ərʹ mwædʹəN LαχərNə·wα꞉rαχ gə Luə Luə dʹeirʹi꞉ αgəs χUi ʃə erʹ ·çu꞉l αgəs çu꞉l ṟ_ï̃_və Nʹi꞉s fwidʹə Nα higʹ lʹ_ï_ms_ ï_Nʹʃə. fα jerʹuw trα·nõ꞉nə gə mαL henʹi ʃɛ ku꞉rtʹ αgəs kæʃLʹαn mo꞉r. henʹi ʃə əNə jαftə. fʹiəfriuw dè, gədʹe꞉ vi꞉ ʃə jiəri꞉_ (_j_ï_ri꞉_). _dʹiNʹiʃ ʃə dɔ꞉fə gər bw⅄əχiLʹ ə vi꞉ gʹ_ï_ri꞉ αmʹʃirʹə. Nʹi꞉ ro mwidʹ ʃ_ï_Nʹə əN Lα꞉ ərʹiuw Nαχ ro bw⅄꞉χiLʹ ə jiç ɔriNʹ, ərsən gʹαftɔrʹ. gədʹe꞉_ (_ə_)_N o̤bwirʹ ə w_ï_L tuw mαiç ɛgʹə. ʃi꞉lʹəm Nαχ w_ï_lʹ o̤bwirʹ fα Nʹ tʹαχ Nαχ dʹigʹ lʹ_ï_m ə jα꞉nuw. gədʹe꞉ N tuərəstəl ətα꞉ tuw j_ï_ri꞉ gə kʹ_ï_N Lα꞉ αgəs bʹlʹi_ï_nʹ? fα꞉kə mʹə ʃ_ï_nʹ ɛgʹ ən ṟi꞉. kʹɛbʹerʹ ·bʹiç tuərəstəl əs fʹjuw mʹə vɛ꞉r̥i ʃə dŨw ə. erʹ mwædʹəN LαχərNə·wα꞉rαχ henʹi ʃə mɔrαn spʹi꞉kʹi꞉ erʹ ə wα꞉wən αgəs kʹ_ï_N di꞉nʹi꞉ ərʹ χydʹ ɔkuw. dʹiəfri꞉ ʃə, gə dʹe꞉ tα꞉ mʹɛ gɔl ə jα꞉nuw əNʹUw̥`. tʹeʃαnuw dɔ꞉ bɔihαχ Nærʹ kαrtuw lʹɛ ʃαχt mʹlʹiəNə, αgəs mər mʹeitʹ ʃə kαrti꞉ trα·nõ꞉nə, gə girʹfʹi꞉ ə ç_ï_N ər spʹi꞉kʹə. fuər sə gre꞉pʹ, αgəs ə ç_ï_d ç_ï_N ə χæ ʃə əmαχ, ʃe꞉ ən ṟo̤d ə henʹikʹ ʃαχt gʹiNʹ əʃtʹαχ. χæ ʃə kʹ_ï_N elʹə əmαχ αgəs henʹikʹ kʹerʹə kʹiNʹ dʹɛəg əʃtʹαχ. o꞉ tʹi꞉m, ərse꞉, əs g_ï_rʹidʹ gə ro꞉ Nʹ tʹαχ ʃɔ LʹiəNtə αgəs rαχi꞉ mə ç_ï_Nsə erʹ ə spʹi꞉kʹə. tα꞉ mʹe꞉_ (_ə_) _nṟɔχα꞉tʹ, ərse꞉. Nʹi꞉lʹ_ ï_mʹαχt erʹ ə wα꞉s əgəm. ərɛirʹ χuələ mʹə tʹrʹi꞉ skαrtʹ wo꞉rə hi꞉s əNsə jlʹαN. dʹiəfri꞉ mʹə gədʹe꞉ bə çiəL dɔ꞉
-·ʃ_ï_nʹ. du꞉rtʹ ə kɔ꞉kirʹə lʹ_ï_m gər tʹrʹi꞉ fαhi꞉ ə henʹikʹ iNʹʃɔ ə j_ï_ri꞉ Nʹiən ə ri꞉ lʹɛ pɔ꞉suw erʹ ə Nʹαr bə wõ꞉ ɔkuw. Nα gə ʃkʹrʹ_ï_sət_(_ʹ_) _ʃə ə rihαχtə mər wα꞉tʹ ʃə i꞉. ʃ_ï_N Nα fʹαr ə r̥itʹuw ə. χo̤r Nʹiən ə ri꞉ erʹ gu꞉l ə gə kʹ_ï_N bʹlʹiəNə gə wα꞉tʹ ʃi꞉ gæʃkʹiαχ ə r̥itʹuw ə. Nαχ w_ï_lʹ ĩ꞉ç erʹ bʹiç Nαχ Lʹigʹit_(_ʹ_) _ʃiəd tʹrʹi꞉ skαrtʹ lʹɛ hαhəs gə ro ʃəd ĩ꞉ elʹə Nʹi꞉s Nʹeʃə dən fɔ꞉suw. əniʃ tα꞉ mʹə rəi. Nʹi꞉lʹ_ ï_mʹαχt erʹ ə wα꞉s əgəm. tα꞉ mʹə i ɲeivəN. riNʹ ʃə skαrtʹ erʹ χuw bʹ_ï_g Nə gαrəχyLʹuw. henʹi ʃə kuw bʹ_ï_g Nə gαrəχyLʹuw ə rαhi꞉ iNʹʃerʹ. dʹiNʹiʃ diçə gədʹe꞉ mər vi꞉ ʃə. do̤nə huw, ərsi꞉. α͠uwirʹkʹ iNʹʃɔ əN mαskiLʹ jeʃ. fw⅄ər sə gre꞉pʹ ·αn·v_ï_g əsti꞉ç əNα hαskiLʹ. to꞉r ·lʹαt i꞉·ʃ_ï_nʹ αgəs tɔrʹ grα꞉nʹi꞉nʹ də Ni꞉lʹαχ mαχ erʹ ə dɔrəs lʹeiçə. bʹi꞉ heinʹ əs ə χαsαn. riNʹ ʃɛ ʃ_ï_nʹ αgəs hu꞉si꞉ Nti꞉lʹαχ ə gʹeirʹi꞉ Nα꞉rdʹə αgəs tʹαχt əmαχ kɔ tʹUw̥` əs vi꞉ əN dɔrəs α꞉bəLt_(_ə_) _ə lʹigʹən əmαχ. Nʹi꞉rʹ wαdə gə ro ən bɔihαχ fɔluw. tα꞉ də hαsk dʹα꞉Ntə, ərsən kuw. fʹɛədəN tuw ʃu꞉l hαrt gə dʹi꞉ Nĩ꞉çɔ. fʹɛədəN tuw mα꞉ ʃe꞉ də hɔlʹ ə ʃu꞉l gə vɛkʹə tuw Nα fαhi꞉. χUi ʃɛ ʃi꞉s əNə jlʹαNə. erʹ ə ꬶɔLʹ ʃi꞉s dɔ꞉ henʹi ʃə fʹαr tα꞉rNαχtə krɔχt əs krαN. gər bʹe꞉ də vαhə ɛ꞉mwiNʹ i꞉ kʹɔr̥iʃ ərse꞉. əs tuw α꞉wər ə ꬶæʃkʹi꞉ əs fʹα꞉r əNsə dõ꞉n. builʹ bwiLʹə də də χlα͠ıəv erʹ ə ꬶαd ʃɔ. tα꞉ mə χu꞉gʹ k⅄꞉lʹ əNsə Nʹɛən çαŋəl. αgəs Lʹigʹ mʹiʃə əNuəs. Nʹi꞉ wuil̥ʹə mʹə bwiLʹə. kʹɛbʹerʹbʹiç ərʹ χo̤r suəs huw, Lʹigʹitʹ ʃə əNuəs huw. çu꞉Lʹ Lʹeʃ ʃi꞉s əNə jlʹαNə αgəs Nʹi꞉r wαdə ꬶɔ꞉ gə wαkə ʃə ən fαihαχ ə tαrNʹtʹ erʹ. riNʹ ʃə gα꞉rʹə mo꞉r. gəde꞉ α꞉wər də ꬶα꞉rʹə ərs ɛ꞉məN? tα꞉, gə w_ï_L dərədsə də jɔ꞉lʹ u꞉r əgəm lʹɛ hihçə əNʹUw̥`. əs mo꞉r lʹ_ï_m əN ən jrʹimʹ huw. əs bʹ_ï_g lʹ_ï_m əNə ꬶα꞉ jrʹimʹ huw, ərsə n fαihαχ. Nʹi꞉lʹ_ ï_glə ɔrəm, ərs ɛ꞉məN. dʹα꞉N də jiçəL. hɔʃi꞉ N tridʹ. r̥idʹ ʃiəd gədʹi꞉ trαnõ꞉nα gə mαL αgəs vi꞉ ko̤muw erʹ ə Nαihαχ gə mʹɛtʹ ʃɛ ·rɔ꞉·α꞉bəLtə ɛgʹ ɛ꞉məN. smwi꞉tʹi꞉ ʃə gər ꬶo̤nə ən ṟo̤d e꞉ ən fαihαχ e꞉ ə wαrəwə. ho̤g ʃə Lʹɛ꞉mʹ ə Nα꞉rdʹə. wyiLʹ ʃə ə gõ꞉rək ə çiNʹ αgəs ə winʹælʹ ə. χæ ʃə n kʹ_ï_N dè gə glαn. ho̤g e·heinʹ Lʹɛ꞉mʹ ɛdirʹ ə kʹ_ï_N αgəs ə χɔləN. Nʹi꞉rʹ wαk di꞉d, ərsə Nʹtʹαŋi꞉ ə vi꞉ sə ç_ï_N, ə wα꞉Nʹʃə erʹ ə χɔliNʹ ərʹi꞉ʃ, h_ï_s αgəs fʹirʹ ə dõ꞉nʹ_ (_fʹirʹ ə fα꞉lʹ_), _Nʹi꞉ win̥ʹuw dè mʹə. dæNʹ ʃə iNʹʃ_ï_nʹ gər ⅄꞉ri꞉ ən kʹ_ï_N αgəs ə χɔləN. henʹikʹ əwelʹə. lo꞉rʹ ə krɔχirʹə tα꞉rNαχtə, ɛ꞉mwiNʹ i꞉ kʹɔ꞉r̥iʃ, ə
-·jeꬶæʃkʹi꞉, wαrə tuw ən fαihαχ əNʹUw̥`. bw⅄ilʹ bwiLʹə bʹ_ï_g də də χlα͠ıəv ərʹ ə ꬶαd ʃɔ αgəs Lʹigʹ mʹiʃ əNuəs. Nʹi꞉ wuil̥ʹi꞉, ərs ɛ꞉məN. əs dɔ꞉çə gər bʹe꞉ də ꬶrɔχ jrʹĩ꞉wəri꞉ ·heinʹ ə dα꞉g iNʹʃ_ï_nʹ huw. kʹɛ bʹerʹbʹiç ərʹ χo̤r suəs huw, to̤gətʹ ʃə əNuəs huw. henʹi ʃɛ Nə welʹə. Nʹi꞉ row αχ ꬶα꞉ skαrtʹ əNsə jlʹαN ə Nĩ꞉çə ʃ_ï_nʹ. LαχərNə·wα꞉rαχ fw⅄꞉r sə tʹαχ ə vi꞉ Lα꞉n fʹαdɔgy꞉, Lʹigʹən əmαχ, ærʹə ho꞉rt_(_ʹ_) _dɔ꞉fə erʹ fʹ_ï_g ə Le꞉, αgəs ə gr_ï_Nʹuw əʃtʹαχ trα·nõ꞉nə. Nerʹ ə sky꞉Lʹ ʃə mαχ Nα fʹαdɔgy꞉, dʹ_ï_mʹi꞉ ʃəd_ (_ə_) _N_ï_lʹə çα꞉rN αgəs Nʹi꞉ rò ·ɛən ·ç_ï_N lʹɛ fʹɛkʹαl ɛgʹə. vi꞉ ʃɛ bw⅄꞉r̥ə αgəs skαrtʹ ʃə ərʹi꞉ʃtʹ erʹ χuw bʹ_ï_g Nα gαrəχyLʹuw. do̤nə huw, ərsə n kuw, Nαχ w_ï_lʹ α꞉bəLtə Nα fʹαdɔgy꞉ ə χr_ï_Nʹuw. α͠uwirkʹ əN mαskiLʹ çlʹi꞉. dα͠uwirʹkʹ αgəs fuər sə fʹi꞉dʹɔg v_ï_g əN. Nerʹ əs mαi lʹαt iəd ə χr_ï_Nʹuw ʃiNʹ ər ·s_ï_n. hiNʹ ʃɛ erʹ ə Nʹi꞉dʹɔgʹ αgəs χr_ï_Nʹi꞉ Nα fʹαdɔgy꞉ əs αχ_ï_lʹə çα꞉rN ə ro ʃəd əʃtʹαχ αgəs gər ꬶridʹ ʃɛ əN dɔrəs. çu꞉Lʹ Lʹeʃ ʃi꞉s əNə jlʹαNə gə denʹikʹ αd lʹeʃ ə χrɔχirʹə hα꞉rNαχtə. ɛ꞉mwiNʹ i꞉ kʹɔ꞉r̥iʃ, əs tuw ən gæʃkʹiαχ əs fʹα꞉r sə dõ꞉n. wαrə tuw ən fαihαχ əNʹe꞉. χαrt tuw ən bɔihαχ əNʹe꞉. χr_ï_Nʹi꞉ tuw Nα fʹαdɔgy꞉ əʃtʹαχ əNʹUw̥`. mwir̥ʹi tuw fαihαχ elʹə əNʹUw̥`. builʹ bwiLʹə bʹ_ï_g də də χlα͠ıəv αgəs Lʹigʹ mʹiʃ əNuəs. Nʹi꞉ me꞉ ə χo̤r suəs huw αgəs Nʹi꞉ mʹe꞉ ə lʹikʹəs əNuəs huw, ərs ɛ꞉məN. çu꞉Lʹ Lʹeʃ ʃi꞉s əNə jlʹαNə. henʹikʹ ə fαihαχ mo꞉r ə Nαrəkyʃ ə vi꞉ ə wαd Nʹi꞉s mõ꞉ Nαn ç_ï_d ç_ï_N. ɛ꞉mwiNʹ i꞉ kʹɔr̥iʃ, ə ꬶæLʹtʹi꞉nʹ v_ï_g vαdi꞉. wαrə tuw mɔ jα꞉r̥ærʹ əNʹe꞉, αχt vɛ꞉r̥ə tuw dʹiəl əN əNʹUw̥`. ə Nʹi꞉dʹə çiəNə fuər də jα꞉r̥ærʹ əNʹe꞉, jo꞉ t_ï_sə e꞉ əNʹUw̥`. hɔʃi꞉ N tridʹ αgəs Nʹi꞉ ro αχt tro̤mpαrαχt əN gədʹi꞉ ʃ_ï_nʹ. r̥idʹ ʃiəd gə ro ʃə gʹeirʹi꞉ dɔrəχə. ꬶlαk ɛ꞉məN ɔχtαχ əwα̃꞉nʹ. hαrNʹ ʃɛ ə χlα͠ıəv. lʹeʃ ə vɛ꞉mʹ ʃ_ï_nʹ wiNʹ ʃɛ n kʹ_ï_N də Nαihαχ. ho̤g ʃɛ Lʹɛ꞉mʹ ɛdirʹ ə kʹ_ï_N αgəs ə χɔləN mər riNʹ ʃə ərï̃və. henʹi ʃɛ əwelʹə. Nʹi꞉ ro αχ ɛəN skαrtʹ əwα̃꞉nʹ sə Nĩ꞉çə ʃ_ï_nʹ. erʹ mwædʹəN LαχərNə·wα꞉rαχ dʹeirʹi꞉ ɛ꞉məN, du꞉rtʹ ə ri꞉ lʹeʃ tα꞉ Lɔχ iNʹʃɔ w_ï_Lʹ tʹrʹiən də mə ꬶu꞉çə fɔli꞉ ɛgʹə. kα͠ıhə tuw e꞉ və t⅄꞉m̥ə tʹirʹimʹ əgəd ɛgʹ ə trαnõ꞉nə. skαrtʹ ɛ꞉məN erʹ χuw bʹ_ï_g Nα gαrəχyLʹuw. α͠uwirʹkʹ əsti꞉ç` əN mɔ χluiʃ jeʃ ərsən kuw. fuərsə əN spαnɔg ə bə Luw henʹi ʃɛ erʹiuw. to꞉g Lα꞉n Nə spαnægʹə αgəs kαi ʃi꞉s ə kro̤k ə. Nʹi꞉r αn ·eiNʹ ·Nʹɔ꞉r əwα̃꞉nʹ əN. çu꞉Lʹ Lʹeʃ ʃi꞉s Nə jlʹαNə. ʃɛ də vαhə, α ɛ꞉mwiNʹ, ərsən krɔχirʹə. tα꞉ bʹ_ï_rtʹ də Nα fαhi꞉ mαruw əgəd. tα꞉ ꬶα꞉ dʹrʹiən də nʹiən ə ri꞉ bwiNʹtʹ əgəd. mwir̥ʹi
-tuw ən fαihαχ mo꞉r əNʹUw̥`. αgəs builʹ bwiLʹə bʹ_ï_g də də χlα͠ıəv ərʹ ə ꬶαd ʃɔ. əs bʹei_ (_bʹɛ_) _mɔ χydʹuw əgəd gə brα꞉χ. Nʹi꞉ mʹe꞉ χo̤r suəs huw αgəs Nʹi꞉ mʹe꞉ vɛ꞉r̥əs əNuəs huw. çu꞉Lʹ Lʹeʃ ʃi꞉s əNə jlʹαNə. henʹikʹ ə fαihαχ mo꞉r ə Nαrəkiʃ. vi꞉ ʃɛ ɛək·sα͠uwəLtə. α ɛ꞉mwiNʹ i꞉ kʹɔ꞉r̥iʃ, ə sklα꞉wi꞉ wαLy꞉, wαrə tuw mə ꬶα꞉ jα꞉r̥ærʹ αχt_ (_ə_)_s g_ï_rʹidʹ_ (_gerʹidʹ_) _gə mwin̥ʹi mʹiʃə də ç_ï_N di꞉d. ə Nʹi꞉dʹə çiəNə fuər də ꬶα꞉ jα꞉r̥ærʹ jo꞉ t_ï_sə. hu꞉si꞉ N tridʹ αgəs Nʹi꞉rʹ vjuw bro_ (_brow̥_) _e꞉ gədʹi꞉ ʃ_ï_nʹ. ho꞉g ɛ꞉məN ə χlα͠ıəv lʹɛ mʹ_ï_ʃNʹαχ αgəs dɔ꞉χəs, wuilʹ_ (_wi꞉lʹ_) _ə fαihαχ ə gõ꞉rək ə çiNʹ αgəs ə winʹælʹ. χα͠ıç ə kʹ_ï_N ərʹ çu꞉l fαd Nỹ꞉ Nʹetʹirʹə αgəs Nỹ꞉ Nʹo̤mwirʹə. lʹɛ꞉mʹ α·hein ɛdirʹ ə kʹ_ï_N αgəs ə χɔləN mər r_ï_Nʹ ər_ï̃_və. h_ï_Ntαi əNə welʹə gər χαs dɔ꞉ ən krɔχirʹə tα꞉rNαχtə. ɛ꞉mwiNʹ i꞉ kʹɔ꞉r̥iʃ, ərse꞉, tα꞉ Nʹiən ə ri꞉ bwiNʹtʹ əgəd. tα꞉ Nə tʹrʹi꞉ fαihi꞉ mαruw. Nʹi꞉ ɛkʹə mʹiʃə Nʹi꞉s mõ꞉ huw. sky꞉lʹ mʹiʃə əʃ ʃɔ. αgəs mα χyrʹəm fʹαrəg ɔrt ə χy꞉çə_ (_χi꞉hə_) _higʹ lʹαt mə çαŋəl suəs erʹeʃ. jα꞉n̥ə mʹiʃə ʃ_ï_nʹ, ərs ɛ꞉məN. wyilʹ ʃə bwiLʹə bʹ_ï_g dən χlα͠ıəv αgəs jα꞉r sə ən gαd. h_ï_tʹ ə krɔχirʹə əNuəs gə tαluw. dα͠uwərsə gə fʹiətə erʹ ɛ꞉məN. wαrə tuw mɔ r̥u꞉r dʹα꞉r̥ærʹαχə αχt mwir̥ʹi mʹiʃə h_ï_sə, ərsən krɔχirʹə. ə Nʹi꞉dʹə çiəNə fwyər də χyd_(_ʹ_) _dʹα꞉r̥ærʹαχə jo꞉ t_ï_sə. Nʹi꞉ fʹjuw lʹ_ï_m də wαrəwə αgəs Nʹi꞉ wir̥ʹi mʹə huw əʃ_ï_kyrʹ gər ski꞉L tuw mʹə. ro̤g ʃə erʹ ɛ꞉məN, wo̤N de ə χydʹ ɛədi꞉ αgəs çαŋilʹ suəs ə erʹ ə χrαN çiəNə erʹ ə ro ʃɛ hein. bʹo̤mwi꞉ ʃkʹrʹαd αgəs gα꞉r̥ə krui ə vi꞉ ɛgʹ ɛ꞉məN. ho̤g ə krɔχirʹə rα꞉sə. ro̤g ʃɛ ər nʹiən ə ri꞉. lʹɛ꞉mʹ ʃə əmαχ erʹ ə dɔrəs ɔgəs i꞉ lʹeʃ. Nʹi꞉ ro꞉s ʃ_ï_r Nə ʃiər kʹə Nα꞉tʹ ə dʹαχi꞉ ʃɛ. henʹikʹ ʃerʹəvi꞉ʃαχ də χydʹ ə ri꞉ ɛ꞉məN krɔχt əs ə χrαN. ꬶlαk truiə e꞉ αgəs jα꞉rsə n gαd. vi꞉ LUχærʹ erʹ ɛ꞉məN αgəs riNʹ ʃɛ dʹefʹrʹə gə tʹαχ ə ri꞉. vi꞉ bw⅄꞉rʹuw mo꞉r əNʹʃ_ï_nʹ Nʹiən ə ri꞉_ ï_mʹi꞉ʃtʹə. ꬶlαk fʹαrəg wo꞉r ə ri꞉. du꞉rsə gər bʹe꞉ ɛ꞉məN ə bə ç_ï_Nti꞉ αgəs Nαχ du꞉r̥ʹuw_ (_dɔ꞉r̥ʹuw_) _ro̤d erʹ bʹiç αχ ə ç_ï_N ə χo̤r ər spʹi꞉kʹə sα꞉suw dɔ꞉. dʹα꞉n ṟo̤d elʹə lʹ_ï_m, ərs ɛ꞉məN. h⅄꞉r̥ə mʹə də nʹiən αgəs wαrə mʹə Nα tʹrʹi꞉ fαhi꞉. əniʃ tər ·dŨw̥` Lα꞉ αgəs bʹlʹi_ï_nʹ lʹɛ də nʹiən ə ho꞉rtʹ ərʹeʃ. mər wα꞉ mʹə i꞉, tʹ_ï_kə mʹə ərʹeʃ mα꞉ vi꞉m bʹjɔ꞉ αgəs kʹαd əgəd əNʃ_ï_nʹ mɔ ç_ï_N ə χo̤r erʹ ə spʹi꞉kʹə. jα꞉n̥ə mʹə ʃ_ï_n lʹαt, ərsən ṟi꞉. dʹ_ï_mʹi꞉ ɛ꞉məN αgəs çu꞉Lʹ ʃə mo꞉rαn. fα jerʹuw Nʹi꞉ ro꞉s ɛgʹə kʹα ro ʃɛ gɔl. Nʹi꞉ wuərsə ɛ꞉N tuərʹiʃkʹ. trαnõ꞉n əwα̃꞉n αgəs e꞉ ·αN·t_ï_rsαχ hαrLy꞉ gər χαs dɔ꞉ tʹαχ Nʹ_ï_mʹəL kyLʹuw.
-χUi ʃə ʃtʹαχ. Nʹi꞉ ro ·ɛə·Nynʹ əN αχt əNʹ ʃαnɔrʹ əwα̃꞉nʹ kʹrʹi꞉NʹLʹiə. dʹiər sə Lɔ꞉ʃtʹi꞉n Nə hĩ꞉çə. du꞉rtʹ ə ʃαnɔrʹ gə wiuw αgəs fα꞉Lʹtʹə. dʹeirʹi꞉ ərʹ mwædʹ_ï_nʹ gə Luə LαχərNə·wα꞉rαχ. dʹiəfri꞉ ə ʃαnɔrʹ kʹα ro ʃɛ gɔl. dʹiNʹiʃ dɔ꞉ mər ho̤g ə krɔχirʹə tα꞉rNαχtə lʹeʃ Nʹiən ə ri꞉ αgəs gə ro ʃə ə guərtuw. əs truə Nærʹ αN tuw əNsə welʹə, ərsiNʹ ʃαnɔrʹ. Nʹi꞉ ɛkʹə tuw e꞉ ə χy꞉çə. ʃu꞉l̥ʹə mʹə gə wα꞉ mʹə bα꞉s, ʃ_ï_N Nɔ gə wα꞉ mʹə Nʹiən ə ri꞉. mα nʹi꞉ tuw ʃu꞉l ·αn·wo꞉r, trαnõ꞉nə tʹ_ï_kə tuw erʹ hαχ elʹə kɔsu꞉Lʹ Lʹe ʃɔ αgəs jo꞉ tuw Lɔ꞉ʃtʹi꞉nʹ gə mwædʹ_ï_nʹ. mα tʹi꞉ tuw gə mʹəi grẽ꞉h əgəd lʹeʃ ə χy꞉çə, dʹαN skαrtʹ ərʹ ho꞉k jlʹαN dα bwi꞉. riNʹ ʃɛ ʃ_ï_nʹ αgəs trα·nõ꞉nə gə mαL hαrLy꞉ erʹ ə tʹαχ αgəs χUi ʃə ʃtʹαχ. fwy꞉r sə ʃαnɔrʹ kɔsu꞉Lʹ Lʹeʃ ə ç_ï_d ʃαnɔrʹ. dαn ɛgʹə gə mwædʹ_ï_nʹ. dʹiNʹiʃ dɔ꞉ bʹrʹi꞉ α çu꞉lʹ. mα tʹi꞉ tuw, ərsiNʹ ʃαnɔrʹ, gə mʹəi grẽ꞉h əgəd lʹeʃ ə χy꞉çə, dʹαN skαrtʹ ərʹ ꬶo꞉rαn do̤N Lɔχ ə Nʹu꞉rʹ. mα nʹi꞉ tuw ʃu꞉l mαiç bʹei tuw ɛg_(_ʹ_) _dʹα꞉r̥αr dũ꞉sə trαnõ꞉nə gə mαL. ʃ_ï_N dʹα꞉r̥αr dŨw̥ ə rɔ tuw ɛgʹ ərɛirʹ. mər do̤gy꞉ n fʹαr ə mʹei tuw ɛgʹ əNo̤χt tuərʹiʃkʹ ꬶydʹ Nʹi꞉ wi꞉ tuw e꞉ ərʹ ꬶr_ï_mʹ ə dα͠uwinʹ_ (_dõ꞉nʹ_). _dʹ_ï_mʹi꞉ r_ï̃_və αgəs Nʹi꞉ ʃu꞉l ə vi꞉ ʃə αχ ə rαhi꞉. trαnõ꞉nα gə mαL fuərsə Nʹ tαχ. fwy꞉rsə bʹiə αgəs Lʹαbwi꞉ wα͠ıç. gə Luə ərʹ mwædʹ_ï_nʹ dʹeirʹi꞉ αgəs dʹiNʹiʃ dəNʹ tʹαnɔrʹ bʹrʹi꞉ ə çu꞉lʹ αgəs gədʹe꞉ mər χæ ʃɛ əN dα꞉ ĩ꞉ç elʹə ɛgʹ əN dα꞉ hαnɔrʹ elʹə. əs truə lʹ_ï_m də ʃkʹɛəl, ərsiNʹ ʃαnɔrʹ, də lʹehədsə də w⅄꞉χiLʹ vrʹɛə ə və ər lʹi꞉ ə χæLʹtʹə. Nʹi꞉ ɛkʹə tuw ən krɔχirʹə tα꞉rNαχtə ə χy꞉çə αgəs əs mαi ꬶydʹ, Nα wir̥ʹətʹ ʃə huw. pʹiLʹ Nə welʹə. Nʹi꞉ fʹiL̥ʹə mʹə gə mαrəfər mʹə. ʃ_ï_N Nɔ gə vɛkʹə mʹə Nʹiən ə ri꞉. kyr̥ʹi mʹiʃə gʹ_ï_t elʹə huw, ərsiNʹ ʃαnɔrʹ. go꞉ ʃi꞉s əNə χlαdi꞉ αgəs mα tʹi꞉ tuw bα꞉d, go꞉ ʃtʹαχ_ ï_Nʹtʹi꞉. Nα Lo꞉rʹ fɔkəl ərʹ bʹiç`. χUi ʃɛ ʃi꞉s əNə χlαdi꞉ αgəs henʹi ʃə bα꞉d bʹ_ï_g bwi꞉dʹαχ mʹ_ï_tilʹ. bw⅄꞉χiLʹ bʹ_ï_g bwi꞉dʹαχ əNsə wα꞉d. mwædʹə rα̃꞉wə əNαχ Lα̃꞉v ɛgʹə. χUi ʃɛ ʃtʹαχ əNsα wα꞉d. χUi ən bα꞉d əN fαrəgʹə. Nʹi꞉ ro꞉s ɛgʹə kʹα dʹαχi ʃi꞉ αχ gə dʹαχi ʃi꞉ wαd. fα jerʹuw wy꞉Lʹ ʃi꞉ ʃtʹαχ ərʹ hαluw. çu꞉Lʹ ʃɛ suəs ə t_ï_lʹαn. henʹi ʃɛ ʃαnχæʃLʹαn mo꞉r dUw̥`. χUi ʃə ʃtʹαχ αgəs henʹi ʃɛ əNʹʃ_ï_nʹ Nʹiən ə ri꞉. riNʹ ʃi꞉ ·fαrəwα꞉Lʹtʹə wo꞉r r_ï̃_və. əs mαiç mər hα꞉rLy꞉, ərsi꞉. tα꞉ n krɔχirʹə tα꞉rNαχtə ərʹ çu꞉l əs bwelʹə αgəs Nʹi꞉ h_ï_ky ʃə gə kʹ_ï_N r̥i꞉ Lα꞉. χyrʹ
-mʹiʃə ku꞉l erʹ gən ə fɔ꞉suw gə kʹ_ï_N bʹlʹiəNə. tα꞉ ʃə əs bwelʹə əniʃ αgəs Nʹi꞉ h_ï_ky꞉ ʃə gə kʹ_ï_N r̥i꞉ Lα꞉. bʹɛmwidʹ ə bʹlʹeiʃu꞉r ə tαmwiLʹ ʃ_ï_nʹ heinʹ. ɛgʹ kʹ_ï_N Nə dʹrʹi꞉ Lα꞉ du꞉rt_(_ʹ_) _Nʹiən ə ri꞉, kα͠ıhə mʹiʃə h_ï_sə αlαχ. tα꞉ n krɔχirʹə tα꞉rNαχtə ə tʹαχt. dαli꞉ ʃi꞉ e꞉məN. henʹikʹ ə krɔχirʹə. mαihçi꞉m bɔluw α NʹeirʹəNỹ꞉ wrαdi꞉ vrʹɛəgy꞉ iNʹʃo, ərse꞉. mαihçαχə tuw ʃ_ï_nʹ, ərsi꞉, αd əs tα꞉ mʹiʃ əN. ərʹ mwædʹ_ï_nʹ gə Luə LαχərNə·wα꞉rαχ dʹ_ï_mʹi꞉ n krɔχirʹə αgəs du꞉rt_(_ʹ_) _Nαχ mʹɛuw ərʹeʃ gə kʹ_ï_N dα꞉ lα꞉. du꞉rtʹ e꞉məN lʹɛ Nʹiən ə ri꞉ mər wα꞉mwidʹ_ plan _i꞉Nʹtʹαχ_ ï_bʹrʹuw, Nʹi꞉ wi꞉mwidʹ bwyi_ (_bw⅄i_) _erʹ ə χrɔχirʹə gə dʹɔ꞉. gədʹe꞉ jα꞉n̥ə mwidʹ? ərsə Nʹiən ə ri꞉. Lʹigʹ h_ï_s ɔrt, ərs ɛ꞉məN, gə w_ï_lʹ kʹ_ï_n mo꞉r əgəd erʹ αgəs gə w_ï_lʹ bwy꞉rʹuw ɔrt ə pɔ꞉suw ə χo̤r ərʹ gu꞉l. dʹα꞉n o̤lꬶα꞉rdəs mo꞉r Nerʹ ə h_ï_ky ʃə əwelʹə. r_ï_Nʹuw ʃ_ï_nʹ əlʹigʹ. vi꞉ brɔ꞉d mo꞉r αgəs αhəs erʹ ə χrɔχirʹə αgəs du꞉r·se꞉, əmʹəwəs əgəd fʹ_ï_s ə Nʹirʹ ətα꞉ əgəd, vɛuw tʹiLʹuw αhiʃ ɔrt. ən fʹeidʹər də wαrəwə? Nʹi꞉ hi꞉lʹəmsə gə w_ï_lʹ ən ꬶæʃkʹiαχ əNsə dõ꞉n α꞉bəLtə də wαrəwə. riNʹ ʃɛ gα꞉rʹə mo꞉r. tʹi꞉m əniʃ gə w_ï_L də ꬶrα꞉ bwiNʹtʹ əgəm. iNʹʃαχə mʹə ꬶydʹ gədʹe꞉ wir̥ʹuw mʹə. Nʹi꞉ higʹ mʹiʃə wαrəwə, ərsən krɔχirʹə, gə ɲα꞉rtər ə krαN mo꞉r ʃkʹαχ tα꞉ ərʹ wα꞉r Nə bʹiNʹə hi꞉s ɛgʹ ə Nαrəgʹə. ə ɲα꞉r̥i꞉ ən krαN, erʹ ə h_ï_tʹimʹ dɔ꞉ lʹɛ꞉m̥ʹuw ʃ_ï_Nαχ mo꞉r əmαχ; əs ə w_ï_lʹ ə χo̤nərtʹ əNsə dõ꞉n, Nʹi꞉ wir̥ʹət_(_ʹ_) _ʃiəd ə ʃ_ï_Nαχ gə dʹigʹuw kuw bʹ_ï_g Nə gαrəχyLʹuw əs eirʹiNʹ. wir̥ʹuw kuw bʹ_ï_g Nə gαrəχyLʹuw ə. erʹ ə h_ï_tʹəmʹ dəNʹ tʹ_ï_Nαχ, lʹɛəm̥ʹuw Lαχ əmαχ əs ə tʹ_ï_Nαχ. dʹ_ï_mʹαχət(ʹ) ʃi꞉ sə spʹeirʹ. ə mʹeidʹ ʃo꞉kʹ ətα꞉ sə dõ꞉n, Nʹi꞉ wir̥ʹət_(_ʹ_) _ʃəd ə Lαχ αχ əwα̃꞉nʹ ʃo꞉k jlʹαN dα wi꞉. ə mαrəfwi꞉ i꞉ vɛ꞉r̥ət_(_ʹ_) _ʃi꞉_ ï_v ər lα꞉r Nə fαrəgʹə. ə mʹeidʹ do꞉rænʹ ətα꞉ sə dõ꞉n, Nʹi꞉ wi꞉t(ʹ) _ʃə ə Nʹ_ï_v ʃ_ï_nʹ αχ do꞉rαn do̤N lɔχ_ (_Lɔχ_) _ə Nʹu꞉rʹ. Nə jei ʃ_ï_nʹ αgəs əlʹigʹ Nʹi꞉ veiNʹʃə mαruw gə muiLʹtʹi꞉ ə Nʹ_ï_fʹ ʃ_ï_nʹ erʹ ə wαL dUw̥` ətα꞉ hi꞉s ər ho꞉nʹ mə ꬶælʹə. hu꞉si꞉ Nʹiən ə ri꞉ ə dα͠usə lʹɛ hαhəs αgəs du꞉rtʹ gər wαdə lʹeihçə gə dʹi꞉ Lα꞉ n fɔ꞉stə. tα꞉ mʹiʃə gʹ_ï_mʹαχt əniʃ, ərsən krɔχirʹə, αgəs Nʹi꞉ h_ï_kə mʹə ərʹeʃ gədʹi꞉ trαnõ꞉n əmα꞉rαχ αgəs əNʹʃ_ï_nʹ Nʹi꞉_ ï_mʹαχə mʹə Nʹi꞉s mõ꞉. dʹ_ï_mʹi꞉ ʃə αgəs dα꞉g ʃɛ sLα꞉n ɛg(ʹ) Nʹiən ə ri꞉ gə bʹiLʹit(ʹ) ʃə ərʹeʃ. henʹikʹ ɛ꞉məN əʃtʹαχ αgəs vi꞉ Nʹ ʃkʹɛəl mo꞉r ɛg(ʹ) Nʹiən ə ri꞉ dɔ꞉. Nʹi꞉lʹ αm erʹ bʹiç lʹɛ kæLʹuw, ərs ɛ꞉məN. kα͠ıhəmwidʹ tu꞉suw ꬶo̤bwirʹ. fwyər səd ꬶα꞉ huə. hɔʃi꞉ ʃəd ə jαruw ən χr_ï_Nʹ
-gə tʹUw̥` αgəs gə dʹiən. Nʹi꞉rʹ wαdə gər jα꞉r səd ə krαN. er ə h_ï_tʹəmʹ dən χrαN lʹɛ꞉mʹ ə ʃ_ï_Nαχ əmαχ. skαrtʹ ɛ꞉məN ərʹ χuw bʹ_ï_g Nə gαrəχyLʹuw. Nʹi꞉r Luiçə vi꞉ n fɔkəl rα꞉tʹə Nα henʹi ʃiəd ə kuw əNʹei ə tʹ_ï_Ny꞉. ʃ_ï_nʹ ə Nα꞉tʹ ə ro ə rα꞉sə αgəs ə χɔriαχt, αχ Nʹi꞉r wαdə gə wuirʹ ə kuw gʹrʹimʹ mwinʹælʹ erʹ αgəs lʹɛ꞉mʹ ə Lαχ iænʹ əmαχ əs ə tʹ_ï_Nαχ. dʹeirʹi꞉ ʃi꞉ ə Nα꞉rdʹə əNsNə spʹeirʹi꞉. skαrtʹ ɛ꞉məN ərʹ ho꞉k jlʹαN dα wi꞉. lʹɛ pʹrʹαbuw Nə su꞉l vi꞉ Nʹ ʃo꞉k lʹɛ fʹɛkʹælʹ əNʹei ə Lαχə. Nʹi꞉r wαdə gər wy꞉lʹ ə ʃo꞉k ə Lαχə αgəs iəd əmwiç` əs kʹ_ï_N Nə fαrəgʹə. erʹ ə h_ï_tʹəmʹ dəN Lαχ ro̤g ʃi꞉_ ï_v αgəs h_ï_tʹ ʃi꞉ ʃi꞉s ər lα꞉r Nə fαrəgʹə. skαrtʹ ɛ꞉məN ərʹ ꬶo꞉rαN do̤N Lɔχ əNʹu꞉rʹ ə hαχt gə dʹefʹrʹαχ αgəs ə Nʹ_ï_v ə ho꞉rtʹ iNʹʃerʹ. əNsə Nαm ʃ_ï_nʹ henʹi ʃəd ə krɔχirʹə tα꞉rNαχtə ə tαrNʹtʹ ɔr̥uw αgəs vi꞉ ʃɛ gʹeirʹi꞉ Lo̤g. bə Luiçə lʹeʃ ə do꞉rαn ə ve ɛgʹ e꞉məN Nαn krɔχirʹə tα꞉rNαχtə. vi꞉ vɛəl fɔskiLʹtʹə ə gʹ_ï_ri꞉ ə və fα꞉lʹ αnαlə. ro̤g ɛ꞉məN ərʹ ə Nʹ_ï_v əN do꞉rαn. χæ ʃɛ əʃtʹαχ ə mʹɛəl ə χrɔχirʹə i꞉. h_ï_tʹ ʃi꞉ ʃi꞉s αgəs wy꞉Lʹ ʃi꞉ ən bαL dUw̥` ə vi꞉ ərʹ ho꞉nʹ ə ꬶælʹə. h_ï_tʹ ə krɔχirʹə tα꞉rNαχtə mαruw. vi꞉ LUχærʹ wo꞉r erʹ ɛ꞉məN αgəs ər nʹiən ə ri꞉. rαχəmwidʹ əniʃ əNə welʹə, ərs ɛ꞉məN. vi꞉ L_ï_ɲiʃ gə Lʹɔ꞉r əNsə χũ꞉n. lʹi꞉Nʹ ʃəd Lo̤ŋ Lα꞉n ɔ꞉rʹ αgəs ærʹəgʹidʹ. Nʹi꞉ ro꞉s ɔkuw gədʹe꞉ n bʹαlαχ ə rαχət_(_ʹ_) _ʃəd. henʹi ʃiəd ə bα꞉d bʹ_ï_g mʹ_ï_tilʹ ə tʹαχt əʃtʹαχ ɔ Nαrəgʹə wo꞉r. χUi n v_ï_rtʹ əʃtʹαχ sə wα꞉d. χyrʹ α bα꞉dɔrʹ kru꞉kə wαstə əNsə Lyɲ αgəs χUi ʃə əN fαrəgʹə. bə Luiçə e꞉ gə mo꞉r Nα꞉n ꬶ⅄꞉ wã꞉rtə gə denʹi ʃɛ ʃtʹαχ fwi꞉ hαχ ə tʹrʹiçuw ʃαNynʹə. vi꞉ LUχærʹ wo꞉r erʹ ə tʹαNynʹə r_ï_puw. χæ ʃəd ə Nĩ꞉çə ʃ_ï_nʹ ɛgʹ əNʹ tʹαNynʹə lʹɛ pʹlʹeiʃu꞉r. LαχərNə·wα꞉rαχ fuirʹ ə ʃαNynʹə kαrtəNy꞉ ərʹ kyrʹuw Ntɔ꞉r αgəs ə tærʹəgʹ_ï_d ɔr̥uw. ho̤g ʃiəd lʹɔ꞉fə əNʹ ʃαNynʹə. henʹi ʃiəd gə tʹαχ ə dαrə ʃαNynʹə. χæ ʃəd ĩ꞉ç əNʹʃ_ï_nʹ ə bʹlʹeiʃu꞉r. ho̤g ʃiəd lʹɔ꞉fə əN dαrə ʃαNynʹə gə tʹαχ ə ç_ï_d ʃαNynʹə. χæ ʃəd ĩ꞉ç ə bʹlʹeiʃu꞉r ɛgʹə αgəs ho̤g ʃiəd ə Nəi erʹ ə welʹə Nə tʹrʹi꞉ hαNynʹə lʹɔ꞉fə. Nerʹ ə henʹi ʃiəd gə kæʃLʹαn ə ri꞉ bə·je꞉ əN Lα꞉ dʹerʹəNαχ dən vlʹi_ï_nʹ ə. vi꞉ o̤lꬶα꞉rdəs əs kʹ_ï_N ko̤mwiʃ ərʹ ə ri꞉ r_ï̃_və Nə nʹiən αgəs r_ï̃_v ɛ꞉məN. bʹɛi mə nʹiən əgəd mər wrĩ꞉_ (_vαn_) _αd əs veiʃ ʃi꞉ bʹjɔ꞉ αgəs əs kʹiNʹtʹə gər mαiç` ə Nærʹi꞉ ɔrt i꞉. r_ï_Nʹuw bαniʃ ə werʹ ʃαχt Nĩ꞉çə αgəs ʃαχt Lα꞉. vi꞉ N Lα꞉ dʹerʹəNαχ kɔ mαiç lʹeʃ ə ç_ï_d Lα꞉. tα꞉ ʃiəd heinʹ αgəs α glαN αgəs ə Nʹiərα̃v əNə sɔnəs αgəs əNə ʃɛən.
+ vi꞉ bwæNʹtʹrʹαχ wrα̃꞉ ə Lʹetʹirʹ vĩkʹ ə ·wα꞉rdʹ.
+vi꞉ bʹ_ï_rtʹ wα̃k ɛkʹi꞉—pα꞉drikʹ α ·kʹɔ꞉r̥iʃ ə fʹαr bə ʃinʹə αgəs ɛ꞉məN ə bɔ꞉gʹə.
+dα꞉ʃ ʃiəd suəs gə ro ʃiəd əNα mw⅄əχəLʹi꞉.
+əN Lα꞉ əwα̃꞉nʹ du꞉rtʹ ɛ꞉məN lʹɛ Nα wα̃hærʹ: ə wα̃hærʹ,_ ï_mʹαχə mʹiʃə gə viαχə mʹə mɔrtu꞉n α꞉lʹ dŨw̥einʹ.
+tα꞉ Ntαluw bʹ_ï_g gə Lʹɔ꞉r ɛgʹ mə jα꞉r̥ærʹ.
+kʹɔkuw fʹα꞉r lʹαt t_ï_rtʹi꞉nʹ bʹ_ï_g əs mɔ vαNαχt Nɔ t_ï_rtʹi꞉nʹ mo꞉r əgəs mə wαLαχt? əs fʹα꞉r lʹ_ï_m t_ï_rtʹi꞉nʹ bʹ_ï_g αgəs də vαNαχt.
+jlʹɛəs erʹ αgəs dα꞉g bʹαNαχt ɛgʹ Nə wo̤nuw.
+ho̤g ə wα̃hærʹ ə bʹαNαχt dɔ꞉.
+vi꞉ ʃə mαL trα·nõ꞉nə Nerʹ ə dα꞉k ʃə ən bwelʹə.
+Nʹi꞉lʹ əN αχt gə wuərsə trαsNə ꬶ⅄꞉·bʹαrα gə denʹikʹ ə Nĩ꞉çə αgəs χo̤diLʹʃə ə Nĩ꞉çɔ ʃ_ï_nʹ əNsə ꬶαrəχyLʹ.
+erʹ h_ï_tʹ_ï_mʹ Nə χo̤Luw dɔ꞉ henʹikʹ iNʹʃerʹ kuw bʹ_ï_g Nə gαrəχyLʹuw.
+ʃɛ də vαhə ɛ꞉mwiNʹ i꞉ kʹɔ꞉r̥iʃ ərsi꞉.
+kydʹ ər Lʹeç αgəs k_ï_vrʹəN αgəs ro̤d lʹɛ to꞉rtʹ iNʃər Nα k_ï_lʹænʹ.
+jo꞉ tuw ʃ_ï_nʹ, α χylænʹ uəsilʹ.
+ho̤g diçə kydʹ ər Lʹeç αgəs k_ï_vrʹəN αgəs ro̤d lʹɛ to꞉rtʹ iNʹʃər Nα k_ï_lænʹ.
+ɛ꞉mwiNʹ i꞉ kʹɔ꞉r̥iʃ, ərsən kuw, tα꞉ mʹə bwiαχ di꞉d.
+kʹɛ bʹɛrʹ bʹiç α꞉tʹ ə mʹei tuw i ɲeivəN, dʹαN skαrtʹ erʹ χuw bʹ_ï_g Nə gαrəχyLʹuw.
+ərʹ mwædʹəN LαχərNə·wα꞉rαχ gə Luə Luə dʹeirʹi꞉ αgəs χUi ʃə erʹ ·çu꞉l αgəs çu꞉l ṟ_ï̃_və Nʹi꞉s fwidʹə Nα higʹ lʹ_ï_ms_ ï_Nʹʃə.
+fα jerʹuw trα·nõ꞉nə gə mαL henʹi ʃɛ ku꞉rtʹ αgəs kæʃLʹαn mo꞉r.
+henʹi ʃə əNə jαftə.
+fʹiəfriuw dè, gədʹe꞉ vi꞉ ʃə jiəri꞉_ (_j_ï_ri꞉_). _dʹiNʹiʃ ʃə dɔ꞉fə gər bw⅄əχiLʹ ə vi꞉ gʹ_ï_ri꞉ αmʹʃirʹə.
+Nʹi꞉ ro mwidʹ ʃ_ï_Nʹə əN Lα꞉ ərʹiuw Nαχ ro bw⅄꞉χiLʹ ə jiç ɔriNʹ, ərsən gʹαftɔrʹ.
+gədʹe꞉_ (_ə_)_N o̤bwirʹ ə w_ï_L tuw mαiç ɛgʹə.
+ʃi꞉lʹəm Nαχ w_ï_lʹ o̤bwirʹ fα Nʹ tʹαχ Nαχ dʹigʹ lʹ_ï_m ə jα꞉nuw.
+gədʹe꞉ N tuərəstəl ətα꞉ tuw j_ï_ri꞉ gə kʹ_ï_N Lα꞉ αgəs bʹlʹi_ï_nʹ? fα꞉kə mʹə ʃ_ï_nʹ ɛgʹ ən ṟi꞉.
+kʹɛbʹerʹ ·bʹiç tuərəstəl əs fʹjuw mʹə vɛ꞉r̥i ʃə dŨw ə.
+erʹ mwædʹəN LαχərNə·wα꞉rαχ henʹi ʃə mɔrαn spʹi꞉kʹi꞉ erʹ ə wα꞉wən αgəs kʹ_ï_N di꞉nʹi꞉ ərʹ χydʹ ɔkuw.
+dʹiəfri꞉ ʃə, gə dʹe꞉ tα꞉ mʹɛ gɔl ə jα꞉nuw əNʹUw̥`.
+tʹeʃαnuw dɔ꞉ bɔihαχ Nærʹ kαrtuw lʹɛ ʃαχt mʹlʹiəNə, αgəs mər mʹeitʹ ʃə kαrti꞉ trα·nõ꞉nə, gə girʹfʹi꞉ ə ç_ï_N ər spʹi꞉kʹə.
+fuər sə gre꞉pʹ, αgəs ə ç_ï_d ç_ï_N ə χæ ʃə əmαχ, ʃe꞉ ən ṟo̤d ə henʹikʹ ʃαχt gʹiNʹ əʃtʹαχ.
+χæ ʃə kʹ_ï_N elʹə əmαχ αgəs henʹikʹ kʹerʹə kʹiNʹ dʹɛəg əʃtʹαχ.
+o꞉ tʹi꞉m, ərse꞉, əs g_ï_rʹidʹ gə ro꞉ Nʹ tʹαχ ʃɔ LʹiəNtə αgəs rαχi꞉ mə ç_ï_Nsə erʹ ə spʹi꞉kʹə.
+tα꞉ mʹe꞉_ (_ə_) _nṟɔχα꞉tʹ, ərse꞉.
+Nʹi꞉lʹ_ ï_mʹαχt erʹ ə wα꞉s əgəm.
+ərɛirʹ χuələ mʹə tʹrʹi꞉ skαrtʹ wo꞉rə hi꞉s əNsə jlʹαN.
+dʹiəfri꞉ mʹə gədʹe꞉ bə çiəL dɔ꞉ ·ʃ_ï_nʹ.
+du꞉rtʹ ə kɔ꞉kirʹə lʹ_ï_m gər tʹrʹi꞉ fαhi꞉ ə henʹikʹ iNʹʃɔ ə j_ï_ri꞉ Nʹiən ə ri꞉ lʹɛ pɔ꞉suw erʹ ə Nʹαr bə wõ꞉ ɔkuw.
+Nα gə ʃkʹrʹ_ï_sət_(_ʹ_) _ʃə ə rihαχtə mər wα꞉tʹ ʃə i꞉.
+ʃ_ï_N Nα fʹαr ə r̥itʹuw ə.
+χo̤r Nʹiən ə ri꞉ erʹ gu꞉l ə gə kʹ_ï_N bʹlʹiəNə gə wα꞉tʹ ʃi꞉ gæʃkʹiαχ ə r̥itʹuw ə.
+Nαχ w_ï_lʹ ĩ꞉ç erʹ bʹiç Nαχ Lʹigʹit_(_ʹ_) _ʃiəd tʹrʹi꞉ skαrtʹ lʹɛ hαhəs gə ro ʃəd ĩ꞉ elʹə Nʹi꞉s Nʹeʃə dən fɔ꞉suw.
+əniʃ tα꞉ mʹə rəi.
+Nʹi꞉lʹ_ ï_mʹαχt erʹ ə wα꞉s əgəm.
+tα꞉ mʹə i ɲeivəN.
+riNʹ ʃə skαrtʹ erʹ χuw bʹ_ï_g Nə gαrəχyLʹuw.
+henʹi ʃə kuw bʹ_ï_g Nə gαrəχyLʹuw ə rαhi꞉ iNʹʃerʹ.
+dʹiNʹiʃ diçə gədʹe꞉ mər vi꞉ ʃə.
+do̤nə huw, ərsi꞉.
+α͠uwirʹkʹ iNʹʃɔ əN mαskiLʹ jeʃ.
+fw⅄ər sə gre꞉pʹ ·αn·v_ï_g əsti꞉ç əNα hαskiLʹ.
+to꞉r ·lʹαt i꞉·ʃ_ï_nʹ αgəs tɔrʹ grα꞉nʹi꞉nʹ də Ni꞉lʹαχ mαχ erʹ ə dɔrəs lʹeiçə.
+bʹi꞉ heinʹ əs ə χαsαn.
+riNʹ ʃɛ ʃ_ï_nʹ αgəs hu꞉si꞉ Nti꞉lʹαχ ə gʹeirʹi꞉ Nα꞉rdʹə αgəs tʹαχt əmαχ kɔ tʹUw̥` əs vi꞉ əN dɔrəs α꞉bəLt_(_ə_) _ə lʹigʹən əmαχ.
+Nʹi꞉rʹ wαdə gə ro ən bɔihαχ fɔluw.
+tα꞉ də hαsk dʹα꞉Ntə, ərsən kuw.
+fʹɛədəN tuw ʃu꞉l hαrt gə dʹi꞉ Nĩ꞉çɔ.
+fʹɛədəN tuw mα꞉ ʃe꞉ də hɔlʹ ə ʃu꞉l gə vɛkʹə tuw Nα fαhi꞉.
+χUi ʃɛ ʃi꞉s əNə jlʹαNə.
+erʹ ə ꬶɔLʹ ʃi꞉s dɔ꞉ henʹi ʃə fʹαr tα꞉rNαχtə krɔχt əs krαN.
+gər bʹe꞉ də vαhə ɛ꞉mwiNʹ i꞉ kʹɔr̥iʃ ərse꞉.
+əs tuw α꞉wər ə ꬶæʃkʹi꞉ əs fʹα꞉r əNsə dõ꞉n.
+builʹ bwiLʹə də də χlα͠ıəv erʹ ə ꬶαd ʃɔ.
+tα꞉ mə χu꞉gʹ k⅄꞉lʹ əNsə Nʹɛən çαŋəl.
+αgəs Lʹigʹ mʹiʃə əNuəs.
+Nʹi꞉ wuil̥ʹə mʹə bwiLʹə.
+kʹɛbʹerʹbʹiç ərʹ χo̤r suəs huw, Lʹigʹitʹ ʃə əNuəs huw.
+çu꞉Lʹ Lʹeʃ ʃi꞉s əNə jlʹαNə αgəs Nʹi꞉r wαdə ꬶɔ꞉ gə wαkə ʃə ən fαihαχ ə tαrNʹtʹ erʹ.
+riNʹ ʃə gα꞉rʹə mo꞉r.
+gəde꞉ α꞉wər də ꬶα꞉rʹə ərs ɛ꞉məN? tα꞉, gə w_ï_L dərədsə də jɔ꞉lʹ u꞉r əgəm lʹɛ hihçə əNʹUw̥`.
+əs mo꞉r lʹ_ï_m əN ən jrʹimʹ huw.
+əs bʹ_ï_g lʹ_ï_m əNə ꬶα꞉ jrʹimʹ huw, ərsə n fαihαχ.
+Nʹi꞉lʹ_ ï_glə ɔrəm, ərs ɛ꞉məN.
+dʹα꞉N də jiçəL.
+hɔʃi꞉ N tridʹ.
+r̥idʹ ʃiəd gədʹi꞉ trαnõ꞉nα gə mαL αgəs vi꞉ ko̤muw erʹ ə Nαihαχ gə mʹɛtʹ ʃɛ ·rɔ꞉·α꞉bəLtə ɛgʹ ɛ꞉məN.
+smwi꞉tʹi꞉ ʃə gər ꬶo̤nə ən ṟo̤d e꞉ ən fαihαχ e꞉ ə wαrəwə.
+ho̤g ʃə Lʹɛ꞉mʹ ə Nα꞉rdʹə.
+wyiLʹ ʃə ə gõ꞉rək ə çiNʹ αgəs ə winʹælʹ ə.
+χæ ʃə n kʹ_ï_N dè gə glαn.
+ho̤g e·heinʹ Lʹɛ꞉mʹ ɛdirʹ ə kʹ_ï_N αgəs ə χɔləN.
+Nʹi꞉rʹ wαk di꞉d, ərsə Nʹtʹαŋi꞉ ə vi꞉ sə ç_ï_N, ə wα꞉Nʹʃə erʹ ə χɔliNʹ ərʹi꞉ʃ, h_ï_s αgəs fʹirʹ ə dõ꞉nʹ_ (_fʹirʹ ə fα꞉lʹ_), _Nʹi꞉ win̥ʹuw dè mʹə.
+dæNʹ ʃə iNʹʃ_ï_nʹ gər ⅄꞉ri꞉ ən kʹ_ï_N αgəs ə χɔləN.
+henʹikʹ əwelʹə.
+lo꞉rʹ ə krɔχirʹə tα꞉rNαχtə, ɛ꞉mwiNʹ i꞉ kʹɔ꞉r̥iʃ, ə ·jeꬶæʃkʹi꞉, wαrə tuw ən fαihαχ əNʹUw̥`.
+bw⅄ilʹ bwiLʹə bʹ_ï_g də də χlα͠ıəv ərʹ ə ꬶαd ʃɔ αgəs Lʹigʹ mʹiʃ əNuəs.
+Nʹi꞉ wuil̥ʹi꞉, ərs ɛ꞉məN.
+əs dɔ꞉çə gər bʹe꞉ də ꬶrɔχ jrʹĩ꞉wəri꞉ ·heinʹ ə dα꞉g iNʹʃ_ï_nʹ huw.
+kʹɛ bʹerʹbʹiç ərʹ χo̤r suəs huw, to̤gətʹ ʃə əNuəs huw.
+henʹi ʃɛ Nə welʹə.
+Nʹi꞉ row αχ ꬶα꞉ skαrtʹ əNsə jlʹαN ə Nĩ꞉çə ʃ_ï_nʹ.
+LαχərNə·wα꞉rαχ fw⅄꞉r sə tʹαχ ə vi꞉ Lα꞉n fʹαdɔgy꞉, Lʹigʹən əmαχ, ærʹə ho꞉rt_(_ʹ_) _dɔ꞉fə erʹ fʹ_ï_g ə Le꞉, αgəs ə gr_ï_Nʹuw əʃtʹαχ trα·nõ꞉nə.
+Nerʹ ə sky꞉Lʹ ʃə mαχ Nα fʹαdɔgy꞉, dʹ_ï_mʹi꞉ ʃəd_ (_ə_) _N_ï_lʹə çα꞉rN αgəs Nʹi꞉ rò ·ɛən ·ç_ï_N lʹɛ fʹɛkʹαl ɛgʹə.
+vi꞉ ʃɛ bw⅄꞉r̥ə αgəs skαrtʹ ʃə ərʹi꞉ʃtʹ erʹ χuw bʹ_ï_g Nα gαrəχyLʹuw.
+do̤nə huw, ərsə n kuw, Nαχ w_ï_lʹ α꞉bəLtə Nα fʹαdɔgy꞉ ə χr_ï_Nʹuw.
+α͠uwirkʹ əN mαskiLʹ çlʹi꞉.
+dα͠uwirʹkʹ αgəs fuər sə fʹi꞉dʹɔg v_ï_g əN.
+Nerʹ əs mαi lʹαt iəd ə χr_ï_Nʹuw ʃiNʹ ər ·s_ï_n.
+hiNʹ ʃɛ erʹ ə Nʹi꞉dʹɔgʹ αgəs χr_ï_Nʹi꞉ Nα fʹαdɔgy꞉ əs αχ_ï_lʹə çα꞉rN ə ro ʃəd əʃtʹαχ αgəs gər ꬶridʹ ʃɛ əN dɔrəs.
+çu꞉Lʹ Lʹeʃ ʃi꞉s əNə jlʹαNə gə denʹikʹ αd lʹeʃ ə χrɔχirʹə hα꞉rNαχtə.
+ɛ꞉mwiNʹ i꞉ kʹɔ꞉r̥iʃ, əs tuw ən gæʃkʹiαχ əs fʹα꞉r sə dõ꞉n.
+wαrə tuw ən fαihαχ əNʹe꞉.
+χαrt tuw ən bɔihαχ əNʹe꞉.
+χr_ï_Nʹi꞉ tuw Nα fʹαdɔgy꞉ əʃtʹαχ əNʹUw̥`.
+mwir̥ʹi tuw fαihαχ elʹə əNʹUw̥`.
+builʹ bwiLʹə bʹ_ï_g də də χlα͠ıəv αgəs Lʹigʹ mʹiʃ əNuəs.
+Nʹi꞉ me꞉ ə χo̤r suəs huw αgəs Nʹi꞉ mʹe꞉ ə lʹikʹəs əNuəs huw, ərs ɛ꞉məN.
+çu꞉Lʹ Lʹeʃ ʃi꞉s əNə jlʹαNə.
+henʹikʹ ə fαihαχ mo꞉r ə Nαrəkyʃ ə vi꞉ ə wαd Nʹi꞉s mõ꞉ Nαn ç_ï_d ç_ï_N.
+ɛ꞉mwiNʹ i꞉ kʹɔr̥iʃ, ə ꬶæLʹtʹi꞉nʹ v_ï_g vαdi꞉.
+wαrə tuw mɔ jα꞉r̥ærʹ əNʹe꞉, αχt vɛ꞉r̥ə tuw dʹiəl əN əNʹUw̥`.
+ə Nʹi꞉dʹə çiəNə fuər də jα꞉r̥ærʹ əNʹe꞉, jo꞉ t_ï_sə e꞉ əNʹUw̥`.
+hɔʃi꞉ N tridʹ αgəs Nʹi꞉ ro αχt tro̤mpαrαχt əN gədʹi꞉ ʃ_ï_nʹ.
+r̥idʹ ʃiəd gə ro ʃə gʹeirʹi꞉ dɔrəχə.
+ꬶlαk ɛ꞉məN ɔχtαχ əwα̃꞉nʹ.
+hαrNʹ ʃɛ ə χlα͠ıəv.
+lʹeʃ ə vɛ꞉mʹ ʃ_ï_nʹ wiNʹ ʃɛ n kʹ_ï_N də Nαihαχ.
+ho̤g ʃɛ Lʹɛ꞉mʹ ɛdirʹ ə kʹ_ï_N αgəs ə χɔləN mər riNʹ ʃə ərï̃və.
+henʹi ʃɛ əwelʹə.
+Nʹi꞉ ro αχ ɛəN skαrtʹ əwα̃꞉nʹ sə Nĩ꞉çə ʃ_ï_nʹ.
+erʹ mwædʹəN LαχərNə·wα꞉rαχ dʹeirʹi꞉ ɛ꞉məN, du꞉rtʹ ə ri꞉ lʹeʃ tα꞉ Lɔχ iNʹʃɔ w_ï_Lʹ tʹrʹiən də mə ꬶu꞉çə fɔli꞉ ɛgʹə.
+kα͠ıhə tuw e꞉ və t⅄꞉m̥ə tʹirʹimʹ əgəd ɛgʹ ə trαnõ꞉nə.
+skαrtʹ ɛ꞉məN erʹ χuw bʹ_ï_g Nα gαrəχyLʹuw.
+α͠uwirʹkʹ əsti꞉ç` əN mɔ χluiʃ jeʃ ərsən kuw.
+fuərsə əN spαnɔg ə bə Luw henʹi ʃɛ erʹiuw.
+to꞉g Lα꞉n Nə spαnægʹə αgəs kαi ʃi꞉s ə kro̤k ə.
+Nʹi꞉r αn ·eiNʹ ·Nʹɔ꞉r əwα̃꞉nʹ əN.
+çu꞉Lʹ Lʹeʃ ʃi꞉s Nə jlʹαNə.
+ʃɛ də vαhə, α ɛ꞉mwiNʹ, ərsən krɔχirʹə.
+tα꞉ bʹ_ï_rtʹ də Nα fαhi꞉ mαruw əgəd.
+tα꞉ ꬶα꞉ dʹrʹiən də nʹiən ə ri꞉ bwiNʹtʹ əgəd.
+mwir̥ʹi tuw ən fαihαχ mo꞉r əNʹUw̥`.
+αgəs builʹ bwiLʹə bʹ_ï_g də də χlα͠ıəv ərʹ ə ꬶαd ʃɔ.
+əs bʹei_ (_bʹɛ_) _mɔ χydʹuw əgəd gə brα꞉χ.
+Nʹi꞉ mʹe꞉ χo̤r suəs huw αgəs Nʹi꞉ mʹe꞉ vɛ꞉r̥əs əNuəs huw.
+çu꞉Lʹ Lʹeʃ ʃi꞉s əNə jlʹαNə.
+henʹikʹ ə fαihαχ mo꞉r ə Nαrəkiʃ.
+vi꞉ ʃɛ ɛək·sα͠uwəLtə.
+α ɛ꞉mwiNʹ i꞉ kʹɔ꞉r̥iʃ, ə sklα꞉wi꞉ wαLy꞉, wαrə tuw mə ꬶα꞉ jα꞉r̥ærʹ αχt_ (_ə_)_s g_ï_rʹidʹ_ (_gerʹidʹ_) _gə mwin̥ʹi mʹiʃə də ç_ï_N di꞉d.
+ə Nʹi꞉dʹə çiəNə fuər də ꬶα꞉ jα꞉r̥ærʹ jo꞉ t_ï_sə.
+hu꞉si꞉ N tridʹ αgəs Nʹi꞉rʹ vjuw bro_ (_brow̥_) _e꞉ gədʹi꞉ ʃ_ï_nʹ.
+ho꞉g ɛ꞉məN ə χlα͠ıəv lʹɛ mʹ_ï_ʃNʹαχ αgəs dɔ꞉χəs, wuilʹ_ (_wi꞉lʹ_) _ə fαihαχ ə gõ꞉rək ə çiNʹ αgəs ə winʹælʹ.
+χα͠ıç ə kʹ_ï_N ərʹ çu꞉l fαd Nỹ꞉ Nʹetʹirʹə αgəs Nỹ꞉ Nʹo̤mwirʹə.
+lʹɛ꞉mʹ α·hein ɛdirʹ ə kʹ_ï_N αgəs ə χɔləN mər r_ï_Nʹ ər_ï̃_və.
+h_ï_Ntαi əNə welʹə gər χαs dɔ꞉ ən krɔχirʹə tα꞉rNαχtə.
+ɛ꞉mwiNʹ i꞉ kʹɔ꞉r̥iʃ, ərse꞉, tα꞉ Nʹiən ə ri꞉ bwiNʹtʹ əgəd.
+tα꞉ Nə tʹrʹi꞉ fαihi꞉ mαruw.
+Nʹi꞉ ɛkʹə mʹiʃə Nʹi꞉s mõ꞉ huw.
+sky꞉lʹ mʹiʃə əʃ ʃɔ.
+αgəs mα χyrʹəm fʹαrəg ɔrt ə χy꞉çə_ (_χi꞉hə_) _higʹ lʹαt mə çαŋəl suəs erʹeʃ.
+jα꞉n̥ə mʹiʃə ʃ_ï_nʹ, ərs ɛ꞉məN.
+wyilʹ ʃə bwiLʹə bʹ_ï_g dən χlα͠ıəv αgəs jα꞉r sə ən gαd.
+h_ï_tʹ ə krɔχirʹə əNuəs gə tαluw.
+dα͠uwərsə gə fʹiətə erʹ ɛ꞉məN.
+wαrə tuw mɔ r̥u꞉r dʹα꞉r̥ærʹαχə αχt mwir̥ʹi mʹiʃə h_ï_sə, ərsən krɔχirʹə.
+ə Nʹi꞉dʹə çiəNə fwyər də χyd_(_ʹ_) _dʹα꞉r̥ærʹαχə jo꞉ t_ï_sə.
+Nʹi꞉ fʹjuw lʹ_ï_m də wαrəwə αgəs Nʹi꞉ wir̥ʹi mʹə huw əʃ_ï_kyrʹ gər ski꞉L tuw mʹə.
+ro̤g ʃə erʹ ɛ꞉məN, wo̤N de ə χydʹ ɛədi꞉ αgəs çαŋilʹ suəs ə erʹ ə χrαN çiəNə erʹ ə ro ʃɛ hein.
+bʹo̤mwi꞉ ʃkʹrʹαd αgəs gα꞉r̥ə krui ə vi꞉ ɛgʹ ɛ꞉məN.
+ho̤g ə krɔχirʹə rα꞉sə.
+ro̤g ʃɛ ər nʹiən ə ri꞉.
+lʹɛ꞉mʹ ʃə əmαχ erʹ ə dɔrəs ɔgəs i꞉ lʹeʃ.
+Nʹi꞉ ro꞉s ʃ_ï_r Nə ʃiər kʹə Nα꞉tʹ ə dʹαχi꞉ ʃɛ.
+henʹikʹ ʃerʹəvi꞉ʃαχ də χydʹ ə ri꞉ ɛ꞉məN krɔχt əs ə χrαN.
+ꬶlαk truiə e꞉ αgəs jα꞉rsə n gαd.
+vi꞉ LUχærʹ erʹ ɛ꞉məN αgəs riNʹ ʃɛ dʹefʹrʹə gə tʹαχ ə ri꞉.
+vi꞉ bw⅄꞉rʹuw mo꞉r əNʹʃ_ï_nʹ Nʹiən ə ri꞉_ ï_mʹi꞉ʃtʹə.
+ꬶlαk fʹαrəg wo꞉r ə ri꞉.
+du꞉rsə gər bʹe꞉ ɛ꞉məN ə bə ç_ï_Nti꞉ αgəs Nαχ du꞉r̥ʹuw_ (_dɔ꞉r̥ʹuw_) _ro̤d erʹ bʹiç αχ ə ç_ï_N ə χo̤r ər spʹi꞉kʹə sα꞉suw dɔ꞉.
+dʹα꞉n ṟo̤d elʹə lʹ_ï_m, ərs ɛ꞉məN.
+h⅄꞉r̥ə mʹə də nʹiən αgəs wαrə mʹə Nα tʹrʹi꞉ fαhi꞉.
+əniʃ tər ·dŨw̥` Lα꞉ αgəs bʹlʹi_ï_nʹ lʹɛ də nʹiən ə ho꞉rtʹ ərʹeʃ.
+mər wα꞉ mʹə i꞉, tʹ_ï_kə mʹə ərʹeʃ mα꞉ vi꞉m bʹjɔ꞉ αgəs kʹαd əgəd əNʃ_ï_nʹ mɔ ç_ï_N ə χo̤r erʹ ə spʹi꞉kʹə.
+jα꞉n̥ə mʹə ʃ_ï_n lʹαt, ərsən ṟi꞉.
+dʹ_ï_mʹi꞉ ɛ꞉məN αgəs çu꞉Lʹ ʃə mo꞉rαn.
+fα jerʹuw Nʹi꞉ ro꞉s ɛgʹə kʹα ro ʃɛ gɔl.
+Nʹi꞉ wuərsə ɛ꞉N tuərʹiʃkʹ.
+trαnõ꞉n əwα̃꞉n αgəs e꞉ ·αN·t_ï_rsαχ hαrLy꞉ gər χαs dɔ꞉ tʹαχ Nʹ_ï_mʹəL kyLʹuw.
+χUi ʃə ʃtʹαχ.
+Nʹi꞉ ro ·ɛə·Nynʹ əN αχt əNʹ ʃαnɔrʹ əwα̃꞉nʹ kʹrʹi꞉NʹLʹiə.
+dʹiər sə Lɔ꞉ʃtʹi꞉n Nə hĩ꞉çə.
+du꞉rtʹ ə ʃαnɔrʹ gə wiuw αgəs fα꞉Lʹtʹə.
+dʹeirʹi꞉ ərʹ mwædʹ_ï_nʹ gə Luə LαχərNə·wα꞉rαχ.
+dʹiəfri꞉ ə ʃαnɔrʹ kʹα ro ʃɛ gɔl.
+dʹiNʹiʃ dɔ꞉ mər ho̤g ə krɔχirʹə tα꞉rNαχtə lʹeʃ Nʹiən ə ri꞉ αgəs gə ro ʃə ə guərtuw.
+əs truə Nærʹ αN tuw əNsə welʹə, ərsiNʹ ʃαnɔrʹ.
+Nʹi꞉ ɛkʹə tuw e꞉ ə χy꞉çə.
+ʃu꞉l̥ʹə mʹə gə wα꞉ mʹə bα꞉s, ʃ_ï_N Nɔ gə wα꞉ mʹə Nʹiən ə ri꞉.
+mα nʹi꞉ tuw ʃu꞉l ·αn·wo꞉r, trαnõ꞉nə tʹ_ï_kə tuw erʹ hαχ elʹə kɔsu꞉Lʹ Lʹe ʃɔ αgəs jo꞉ tuw Lɔ꞉ʃtʹi꞉nʹ gə mwædʹ_ï_nʹ.
+mα tʹi꞉ tuw gə mʹəi grẽ꞉h əgəd lʹeʃ ə χy꞉çə, dʹαN skαrtʹ ərʹ ho꞉k jlʹαN dα bwi꞉.
+riNʹ ʃɛ ʃ_ï_nʹ αgəs trα·nõ꞉nə gə mαL hαrLy꞉ erʹ ə tʹαχ αgəs χUi ʃə ʃtʹαχ.
+fwy꞉r sə ʃαnɔrʹ kɔsu꞉Lʹ Lʹeʃ ə ç_ï_d ʃαnɔrʹ.
+dαn ɛgʹə gə mwædʹ_ï_nʹ.
+dʹiNʹiʃ dɔ꞉ bʹrʹi꞉ α çu꞉lʹ.
+mα tʹi꞉ tuw, ərsiNʹ ʃαnɔrʹ, gə mʹəi grẽ꞉h əgəd lʹeʃ ə χy꞉çə, dʹαN skαrtʹ ərʹ ꬶo꞉rαn do̤N Lɔχ ə Nʹu꞉rʹ.
+mα nʹi꞉ tuw ʃu꞉l mαiç bʹei tuw ɛg_(_ʹ_) _dʹα꞉r̥αr dũ꞉sə trαnõ꞉nə gə mαL.
+ʃ_ï_N dʹα꞉r̥αr dŨw̥ ə rɔ tuw ɛgʹ ərɛirʹ.
+mər do̤gy꞉ n fʹαr ə mʹei tuw ɛgʹ əNo̤χt tuərʹiʃkʹ ꬶydʹ Nʹi꞉ wi꞉ tuw e꞉ ərʹ ꬶr_ï_mʹ ə dα͠uwinʹ_ (_dõ꞉nʹ_). _dʹ_ï_mʹi꞉ r_ï̃_və αgəs Nʹi꞉ ʃu꞉l ə vi꞉ ʃə αχ ə rαhi꞉.
+trαnõ꞉nα gə mαL fuərsə Nʹ tαχ.
+fwy꞉rsə bʹiə αgəs Lʹαbwi꞉ wα͠ıç.
+gə Luə ərʹ mwædʹ_ï_nʹ dʹeirʹi꞉ αgəs dʹiNʹiʃ dəNʹ tʹαnɔrʹ bʹrʹi꞉ ə çu꞉lʹ αgəs gədʹe꞉ mər χæ ʃɛ əN dα꞉ ĩ꞉ç elʹə ɛgʹ əN dα꞉ hαnɔrʹ elʹə.
+əs truə lʹ_ï_m də ʃkʹɛəl, ərsiNʹ ʃαnɔrʹ, də lʹehədsə də w⅄꞉χiLʹ vrʹɛə ə və ər lʹi꞉ ə χæLʹtʹə.
+Nʹi꞉ ɛkʹə tuw ən krɔχirʹə tα꞉rNαχtə ə χy꞉çə αgəs əs mαi ꬶydʹ, Nα wir̥ʹətʹ ʃə huw.
+pʹiLʹ Nə welʹə.
+Nʹi꞉ fʹiL̥ʹə mʹə gə mαrəfər mʹə.
+ʃ_ï_N Nɔ gə vɛkʹə mʹə Nʹiən ə ri꞉.
+kyr̥ʹi mʹiʃə gʹ_ï_t elʹə huw, ərsiNʹ ʃαnɔrʹ.
+go꞉ ʃi꞉s əNə χlαdi꞉ αgəs mα tʹi꞉ tuw bα꞉d, go꞉ ʃtʹαχ_ ï_Nʹtʹi꞉.
+Nα Lo꞉rʹ fɔkəl ərʹ bʹiç`.
+χUi ʃɛ ʃi꞉s əNə χlαdi꞉ αgəs henʹi ʃə bα꞉d bʹ_ï_g bwi꞉dʹαχ mʹ_ï_tilʹ.
+bw⅄꞉χiLʹ bʹ_ï_g bwi꞉dʹαχ əNsə wα꞉d.
+mwædʹə rα̃꞉wə əNαχ Lα̃꞉v ɛgʹə.
+χUi ʃɛ ʃtʹαχ əNsα wα꞉d.
+χUi ən bα꞉d əN fαrəgʹə.
+Nʹi꞉ ro꞉s ɛgʹə kʹα dʹαχi ʃi꞉ αχ gə dʹαχi ʃi꞉ wαd.
+fα jerʹuw wy꞉Lʹ ʃi꞉ ʃtʹαχ ərʹ hαluw.
+çu꞉Lʹ ʃɛ suəs ə t_ï_lʹαn.
+henʹi ʃɛ ʃαnχæʃLʹαn mo꞉r dUw̥`.
+χUi ʃə ʃtʹαχ αgəs henʹi ʃɛ əNʹʃ_ï_nʹ Nʹiən ə ri꞉.
+riNʹ ʃi꞉ ·fαrəwα꞉Lʹtʹə wo꞉r r_ï̃_və.
+əs mαiç mər hα꞉rLy꞉, ərsi꞉.
+tα꞉ n krɔχirʹə tα꞉rNαχtə ərʹ çu꞉l əs bwelʹə αgəs Nʹi꞉ h_ï_ky ʃə gə kʹ_ï_N r̥i꞉ Lα꞉.
+χyrʹ mʹiʃə ku꞉l erʹ gən ə fɔ꞉suw gə kʹ_ï_N bʹlʹiəNə.
+tα꞉ ʃə əs bwelʹə əniʃ αgəs Nʹi꞉ h_ï_ky꞉ ʃə gə kʹ_ï_N r̥i꞉ Lα꞉.
+bʹɛmwidʹ ə bʹlʹeiʃu꞉r ə tαmwiLʹ ʃ_ï_nʹ heinʹ.
+ɛgʹ kʹ_ï_N Nə dʹrʹi꞉ Lα꞉ du꞉rt_(_ʹ_) _Nʹiən ə ri꞉, kα͠ıhə mʹiʃə h_ï_sə αlαχ.
+tα꞉ n krɔχirʹə tα꞉rNαχtə ə tʹαχt.
+dαli꞉ ʃi꞉ e꞉məN.
+henʹikʹ ə krɔχirʹə.
+mαihçi꞉m bɔluw α NʹeirʹəNỹ꞉ wrαdi꞉ vrʹɛəgy꞉ iNʹʃo, ərse꞉.
+mαihçαχə tuw ʃ_ï_nʹ, ərsi꞉, αd əs tα꞉ mʹiʃ əN.
+ərʹ mwædʹ_ï_nʹ gə Luə LαχərNə·wα꞉rαχ dʹ_ï_mʹi꞉ n krɔχirʹə αgəs du꞉rt_(_ʹ_) _Nαχ mʹɛuw ərʹeʃ gə kʹ_ï_N dα꞉ lα꞉.
+du꞉rtʹ e꞉məN lʹɛ Nʹiən ə ri꞉ mər wα꞉mwidʹ_ plan _i꞉Nʹtʹαχ_ ï_bʹrʹuw, Nʹi꞉ wi꞉mwidʹ bwyi_ (_bw⅄i_) _erʹ ə χrɔχirʹə gə dʹɔ꞉.
+gədʹe꞉ jα꞉n̥ə mwidʹ? ərsə Nʹiən ə ri꞉.
+Lʹigʹ h_ï_s ɔrt, ərs ɛ꞉məN, gə w_ï_lʹ kʹ_ï_n mo꞉r əgəd erʹ αgəs gə w_ï_lʹ bwy꞉rʹuw ɔrt ə pɔ꞉suw ə χo̤r ərʹ gu꞉l.
+dʹα꞉n o̤lꬶα꞉rdəs mo꞉r Nerʹ ə h_ï_ky ʃə əwelʹə.
+r_ï_Nʹuw ʃ_ï_nʹ əlʹigʹ.
+vi꞉ brɔ꞉d mo꞉r αgəs αhəs erʹ ə χrɔχirʹə αgəs du꞉r·se꞉, əmʹəwəs əgəd fʹ_ï_s ə Nʹirʹ ətα꞉ əgəd, vɛuw tʹiLʹuw αhiʃ ɔrt.
+ən fʹeidʹər də wαrəwə? Nʹi꞉ hi꞉lʹəmsə gə w_ï_lʹ ən ꬶæʃkʹiαχ əNsə dõ꞉n α꞉bəLtə də wαrəwə.
+riNʹ ʃɛ gα꞉rʹə mo꞉r.
+tʹi꞉m əniʃ gə w_ï_L də ꬶrα꞉ bwiNʹtʹ əgəm.
+iNʹʃαχə mʹə ꬶydʹ gədʹe꞉ wir̥ʹuw mʹə.
+Nʹi꞉ higʹ mʹiʃə wαrəwə, ərsən krɔχirʹə, gə ɲα꞉rtər ə krαN mo꞉r ʃkʹαχ tα꞉ ərʹ wα꞉r Nə bʹiNʹə hi꞉s ɛgʹ ə Nαrəgʹə.
+ə ɲα꞉r̥i꞉ ən krαN, erʹ ə h_ï_tʹimʹ dɔ꞉ lʹɛ꞉m̥ʹuw ʃ_ï_Nαχ mo꞉r əmαχ; əs ə w_ï_lʹ ə χo̤nərtʹ əNsə dõ꞉n, Nʹi꞉ wir̥ʹət_(_ʹ_) _ʃiəd ə ʃ_ï_Nαχ gə dʹigʹuw kuw bʹ_ï_g Nə gαrəχyLʹuw əs eirʹiNʹ.
+wir̥ʹuw kuw bʹ_ï_g Nə gαrəχyLʹuw ə.
+erʹ ə h_ï_tʹəmʹ dəNʹ tʹ_ï_Nαχ, lʹɛəm̥ʹuw Lαχ əmαχ əs ə tʹ_ï_Nαχ.
+dʹ_ï_mʹαχət(ʹ) ʃi꞉ sə spʹeirʹ.
+ə mʹeidʹ ʃo꞉kʹ ətα꞉ sə dõ꞉n, Nʹi꞉ wir̥ʹət_(_ʹ_) _ʃəd ə Lαχ αχ əwα̃꞉nʹ ʃo꞉k jlʹαN dα wi꞉.
+ə mαrəfwi꞉ i꞉ vɛ꞉r̥ət_(_ʹ_) _ʃi꞉_ ï_v ər lα꞉r Nə fαrəgʹə.
+ə mʹeidʹ do꞉rænʹ ətα꞉ sə dõ꞉n, Nʹi꞉ wi꞉t(ʹ) _ʃə ə Nʹ_ï_v ʃ_ï_nʹ αχ do꞉rαn do̤N lɔχ_ (_Lɔχ_) _ə Nʹu꞉rʹ.
+Nə jei ʃ_ï_nʹ αgəs əlʹigʹ Nʹi꞉ veiNʹʃə mαruw gə muiLʹtʹi꞉ ə Nʹ_ï_fʹ ʃ_ï_nʹ erʹ ə wαL dUw̥` ətα꞉ hi꞉s ər ho꞉nʹ mə ꬶælʹə.
+hu꞉si꞉ Nʹiən ə ri꞉ ə dα͠usə lʹɛ hαhəs αgəs du꞉rtʹ gər wαdə lʹeihçə gə dʹi꞉ Lα꞉ n fɔ꞉stə.
+tα꞉ mʹiʃə gʹ_ï_mʹαχt əniʃ, ərsən krɔχirʹə, αgəs Nʹi꞉ h_ï_kə mʹə ərʹeʃ gədʹi꞉ trαnõ꞉n əmα꞉rαχ αgəs əNʹʃ_ï_nʹ Nʹi꞉_ ï_mʹαχə mʹə Nʹi꞉s mõ꞉.
+dʹ_ï_mʹi꞉ ʃə αgəs dα꞉g ʃɛ sLα꞉n ɛg(ʹ) Nʹiən ə ri꞉ gə bʹiLʹit(ʹ) ʃə ərʹeʃ.
+henʹikʹ ɛ꞉məN əʃtʹαχ αgəs vi꞉ Nʹ ʃkʹɛəl mo꞉r ɛg(ʹ) Nʹiən ə ri꞉ dɔ꞉.
+Nʹi꞉lʹ αm erʹ bʹiç lʹɛ kæLʹuw, ərs ɛ꞉məN.
+kα͠ıhəmwidʹ tu꞉suw ꬶo̤bwirʹ.
+fwyər səd ꬶα꞉ huə.
+hɔʃi꞉ ʃəd ə jαruw ən χr_ï_Nʹ gə tʹUw̥` αgəs gə dʹiən.
+Nʹi꞉rʹ wαdə gər jα꞉r səd ə krαN.
+er ə h_ï_tʹəmʹ dən χrαN lʹɛ꞉mʹ ə ʃ_ï_Nαχ əmαχ.
+skαrtʹ ɛ꞉məN ərʹ χuw bʹ_ï_g Nə gαrəχyLʹuw.
+Nʹi꞉r Luiçə vi꞉ n fɔkəl rα꞉tʹə Nα henʹi ʃiəd ə kuw əNʹei ə tʹ_ï_Ny꞉.
+ʃ_ï_nʹ ə Nα꞉tʹ ə ro ə rα꞉sə αgəs ə χɔriαχt, αχ Nʹi꞉r wαdə gə wuirʹ ə kuw gʹrʹimʹ mwinʹælʹ erʹ αgəs lʹɛ꞉mʹ ə Lαχ iænʹ əmαχ əs ə tʹ_ï_Nαχ.
+dʹeirʹi꞉ ʃi꞉ ə Nα꞉rdʹə əNsNə spʹeirʹi꞉.
+skαrtʹ ɛ꞉məN ərʹ ho꞉k jlʹαN dα wi꞉.
+lʹɛ pʹrʹαbuw Nə su꞉l vi꞉ Nʹ ʃo꞉k lʹɛ fʹɛkʹælʹ əNʹei ə Lαχə.
+Nʹi꞉r wαdə gər wy꞉lʹ ə ʃo꞉k ə Lαχə αgəs iəd əmwiç` əs kʹ_ï_N Nə fαrəgʹə.
+erʹ ə h_ï_tʹəmʹ dəN Lαχ ro̤g ʃi꞉_ ï_v αgəs h_ï_tʹ ʃi꞉ ʃi꞉s ər lα꞉r Nə fαrəgʹə.
+skαrtʹ ɛ꞉məN ərʹ ꬶo꞉rαN do̤N Lɔχ əNʹu꞉rʹ ə hαχt gə dʹefʹrʹαχ αgəs ə Nʹ_ï_v ə ho꞉rtʹ iNʹʃerʹ.
+əNsə Nαm ʃ_ï_nʹ henʹi ʃəd ə krɔχirʹə tα꞉rNαχtə ə tαrNʹtʹ ɔr̥uw αgəs vi꞉ ʃɛ gʹeirʹi꞉ Lo̤g.
+bə Luiçə lʹeʃ ə do꞉rαn ə ve ɛgʹ e꞉məN Nαn krɔχirʹə tα꞉rNαχtə.
+vi꞉ vɛəl fɔskiLʹtʹə ə gʹ_ï_ri꞉ ə və fα꞉lʹ αnαlə.
+ro̤g ɛ꞉məN ərʹ ə Nʹ_ï_v əN do꞉rαn.
+χæ ʃɛ əʃtʹαχ ə mʹɛəl ə χrɔχirʹə i꞉.
+h_ï_tʹ ʃi꞉ ʃi꞉s αgəs wy꞉Lʹ ʃi꞉ ən bαL dUw̥` ə vi꞉ ərʹ ho꞉nʹ ə ꬶælʹə.
+h_ï_tʹ ə krɔχirʹə tα꞉rNαχtə mαruw.
+vi꞉ LUχærʹ wo꞉r erʹ ɛ꞉məN αgəs ər nʹiən ə ri꞉.
+rαχəmwidʹ əniʃ əNə welʹə, ərs ɛ꞉məN.
+vi꞉ L_ï_ɲiʃ gə Lʹɔ꞉r əNsə χũ꞉n.
+lʹi꞉Nʹ ʃəd Lo̤ŋ Lα꞉n ɔ꞉rʹ αgəs ærʹəgʹidʹ.
+Nʹi꞉ ro꞉s ɔkuw gədʹe꞉ n bʹαlαχ ə rαχət_(_ʹ_) _ʃəd.
+henʹi ʃiəd ə bα꞉d bʹ_ï_g mʹ_ï_tilʹ ə tʹαχt əʃtʹαχ ɔ Nαrəgʹə wo꞉r.
+χUi n v_ï_rtʹ əʃtʹαχ sə wα꞉d.
+χyrʹ α bα꞉dɔrʹ kru꞉kə wαstə əNsə Lyɲ αgəs χUi ʃə əN fαrəgʹə.
+bə Luiçə e꞉ gə mo꞉r Nα꞉n ꬶ⅄꞉ wã꞉rtə gə denʹi ʃɛ ʃtʹαχ fwi꞉ hαχ ə tʹrʹiçuw ʃαNynʹə.
+vi꞉ LUχærʹ wo꞉r erʹ ə tʹαNynʹə r_ï_puw.
+χæ ʃəd ə Nĩ꞉çə ʃ_ï_nʹ ɛgʹ əNʹ tʹαNynʹə lʹɛ pʹlʹeiʃu꞉r.
+LαχərNə·wα꞉rαχ fuirʹ ə ʃαNynʹə kαrtəNy꞉ ərʹ kyrʹuw Ntɔ꞉r αgəs ə tærʹəgʹ_ï_d ɔr̥uw.
+ho̤g ʃiəd lʹɔ꞉fə əNʹ ʃαNynʹə.
+henʹi ʃiəd gə tʹαχ ə dαrə ʃαNynʹə.
+χæ ʃəd ĩ꞉ç əNʹʃ_ï_nʹ ə bʹlʹeiʃu꞉r.
+ho̤g ʃiəd lʹɔ꞉fə əN dαrə ʃαNynʹə gə tʹαχ ə ç_ï_d ʃαNynʹə.
+χæ ʃəd ĩ꞉ç ə bʹlʹeiʃu꞉r ɛgʹə αgəs ho̤g ʃiəd ə Nəi erʹ ə welʹə Nə tʹrʹi꞉ hαNynʹə lʹɔ꞉fə.
+Nerʹ ə henʹi ʃiəd gə kæʃLʹαn ə ri꞉ bə·je꞉ əN Lα꞉ dʹerʹəNαχ dən vlʹi_ï_nʹ ə.
+vi꞉ o̤lꬶα꞉rdəs əs kʹ_ï_N ko̤mwiʃ ərʹ ə ri꞉ r_ï̃_və Nə nʹiən αgəs r_ï̃_v ɛ꞉məN.
+bʹɛi mə nʹiən əgəd mər wrĩ꞉_ (_vαn_) _αd əs veiʃ ʃi꞉ bʹjɔ꞉ αgəs əs kʹiNʹtʹə gər mαiç` ə Nærʹi꞉ ɔrt i꞉.
+r_ï_Nʹuw bαniʃ ə werʹ ʃαχt Nĩ꞉çə αgəs ʃαχt Lα꞉.
+vi꞉ N Lα꞉ dʹerʹəNαχ kɔ mαiç lʹeʃ ə ç_ï_d Lα꞉.
+tα꞉ ʃiəd heinʹ αgəs α glαN αgəs ə Nʹiərα̃v əNə sɔnəs αgəs əNə ʃɛən.

@@ -24,6 +24,10 @@ Notes, reading lists, and works in progress for my thesis.
 - [Preprocessing Seanchló OCR Labels](preprocess-ocr-labels/index.qmd)
 - [Recording HLS Streams](record-streams/index.qmd)
 
+## Tools
+
+- [Intergaelic Modernizer](intergaelic-modernize/index.qmd) — Claude Code skill
+
 ## Papers
 
 - [My Papers](my-papers/papers.qmd)

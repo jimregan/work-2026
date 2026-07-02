@@ -97,6 +97,7 @@ parse_irish.py            CLI orchestrator
 irish_parse/
   conllu.py               CoNLL-U read/write (stdlib only)
   modernize.py            intergaelic standardization + original alignment
+  build.py                rebuild the parse over the original tokens
   stanza_parser.py        Stanza wrapper (primary)
   udpipe_parser.py        UDPipe wrapper (cross-check)
   compare.py              diffing + Markdown report

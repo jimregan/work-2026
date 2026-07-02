@@ -1,5 +1,23 @@
 Nα tʹrʹi꞉ diLʹ αgəs ə ʃɛvαli꞉r ə mwælʹαkʹliə.
-‑tα꞉ :to̤məL ·gerʹidʹ ɔ :hinʹ | ‑vi꞉ ·tʹrʹi꞉ ·diLʹ ə mwælʹα·kʹlʹiə || bə:je꞉ ·No̤bwirʹ ·gαχ ·Lα꞉ | ə :gʹïri꞉ Nə ·deirʹkʹə || ·Lα꞉ ə·wα̃꞉nʹ ·α꞉rʹitʹ | ·χαs dαi:çelʹə Nα ·tʹrʹi꞉ ·bαky꞉ | er ·ꬶreçəd :wælʹα·kʹlʹiə || ‑vi꞉ ·en̥ʹ ‑ɔkuw ·erʹ ə :çelʹə || ‑vi꞉ ‑kɔ ·hɔ꞉lαχ erʹ ə welʹə | s gə ·denikʹ ‑lʹeʃ ə ·Nïlʹə ·ꬶinʹ :ɔkuw | ·hαχt əNə ·hi꞉ ·vig ·heinʹ :trα·no꞉nə || ‑vi꞉ Nʹ ·tʹrʹu꞉r ə :dʹαnuw ·mwærʹigni꞉ | erʹ kɔ ʹhɔlk αgəs ·dʹeirʹi N ·Lα꞉ :lʹɔ꞉fə || vi꞉ ·ʃɛvαli꞉r ə :gɔl ə ·vαli꞉ || ·smwi꞉tʹi꞉ ʃə gə ·Nʹαn̥it(ʹ) ʃə ·gʹrʹαN :ɔr̥uw || ‑vi꞉ ·en̥ʹ ɛg(ʹ) Nə ·diLʹ :erʹ | αgəs əs ·mʹinʹikʹ ə :ho̤g ʃə ·ærʹəgʹəd :dɔ꞉fə || ·dʹiəfri꞉ ʃə :di꞉fə gə:dʹe꞉ mər ·vi꞉ ‑ʃəd || :du꞉rsiəd gə :ro gə ·hɔlk | ‑Nαχ :wu꞉rsəd ·pʹïktu꞉r Nə ·bα꞉nṟi꞉n ə·NʹUw̥ || ·dʹiəfri꞉ ʃə ə :Nʹαn̥uw ·po̤Ntə :mαi :dɔ꞉fə | ‑αgəs :du꞉r :siəd gə :Nʹαn̥uw ·Nʹïlʹə ·çinʹαl ·mαiç || :ʃɔ :di꞉v ·po̤Nt ər:se꞉ || :dʹαnigʹi꞉ mər ·rö̤꞉ :ro̤d :lʹeʃ || ·hi꞉nʹ :gαχ ·⅄꞉n dəNʹ ·tʹrʹu꞉r ə·mαχ ə ·lα̃꞉uw | ‑αgəs :Nʹi꞉rʹ :χo̤rsə ·dαdi꞉ ɛr ·lα̃꞉v erʹ ·biç || :niʃ ər:se꞉ :dʹαnigʹi꞉ mər ­rö̤꞉ :ro̤d :lʹeʃ ‑ʃïnʹ || çu꞉Lʹ ʃɛ ­lʹeʃ | αgəs ­dα꞉g :iəd || ­hi꞉lʹ :gαχ ­⅄꞉n dəNʹ ­tʹrʹu꞉rʹ | gə ‑ro N ­po̤Ntə ɛgʹ :dinʹ :i꞉Nʹtʹαχ ­elʹ :ɔkuw || χo̤rsəd mɔrαn pwædʹrʹαχə αgəs bʹαNαχti꞉ lʹeʃ αgəs du꞉rtʹ gər wα̃iç ə go꞉ni꞉ ə.
+‑tα꞉ :to̤məL ·gerʹidʹ ɔ :hinʹ | ‑vi꞉ ·tʹrʹi꞉ ·diLʹ ə mwælʹα·kʹlʹiə ||
+bə:je꞉ ·No̤bwirʹ ·gαχ ·Lα꞉ | ə :gʹïri꞉ Nə ·deirʹkʹə ||
+·Lα꞉ ə·wα̃꞉nʹ ·α꞉rʹitʹ | ·χαs dαi:çelʹə Nα ·tʹrʹi꞉ ·bαky꞉ | er ·ꬶreçəd :wælʹα·kʹlʹiə ||
+‑vi꞉ ·en̥ʹ ‑ɔkuw ·erʹ ə :çelʹə ||
+‑vi꞉ ‑kɔ ·hɔ꞉lαχ erʹ ə welʹə | s gə ·denikʹ ‑lʹeʃ ə ·Nïlʹə ·ꬶinʹ :ɔkuw | ·hαχt əNə ·hi꞉ ·vig ·heinʹ :trα·no꞉nə ||
+‑vi꞉ Nʹ ·tʹrʹu꞉r ə :dʹαnuw ·mwærʹigni꞉ | erʹ kɔ ʹhɔlk αgəs ·dʹeirʹi N ·Lα꞉ :lʹɔ꞉fə ||
+vi꞉ ·ʃɛvαli꞉r ə :gɔl ə ·vαli꞉ ||
+·smwi꞉tʹi꞉ ʃə gə ·Nʹαn̥it(ʹ) ʃə ·gʹrʹαN :ɔr̥uw ||
+‑vi꞉ ·en̥ʹ ɛg(ʹ) Nə ·diLʹ :erʹ | αgəs əs ·mʹinʹikʹ ə :ho̤g ʃə ·ærʹəgʹəd :dɔ꞉fə ||
+·dʹiəfri꞉ ʃə :di꞉fə gə:dʹe꞉ mər ·vi꞉ ‑ʃəd ||
+:du꞉rsiəd gə :ro gə ·hɔlk | ‑Nαχ :wu꞉rsəd ·pʹïktu꞉r Nə ·bα꞉nṟi꞉n ə·NʹUw̥ ||
+·dʹiəfri꞉ ʃə ə :Nʹαn̥uw ·po̤Ntə :mαi :dɔ꞉fə | ‑αgəs :du꞉r :siəd gə :Nʹαn̥uw ·Nʹïlʹə ·çinʹαl ·mαiç ||
+:ʃɔ :di꞉v ·po̤Nt ər:se꞉ ||
+:dʹαnigʹi꞉ mər ·rö̤꞉ :ro̤d :lʹeʃ ||
+·hi꞉nʹ :gαχ ·⅄꞉n dəNʹ ·tʹrʹu꞉r ə·mαχ ə ·lα̃꞉uw | ‑αgəs :Nʹi꞉rʹ :χo̤rsə ·dαdi꞉ ɛr ·lα̃꞉v erʹ ·biç ||
+:niʃ ər:se꞉ :dʹαnigʹi꞉ mər ­rö̤꞉ :ro̤d :lʹeʃ ‑ʃïnʹ ||
+çu꞉Lʹ ʃɛ ­lʹeʃ | αgəs ­dα꞉g :iəd ||
+­hi꞉lʹ :gαχ ­⅄꞉n dəNʹ ­tʹrʹu꞉rʹ | gə ‑ro N ­po̤Ntə ɛgʹ :dinʹ :i꞉Nʹtʹαχ ­elʹ :ɔkuw ||
+χo̤rsəd mɔrαn pwædʹrʹαχə αgəs bʹαNαχti꞉ lʹeʃ αgəs du꞉rtʹ gər wα̃iç ə go꞉ni꞉ ə.
 χïmʹαd ʃe iəd gə vɛkʹit(ʹ) ʃɛ gədʹe꞉ jα꞉n̥ət(ʹ) ʃiəd.
 Nerʹ ətα꞉ n po̤Nt əgiNʹ, ərsə fʹαr də Nα diLʹ, gədʹe꞉ jα꞉n̥ə mwidʹ lʹeʃ? tα꞉ kɔ꞉t ə jiç ɔrəmsə, ərsə fʹαr də Nα diLʹ.
 tα꞉ brɔ꞉g ə jiç ɔrəmsə, ərsə fʹαr elʹə.

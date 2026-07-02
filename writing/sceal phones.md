@@ -64,13 +64,16 @@ Nαχ mʹeit(ʹ) ʃə əwelʹə gə kʹïN χu꞉gʹ Lα꞉.
 dα꞉k ʃə bʹαNαχt ɔkuw ɔgəs dʹïmʹi꞉ ʃə iNʹʃerʹ ïN αgəs iNʹʃïr Nə fʹiəNəv.
 Nerʹ ə vi꞉ ʃə tʹαχt ə wo̤gəs dɔ꞉ʃə, kαsuw tʹαχ sLαχtirʹ erʹ.
 χUi ʃe꞉ ʃtʹαχ ɔgəs χɔ꞉rʹi꞉ ə heinʹ lʹɛ krækʹnʹə Nə mʹαhi꞉ fʹiænʹ.
-Nerʹ ə henʹikʹ fʹïN e꞉ ə tαrNʹtʹ ɔr̥uw, dʹiəfri꞉ ʃə, ə w⅄꞉χəLʹi꞉, gədʹe꞉ tα꞉ ʃïv jα꞉nuw? tα꞉ mwidʹ ə dʹα꞉nuw ər Nʹi꞉Nʹαrə, ərsə kɔnαn.
-gədʹe꞉ tα꞉ tuw heinʹ ə jα꞉nuw? tα꞉ mʹɛ gα͠uwərk w⅄꞉m.
+Nerʹ ə henʹikʹ fʹïN e꞉ ə tαrNʹtʹ ɔr̥uw, dʹiəfri꞉ ʃə, ə w⅄꞉χəLʹi꞉, gədʹe꞉ tα꞉ ʃïv jα꞉nuw?
+tα꞉ mwidʹ ə dʹα꞉nuw ər Nʹi꞉Nʹαrə, ərsə kɔnαn.
+gədʹe꞉ tα꞉ tuw heinʹ ə jα꞉nuw?
+tα꞉ mʹɛ gα͠uwərk w⅄꞉m.
 tʹi꞉m ɔ꞉gʹαr kʹlʹiʃtʹə ə tαrNʹtʹ ɔriNʹ.
 mα꞉s ə χydʹuw lʹiNʹ ətα꞉ ʃə, əs fʹα꞉rdʹə di꞉Nʹ αgəs mα꞉s əNαr·Nəi (əjə) ətα꞉ ʃə, əs mʹiʃtʹə di꞉Nʹ.
 bʹəjəs əgiNʹ gədʹe꞉ n kʹïnʹαL dinʹ e꞉.
 mαs ə χlïNʹ mʹikʹ ri꞉ Nα rɔ꞉lαiç ə, Nʹi꞉ lo꞉r̥ʹi꞉ ʃə lʹɛ dinʹə Nα dinʹə lʹeʃ gə dʹigʹi ʃə əN mə lαhərsə ɔgəs gə Nʹα꞉n̥i ʃə kõhərə ũ꞉liαχt ɔgəs o̤Rəm dŨw̥`.
-mαs ə χlïNʹ bo̤di꞉ Nα dinʹə vαl̥i꞉ ə, ə çïd dinʹə ə dʹïky꞉ ʃe꞉ αd lʹeʃ, fʹiəfrαχi ʃə, kα wïlʹ ə ri꞉? Nʹi꞉r lo꞉rʹ kʹɛədαχ lʹɛ ·hɛə·Nynʹə Nα ɛəNynʹə lʹeʃ gə denʹi ʃə ə Lαhærʹ iNʹ vĩ ku꞉Lʹ.
+mαs ə χlïNʹ bo̤di꞉ Nα dinʹə vαl̥i꞉ ə, ə çïd dinʹə ə dʹïky꞉ ʃe꞉ αd lʹeʃ, fʹiəfrαχi ʃə, kα wïlʹ ə ri꞉?
+Nʹi꞉r lo꞉rʹ kʹɛədαχ lʹɛ ·hɛə·Nynʹə Nα ɛəNynʹə lʹeʃ gə denʹi ʃə ə Lαhærʹ iNʹ vĩ ku꞉Lʹ.
 rïNʹ kõhərə ũ꞉liαχt ɔgəs o̤Rəm dɔ꞉.
 gədʹe꞉ N dinʹə huw? ərsə fʹïN.
 bw⅄꞉χiLʹ ətα꞉ gʹïri꞉ αmʹʃirʹə tα꞉ ïNəm, ərsə kʹɛədαχ.
@@ -117,13 +120,15 @@ du꞉rtʹ dʹɛrəmwidʹ fʹïN wα̃ ku꞉Lʹ ə çïd dinʹə.
 dʹɛrəmwidʹ ə dαrə dinʹə.
 ɔskər ə tʹrʹiçuw dinʹə.
 Lui fα χyNʹə ʃtʹu꞉ruw Nə Lyɲə.
-Nə Nαχ wïL tuw gɔl ə hort(ʹ) lʹαt gʹïLə Nə gɔχəL krækʹəN? tα꞉m kʹiNʹtʹə, ərsə dʹɛrəmwidʹ, mα tα꞉ ʃɛ sα꞉st ə ꬶɔl.
+Nə Nαχ wïL tuw gɔl ə hort(ʹ) lʹαt gʹïLə Nə gɔχəL krækʹəN?
+tα꞉m kʹiNʹtʹə, ərsə dʹɛrəmwidʹ, mα tα꞉ ʃɛ sα꞉st ə ꬶɔl.
 Nʹi꞉ rαχi ʃə, ərsə skαiç çi꞉də.
 mα꞉ lʹigʹ mʹiʃə iNʹʃɔrəv e꞉ lʹɛ ʃerʹəvi꞉ʃ ə jα꞉nuw di꞉v ə NʹeirʹiNʹ, Nʹi꞉lʹ mʹə gɔL dα lʹigʹən lʹïv əmαχ əs eirʹiNʹ.
 lʹɛ gʹαLu꞉Nʹtʹαχə mo꞉rə α dʹigʹət(ʹ) ʃəd erʹeʃ ə χi꞉çə, bʹi꞉t(ʹ) ʃə bʹjɔ꞉ Nα mαruw, gə du꞉r̥ʹit(ʹ) ʃəd əwelʹə hïkʹi ə, d⅄꞉Nti ʃi꞉ ə lʹigʹən lʹɔ꞉fə.
 jlʹɛəs fʹïN ə Lo̤ŋ ə bʹα꞉r ə vi꞉ NʹeirʹiNʹ.
 χo̤rsə bʹiə hαχt mʹlʹiən əʃtʹαχ erʹ ə Lyɲ αgəs χUi ʃəd əN fαrəgʹə.
-vi꞉ ʃiəd tʹrʹi꞉ lα꞉ αgəs tʹrʹi꞉ ĩ꞉ç ə ʃɔ꞉Ltαrαχt Nerʹ ə jiəfri꞉ gʹïLə Nə gɔχəL krækʹəN, w⅄꞉χəLʹi꞉, kʹα wiLʹ ʃïv ə gɔl? du꞉r siəd, kʹɛbʹerʹbʹiç α.꞉tʹ ə ʃeitʹi꞉ n ꬶ⅄꞉ ʃiNʹ.
+vi꞉ ʃiəd tʹrʹi꞉ lα꞉ αgəs tʹrʹi꞉ ĩ꞉ç ə ʃɔ꞉Ltαrαχt Nerʹ ə jiəfri꞉ gʹïLə Nə gɔχəL krækʹəN, w⅄꞉χəLʹi꞉, kʹα wiLʹ ʃïv ə gɔl?
+du꞉r siəd, kʹɛbʹerʹbʹiç α.꞉tʹ ə ʃeitʹi꞉ n ꬶ⅄꞉ ʃiNʹ.
 du꞉rtʹ gʹïLə Nə gɔχəL krækʹəN lʹɛ Luijə əN Lo̤ŋ ə ʃtʹu꞉ruw ər Nə hiNʹiαχə herʹ.
 Nαχ ro꞉ n vαn ·αN·dɔiu꞉lʹ sə dõ꞉n Nαχərʹ wα͠ıç` lʹɔ꞉fə və ɔkuw.
 jα꞉n̥ə mʹiʃə ʃïnʹ, ərsə Lui.
@@ -261,10 +266,12 @@ Nʹi꞉ row əN αχ gə ro ʃɛ ərʹeʃ, Nerʹ ə vi꞉ N Lo̤ŋ χï̃viαχ 
 ·ɛən ·αr əwα̃꞉nʹ fwi꞉ αrəm αgəs eidʹuw ərʹ hæʃtʹə Nə Lyɲə.
 riNʹ ʃɛ gα꞉rʹə αgəs du꞉r sə, tα꞉ rαN əgəm ꬶydʹ— en̥ʹi꞉m huw αgəs Nʹi hər dʹɛədαχ, αχ ər də rɔsk gʹrʹɛəgαχ glαn.
 əs fʹi꞉r sən αgəs Nʹi꞉ bʹrʹɛəg e꞉ gər tuw kʹɛədαχ mαk ri꞉ Nə do̤lαχ.
-ə çɛədi꞉, wïlʹ kï̃vnʹ əgəd ər də wαrəguw lʹïmsə i NʹeirʹiNʹ? tα꞉, ərsə kʹɛədαχ.
+ə çɛədi꞉, wïlʹ kï̃vnʹ əgəd ər də wαrəguw lʹïmsə i NʹeirʹiNʹ?
+tα꞉, ərsə kʹɛədαχ.
 bwy꞉lʹ də wiLʹə.
 Nerʹ ə henʹikʹ kʹɛədαχ gər bʹə bwiLʹə ·lo̤NdUw̥` ə çïd wiLʹə vɛuw bwy꞉Lʹtʹə, wy꞉Lʹ ʃɛ ə wiLʹə heinʹ αgəs skαiç` gαχ fʹαr ɔkuw ə kʹïN də Nʹαr elʹə.
-hïtʹ gαχ fʹαr ɔkuw ər hæʃtʹə ə liɲə heinʹ αgəs dʹïmʹi꞉ N Lo̤ŋ χï̃viαχ ə bʹαlαχ ə denʹi ʃi꞉ gə bo̤n ə Neirʹ (Nəirʹ). skαrtʹ fʹïN erʹ ə wo̤nuw, gə Nʹαnət(ʹ) ʃəd bw⅄꞉rʹuw (bwy꞉rʹuw) mo꞉r αgəs dʹiNʹiʃ dɔ꞉fə, Nαχ dinʹ erʹ bʹiç Nʹi꞉s Luw Nα mαk ri꞉ Nə do̤lαχ ə fʹαr ə vi꞉ okuw.
+hïtʹ gαχ fʹαr ɔkuw ər hæʃtʹə ə liɲə heinʹ αgəs dʹïmʹi꞉ N Lo̤ŋ χï̃viαχ ə bʹαlαχ ə denʹi ʃi꞉ gə bo̤n ə Neirʹ (Nəirʹ).
+skαrtʹ fʹïN erʹ ə wo̤nuw, gə Nʹαnət(ʹ) ʃəd bw⅄꞉rʹuw (bwy꞉rʹuw) mo꞉r αgəs dʹiNʹiʃ dɔ꞉fə, Nαχ dinʹ erʹ bʹiç Nʹi꞉s Luw Nα mαk ri꞉ Nə do̤lαχ ə fʹαr ə vi꞉ okuw.
 vi꞉ bwy꞉rʹuw ·αn·wor erʹ ïN αgəs erʹ ə wo̤nuw fα Nə wα꞉s αgəs vi꞉ dælʹi꞉s ɔr̥uw ə hαχt əwelʹə iNʹʃerʹ ə vαn αgəs e꞉ mαruw.
 χɔ꞉rʹi꞉ ʃiəd ə χɔləN lʹɛ spʹi꞉səri꞉ αgəs hαrNʹ ʃəd erʹ ə welʹə.
 ə Nĩ꞉çə ʃïnʹ henʹikʹ kʹɔ꞉ mo꞉r, g⅄꞉ αgəs dinʹəN ə χyrʹ iəd dα gu꞉rsə.
@@ -332,11 +339,11 @@ mα꞉ ʃe꞉ ʃïnʹ ə dɔi ə nʹi꞉ ʃïv ə Nïlʹə lα꞉, əs Nʹα͠u�
 ho̤g ʃɛ ruəhər əNə mʹαsk mər ho꞉k fʹrʹi꞉dʹ ɛ꞉nαχə αgəs wαri ʃɛ N dinʹə dʹerʹəNαχ di꞉fə.
 gədʹe꞉ tα꞉ ʃïv gɔl ə jα꞉nuw əniʃ, ə w⅄꞉χəLʹi꞉? ərsə kʹɛədαχ.
 o꞉ tα꞉ mwidʹ ə gɔl əwelʹə, ərsiəd.
-Nə Nαχ wiLʹ ʃïv gɔl ə ꬶyrʹαχ iNʹ·ʃɔ gə vɛkʹi ʃïv gədʹe꞉ tα꞉ dα Nʹα꞉nuw ʃɔ bʹjɔ꞉ ərʹi꞉ʃ(tʹ). o꞉ Nʹiəlʹ ·ɛə·Nynʹə dærʹ αn Nαχ ro mαruw LαχərNə·wα꞉rαχ.
+Nə Nαχ wiLʹ ʃïv gɔl ə ꬶyrʹαχ iNʹ·ʃɔ gə vɛkʹi ʃïv gədʹe꞉ tα꞉ dα Nʹα꞉nuw ʃɔ bʹjɔ꞉ ərʹi꞉ʃ(tʹ).
+o꞉ Nʹiəlʹ ·ɛə·Nynʹə dærʹ αn Nαχ ro mαruw LαχərNə·wα꞉rαχ.
 Nʹi꞉ ïmʹαχə mʹiʃə, ərsə kʹɛədαχ, gə vɛkʹi mʹə gədʹe꞉ nʹi꞉s bʹjɔ꞉ iəd.
 χUi klαN ə ri꞉ əNə welʹə αgəs dαn kʹɛədαχ.
-Nʹi꞉rʹ wαdə dɔ꞉ gə wαkə (wɔkə) ʃə fαihαχ tʹαχt əNʹi꞉s α wr⅄꞉χ Nə fαrəgʹə.
-pɔtʹi꞉nʹ αgəs kʹlʹɛtʹi꞉nʹ lʹeʃ.
+Nʹi꞉rʹ wαdə dɔ꞉ gə wαkə (wɔkə) ʃə fαihαχ tʹαχt əNʹi꞉s α wr⅄꞉χ Nə fαrəgʹə pɔtʹi꞉nʹ αgəs kʹlʹɛtʹi꞉nʹ lʹeʃ.
 χo̤rsə n kʹlʹɛtʹi꞉nʹ əNsə fɔtʹi꞉nʹ.
 əNʹʃïn χo̤rsə ə mʹɛəl fʹirʹ ə αgəs lʹe꞉mʹ Nỹ꞉ No̤nu꞉rʹ ɔkuw Nə ʃαsuw.
 Nα dʹα꞉Nʹ Nʹi꞉s mõ꞉ dɛ ʃïnʹ, ərsə kʹɛədαχ.
@@ -395,7 +402,8 @@ dʹeirʹi꞉ Nə hαsuw kɔ sLα꞉n əs vi꞉ ərʹiuw.
 vi꞉ LUχærʹ wo꞉r erʹ ə vαn.
 vi꞉ LUχærʹ erʹ ə ri꞉ αgəs erʹ ə r̥u꞉r mαk.
 gədʹe꞉ tα꞉ mwidʹ ə gɔl ə jα꞉nuw? ərsə skαiç çi꞉də.
-Nɔ꞉ ən ṟαχəmwidʹ əwelʹə? Nʹi꞉ rαχy꞉, ərsə kʹɛədαχ, gə vɛkʹə mʹiʃə wiLʹ ʃəd ʃïd bʹjɔ꞉ əNʹUw̥`.
+Nɔ꞉ ən ṟαχəmwidʹ əwelʹə?
+Nʹi꞉ rαχy꞉, ərsə kʹɛədαχ, gə vɛkʹə mʹiʃə wiLʹ ʃəd ʃïd bʹjɔ꞉ əNʹUw̥`.
 χUi ʃəd əNə wα̃χirʹə.
 vi꞉ ʃəd əlʹigʹ mαruw.
 χUərti꞉ kʹɛədαχ αgəs fuərsə sLætʹi꞉nʹ drihçαχtə ʃi꞉s ərʹ ꬶrïmʹ Nə kæLʹi꞉.

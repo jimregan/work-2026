@@ -64,13 +64,16 @@ Acht an aire chéadna a gheóbhas mise, gheóbhaidh do bhean-sa go bpillidh tú 
 D’fhág sé beannacht ocú ⁊ d’imthigh sé annsair Fhionn ⁊ annsair na Fiannaibh.
 Nuair bhí sé teacht i bhfogus dóbhtha, casadh teach slachtair air.
 Chuaidh se asteach ⁊ chóirigh é fhéin le craicne na mbeathaigh fiadhain.
-Nuair chonnaic Fionn é ag tairnt orrthú, d’fhiafraigh sé, A bhuachaillí, go dé tá sibh da dheánadh? Tá muid ag deánadh ar ndínneara, arsa Conán.
-Go dé tá tú fhéin da dheánadh? Tá mé ag amharc uam.
+Nuair chonnaic Fionn é ag tairnt orrthú, d’fhiafraigh sé, A bhuachaillí, go dé tá sibh da dheánadh?
+Tá muid ag deánadh ar ndínneara, arsa Conán.
+Go dé tá tú fhéin da dheánadh?
+Tá mé ag amharc uam.
 Tím óigfhear cliste ag tairnt orrainn.
 Má’s do chuidiughadh linn atá sé, is fearrde dínn ⁊ má’s ann ar n‑aghaidh atá sé, is misde dínn.
 Béidh fhios againn go dé an cinéal duine é.
 Má’s de chlainn mic ríogh no ró-fhlaith é, ní labhairfidh sé le duine na duine leis go dtigidh sé ann mo láthair-se ⁊ go ndeánaidh sé comhartha umhluigheacht ⁊ urram domh.
-Má’s de chlainn bodaigh no duine bheathlaidhe é, an chéad duine a dtiocfaidh sé fhad leis, fiafrachaidh sé, Cá bhfuil an rí? Níor labhair Céadach le h‑aon duine no aon duine leis go dtainic sé i láthair Fhinn mhic Cumhaill.
+Má’s de chlainn bodaigh no duine bheathlaidhe é, an chéad duine a dtiocfaidh sé fhad leis, fiafrachaidh sé, Cá bhfuil an rí?
+Níor labhair Céadach le h‑aon duine no aon duine leis go dtainic sé i láthair Fhinn mhic Cumhaill.
 Rinne comhartha umhluigheacht ⁊ urram dó.
 Go dé an duine thú? arsa Fionn.
 Buachaill atá ag iarraidh aimsire tá ionnam, arsa Céadach.
@@ -117,13 +120,15 @@ Dubhairt Diarmuid Fionn mac Cumhaill an chéad duine.
 Diarmuid an dara duine.
 Oscar an tricheadh duine.
 Lughaidh fá choinne stiurughadh na luinge.
-Na nach bhfuil tú ag dul do thabhairt leat Giolla na gCochall Craicionn? Táim cinnte, arsa Diarmuid, má tá sé sásta do dhul.
+Na nach bhfuil tú ag dul do thabhairt leat Giolla na gCochall Craicionn?
+Táim cinnte, arsa Diarmuid, má tá sé sásta do dhul.
 Ní rachaidh sé, arsa Scaith Shíoda.
 Má leig mise annsorraibh é le seirbhís do dheánadh díbh i nÉirinn, ní’l mé ag dul da leigean libh amach as Éirinn.
 Le geallamhainteacha móra da dtigeadh siad air ais a choidhche, bidheadh sé beó no marbh, go dtiubhradh siad a bhaile chuiccí é, d’aontaigh sí é do leigean leóbhtha.
 Ghléas Fionn an long ab fhearr do bhí i n‑Éirinn.
 Chuir sé biadh sheacht mbliadhan asteach air an luing ⁊ chuaidh siad ’un fairge.
-Bhí siad trí lá ⁊ trí oidche ag seóltaracht nuair dh’fhiafruigh Giolla na gCochall Craicionn, A bhuachailli, cá bhfuil sibh ag dul? Dubhairt siad ce b’air bith áit da séidfidh an ghaoth sinn.
+Bhí siad trí lá ⁊ trí oidche ag seóltaracht nuair dh’fhiafruigh Giolla na gCochall Craicionn, A bhuachailli, cá bhfuil sibh ag dul?
+Dubhairt siad ce b’air bith áit da séidfidh an ghaoth sinn.
 Dubhairt Giolla na gCochall Craicionn le Lughaidh an long do stiúrughadh air na h‑Indiacha shoir.
 Nach robh aon bhean an-dóigheamhail san domhan nachar mhaith leóbhtha do bhéith ocú.
 Gheánfaidh mise sin, arsa Lughaidh.
@@ -261,7 +266,8 @@ Ní robh ann acht go robh sé air ais, nuair bhí an long choimhightheach bórd 
 Aon fhear amháin faoi arm ⁊ éideadh air thaiste na luinge.
 Rinne sé gáire ⁊ dubhairt sé, Tá rann agam dhuid— Aithnighim thú ⁊ ní h‑air d’éadach, Acht air do rosc gréagach glan.
 Is fíor sin ⁊ ní bréag é Gur tú Céadach mac rí na dTulach.
-A Chéadaigh, bhfuil cuimhne agad air do mhargadh liomsa i nÉirinn? Tá, arsa Céadach.
+A Chéadaigh, bhfuil cuimhne agad air do mhargadh liomsa i nÉirinn?
+Tá, arsa Céadach.
 Buail do bhuille.
 Nuair chonnaic Céadach gur b’é buille Lonndubh an chéad bhuille bhéidheadh buailte, bhuail sé a bhuille fhéin ⁊ scaith gach fear ocú an ceann de’n fhear eile.
 Thuit gach fear ocú air thaiste a luinge fhéin ⁊ d’imthigh an long choimhthigheach an bealach a dtainic sí go bun an aeir.
@@ -396,7 +402,9 @@ D’éirigh na sheasadh comh slán ⁊ bhí ariamh.
 Bhí lúthgháir mhór air a bhean.
 Bhí lúthgháir air an rí ⁊ air a thriúr mac.
 Go dé tá muid ag dul dá dheánadh? arsa Scaith Shíoda.
-Nó an rachaidh muid abhaile? Ní rachaidh, arsa Céadach, go bhfeicidh mise bhfuil siad siud beó aniu. Chuaid siad ’un an mhachaire.
+Nó an rachaidh muid abhaile?
+Ní rachaidh, arsa Céadach, go bhfeicidh mise bhfuil siad siud beó aniu.
+Chuaid siad ’un an mhachaire.
 Bhí siad uilig marbh.
 Chuartaigh Céadach ⁊ fuair sé slaitín draoitheachta síos air dhruim na caillighe.
 Thug leis í ⁊ phill siad abhaile.

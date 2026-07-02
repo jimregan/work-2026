@@ -223,16 +223,44 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Northern European Journal of Language Technology -- Reviewer Guidelines.md",
+                "file": "SSL Loss Design Notes.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Northern European Journal of Language Technology -- Reviewer Guidelines"
+              "title": "SSL Loss Design Notes"
+            }
+          },
+          {
+            "id": "906446960b8455a9",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "Aindrias an Ime.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "Aindrias an Ime"
+            }
+          },
+          {
+            "id": "ecaf2d7961b15889",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "Eoin.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "Eoin"
             }
           }
         ],
-        "currentTab": 15
+        "currentTab": 17
       }
     ],
     "direction": "vertical"
@@ -395,17 +423,24 @@
       "obsidian-importer:Open Importer": false
     }
   },
-  "active": "4b01f43966df355c",
+  "active": "ecaf2d7961b15889",
   "lastOpenFiles": [
+    "Aindrias an Ime.md",
+    "Eoin.md",
+    "SSL Loss Design Notes.md",
+    "Untitled 2.md",
+    "Welcome.md",
+    "TSD strategy.md",
+    "My shared usage.md",
+    "NEJLT page.md",
     "New version.md",
+    "Northern European Journal of Language Technology -- Reviewer Guidelines.md",
     "TODO 25-04-2026.md",
     "TODO 12-04-2026.md",
     "Thoughts about spontaneous speech.md",
     "Task-curated G2P.md",
-    "TSD strategy.md",
     "ktts/Rewritten.md",
     "ktts/Gen.md",
-    "SSL Loss Design Notes.md",
     "LRE - Phonetic corpus/old-towards.md",
     "LRE - Phonetic corpus/Master outline.md",
     "LRE - Phonetic corpus/BRIEFING.md",
@@ -414,18 +449,11 @@
     "LRE - Phonetic corpus/XX-Old-intro.md",
     "LRE - Phonetic corpus/Subtask 1 - Report on Gemma 4 training.md",
     "Shivam.md",
-    "My shared usage.md",
     "TODO 24-04-2026.md",
     "Little Women.md",
-    "Untitled 2.md",
-    "Untitled 1.md",
     "Teanga - Web corpus of Irish/refs.bib",
     "Teanga - Web corpus of Irish/paper.qmd",
-    "Teanga - Web corpus of Irish/NOTES.md",
     "Teanga - Web corpus of Irish",
-    "LRE - Phonetic corpus/05 Swedish phonemic supervision lineage.md",
-    "LRE - Phonetic corpus/06 Released resource layers.md",
-    "LRE - Phonetic corpus/01 Introduction.md",
     "ktts",
     "LRE - Phonetic corpus/political/paper.qmd",
     "LRE - Phonetic corpus/political/orig.tex",

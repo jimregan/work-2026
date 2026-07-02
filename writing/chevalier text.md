@@ -19,7 +19,8 @@ Shiubhail sé leis ⁊ d’fhág iad.
 Shaoil gach aon de’n triúr go rabh an punta ag duine éiginteach eile ocu.
 Chuir siad móran paidreacha ⁊ beannachtaí leis ⁊ dubhairt gur mhaith i gcomhnaidhe é.
 Choimhéad sé iad go bhfeicfeadh sé goidé dhéanfadh siad.
-Nuair atá an punta againn, arsa fear de na daill, goidé dhéanfaidh muid leis? Tá cóta de dhith ormsa, arsa fear de na daill.
+Nuair atá an punta againn, arsa fear de na daill, goidé dhéanfaidh muid leis?
+Tá cóta de dhith ormsa, arsa fear de na daill.
 Tá bróga de dhith ormsa, arsa fear eile.
 Tá mo bhricfeasta de dhith ormsa arsa an tricheadh dall.
 Tá ar mbricfeasta de dhith orainn uilig.
@@ -51,8 +52,10 @@ Dubhairt an sagart go mbéidheadh sin ceart i ndiaidh an aifrinn.
 Thainic an _chevalier_ anuas ⁊ dubhairt sé, fan thusa annseo ⁊ gheobh tú do phunta i ndiaidh an aifrinn.
 Nuair do bhí an t‑aifreann ráidhte, chraith an sagart a mhéar air fhear na táibheirne theacht aníos.
 Dubhairt an sagart – gabh air do ghlúine.
-Dubhairt fear na táibheirne – bhfuil tú ag dul do thabhairt domh an tairgid? Dubhairt an sagart aríst – gabh air do ghlúine.
-Dubhairt fear na táibheirne – bhfuil tú ag dul do thabhairt domh an phunta? Bhí slat gheal aig an tsagart ⁊ bhuail sé fear na táibheirne air a bhlagóid ⁊ dubhairt sé – gabh air do ghlúine anois.
+Dubhairt fear na táibheirne – bhfuil tú ag dul do thabhairt domh an tairgid?
+Dubhairt an sagart aríst – gabh air do ghlúine.
+Dubhairt fear na táibheirne – bhfuil tú ag dul do thabhairt domh an phunta?
+Bhí slat gheal aig an tsagart ⁊ bhuail sé fear na táibheirne air a bhlagóid ⁊ dubhairt sé – gabh air do ghlúine anois.
 Thug fear na táibheirne a aghaidh air an dorus ⁊ reath an sagart go dtugadh sé arais é.
 Acht d’imthigh fear na táibheirne.
 Bhí sé i bhfeirg ⁊ ag tabhairt mionna mór.

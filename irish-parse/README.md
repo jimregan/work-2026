@@ -19,19 +19,21 @@ result back onto the original surface forms.
 For each sentence the output carries:
 
 - `# text` — your original pre-standard sentence
-- `# text_standard` — the intergaelic (Caighdeán) form, generated automatically
-- MISC `Orig=…` — the pre-standard surface form on each token, when it differs
-- MISC `Align=Check` — surfaces diverged; the original mapping is a guess
-- MISC `Align=Inserted` — a parser token with **no** original counterpart
-  (standardization added it — review, likely merge or delete)
-- `# dropped_original = … (after token N)` — an original token that
-  standardization **deleted**, so no parse row exists for it; insert a row by hand
+- `# text_standard` — the intergaelic (Caighdeán) form. This is what the
+  parsers actually analyze, and the **only** place the standardized form appears
+- **FORM** — the original surface form, exactly as written in `# text`
+- **LEMMA** (and UPOS/feats/head/deprel) — the parser's output for the
+  standardized text
+- an original token that standardization split into several words becomes a
+  **multiword token**: the range line (`2-4  d'ith`) carries the original
+  form; the word rows carry the standard words with their analyses
+- an original token **deleted** by standardization gets a placeholder row with
+  MISC `Skip=Standard` and an empty analysis (the parsers never saw it) —
+  fill it in by hand
+- MISC `Align=Check` — the original↔standard alignment was a guess; verify
 
-Standardization is not a clean 1-to-1 mapping: it can **substitute**, **split /
-expand**, **insert**, and **delete** tokens. The alignment uses a proper
-sequence alignment (not a greedy walk), so a single divergence never
-desynchronises the rest of the sentence, and every insertion/deletion is
-surfaced in both the CoNLL-U and the diff report rather than silently dropped.
+The alignment is a proper sequence alignment (not a greedy walk), so a single
+divergence never desynchronises the rest of the sentence.
 
 > `# text_modern` (a dialectal-but-modern spelling) is **not** generated — that
 > is a human editorial decision, added during correction.
@@ -57,7 +59,9 @@ straight position-by-position comparison of UPOS, lemma, head, and deprel.
 
 ### Input formats
 
-- Default: one sentence per non-blank line (plain text).
+- Default: one sentence per non-blank line (plain text). Manual sentence
+  splits are respected verbatim — nothing is re-split or merged (Stanza's
+  sentence splitter is disabled).
 - `--from-conllu`: read the sentences from the `# text` comments of an existing
   CoNLL-U file (e.g. to re-parse a file you are correcting).
 

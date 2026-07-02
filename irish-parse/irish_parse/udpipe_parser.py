@@ -32,12 +32,7 @@ def _pipeline():
             "Set UDPIPE_MODEL or build the devcontainer image."
         )
     # 'horizontal': input is already tokenized (whitespace), one sentence/line.
-    pipeline = Pipeline(model, "horizontal", Pipeline.DEFAULT, Pipeline.DEFAULT, "conllu")
-    # The C++ Pipeline holds a reference to the model, not ownership. If the
-    # SWIG proxy is collected, the model is freed under the pipeline and the
-    # next process() call segfaults — so pin it to the pipeline's lifetime.
-    pipeline._model = model
-    return pipeline
+    return Pipeline(model, "horizontal", Pipeline.DEFAULT, Pipeline.DEFAULT, "conllu")
 
 
 def parse_tokens(tokens: List[str]) -> Sentence:

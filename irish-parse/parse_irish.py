@@ -26,7 +26,7 @@ import os
 import sys
 from typing import List, Optional, Tuple
 
-from irish_parse import build, compare, conllu, modernize, prestandard
+from irish_parse import build, compare, conllu, modernize
 
 
 def read_sentences(path: str, from_conllu: bool) -> List[str]:
@@ -43,7 +43,7 @@ def read_sentences(path: str, from_conllu: bool) -> List[str]:
 
 
 def process(
-    sentences: List[str], offline: bool, rules=None
+    sentences: List[str], offline: bool
 ) -> Tuple[List[conllu.Sentence], List[conllu.Sentence], List[compare.SentenceDiff]]:
     from irish_parse import stanza_parser, udpipe_parser
 
@@ -54,9 +54,6 @@ def process(
     for i, original in enumerate(sentences, start=1):
         sid = str(i)
         standard, pairs = modernize.standardize(original, offline=offline)
-        if pairs is not None and rules:
-            pairs = prestandard.apply(pairs, rules)
-            standard = " ".join(s for _, s in pairs if s.strip())
         if pairs is None:
             print(
                 f"[sent {sid}] standardization unavailable; parsing text as-is",
@@ -68,15 +65,13 @@ def process(
         forms = [t.form for t in st.tokens]
         ud = udpipe_parser.parse_tokens(forms)
 
-        display_standard = modernize.detokenize(standard)
         st.meta_set("sent_id", sid)
         st.meta_set("text", original)
-        st.meta_set("text_standard", display_standard)
+        st.meta_set("text_standard", standard)
 
         if pairs is not None:
             alignment = modernize.align(pairs, forms)
             primary_sent = build.build_primary(st, pairs, alignment)
-            build.merge_synthetic_pronouns(primary_sent)
         else:
             # no standardization available: keep the text as parsed, flag it
             alignment = None
@@ -84,7 +79,7 @@ def process(
             for tok in primary_sent.tokens:
                 tok.add_misc("Align", "NoStandard")
 
-        ud.metadata = [("sent_id", sid), ("text_standard", display_standard)]
+        ud.metadata = [("sent_id", sid), ("text_standard", standard)]
 
         primary.append(primary_sent)
         udpipe_out.append(ud)
@@ -112,13 +107,6 @@ def main(argv: Optional[List[str]] = None) -> int:
         action="store_true",
         help="never call the intergaelic API; use cache only",
     )
-    ap.add_argument(
-        "--pre-standard",
-        metavar="FILE",
-        help="TSV of text-specific standardisation overrides "
-        "(original<TAB>standard, multi-word allowed), applied on top of "
-        "the intergaelic output",
-    )
     args = ap.parse_args(argv)
 
     sentences = read_sentences(args.input, args.from_conllu)
@@ -126,13 +114,11 @@ def main(argv: Optional[List[str]] = None) -> int:
         print("No input sentences found.", file=sys.stderr)
         return 1
 
-    rules = prestandard.load_rules(args.pre_standard) if args.pre_standard else None
-
     out_dir = os.path.dirname(args.out)
     if out_dir:
         os.makedirs(out_dir, exist_ok=True)
 
-    primary, udpipe_out, diffs = process(sentences, offline=args.offline, rules=rules)
+    primary, udpipe_out, diffs = process(sentences, offline=args.offline)
 
     with open(f"{args.out}.conllu", "w", encoding="utf-8") as fh:
         fh.write(conllu.dump(primary))

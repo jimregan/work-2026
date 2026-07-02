@@ -10,9 +10,7 @@ from __future__ import annotations
 import difflib
 import hashlib
 import json
-import re
 import sys
-import time
 import urllib.error
 import urllib.parse
 import urllib.request
@@ -60,39 +58,20 @@ def request_pairs(text: str, *, offline: bool = False) -> Optional[List[Pair]]:
             "Accept": "application/json",
         },
     )
-    retries = 3
-    for attempt in range(1, retries + 1):
-        try:
-            with urllib.request.urlopen(req, timeout=60) as resp:
-                pairs = json.loads(resp.read())
-        except urllib.error.HTTPError as e:
-            if e.code >= 500 and attempt < retries:
-                print(
-                    f"intergaelic HTTP {e.code}, retrying ({attempt}/{retries})",
-                    file=sys.stderr,
-                )
-                time.sleep(2 * attempt)
-                continue
-            print(f"intergaelic HTTP error: {e.code}", file=sys.stderr)
-            return None
-        except (urllib.error.URLError, TimeoutError, OSError) as e:
-            # covers connection errors and socket read timeouts alike
-            if attempt < retries:
-                print(
-                    f"intergaelic connection problem ({e}), "
-                    f"retrying ({attempt}/{retries})",
-                    file=sys.stderr,
-                )
-                time.sleep(2 * attempt)
-                continue
-            print(f"intergaelic connection error: {e}", file=sys.stderr)
-            return None
-        except ValueError:
-            print("intergaelic returned malformed JSON", file=sys.stderr)
-            return None
-        _cache_set(key, pairs)
-        return [tuple(p) for p in pairs]
-    return None
+    try:
+        with urllib.request.urlopen(req, timeout=30) as resp:
+            pairs = json.loads(resp.read())
+    except urllib.error.HTTPError as e:
+        print(f"intergaelic HTTP error: {e.code}", file=sys.stderr)
+        return None
+    except urllib.error.URLError as e:
+        print(f"intergaelic connection error: {e.reason}", file=sys.stderr)
+        return None
+    except ValueError:
+        print("intergaelic returned malformed JSON", file=sys.stderr)
+        return None
+    _cache_set(key, pairs)
+    return [tuple(p) for p in pairs]
 
 
 def standardize(text: str, *, offline: bool = False):
@@ -147,20 +126,6 @@ class Dropped:
 class Alignment:
     mapped: List[Mapped] = field(default_factory=list)  # parallel to parser_forms
     dropped: List[Dropped] = field(default_factory=list)
-
-
-_SPACE_BEFORE = re.compile(r"\s+([.,;:?!)\]])")
-_SPACE_AFTER = re.compile(r"([(\[])\s+")
-
-
-def detokenize(text: str) -> str:
-    """Undo the token join's spacing around punctuation, for display.
-
-    The space-separated form is still what the parsers are fed (it keeps their
-    tokenization aligned with the intergaelic pairs); this is only for the
-    ``# text_standard`` comment.
-    """
-    return _SPACE_AFTER.sub(r"\1", _SPACE_BEFORE.sub(r"\1", text))
 
 
 def align(pairs: List[Pair], parser_forms: List[str]) -> Alignment:

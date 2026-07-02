@@ -1,4 +1,3 @@
-
 Bhí baintreabhach mná i Leitir-Mhic-a-Bháird.
 Bhi beirt mhac aici—Padraig Ua Ciórrthais an fear bu sine ⁊ Éamonn ab óige.
 D’fhás siad suas go robh siad ann a mbuachaillí.

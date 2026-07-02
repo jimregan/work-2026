@@ -19,7 +19,8 @@ vi꞉ ·ʃɛvαli꞉r ə :gɔl ə ·vαli꞉ ||
 ­hi꞉lʹ :gαχ ­⅄꞉n dəNʹ ­tʹrʹu꞉rʹ | gə ‑ro N ­po̤Ntə ɛgʹ :dinʹ :i꞉Nʹtʹαχ ­elʹ :ɔkuw ||
 χo̤rsəd mɔrαn pwædʹrʹαχə αgəs bʹαNαχti꞉ lʹeʃ αgəs du꞉rtʹ gər wα̃iç ə go꞉ni꞉ ə.
 χïmʹαd ʃe iəd gə vɛkʹit(ʹ) ʃɛ gədʹe꞉ jα꞉n̥ət(ʹ) ʃiəd.
-Nerʹ ətα꞉ n po̤Nt əgiNʹ, ərsə fʹαr də Nα diLʹ, gədʹe꞉ jα꞉n̥ə mwidʹ lʹeʃ? tα꞉ kɔ꞉t ə jiç ɔrəmsə, ərsə fʹαr də Nα diLʹ.
+Nerʹ ətα꞉ n po̤Nt əgiNʹ, ərsə fʹαr də Nα diLʹ, gədʹe꞉ jα꞉n̥ə mwidʹ lʹeʃ?
+tα꞉ kɔ꞉t ə jiç ɔrəmsə, ərsə fʹαr də Nα diLʹ.
 tα꞉ brɔ꞉g ə jiç ɔrəmsə, ərsə fʹαr elʹə.
 tα꞉ mə vrʹikʹfʹɔstə ə jiç ɔrəmsə, ərsə Nʹ tʹrʹicuw dαL.
 tα꞉ erʹ mʹrʹikʹfʹɔstə ə jiç ɔriNʹ əlʹigʹ.
@@ -51,8 +52,10 @@ du꞉rtʹ ə sïgərt gə mʹet(ʹ) ʃïn kʹαrt əNʹe꞉i NαfrʹiNʹ.
 henʹikʹ ə ʃəvαli꞉r əNuəs αgəs du꞉rsə, fαn hïs iNʹʃɔ αgəs jo꞉ tuw də fo̤Nt əNʹe꞉i NαfʹrʹiNʹ.
 Nerʹ ə vi꞉ N tαfʹrʹəN rα꞉tʹə, χrαiç ə sïgərt ə vɛ꞉r erʹ αr Nə tα꞉vərNʹə hαχt əNʹi꞉s.
 du꞉rtʹ ə sïgərt – go꞉ ər də ꬶlu꞉nʹə.
-du꞉rtʹ fʹαr Nə tα꞉vərNʹə – wïL tuw gɔl ə hɔrt dũw N tærʹəgʹidʹ? du꞉rtʹ ə sïgərt ərʹi꞉ʃtʹ – go꞉ ər də ꬶlu꞉nʹə.
-du꞉rtʹ fʹαr Nə tα꞉vərNʹə – wïL tuw gɔl ə hɔrt dũw n fo̤Ntə? vi꞉ sLαt jαl ɛgʹ ə tïgərt αgəs wuiLʹ ʃə fʹαr Nə tα꞉vərNʹə erʹ α wlαgɔdʹ αgəs du꞉rsə – go꞉ ər də ꬶlu꞉nʹ əniʃ.
+du꞉rtʹ fʹαr Nə tα꞉vərNʹə – wïL tuw gɔl ə hɔrt dũw N tærʹəgʹidʹ?
+du꞉rtʹ ə sïgərt ərʹi꞉ʃtʹ – go꞉ ər də ꬶlu꞉nʹə.
+du꞉rtʹ fʹαr Nə tα꞉vərNʹə – wïL tuw gɔl ə hɔrt dũw n fo̤Ntə?
+vi꞉ sLαt jαl ɛgʹ ə tïgərt αgəs wuiLʹ ʃə fʹαr Nə tα꞉vərNʹə erʹ α wlαgɔdʹ αgəs du꞉rsə – go꞉ ər də ꬶlu꞉nʹ əniʃ.
 ho̤g fʹαr Nə tα꞉vərNʹə əi(ö̤i) erʹ ə dɔrəs αgəs rαh ə sïgərt gə do̤gət(ʹ) ʃə rʹeʃ ə.
 αχ dʹïmʹi꞉ fʹαr Nə tα꞉vərNʹə.
 vi꞉ ʃɛ virʹigʹ αgəs ə to꞉rtʹ mʹïNə mo꞉r.

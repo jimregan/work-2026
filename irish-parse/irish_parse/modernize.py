@@ -10,6 +10,7 @@ from __future__ import annotations
 import difflib
 import hashlib
 import json
+import re
 import sys
 import urllib.error
 import urllib.parse
@@ -126,6 +127,20 @@ class Dropped:
 class Alignment:
     mapped: List[Mapped] = field(default_factory=list)  # parallel to parser_forms
     dropped: List[Dropped] = field(default_factory=list)
+
+
+_SPACE_BEFORE = re.compile(r"\s+([.,;:?!)\]])")
+_SPACE_AFTER = re.compile(r"([(\[])\s+")
+
+
+def detokenize(text: str) -> str:
+    """Undo the token join's spacing around punctuation, for display.
+
+    The space-separated form is still what the parsers are fed (it keeps their
+    tokenization aligned with the intergaelic pairs); this is only for the
+    ``# text_standard`` comment.
+    """
+    return _SPACE_AFTER.sub(r"\1", _SPACE_BEFORE.sub(r"\1", text))
 
 
 def align(pairs: List[Pair], parser_forms: List[str]) -> Alignment:

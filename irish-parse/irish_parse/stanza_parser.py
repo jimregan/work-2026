@@ -13,9 +13,10 @@ def _pipeline():
 
     # tokenize_no_ssplit: never split a segment into multiple sentences, so each
     # input line stays one sentence and stays aligned with the modernization.
+    # processors is left unset: ga has no mwt model (as of stanza 1.13), so the
+    # language default set is what actually loads.
     return stanza.Pipeline(
         lang="ga",
-        processors="tokenize,mwt,pos,lemma,depparse",
         tokenize_no_ssplit=True,
         download_method=None,
         verbose=False,

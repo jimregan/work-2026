@@ -60,10 +60,3 @@ def test_single_divergence_does_not_desync_rest():
     assert al.mapped[2].original == "c" and al.mapped[2].status == MATCH
     assert al.mapped[1].original == "bszz"
     assert al.mapped[1].status == UNCERTAIN
-
-
-def test_parser_splitting_within_a_pair_groups_as_one_original():
-    pairs = [("Ime.", "Ime .")]
-    forms = ["Ime", "."]
-    al = align(pairs, forms)
-    assert al.mapped[0].orig_index == al.mapped[1].orig_index

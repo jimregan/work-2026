@@ -40,5 +40,4 @@ def test_markdown_includes_diff_table():
     st = _sent([("sé", "PRON", "1", "nsubj", "sé")])
     ud = _sent([("sé", "PRON", "1", "obj", "sé")])
     md = compare.render_markdown([compare.compare("1", "sé", st, ud)])
-    assert "| Field |" in md.replace("  ", " ") or "Field" in md
-    assert "nsubj" in md and "obj" in md
+    assert "| 1 | sé | deprel | nsubj | obj |" in md

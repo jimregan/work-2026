@@ -52,6 +52,8 @@ def compare(
     for i, (a, b) in enumerate(zip(st, ud), start=1):
         for f in COMPARE_FIELDS:
             av, bv = getattr(a, f), getattr(b, f)
+            if f == "lemma" and av.lower() == bv.lower():
+                continue  # pure case differences are noise
             if av != bv:
                 diffs.append(TokenDiff(i, a.form, f, av, bv))
 

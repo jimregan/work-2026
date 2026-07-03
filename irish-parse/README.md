@@ -70,6 +70,20 @@ straight position-by-position comparison of UPOS, lemma, head, and deprel.
 - `--offline` — never call the intergaelic API; use only the on-disk cache
   (`~/.cache/intergaelic`). Sentences with no cached standardization are parsed
   as-is and their tokens marked `Align=NoStandard`.
+- `--pre-standard FILE` — text-specific standardisation overrides the API
+  misses, one TAB-separated rule per line (multi-word allowed, `#` comments):
+
+  ```
+  go dé	cad é
+  acht	ach
+  ```
+
+  Rules are keyed on the original tokens and rewrite the standard side of the
+  intergaelic pairs, so alignment back to the original is unaffected. See
+  `examples/quiggin_pre.tsv`.
+
+The Stanza-vs-UDPipe comparison ignores lemma differences that are pure case
+(`Aindrias` vs `aindrias`) — they are noise.
 
 ## Devcontainer
 

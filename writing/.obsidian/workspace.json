@@ -377,16 +377,30 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "chevalier phones.md",
+                "file": "Aindrias an Ime.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "chevalier phones"
+              "title": "Aindrias an Ime"
+            }
+          },
+          {
+            "id": "89fd3e2b1c42b0e5",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "chapter 1 - section 2.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "chapter 1 - section 2"
             }
           }
         ],
-        "currentTab": 26
+        "currentTab": 27
       }
     ],
     "direction": "vertical"
@@ -549,21 +563,23 @@
       "obsidian-importer:Open Importer": false
     }
   },
-  "active": "1d0428f71db6c429",
+  "active": "89fd3e2b1c42b0e5",
   "lastOpenFiles": [
+    "Aindrias an Ime.md",
+    "chapter 1 - section 2.md",
+    "Chapter 1",
+    "sceal text.md",
+    "leadairt text.md",
+    "Eoin.md",
+    "Éamonn Ua Ciórrthais.md",
     "chevalier text.md",
     "chevalier phones.md",
     "tmp",
-    "leadairt text.md",
     "leadairt phones.md",
     "sceal phones.md",
-    "sceal text.md",
     "1.md",
     "Eoin phonetic.md",
-    "Eoin.md",
     "Éamuinn Ui Ciórrthais phones.md",
-    "Éamonn Ua Ciórrthais.md",
-    "Aindrias an Ime.md",
     "SSL Loss Design Notes.md",
     "Untitled 2.md",
     "Welcome.md",
@@ -585,7 +601,6 @@
     "LRE - Phonetic corpus/political/orig.tex",
     "LRE - Phonetic corpus/political/header.tex",
     "LRE - Phonetic corpus/political/abstract.ins",
-    "LRE - Phonetic corpus/political",
     "2026-03-24 hallevik_owov.jpg",
     "2025-09-22 52624640855_e80a42baca_o.png",
     "2025-06-04 Attachment.png",

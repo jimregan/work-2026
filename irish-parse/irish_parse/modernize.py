@@ -12,6 +12,7 @@ import hashlib
 import json
 import re
 import sys
+import time
 import urllib.error
 import urllib.parse
 import urllib.request
@@ -59,20 +60,39 @@ def request_pairs(text: str, *, offline: bool = False) -> Optional[List[Pair]]:
             "Accept": "application/json",
         },
     )
-    try:
-        with urllib.request.urlopen(req, timeout=30) as resp:
-            pairs = json.loads(resp.read())
-    except urllib.error.HTTPError as e:
-        print(f"intergaelic HTTP error: {e.code}", file=sys.stderr)
-        return None
-    except urllib.error.URLError as e:
-        print(f"intergaelic connection error: {e.reason}", file=sys.stderr)
-        return None
-    except ValueError:
-        print("intergaelic returned malformed JSON", file=sys.stderr)
-        return None
-    _cache_set(key, pairs)
-    return [tuple(p) for p in pairs]
+    retries = 3
+    for attempt in range(1, retries + 1):
+        try:
+            with urllib.request.urlopen(req, timeout=60) as resp:
+                pairs = json.loads(resp.read())
+        except urllib.error.HTTPError as e:
+            if e.code >= 500 and attempt < retries:
+                print(
+                    f"intergaelic HTTP {e.code}, retrying ({attempt}/{retries})",
+                    file=sys.stderr,
+                )
+                time.sleep(2 * attempt)
+                continue
+            print(f"intergaelic HTTP error: {e.code}", file=sys.stderr)
+            return None
+        except (urllib.error.URLError, TimeoutError, OSError) as e:
+            # covers connection errors and socket read timeouts alike
+            if attempt < retries:
+                print(
+                    f"intergaelic connection problem ({e}), "
+                    f"retrying ({attempt}/{retries})",
+                    file=sys.stderr,
+                )
+                time.sleep(2 * attempt)
+                continue
+            print(f"intergaelic connection error: {e}", file=sys.stderr)
+            return None
+        except ValueError:
+            print("intergaelic returned malformed JSON", file=sys.stderr)
+            return None
+        _cache_set(key, pairs)
+        return [tuple(p) for p in pairs]
+    return None
 
 
 def standardize(text: str, *, offline: bool = False):

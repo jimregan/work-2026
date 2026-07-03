@@ -26,7 +26,7 @@ import os
 import sys
 from typing import List, Optional, Tuple
 
-from irish_parse import build, compare, conllu, modernize
+from irish_parse import build, compare, conllu, modernize, prestandard
 
 
 def read_sentences(path: str, from_conllu: bool) -> List[str]:
@@ -43,7 +43,7 @@ def read_sentences(path: str, from_conllu: bool) -> List[str]:
 
 
 def process(
-    sentences: List[str], offline: bool
+    sentences: List[str], offline: bool, rules=None
 ) -> Tuple[List[conllu.Sentence], List[conllu.Sentence], List[compare.SentenceDiff]]:
     from irish_parse import stanza_parser, udpipe_parser
 
@@ -54,6 +54,9 @@ def process(
     for i, original in enumerate(sentences, start=1):
         sid = str(i)
         standard, pairs = modernize.standardize(original, offline=offline)
+        if pairs is not None and rules:
+            pairs = prestandard.apply(pairs, rules)
+            standard = " ".join(s for _, s in pairs if s.strip())
         if pairs is None:
             print(
                 f"[sent {sid}] standardization unavailable; parsing text as-is",
@@ -107,6 +110,13 @@ def main(argv: Optional[List[str]] = None) -> int:
         action="store_true",
         help="never call the intergaelic API; use cache only",
     )
+    ap.add_argument(
+        "--pre-standard",
+        metavar="FILE",
+        help="TSV of text-specific standardisation overrides "
+        "(original<TAB>standard, multi-word allowed), applied on top of "
+        "the intergaelic output",
+    )
     args = ap.parse_args(argv)
 
     sentences = read_sentences(args.input, args.from_conllu)
@@ -114,11 +124,13 @@ def main(argv: Optional[List[str]] = None) -> int:
         print("No input sentences found.", file=sys.stderr)
         return 1
 
+    rules = prestandard.load_rules(args.pre_standard) if args.pre_standard else None
+
     out_dir = os.path.dirname(args.out)
     if out_dir:
         os.makedirs(out_dir, exist_ok=True)
 
-    primary, udpipe_out, diffs = process(sentences, offline=args.offline)
+    primary, udpipe_out, diffs = process(sentences, offline=args.offline, rules=rules)
 
     with open(f"{args.out}.conllu", "w", encoding="utf-8") as fh:
         fh.write(conllu.dump(primary))

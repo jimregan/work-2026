@@ -35,14 +35,25 @@ from typing import Optional
 import pynini
 
 
+def _symbol_acceptor(sym: str, syms: pynini.SymbolTable) -> pynini.Fst:
+    """Acceptor for a single phoneme symbol in the SymbolTable label space."""
+    return pynini.accep(sym, token_type=syms)
+
+
 def build_sigma_star(syms: pynini.SymbolTable) -> pynini.Fst:
-    """Build sigma_star: the closure over all symbols in the table."""
+    """Build sigma_star: the closure over all symbols in the table.
+
+    Arcs are labelled with the SymbolTable's integer ids (via
+    ``token_type=syms``) so the rules share a label space with the
+    lexicon and reference FSTs. Using byte/utf8 escaping here instead
+    would silently produce empty compositions.
+    """
     symbol_fsts = []
     for idx in range(syms.num_symbols()):
         sym = syms.find(idx)
         if sym == "<eps>" or sym == "":
             continue
-        symbol_fsts.append(pynini.escape(sym))
+        symbol_fsts.append(_symbol_acceptor(sym, syms))
 
     sigma = pynini.union(*symbol_fsts)
     return sigma.closure().optimize()
@@ -72,6 +83,27 @@ _PATTERN_TOKEN_RE = re.compile(
 )
 
 
+def _segment_symbols(text: str, all_syms: set[str]) -> list[str]:
+    """Greedily segment a codepoint run into known SymbolTable symbols.
+
+    Longest-match first, so multi-codepoint symbols (e.g. ``ʉː``) are
+    preferred over their constituent codepoints. Codepoints that match
+    no symbol are skipped.
+    """
+    by_len = sorted((s for s in all_syms if s), key=len, reverse=True)
+    result: list[str] = []
+    i = 0
+    while i < len(text):
+        for sym in by_len:
+            if text.startswith(sym, i):
+                result.append(sym)
+                i += len(sym)
+                break
+        else:
+            i += 1
+    return result
+
+
 def _parse_pattern(
     pattern: str,
     syms: pynini.SymbolTable,
@@ -79,92 +111,71 @@ def _parse_pattern(
 ) -> pynini.Fst:
     """Parse an MFA-style regex-like pattern into a pynini acceptor.
 
-    Supported syntax (operating on individual characters within the
-    pattern string, since MFA compiles to Python regexes):
+    All sub-expressions are built in the SymbolTable label space
+    (``token_type=syms``) so they compose with the lexicon and reference
+    FSTs. Literal runs are segmented into known symbols (longest-match).
 
-    - Literal characters are concatenated as pynini symbols.
-    - ``[abc]`` — union of characters a, b, c.
-    - ``[^abc]`` — union of all symbols *except* a, b, c.
-    - ``?`` after any element — makes it optional.
+    Supported syntax:
+
+    - Literal phoneme symbols are concatenated.
+    - ``[abc]`` — union of the listed symbols.
+    - ``[^abc]`` — union of all symbols *except* the listed ones.
+    - ``?`` after any element — makes that element optional.
     - ``.*`` — sigma_star (match anything).
-    - ``$`` — word/utterance boundary (accepted as empty string /
-      epsilon, since our FSTs operate on isolated utterance chunks).
-
-    Space-separated tokens in the *original* YAML field are handled
-    by the caller (``_compile_element``); this function handles the
-    regex-like sub-expressions within a single token or within a
-    non-space-separated pattern string.
+    - ``$`` — word/utterance boundary (treated as epsilon, since our
+      FSTs operate on isolated utterance chunks).
     """
     all_syms = _all_symbols(syms)
+    eps = pynini.accep("", token_type=syms)
 
     tokens = _PATTERN_TOKEN_RE.findall(pattern)
     if not tokens:
-        # Empty pattern → epsilon
-        return pynini.accep("", token_type="utf8")
+        return eps
 
-    parts: list[pynini.Fst] = []
-    i = 0
-    while i < len(tokens):
-        tok = tokens[i]
+    atoms: list[pynini.Fst] = []
+    lit = ""
 
+    def flush_lit() -> None:
+        nonlocal lit
+        for sym in _segment_symbols(lit, all_syms):
+            atoms.append(_symbol_acceptor(sym, syms))
+        lit = ""
+
+    for tok in tokens:
         if tok == ".*":
-            parts.append(sigma_star.copy())
-            i += 1
-
+            flush_lit()
+            atoms.append(sigma_star.copy())
         elif tok == "$":
-            # Boundary — treat as epsilon (we operate on utterance chunks)
-            i += 1
-
+            flush_lit()  # boundary → epsilon
         elif tok.startswith("[^") and tok.endswith("]"):
-            # Negated character class
-            excluded = set(tok[2:-1])
-            included = all_syms - excluded
+            flush_lit()
+            excluded = set(_segment_symbols(tok[2:-1], all_syms))
+            included = sorted(all_syms - excluded)
             if not included:
-                raise ValueError(
-                    f"Negated class {tok} excludes all symbols"
-                )
-            fst = pynini.union(
-                *[pynini.escape(s) for s in sorted(included)]
+                raise ValueError(f"Negated class {tok} excludes all symbols")
+            atoms.append(
+                pynini.union(*[_symbol_acceptor(s, syms) for s in included])
             )
-            # Check for trailing ?
-            if i + 1 < len(tokens) and tokens[i + 1] == "?":
-                fst = pynini.union(fst, pynini.accep("", token_type="utf8"))
-                i += 2
-            else:
-                i += 1
-            parts.append(fst)
-
         elif tok.startswith("[") and tok.endswith("]"):
-            # Character class
-            chars = list(tok[1:-1])
-            fst = pynini.union(*[pynini.escape(c) for c in chars])
-            if i + 1 < len(tokens) and tokens[i + 1] == "?":
-                fst = pynini.union(fst, pynini.accep("", token_type="utf8"))
-                i += 2
-            else:
-                i += 1
-            parts.append(fst)
-
+            flush_lit()
+            members = _segment_symbols(tok[1:-1], all_syms)
+            atoms.append(
+                pynini.union(*[_symbol_acceptor(s, syms) for s in members])
+            )
         elif tok == "?":
-            # Stray ? without a preceding group — skip
-            i += 1
-
+            flush_lit()
+            if atoms:
+                atoms.append(pynini.union(atoms.pop(), eps))
         else:
-            # Literal character
-            fst = pynini.escape(tok)
-            if i + 1 < len(tokens) and tokens[i + 1] == "?":
-                fst = pynini.union(fst, pynini.accep("", token_type="utf8"))
-                i += 2
-            else:
-                i += 1
-            parts.append(fst)
+            lit += tok
+    flush_lit()
 
-    if not parts:
-        return pynini.accep("", token_type="utf8")
+    if not atoms:
+        return eps
 
-    result = parts[0]
-    for p in parts[1:]:
-        result = pynini.concat(result, p)
+    result = atoms[0]
+    for a in atoms[1:]:
+        result = pynini.concat(result, a)
     return result.optimize()
 
 
@@ -183,10 +194,11 @@ def _compile_element(
     If the value contains no spaces but has regex metacharacters, the
     whole string is parsed as a pattern.
 
-    An empty string produces epsilon (empty acceptor).
+    All acceptors use ``token_type=syms`` so they share a label space
+    with the lexicon FST. An empty string produces epsilon.
     """
     if not field_value:
-        return pynini.accep("", token_type="utf8")
+        return pynini.accep("", token_type=syms)
 
     # Check if it looks like it uses regex features
     has_regex = bool(re.search(r"[\[\]?*$^]", field_value))
@@ -199,7 +211,7 @@ def _compile_element(
             if re.search(r"[\[\]?*$^]", tok):
                 parts.append(_parse_pattern(tok, syms, sigma_star))
             else:
-                parts.append(pynini.escape(tok))
+                parts.append(_symbol_acceptor(tok, syms))
         result = parts[0]
         for p in parts[1:]:
             result = pynini.concat(result, p)
@@ -209,7 +221,7 @@ def _compile_element(
         return _parse_pattern(field_value, syms, sigma_star)
 
     # Plain single phoneme symbol
-    return pynini.escape(field_value)
+    return _symbol_acceptor(field_value, syms)
 
 
 def _compile_one_rule(

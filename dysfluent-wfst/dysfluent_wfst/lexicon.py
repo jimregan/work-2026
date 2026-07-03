@@ -62,7 +62,7 @@ def lookup_word(word: str, lexicon_fst: pynini.Fst) -> pynini.Fst:
     Returns a transducer/acceptor containing all pronunciations for
     the word. Raises ``pynini.FstArgError`` if the word is not found.
     """
-    word_fst = pynini.escape(word)
+    word_fst = pynini.accep(pynini.escape(word), token_type="utf8")
     return pynini.compose(word_fst, lexicon_fst)
 
 

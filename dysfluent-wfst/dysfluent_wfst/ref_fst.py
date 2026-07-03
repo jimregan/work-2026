@@ -48,12 +48,14 @@ def build_ref_fst(
     alpha = 1 - 10 ** (-beta)
     error_score = 1 - alpha
 
-    compiler = pynini.Compiler(
-        isymbols=input_syms,
-        osymbols=output_syms,
-    )
+    fst = pynini.Fst()
 
     L = len(phoneme_ids)
+    # States 0..L (state L is the final state).
+    for _ in range(L + 1):
+        fst.add_state()
+    fst.set_start(0)
+
     next_osym_id = output_syms.num_symbols()
 
     # Precompute reverse index map for substitution arc lookups
@@ -74,9 +76,10 @@ def build_ref_fst(
             if j == i + 1:
                 # (a) Correct transition
                 w = -math.log(alpha) if alpha > 0 else 0.0
-                compiler.add_arc(i, pynini.Arc(phone, phone, w, j))
+                fst.add_arc(i, pynini.Arc(phone, phone, w, j))
 
-                if sub and similarity_matrix is not None and lexicon is not None and phn2idx is not None:
+                if (sub and error_score > 0 and similarity_matrix is not None
+                        and lexicon is not None and phn2idx is not None):
                     # (b) Substitution arcs
                     phone_text = lexicon[phone]
                     if is_ipa and ipa_to_cmu_fn is not None:
@@ -104,7 +107,7 @@ def build_ref_fst(
                                 continue
 
                             w_sub = -math.log(error_score / 10000)
-                            compiler.add_arc(
+                            fst.add_arc(
                                 i, pynini.Arc(sim_pid, sim_pid, w_sub, j)
                             )
             else:
@@ -120,7 +123,7 @@ def build_ref_fst(
                     w_skip = -math.log(
                         dynamic_error_probability(error_score, abs(i - j))
                     )
-                    compiler.add_arc(i, pynini.Arc(0, mid, w_skip, j))
+                    fst.add_arc(i, pynini.Arc(0, mid, w_skip, j))
                 elif j < i and back and i - j <= 2:
                     # (d) Back / repetition
                     marker = f"{i}<trans>{j}"
@@ -131,8 +134,10 @@ def build_ref_fst(
                     w_back = -math.log(
                         dynamic_error_probability(error_score, abs(i - j))
                     )
-                    compiler.add_arc(i, pynini.Arc(0, mid, w_back, j))
+                    fst.add_arc(i, pynini.Arc(0, mid, w_back, j))
 
-    compiler.set_final(L, 0)
+    fst.set_final(L, 0)
 
-    return compiler.compile()
+    fst.set_input_symbols(input_syms)
+    fst.set_output_symbols(output_syms)
+    return fst

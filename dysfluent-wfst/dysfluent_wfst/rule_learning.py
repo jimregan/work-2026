@@ -5,6 +5,7 @@ from __future__ import annotations
 import argparse
 from collections import Counter, defaultdict
 from dataclasses import dataclass, field
+from pathlib import Path
 from typing import Iterable, Optional
 
 
@@ -195,6 +196,7 @@ def load_timit_phn(path: str) -> list[str]:
 def load_timit_pair_manifest(path: str) -> list[tuple[str, str, str]]:
     """Load id, citation phones, .PHN path and return pronunciation pairs."""
     pairs = []
+    manifest_dir = Path(path).resolve().parent
     with open(path, encoding="utf-8") as f:
         for line_num, line in enumerate(f, 1):
             line = line.strip()
@@ -207,7 +209,10 @@ def load_timit_pair_manifest(path: str) -> list[tuple[str, str, str]]:
                 )
             item_id = parts[0].strip()
             citation = parts[1].strip()
-            observed = " ".join(load_timit_phn(parts[2].strip()))
+            phn_path = Path(parts[2].strip())
+            if not phn_path.is_absolute():
+                phn_path = manifest_dir / phn_path
+            observed = " ".join(load_timit_phn(str(phn_path)))
             pairs.append((item_id, citation, observed))
     return pairs
 

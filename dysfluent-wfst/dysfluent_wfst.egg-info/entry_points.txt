@@ -1,3 +1,0 @@
-[console_scripts]
-dysfluent-decode = dysfluent_wfst.cli:main
-dysfluent-learn-rules = dysfluent_wfst.rule_learning:main

@@ -35,7 +35,10 @@ def test_full_pipeline_on_real_sentence(tmp_path):
     assert sent.meta_get("text") == (
         "Bhí Áindrías an Ime na chomhnaidhe i mBaile ui Mún i nGleann an Bhaile Dhuibh."
     )
-    assert "chónaí" in (sent.meta_get("text_standard") or "")
+    standard = sent.meta_get("text_standard") or ""
+    assert "chónaí" in standard
+    # no token-join spaces before punctuation in the displayed standard
+    assert standard.endswith("Dhuibh.")
 
     # FORM is the original surface, exactly as written
     forms = [t.form for t in sent.tokens if "-" not in t.id]

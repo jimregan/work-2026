@@ -68,9 +68,10 @@ def process(
         forms = [t.form for t in st.tokens]
         ud = udpipe_parser.parse_tokens(forms)
 
+        display_standard = modernize.detokenize(standard)
         st.meta_set("sent_id", sid)
         st.meta_set("text", original)
-        st.meta_set("text_standard", standard)
+        st.meta_set("text_standard", display_standard)
 
         if pairs is not None:
             alignment = modernize.align(pairs, forms)
@@ -82,7 +83,7 @@ def process(
             for tok in primary_sent.tokens:
                 tok.add_misc("Align", "NoStandard")
 
-        ud.metadata = [("sent_id", sid), ("text_standard", standard)]
+        ud.metadata = [("sent_id", sid), ("text_standard", display_standard)]
 
         primary.append(primary_sent)
         udpipe_out.append(ud)

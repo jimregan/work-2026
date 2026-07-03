@@ -1,0 +1,17 @@
+Metadata-Version: 2.4
+Name: dysfluent-wfst
+Version: 0.1.0
+Summary: Phonetic variation detection using pynini FST construction and k2 dense lattice intersection
+Requires-Python: >=3.9
+Requires-Dist: pynini>=2.1.5
+Requires-Dist: k2>=1.24
+Requires-Dist: torch>=2.0
+Requires-Dist: torchaudio>=2.0
+Requires-Dist: transformers>=4.30
+Requires-Dist: datasets>=2.20
+Requires-Dist: numpy>=1.24
+Requires-Dist: pyyaml>=6.0
+Provides-Extra: dev
+Requires-Dist: pytest; extra == "dev"
+Provides-Extra: praat
+Requires-Dist: praat-parselmouth>=0.4.3; extra == "praat"

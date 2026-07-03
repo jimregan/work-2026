@@ -72,3 +72,20 @@ def test_load_timit_pair_manifest_reads_phn_intervals(tmp_path):
     assert load_timit_pair_manifest(str(manifest)) == [
         ("utt1", "n t s", "n s")
     ]
+
+
+def test_load_timit_pair_manifest_resolves_paths_from_manifest_dir(tmp_path, monkeypatch):
+    data_dir = tmp_path / "data"
+    data_dir.mkdir()
+    phn = data_dir / "utt.phn"
+    phn.write_text("0 100 aa\n100 200 n\n", encoding="utf-8")
+    manifest = tmp_path / "pairs.tsv"
+    manifest.write_text("utt1\taa n\tdata/utt.phn\n", encoding="utf-8")
+
+    other_dir = tmp_path / "other"
+    other_dir.mkdir()
+    monkeypatch.chdir(other_dir)
+
+    assert load_timit_pair_manifest(str(manifest)) == [
+        ("utt1", "aa n", "aa n")
+    ]

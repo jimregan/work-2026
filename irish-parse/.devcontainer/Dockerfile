@@ -26,7 +26,5 @@ RUN mkdir -p /models \
 
 ENV UDPIPE_MODEL=/models/irish-idt.udpipe
 ENV PYTHONUNBUFFERED=1
-# Fail loudly instead of silently re-downloading Stanza models at runtime.
-ENV STANZA_RESOURCES_DIR=/root/stanza_resources
 
 CMD ["bash"]

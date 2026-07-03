@@ -30,7 +30,7 @@ Ce b’air bith tuarastal is fiú mé, bhéarfaidh sé domh é.
 Air maidin lá air na bhárach chonnaic sé mórán spící air an bhadhbhdhun ⁊ ceann daoiní air chuid ocú.
 D’fhiafraigh sé, go dé tá mé ’g dul a dheánadh aniu.
 Teiseanadh dó bóitheach nar cartadh le seacht mbliadhna, ⁊ mur mbéidheadh sé cartaighthe trathnóna, go gcuirfidhe a cheann air spíce.
-Fuair sé _grape_, ⁊ an chéad cheann a chaith sé amach, sé an rud a thainic seacht gcinn asteach.
+Fuair sé grape, ⁊ an chéad cheann a chaith sé amach, sé an rud a thainic seacht gcinn asteach.
 Chaith sé ceann eile amach ⁊ thainic ceithre cinn déag asteach.
 Ó tím, arsé, is goirid go robh an teach seo líonta ⁊ rachaidh mo cheann-sa air an spíce.
 Tá mé i ndrocháit, arsé.
@@ -50,7 +50,7 @@ Chonnaic sé Cú Beag na Garbhchoilleadh ag reathaidh annsair.
 D’innis dithe go dé mar bhí sé.
 Dona thú, arsí.
 Amhairc annseo ann m’ascaill dheis.
-Fuair sé _grape_ an-bheag astigh ann a h‑ascaill.
+Fuair sé grape an-bheag astigh ann a h‑ascaill.
 Tabhair leat í‑sin ⁊ tabhair gráinín de’n aoileach amach air an dorus léithe.
 Bí fhéin as an chasán.
 Rinne sé sin ⁊ thoisigh an t‑aoileach ag eirigh i n‑áirde ⁊ ag teacht amach co tiugh a’s bhí an dorus ábalta é do leigean amach.
@@ -67,7 +67,7 @@ Tá mo chúig caoil anns an aon cheangal.
 Agus leig mise anuas.
 Ní bhuailfidh mé buille.
 Ce b’air bith ar chuir suas thú, leigeadh sé anuas thú.
-Shiubhail leis ’un an ghleanna ⁊ níor bhfada dhó go bhfaca sé an faitheach (fathach) ag tairngt air.
+Shiubhail leis ’un an ghleanna ⁊ níor bhfada dhó go bhfaca sé an faitheach ag tairngt air.
 Rinne sé gáire mór.
 Go dé adhbhar do gháire? arsa Éamonn.
 Tá, go bhfuil d’oiread-sa do fheóil úr agam le h‑ithe aniu.
@@ -82,7 +82,7 @@ Thug sé léim i n‑áirde.
 Bhuail sé i gcomhrac a chinn ⁊ a mhuineáil é.
 Chaith sé an ceann de go glan.
 Thug é‑fhéin léim eadar an ceann ⁊ an cholann.
-Níor bhac díod, ars’ an teangaidh a bhí sa cheann, dha bhfaghainn-se air an cholainn arís, thusa ⁊ fir an domhain (fir fagháil), ní bhainfeadh de mé.
+Níor bhac díod, ars’ an teangaidh a bhí sa cheann, dha bhfaghainn-se air an cholainn arís, thusa ⁊ fir an domhain, ní bhainfeadh de mé.
 D’fhan sé annsin gur fhuaraigh an ceann ⁊ an cholann.
 Thainic abhaile.
 Labhair an Crochaire Tárrnochttha: A Éamuinn Ui Ciórrthais, a dheagh-ghaiscidhigh, mharbhuigh tú an faitheach aniu.
@@ -99,7 +99,7 @@ Dona thú, arsa ’n cu, nach bhfuil ábalta na feadógaí do chruinniughadh.
 Amhairc ann m’ascaill chlí.
 D’amhairc ⁊ fuair sé fídeóg bheag ann.
 Nuair is maith leat iad do chruinniughadh seinn air sin.
-Sheinn sé air an fhídeóig ⁊ chruinnigh na feadógaí as (g)ach uile chearn a robh siad isteach gur dhruid sé an dorus.
+Sheinn sé air an fhídeóig ⁊ chruinnigh na feadógaí as gach uile chearn a robh siad isteach gur dhruid sé an dorus.
 Shiubhail leis síos ’un an ghleanna go dtainic fhad leis an Chrochaire Thárrnochttha.
 A Éamuinn Ui Ciórrthais, is tú an gaiscidheach is fearr san domhan.
 Mharbhuigh tú an faitheach ané.
@@ -171,7 +171,7 @@ Bhí buaidhreadh mór annsin nighean an ríogh imthighiste.
 Ghlac fearg mhór an rí.
 Dubhairt sé gur b’é Éamonn bu chiontaidh ⁊ nach dtiúbhradh rud air bith acht a cheann do chur air spíce sásughadh dó.
 Deán rud eile liom, arsa Éamonn.
-Shaor(th)aigh mé do nighean ⁊ mharbhuigh mé na trí fathaigh.
+Shaorthaigh mé do nighean ⁊ mharbhuigh mé na trí fathaigh.
 Anois tabhair domh lá ⁊ bliadhain le do nighean do thabhairt air ais.
 Mur bhfaghaidh mé í, tiocfaidh mé air ais má bhídhim beó ⁊ cead agad annsin mo cheann do chur air spíce.
 Gheánfaidh mé sin leat, arsa an rí.
@@ -234,7 +234,7 @@ Thainic an Crochaire.
 Mothuighim boladh an Éireannaigh bhradaigh, bhréagaigh annseo, arsé.
 Mothachaidh tú sin, arsí, fhad a’s tá mise ann.
 Air maidin go luath lá air n‑a bhárach d’imthigh an Crochaire ⁊ dubhairt nach mbéidheadh air ais go ceann dá lá.
-Dubhairt Éamonn le nighean an ríogh: mur bhfaghaidh muid _plan_ éiginteach oibriughadh, ní bhfuigh muid buaidh air an Chrochaire go deó.
+Dubhairt Éamonn le nighean an ríogh: mur bhfaghaidh muid plan éiginteach oibriughadh, ní bhfuigh muid buaidh air an Chrochaire go deó.
 Go dé ghéanfaidh muid? arsa nighean an ríogh.
 Leig thusa ort, arsa Éamonn go bhfuil cion mór agad air ⁊ go bhfuil buaidhreadh ort an pósadh do chur air gcúl.
 Deán iolghárdas mór nuair a thiocfaidh sé abhaile.
@@ -272,7 +272,7 @@ Scairt Éamonn air sheabhac Ghleann Dath Bhuidhe.
 Le preabadh na súl bhí an seabhac le feiceáil i ndiaidh an lacha.
 Níor bhfada gur bhuail an seabhac an lacha ⁊ iad amuigh os ceann na fairge.
 Air thuitim do’n lach rug sí uibh ⁊ thuit sí síos air lár na fairge.
-Scairt Éamonn air Dhobhrán Donn Loch an Iubhair (do) theacht go deifreach ⁊ an uibh do thabhairt annsair.
+Scairt Éamonn air Dhobhrán Donn Loch an Iubhair do theacht go deifreach ⁊ an uibh do thabhairt annsair.
 Anns an am sin chonnaic siad an Crochaire Tárrnochttha ag tairngt orrthú ⁊ bhí sé ag éirighe lag.
 Bu luaithe leis an dobhrán do bheith aig Éamonn ná’n Crochaire Tárrnochttha.
 Bhí a bhéal fosgailte ag iarraidh do bhéith fagháil anála.

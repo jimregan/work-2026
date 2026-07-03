@@ -19,7 +19,7 @@ Nuair do bhí siad ag dul i gceann airm thainic Gaibhdín Gabhna asteach.
 Nuair chuala sé fáth na troda, dubhairt sé nach mbéidheadh troid air bith ann acht go ndéanadh seisean breitheamhnas.
 D’aontaigh siad do’n bhreitheamhnas.
 Ním-se mo bhreitheamhnas, arsa Gaibhdín Gabhna, go bhfágfaidh mé sibh bhur dtriúr bhur seasadh air urlár mo cheárdcha.
-Tá trí dóirse oirrthí, dorus mic ríogh ⁊ rófhlaith, dorus na marcaigh (marcach) ⁊ dorus na gcoisidheannaí.
+Tá trí dóirse oirrthí, dorus mic ríogh ⁊ rófhlaith, dorus na marcaigh ⁊ dorus na gcoisidheannaí.
 Anns an am seo bhí an Ghlais Ghaibhleanna aig Gaibhdín Gabhna.
 Bhí slabhradh aige oirrthí le h‑eagla roimhe Bhalar.
 Leigeadh an slabhradh í anuas go Cnoc an tSlabhraidh atá aig taobh Árd-dá-ratha.
@@ -197,7 +197,7 @@ Chuaidh annsair an chócaire.
 Dubhairt an cócaire nach bhfuigheadh cead aon spólla amháin do chuir anns an choire.
 Rug sé air an choire.
 Thóg é amach de’n obair cloiche.
-Thug thart é ⁊ leig steall mhór de’n _bhroth_ thart air na cócairí.
+Thug thart é ⁊ leig steall mhór de’n bhroth thart air na cócairí.
 Dhóigh ’un báis iad.
 Dubhairt le Fionn, tá teini de dhíth orrainn anois.
 Chuaidh ’un an chaisleáin.
@@ -236,7 +236,7 @@ Rachaidh muid abhaile, arsa Fionn.
 Ní rachaidh muid abhaile, arsa Gioila na gCochall Craicionn, go bhfaghaidh muid ar mbean ⁊ lorg ar láimhe do fhágáil ar ndiaidh.
 Tá uaigh dhraoitheachta i bhfogus do’n chaisleán.
 Bhéarthar ar mbean annsin aniu.
-Má gheibhthear í asteach san uaigh, thusa ⁊ mise ⁊ a bhfuil i n‑Éirinn, ní thiubhradh (thabhairfeadh) amach í.
+Má gheibhthear í asteach san uaigh, thusa ⁊ mise ⁊ a bhfuil i n‑Éirinn, ní thiubhradh amach í.
 Tá dhá dhorus air an uaigh, dorus beag ⁊ dorus mór.
 Cuirfidh muid Diarmuid air an dorus bheag ⁊ rachaidh mise air an dorus mhór.
 Níor bhfada dhó go bhfacaidh chuige bean Dhiarmuid dhá’réag de mhná óga léithe ⁊ dhá’réag de sheanmhná.
@@ -277,7 +277,7 @@ Chóirigh siad a cholann le spíosaraí ⁊ thairng siad air an bhaile.
 An oidhche sin thainic ceó mór, gaoth ⁊ doinionn a chuir iad da gcúrsa.
 Bhí siad air seachrán.
 Ní robh fhios ocú cá robh siad ag dul air feadh mórán laethe.
-Shocraigh an doinionn ⁊ bu ghoirid go bhfuair siad (do) theacht abhaile.
+Shocraigh an doinionn ⁊ bu ghoirid go bhfuair siad do theacht abhaile.
 Nuair chonnaic Scaith Shíoda ní Mhanannán a fear fhéin marbh, bhí buaidhreadh dóchuimsí orrthí.
 Bhí buaidhreadh air Fhionn ⁊ air an Fhéinn go léir.
 Bhí buaidhreadh mór air Dhiarmuid ⁊ air a bhean.
@@ -290,14 +290,14 @@ Ní robh fhios aicí ca fhad bhí sí air fairge acht bhi sí i bhfad, mórán b
 Fá dheireadh bhuail an long air thalamh.
 Bhí sí tuirseach air fairge.
 Thainic sí air tír mór.
-Chonnaic sí caisleán mor i ngar (ngearr) dithe.
+Chonnaic sí caisleán mor i ngar dithe.
 Shiubhail sí suas ’un an chaisleáin.
 Ní fhacaidh sí duine air bith beó.
 Chuaidh sí asteach.
 Shiubhail sí mórán fríd an chaisleán.
 Fá dheireadh thainic sí ann seómra áirite seanóir críon-liath.
 D’athain sí go robh sé ann am eighinteach na rí.
-Labhair sí leis ⁊ ní robh sé fonnmhar seanchas(c) air bith do dheánadh.
+Labhair sí leis ⁊ ní robh sé fonnmhar seanchasc air bith do dheánadh.
 Bhí an trathnóna ann.
 Níor bhfada go dtainic asteach triúr de ghaiscidhigh óga gearrtha, millte, loitighthe ⁊ folaighthe le fuil.
 Chaith díobhtha a gcuid éadaigh.
@@ -376,7 +376,7 @@ Thug sé sáthadh da chlaidhimh air an bhall bhán ⁊ as sin trasna fríd n‑a
 Thuit an cú marbh.
 Bhí lúthgháir mhór air.
 D’fhan annsin go maidin ⁊ ní thainic níos mó.
-Smuainigh (smaoitigh) sé, ce b’air bith áit a dtainic siad as, go robh tilleadh uilc na ndiaidh.
+Smuainigh sé, ce b’air bith áit a dtainic siad as, go robh tilleadh uilc na ndiaidh.
 Chuaidh sé síos go bruach na fairge.
 Shiubhail sé síos aig bun an aillt.
 Fuair sé uaigh ag dul síos faoi an talamh.

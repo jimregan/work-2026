@@ -37,7 +37,7 @@ Thainic aníos ⁊ ’un cainte le Cúchulainn.
 D’fhiafraigh an dtiocfadh leis gléas bruithe do fhagháil do’n bholóig.
 Bhí cual chonnaidh sheacht mbliadhan ⁊ coire a bhruithfeadh seacht muca, seacht muilt ⁊ seacht mairt.
 Theiseain dó an chual chonnaidh.
-Chuir sé a dhá láimh (g)ach fá dtaobh dithe.
+Chuir sé a dhá láimh gach fá dtaobh dithe.
 Thug leis ⁊ d’fhág í neas do’n bholóig.
 Thainic air ais ⁊ rug air an choire.
 Thug leis ⁊ d’fhág an coire na shuidhe air an chual.
@@ -48,7 +48,7 @@ Rug air adharc na bolóige ⁊ thúsaigh sé do ól an tsúgh.
 Nuair d’ól sé a sháith ⁊ d’ith sé a sháith, chaith sé uadh an adharc.
 Thuit sí air an bharr chaol ⁊ chuaidh sí giota mór i dtalamh.
 Anois, arsa an fear mór, tá námhaid mo dhiaidh-sa, fear eile tá go mór níos mó ná mise le mo mharbhadh.
-Da ndeánthá coimhéad domh ⁊ gan é do leigean orm a gan fhios(t) choidleachainn néal, nuair atá mo sháith ithte agam ⁊ mo sháith ólta, da bhfaghainn néal codlata.
+Da ndeánthá coimhéad domh ⁊ gan é do leigean orm a gan fhiost choidleachainn néal, nuair atá mo sháith ithte agam ⁊ mo sháith ólta, da bhfaghainn néal codlata.
 Níor chodail mé aon néal le seacht n‑oidhche ⁊ seacht lá ⁊ an fear mór mo dhiaidh.
 Da bhfaghainn néal do chodladh, saoilim go mbéidhinn ábalta do throid.
 Gheall Cúchulainn dó go gcoimhéadadh sé.
@@ -83,6 +83,6 @@ Nuair chualaidh nighean Ghaibhdín, leig sí gáire mór i gcúl an dorais.
 Ní Cúchulainn bu chóir do bhéith ort san am sin, arsí, acht Cú na h‑Adhairce.
 Mo mhallacht ort, arsa Cúchulainn, ⁊ air mhná na h‑Éireanna.
 Tá an scéal caillte.
-Bhí trian de sheanchas(c) na h‑Éireanna i bhfiannaigheacht, trian i scéalaigheacht, trian air leadairt na bhfear mór.
+Bhí trian de sheanchasc na h‑Éireanna i bhfiannaigheacht, trian i scéalaigheacht, trian air leadairt na bhfear mór.
 Ní chluinfear go brathach é le h‑eagla go gcluinfidhe comh dona as d’éirigh domhsa.
 Cailleadh an chuid eile de’n scéal.

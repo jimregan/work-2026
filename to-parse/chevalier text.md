@@ -1,11 +1,11 @@
-Na trí daill ⁊ an _Chevalier_ i mBaile-átha-clíath.
+Na trí daill ⁊ an Chevalier i mBaile-átha-clíath.
 Tá tamall goirid o shoin bhí trí daill i mBaile-atha-clíath.
 Budh é a n‑obair gach lá ag iarraidh na déirce.
 Lá amháin áirite chas da chéile na trí bacaigh air dhroichead Bhaile-atha-Clíath.
 Bhí aithne ocu air a chéile.
 Bhí co heólach air an bhaile ’s go dtainic leis an uile dhuine ocu ’theacht ’un a thighe bhig fhéin tráthnóna.
 Bhí an triúr ag déanamh mairignigh air co holc ⁊ d’éirigh an lá leóbhtha.
-Bhí _chevalier_ ag dul an bhealaigh.
+Bhí chevalier ag dul an bhealaigh.
 Smaoitidh sé go ndéanfadh sé greann orthú.
 Bhí aithne aig na daill air ⁊ is minic a thug sé airgead dóbhtha.
 D’fhiafruigh sé díobhtha goidé mar bhí siad.
@@ -39,17 +39,17 @@ Tá deifre ormsa.
 Bhí an t‑anas ann.
 Ní rabh aon phinginn le fagháil.
 Bhí fear na táibheirne i bhfeirg.
-Bhí sé ag cur púdair ann a chuid féasóige go dtéidheadh sé fa choinne an _pholice_, go gcuireadh sé ’un an phríosúin iad.
-Anns an bhomaite thainic an _chevalier_ isteach ⁊ dubhairt leis go rabh sagart air an bhaile do bhí déirceach ⁊ go ndíolfadh sé an tairgead air shon na mbacaigh.
+Bhí sé ag cur púdair ann a chuid féasóige go dtéidheadh sé fa choinne an pholice, go gcuireadh sé ’un an phríosúin iad.
+Anns an bhomaite thainic an chevalier isteach ⁊ dubhairt leis go rabh sagart air an bhaile do bhí déirceach ⁊ go ndíolfadh sé an tairgead air shon na mbacaigh.
 Rachaidh mé fhéin leat ⁊ labhairfidh mé leis an tsagart.
 Bhí athas air fhear na táibheirne.
 Chuaidh an bheirt go teach an tsagairt.
 Fuair siad scéala annsin go rabh an sagart i dteach an phobail.
 Chuaidh an bheirt go teach an phobail.
 Bhí an sagart air an altóir ag dul do léigheadh aifrinn.
-Chuaidh an _chevalier_ suas air an altóir ⁊ dubhairt leis an tsagart go rabh duine bréagh annsin acht go rabh sé tinn o’n ghealaigh ⁊ go dtainic sé do iarraidh air an tsagart urnaigh rádh dó.
+Chuaidh an chevalier suas air an altóir ⁊ dubhairt leis an tsagart go rabh duine bréagh annsin acht go rabh sé tinn o’n ghealaigh ⁊ go dtainic sé do iarraidh air an tsagart urnaigh rádh dó.
 Dubhairt an sagart go mbéidheadh sin ceart i ndiaidh an aifrinn.
-Thainic an _chevalier_ anuas ⁊ dubhairt sé, fan thusa annseo ⁊ gheobh tú do phunta i ndiaidh an aifrinn.
+Thainic an chevalier anuas ⁊ dubhairt sé, fan thusa annseo ⁊ gheobh tú do phunta i ndiaidh an aifrinn.
 Nuair do bhí an t‑aifreann ráidhte, chraith an sagart a mhéar air fhear na táibheirne theacht aníos.
 Dubhairt an sagart – gabh air do ghlúine.
 Dubhairt fear na táibheirne – bhfuil tú ag dul do thabhairt domh an tairgid?
@@ -59,4 +59,4 @@ Bhí slat gheal aig an tsagart ⁊ bhuail sé fear na táibheirne air a bhlagói
 Thug fear na táibheirne a aghaidh air an dorus ⁊ reath an sagart go dtugadh sé arais é.
 Acht d’imthigh fear na táibheirne.
 Bhí sé i bhfeirg ⁊ ag tabhairt mionna mór.
-Nuair thainic sé abhaile, ní rabh _chevalier_ na dall na bacach le fagháil aige na fios ca deachaidh siad.
+Nuair thainic sé abhaile, ní rabh chevalier na dall na bacach le fagháil aige na fios ca deachaidh siad.

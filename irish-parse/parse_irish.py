@@ -76,6 +76,7 @@ def process(
         if pairs is not None:
             alignment = modernize.align(pairs, forms)
             primary_sent = build.build_primary(st, pairs, alignment)
+            build.merge_synthetic_pronouns(primary_sent)
         else:
             # no standardization available: keep the text as parsed, flag it
             alignment = None

@@ -89,3 +89,83 @@ def build_primary(
             tok.head = old_to_new.get(tok.head, "_")
 
     return Sentence(metadata=list(parser.metadata), tokens=out)
+
+
+# quotative "ar sé"/"ar sí" (from arsé/arsí) is a deliberate split, not a
+# synthetic verb form — never merge it back
+QUOTATIVE_LEMMAS = {"ar", "arsa"}
+
+
+def merge_synthetic_pronouns(sentence: Sentence) -> None:
+    """Collapse analytic verb + subject-pronoun splits of synthetic forms.
+
+    Standardization renders synthetic verb forms analytically (rinneas ->
+    rinne mé), which the treebank rejects: the verb row keeps the original
+    synthetic form and takes the pronoun's Person/Number/Gender features; the
+    pronoun row is deleted and ids/heads renumbered.
+
+    Applies only inside two-word multiword tokens (one original -> verb +
+    nsubj pronoun), so genuinely analytic originals are never touched.
+    """
+    tokens = sentence.tokens
+    out: List[Token] = []
+    pron_to_verb: Dict[str, str] = {}  # deleted pronoun id -> its verb's id
+    i = 0
+    while i < len(tokens):
+        t = tokens[i]
+        if "-" in t.id and i + 2 < len(tokens):
+            lo, hi = t.id.split("-")
+            verb, pron = tokens[i + 1], tokens[i + 2]
+            if (
+                int(hi) - int(lo) == 1
+                and verb.upos == "VERB"
+                and pron.upos == "PRON"
+                and pron.head == verb.id
+                and pron.deprel.startswith("nsubj")
+                and verb.lemma not in QUOTATIVE_LEMMAS
+            ):
+                verb.form = t.form  # the original synthetic form
+                _copy_person_feats(verb, pron)
+                for k, v in t.misc_dict().items():  # e.g. Align=Check
+                    verb.add_misc(k, v)
+                pron_to_verb[pron.id] = verb.id
+                out.append(verb)
+                i += 3
+                continue
+        out.append(t)
+        i += 1
+
+    # renumber word ids contiguously; remap heads and range lines
+    old_to_new: Dict[str, str] = {}
+    n = 0
+    for tok in out:
+        if "-" not in tok.id:
+            n += 1
+            old_to_new[tok.id] = str(n)
+    for old, verb_old in pron_to_verb.items():
+        old_to_new[old] = old_to_new[verb_old]
+    for tok in out:
+        if "-" in tok.id:
+            lo, hi = tok.id.split("-")
+            tok.id = f"{old_to_new[lo]}-{old_to_new[hi]}"
+        else:
+            tok.id = old_to_new[tok.id]
+            if tok.head not in ("_", "0"):
+                tok.head = old_to_new.get(tok.head, "_")
+    sentence.tokens = out
+
+
+def _copy_person_feats(verb: Token, pron: Token) -> None:
+    """Move the pronoun's Person/Number/Gender onto the verb's FEATS."""
+    if pron.feats in ("_", ""):
+        return
+    feats = {}
+    if verb.feats not in ("_", ""):
+        for item in verb.feats.split("|"):
+            k, _, v = item.partition("=")
+            feats[k] = v
+    for item in pron.feats.split("|"):
+        k, _, v = item.partition("=")
+        if k in ("Person", "Number", "Gender") and k not in feats:
+            feats[k] = v
+    verb.feats = "|".join(f"{k}={feats[k]}" for k in sorted(feats, key=str.lower))

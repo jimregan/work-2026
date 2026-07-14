@@ -11,7 +11,7 @@ At the CLARIN conference in 2025, through a mixture of tourism and my usual trav
 
 As odd a pair of things to be associated with they were, I couldn't deny them. For one, I was at that very moment wearing a funny t-shirt. For the other, he wondered if I were bringing that from my time in Ailbhe's lab, but I think she had brought Swedish fika culture from her own time in TMH. But those four words on a postcard would remind me of my time here better than most, and for the rest of these acknowledgements, I want to give the same: a postcard of sorts, a reminder of something from this time.
 
-I'm tempted to be maximally cryptic, so as well as being a reminder to the person in question, it might prompt enough curiosity in others to ask them for the story--Anna: "Axe?"; Anya: hematogen; Ambika: Post-it; Jens: Arlanda; Charlotte: shiny f---ing nose; Éva: free jazz and wild wine; 
+I'm tempted to be maximally cryptic, so as well as being a reminder to the person in question, it might prompt enough curiosity in others to ask them for the story--Anna: "Axe?"; Anya: hematogen; Ambika: Post-it; Jens: Arlanda; Charlotte: shiny f---ing nose; Éva: free jazz and wild wine; Harm: Linus Torvalds; Shivam: "Gym?" "What?"; 
 
 I'm not going to do that. In keeping with my personal brand of gregarious misanthropy, I'm going to try to maximise the amount of text everyone has to wade through to get to their own mention. Somewhere along the line it seemed to me that a lot of what I was thinking of involved the look on someone's face, so I decided to commit to the bit.
 
@@ -27,5 +27,13 @@ Katya: I don't want to put a story for you, because your own are so much better.
 
 Anya: you get a "the look on your face", because no matter how much I tried to convince you that Robin would not only be welcome at Birger's 40th, Birger would be happy to see him, I don't think you fully believed me. When you realised I was not only not over-selling it, but under-selling it, the look on your face spoke of a joyful surprise that if you could bottle and sell would make you very rich.
 
+Pablo: I think I got to know more about you through asides that came up along the way to your telling a story than from the stories themselves, but the thing that stands out most right now is when you told me you were going to India: "Pablo, isn't it monsoon season?" I'm glad it worked out for you.
+
+Bahar: As much as you did to bring variety to the social life of the department, and with apologies for never accepting Halloween on the day after Halloween, even if it was your birthday, the thing I'll remember most is you telling me about the toilets at your Disney internship, because I will forever be jealous that you got to use the toilet at Disney while "Let It Go" was playing.
+
+Siyang: while I'm sorry your time in London wasn't more pleasant, I thoroughly enjoyed hearing your take. Your wedding was one of the high points of the last five years.
+
+
 
 [1] It's close to a gay club, but they've adopted the name to the extent that the crossing outside is no longer a zebra, it's a rainbow.
+

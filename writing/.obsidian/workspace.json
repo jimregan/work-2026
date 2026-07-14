@@ -405,16 +405,44 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "chapter 1 - section 1.md",
+                "file": "chapter 1 - section 2.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "chapter 1 - section 1"
+              "title": "chapter 1 - section 2"
+            }
+          },
+          {
+            "id": "2b198e76fb0d485e",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "Christina wav2vec.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "Christina wav2vec"
+            }
+          },
+          {
+            "id": "71cc4e7f580b3be4",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "Acks.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "Acks"
             }
           }
         ],
-        "currentTab": 28
+        "currentTab": 30
       }
     ],
     "direction": "vertical"
@@ -577,11 +605,13 @@
       "obsidian-importer:Open Importer": false
     }
   },
-  "active": "62d09fa7612fa605",
+  "active": "71cc4e7f580b3be4",
   "lastOpenFiles": [
-    "chapter 1.md",
-    "chapter 1 - section 1.md",
+    "Christina wav2vec.md",
+    "Acks.md",
     "chapter 1 - section 2.md",
+    "chapter 1 - section 1.md",
+    "chapter 1.md",
     "Aindrias an Ime.md",
     "Chapter 1",
     "sceal text.md",
@@ -605,8 +635,6 @@
     "New version.md",
     "Northern European Journal of Language Technology -- Reviewer Guidelines.md",
     "TODO 25-04-2026.md",
-    "TODO 12-04-2026.md",
-    "Thoughts about spontaneous speech.md",
     "Teanga - Web corpus of Irish/refs.bib",
     "Teanga - Web corpus of Irish/paper.qmd",
     "Teanga - Web corpus of Irish",

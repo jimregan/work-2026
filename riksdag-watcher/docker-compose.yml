@@ -1,0 +1,20 @@
+services:
+  riksdag-watcher:
+    build: .
+    restart: unless-stopped
+    volumes:
+      - watcher-state:/data
+      - speech-downloads:/downloads
+    environment:
+      - POLL_INTERVAL=${POLL_INTERVAL:-300}
+      - PAGE_SIZE=${PAGE_SIZE:-50}
+      - WEBHOOK_URLS=${WEBHOOK_URLS:-}
+      - LOG_LEVEL=${LOG_LEVEL:-INFO}
+      - DB_PATH=/data/state.db
+      - DOWNLOAD_DIR=/downloads
+
+volumes:
+  watcher-state:
+  speech-downloads:
+    # Mount this same volume into your ASR service containers so they can
+    # read downloaded files by the path reported in webhook payloads.

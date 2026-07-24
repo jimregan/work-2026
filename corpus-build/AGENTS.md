@@ -2,6 +2,14 @@
 
 Guidance for coding agents working on this repository.
 
+This file holds the parts that do not change between milestones. The current
+milestone — scope, out-of-scope, and its own decisions — lives in
+`docs/milestones/`. **Read both before starting work.**
+
+Current milestone: `docs/milestones/02-transformation-registry.md`
+Completed: `docs/milestones/01-data-model.md`
+Planned, do not implement: `docs/milestones/03-staleness.md`
+
 ## What this is
 
 A Python library and CLI for modelling a speech corpus as a **graph of versioned
@@ -16,30 +24,6 @@ One-sentence thesis:
 > incremental, reproducible processing.
 
 If a proposed change makes that sentence less true, it is the wrong change.
-
-## Current milestone
-
-**Artifact and provenance data model only.**
-
-In scope:
-
-- Artifact identity, typing, and content addressing
-- Provenance edges (DAG, multi-parent)
-- Transformation records as first-class objects
-- Storage backend interface (at least two implementations to prove it is real)
-- Query surface sufficient to answer "how was this artifact produced"
-
-Out of scope until the model is stable — do not build these yet, and do not
-add abstractions in anticipation of them:
-
-- Actual execution of transformations (containers, scheduling, retries)
-- Ingest of real RixVox or broadcast data
-- View and partition machinery beyond the minimum needed to test the model
-- Timeline mapping and coordinate systems
-- Any web UI
-
-If a task seems to require out-of-scope work, say so and propose the smallest
-in-scope subset instead of expanding the milestone.
 
 ## Design constraints
 
@@ -84,6 +68,48 @@ either side.
 boundaries over one source are all valid simultaneously. No partition replaces
 another.
 
+**Identifiers are content hashes.** Every artifact is addressed by a hash of its
+own content. There is no separate ID space, no autoincrement, no UUID. Two
+transformations that happen to produce identical bytes converge on one node with
+two provenance parents — this is dedup working as intended, not a collision to
+disambiguate.
+
+**A fetch specification is an artifact whose content is the URL.** Hashing it is
+content addressing applied to a specification rather than to bytes, so the
+constraint above holds without exception. Acquisition is not a special case in
+the identity scheme.
+
+**Fetching is specification → response → classification.** A fetch transformation
+takes a specification and produces a *response* artifact. A response is whatever
+came back: bytes, a 404, a 503 with retry-after, a redirect. Failure is an
+ordinary outcome of a network transaction, not an absence of one, and it
+produces an artifact like any other. A separate classification transformation
+then reads the response and decides what kind of outcome it was.
+
+Consequences that must not be optimised away:
+
+- Classification policy is where judgement lives and where it will be wrong
+  first. It is a registered, versioned transformation, so a response can be
+  reclassified later without refetching. Responses are therefore durable at
+  least until classification is stable.
+- The state of a specification — pending, obtained, gone — is *derived* by
+  looking at the classifications that reference it. Do not add a mutable status
+  field to a specification; it would break content addressing.
+- A referral classifies to a new specification, giving
+  specification → response → classification → specification'. Redirect
+  convergence, where several specifications reach one target, is ordinary
+  multi-parent structure in the DAG. It does not assert that the originating
+  specifications were ever the same object — unrelated URLs share canonical
+  landing pages and error pages routinely.
+
+**Asserted correspondence is distinct from established identity.** Following a
+redirect establishes that a target was reached. Claiming that an artifact
+obtained from an old URL is the same object as one at a new URL — as when a
+whole collection relocates and members would otherwise be refetched blind — is a
+judgement, usually human. Represent it as a correspondence artifact with its own
+provenance recording it as asserted, so it is versioned and can be wrong. Never
+infer it silently to avoid work.
+
 ## Storage backends
 
 Pluggable from day one. The core model must not import any specific backend.
@@ -111,13 +137,12 @@ Pluggable from day one. The core model must not import any specific backend.
 ## Code conventions
 
 - Python, type-annotated, `mypy --strict` clean in the core model.
-- Core model has no dependencies beyond the standard library. Backends may have
-  their own.
+- Core model has no dependencies beyond the standard library. Backends and
+  execution machinery may have their own.
 - Dataclasses (frozen where the object is a value) for model types.
 - Tests with pytest. Every provenance invariant gets a test: acyclicity,
   multi-parent, layer-specific identity, ephemeral regeneration.
 - Property-based tests (hypothesis) for graph invariants are welcome.
-- No block separator comments (e.g., ######### Variables ######)
 
 ## Anti-patterns
 
@@ -129,5 +154,5 @@ Concrete things that have been considered and rejected:
 - A single `timestamp` field
 - Correspondence stored as a plain dict or as a field on one of the two sides
 - Backend logic imported into the core model
-- Speculative abstractions for the out-of-scope items listed above
-
+- Containers that talk to a storage backend directly
+- Speculative abstractions for out-of-scope items in the current milestone

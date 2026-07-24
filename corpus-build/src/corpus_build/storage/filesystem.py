@@ -18,8 +18,8 @@ from pathlib import Path
 from typing import Any
 
 from corpus_build.model.artifact import Artifact
-from corpus_build.model.identity import LayerId
-from corpus_build.model.transformation import Transformation, TransformationId
+from corpus_build.model.identity import LayerId, TransformationId
+from corpus_build.model.transformation import Transformation
 from corpus_build.storage.base import (
     ArtifactNotFoundError,
     DuplicateArtifactError,

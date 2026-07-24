@@ -27,6 +27,14 @@ class Artifact(Generic[IdT]):
     and an ephemeral artifact can lose its materialized content entirely
     while remaining fully describable via its provenance.
 
+    `id.local_id` should itself be content-addressed wherever possible (see
+    `content_addressing`): `content_address(bytes)` once bytes exist, or
+    `locator_address(origin, date)` for an intake node declared ahead of a
+    fetch. `content_hash` then records the hash of the bytes currently
+    materialized at `content_locator`, which coincides with `id.local_id`
+    for a content-addressed artifact but is independently re-derivable as an
+    integrity check.
+
     `persistent` is a stored decision, never derived from graph depth or
     from whether content currently exists.
     """

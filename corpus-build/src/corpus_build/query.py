@@ -6,9 +6,9 @@ already in a `StorageBackend`; this module just walks that graph.
 
 from __future__ import annotations
 
-from corpus_build.model.identity import LayerId
+from corpus_build.model.identity import LayerId, TransformationId
 from corpus_build.model.provenance import ProvenanceGraph
-from corpus_build.model.transformation import Transformation, TransformationId
+from corpus_build.model.transformation import Transformation
 from corpus_build.storage.base import StorageBackend
 
 

@@ -11,8 +11,8 @@ from datetime import datetime
 from typing import Any
 
 from corpus_build.model.artifact import Artifact
-from corpus_build.model.identity import LayerId, resolve_layer_id_class
-from corpus_build.model.transformation import Transformation, TransformationId
+from corpus_build.model.identity import LayerId, TransformationId, resolve_layer_id_class
+from corpus_build.model.transformation import Transformation
 
 
 def _dt_to_str(value: datetime | None) -> str | None:

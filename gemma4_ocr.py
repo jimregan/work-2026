@@ -27,7 +27,7 @@ _OCR_PROMPT = (
     "Return only the JSON array, no prose."
 )
 
-_FALLBACK_PROMPT = "Transcribe all text visible in this document image."
+_FALLBACK_PROMPT = "Transcribe all text visible in this document image. Return only the transcribed text, no commentary or preamble. If no text is visible, output nothing."
 
 
 @dataclass
@@ -284,7 +284,19 @@ def _parse_json_blocks(response: str) -> list[dict] | None:
     return None
 
 
+def _flatten(seq: list) -> list:
+    out = []
+    for v in seq:
+        if isinstance(v, list):
+            out.extend(_flatten(v))
+        else:
+            out.append(v)
+    return out
+
+
 def _normalize_bbox(bbox: list, width: int, height: int) -> list[int]:
+    bbox = _flatten(bbox)
+
     if len(bbox) == 4:
         y1, x1, y2, x2 = bbox
     elif len(bbox) == 2:
@@ -309,7 +321,7 @@ def ocr_page(backend: Backend, page: RenderedPage, max_new_tokens: int) -> list[
     response = backend.generate(page.image, _OCR_PROMPT, max_new_tokens)
     blocks = _parse_json_blocks(response)
 
-    if blocks:
+    if blocks is not None:
         result = []
         for index, block in enumerate(blocks):
             raw_bbox = block.get("bbox", [0, 0, 1000, 1000])

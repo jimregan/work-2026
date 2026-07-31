@@ -433,26 +433,26 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Acks.md",
+                "file": "Fant.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Acks"
+              "title": "Fant"
             }
           },
           {
-            "id": "fcfb5483b05f8083",
+            "id": "3bd6f9ffbdbd5b87",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "2026-07-14-hungarian-reels.md",
+                "file": "Corpus build.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "2026-07-14-hungarian-reels"
+              "title": "Corpus build"
             }
           }
         ],
@@ -619,11 +619,16 @@
       "obsidian-importer:Open Importer": false
     }
   },
-  "active": "fcfb5483b05f8083",
+  "active": "3bd6f9ffbdbd5b87",
   "lastOpenFiles": [
-    "Acks.md",
-    "2026-07-14-hungarian-reels.md",
+    "Fant.md",
+    "Corpus build.md",
+    "cv-sst-training.md",
+    "Consonant detection.md",
     "Christina wav2vec.md",
+    "2026-04-14.md",
+    "2026-07-14-hungarian-reels.md",
+    "Acks.md",
     "chapter 1 - section 2.md",
     "chapter 1 - section 1.md",
     "chapter 1.md",
@@ -644,11 +649,6 @@
     "SSL Loss Design Notes.md",
     "Untitled 2.md",
     "Welcome.md",
-    "TSD strategy.md",
-    "My shared usage.md",
-    "NEJLT page.md",
-    "New version.md",
-    "Northern European Journal of Language Technology -- Reviewer Guidelines.md",
     "Teanga - Web corpus of Irish/refs.bib",
     "Teanga - Web corpus of Irish/paper.qmd",
     "Teanga - Web corpus of Irish",

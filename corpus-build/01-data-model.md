@@ -4,7 +4,8 @@ Status: complete (superseded by milestone 2)
 
 ## Scope
 
-- Artifact identity, typing, and content addressing
+- Artifact identity, typing, and content hashing (identity subsequently
+  corrected by ADR 0012)
 - Provenance edges (DAG, multi-parent)
 - Transformation records as first-class objects
 - Storage backend interface, with at least two implementations to prove it is

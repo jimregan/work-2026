@@ -1,6 +1,7 @@
 # Milestone 2 — Transformation registry and execution
 
-Status: current
+Status: complete (superseded by milestone 4; see ADR 0009 and ADR 0010 for
+registry/execution model revisions since this was written)
 
 Read `AGENTS.md` first. Everything there still applies. This file adds the
 scope and the decisions specific to this milestone.
@@ -73,6 +74,13 @@ Rules:
 
 ## Transformation identity
 
+> Superseded in part by
+> [ADR 0009](docs/decisions/0009-code-versioned-transformations.md):
+> everything below described the containerized case, which is now one of
+> two kinds. A code-versioned transformation (no container image) has
+> identity **implementation reference + instantiated config** instead —
+> see the ADR for why and for the mechanism.
+
 Transformation identity is **image digest + instantiated config**.
 
 Input artifact IDs are *not* part of transformation identity — they belong to
@@ -99,6 +107,11 @@ alongside it as the reproducibility record.
   a winner.
 
 ## Docker execution contract
+
+> Superseded in part by
+> [ADR 0010](docs/decisions/0010-transformation-runner-hierarchy.md): this
+> section describes the containerized runner, now one of three (function,
+> shell-out, docker). Still accurate for that one case.
 
 Containers interact with the world **only through bind mounts**. This is not
 negotiable: a container that knows about a storage backend breaks the pluggable

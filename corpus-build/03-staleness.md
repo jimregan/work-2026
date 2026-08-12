@@ -15,10 +15,12 @@ inputs?"
 
 ## What makes it answerable
 
-Identifiers are content hashes (see `AGENTS.md`), so an input cannot change
-under a stable ID. Comparing recorded input artifact IDs against current ones is
-therefore sound — the version of this problem where you must separately record
-input content hashes does not arise.
+Artifact UUIDs and content hashes are independent (ADR 0012). Persistence must
+guarantee that an artifact UUID is bound to one immutable artifact record;
+under that invariant, comparing an execution's recorded input UUIDs remains a
+sound graph-version check. The content hash separately verifies that bytes at a
+content locator still match the content referenced by that record. Staleness
+must not treat UUID syntax itself as an integrity guarantee.
 
 Milestone 2 execution records already carry what is needed: transformation
 identity (digest + instantiated config), input artifact IDs, output artifact
@@ -60,6 +62,15 @@ from "the collection moved" is an aggregate judgement across specifications
 sharing an origin or prefix; a single fetch cannot see it. Whether collections
 are first-class artifacts or reconstructed by grouping is unresolved and should
 be settled before this milestone starts.
+
+**Nodes without a continuation.** A `ToolView` (ADR 0011) or any other
+artifact fed into an external tool either gets a downstream execution and
+output, or it doesn't — that's a structural, graph-queryable fact, not
+tool-log parsing. A node with no continuation needs rerunning, or routing
+through a different transformation; this milestone is where that detection
+belongs. It intersects milestone 2's never-resolved question about a
+transformation that exits non-zero having written partial output — both
+are about what "didn't finish" actually means for a node in the graph.
 
 ## Cheapness constraint
 

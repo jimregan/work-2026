@@ -6,9 +6,9 @@ This file holds the parts that do not change between milestones. The current
 milestone — scope, out-of-scope, and its own decisions — lives in
 `docs/milestones/`. **Read both before starting work.**
 
-Current milestone: `docs/milestones/02-transformation-registry.md`
-Completed: `docs/milestones/01-data-model.md`
-Planned, do not implement: `docs/milestones/03-staleness.md`
+Current milestone: `04-concrete-ingress-pipelines.md`
+Completed: `01-data-model.md`, `02-transformation-registry.md`
+Planned, do not implement: `03-staleness.md`
 
 ## What this is
 
@@ -24,6 +24,23 @@ One-sentence thesis:
 > incremental, reproducible processing.
 
 If a proposed change makes that sentence less true, it is the wrong change.
+
+**Why this shape, specifically.** This is motivated by the prospect of a
+*continuous*, growing corpus, not a one-off snapshot — most speech corpora
+built from the live internet are frozen at collection time. Experience
+shows that continuing to grow one is hard in specific, recurring ways: APIs
+change, and even versioned ones get deprecated and removed; website layouts
+change under scrapers, and since the presentation is often how a scraper
+locates the information, a layout change silently breaks it; and material
+already collected by someone else — a partner's crawl — may only be
+interpretable by the scraper version that was current when *they* crawled
+it, not whatever is current now. Several design choices exist specifically
+to survive this: three separate times, so late-arriving or differently-aged
+material never gets misfiled by processing date; classification kept
+separate from fetch, so a response can be reclassified without refetching;
+and transformation versioning by date window (`docs/decisions/0007`), so an
+old extractor stays available and selectable for material acquired while it
+was current, rather than being replaced out from under that material.
 
 ## Design constraints
 
@@ -45,10 +62,15 @@ the normal case (validated speech from transcript boundaries plus acoustic
 boundaries), not an edge case.
 
 **Transformations are objects, not functions.** A transformation record carries
-implementation reference, container image (immutable digest preferred over tag),
-parameters, and execution metadata. Git identifies source; the image identifies
-executable behaviour. The model must be able to represent a transformation that
-has not been run.
+an implementation reference, parameters, and execution metadata, and is one of
+two kinds. Containerized: also carries a container image (immutable digest
+preferred over tag), which identifies executable behaviour — git identifies
+source, the image identifies behaviour, and identity rests on the image.
+Code-versioned: no container image at all, for transformations with no
+environment-sensitive runtime to pin (see
+docs/decisions/0009-code-versioned-transformations.md) — identity rests on the
+implementation reference itself. The model must be able to represent a
+transformation that has not been run.
 
 **Persistence is a property, not a position.** Durable versus ephemeral depends
 on value and cost of reconstruction, not on where the artifact sits in a
@@ -64,20 +86,49 @@ between two recordings of one broadcast, is itself a first-class artifact with
 its own provenance and its own version history. It can improve independently of
 either side.
 
+**Correspondence reliability is queryable, never pipeline-resolved.** A
+correspondence artifact's metadata records *how* it was established — direct
+match, phonetic-dictionary inversion, a named correction list, text
+normalization, and any transformation-specific quality flags (meta-speech
+noise included, span narrower or wider than a sentence) — because different
+consumers of the same corpus will trust different things: one wants only
+direct "gold" matches to the official record, another is content with
+normalized or corrected ones. When a matching transformation produces more
+than one legitimate variant over the same span (an ASR transcript's fuller
+wording against an official record's trimmed one), both are kept as distinct
+artifacts, never collapsed to a single canonical choice. Resolving which to
+trust is a query-time decision by whoever is asking, not something a
+transformation decides on their behalf.
+
 **Multiple partitions coexist.** Transcript-based, acoustic, and schedule-based
 boundaries over one source are all valid simultaneously. No partition replaces
 another.
 
-**Identifiers are content hashes.** Every artifact is addressed by a hash of its
-own content. There is no separate ID space, no autoincrement, no UUID. Two
-transformations that happen to produce identical bytes converge on one node with
-two provenance parents — this is dedup working as intended, not a collision to
-disambiguate.
+**A tool's hardcoded layout is accommodated, not fought.** Many real tools
+hardcode a directory/filename convention corpus-build's content storage
+doesn't match. Rewriting every such tool is not the answer; a
+`ToolView` (see docs/decisions/0011-tool-view-artifacts.md) materializes
+content under whatever a tool needs, as its own artifact with its own
+provenance, even when — as is typical — it changes location and name but
+not bytes. This is what "task-dependent views" in the thesis above means.
 
-**A fetch specification is an artifact whose content is the URL.** Hashing it is
-content addressing applied to a specification rather than to bytes, so the
-constraint above holds without exception. Acquisition is not a special case in
-the identity scheme.
+**Artifact and content identity are separate.** Every artifact node has a
+generated UUID, qualified by its layer-specific ID type. Materialized content
+has an independent content hash for integrity and storage deduplication. Two
+transformations that produce identical bytes may therefore produce distinct
+artifact nodes, with distinct metadata and provenance, which refer to the same
+content. In particular, a no-op or byte-preserving transformation must not
+collapse the graph. See ADR 0012.
+
+**Batch and metadata-snapshot identity are separate.** A logical batch
+transaction has a UUID allocated before it is persisted. Corpus metadata is
+versioned in Git; a Git commit hash identifies a repository snapshot, not an
+artifact or batch, and must not be embedded into the commit that it identifies.
+
+**A fetch specification is an artifact whose content is the URL.** It has an
+artifact UUID like every other graph node. Its URL remains independently
+inspectable; it is not pressed into service as the node identifier. Acquisition
+is not a special case in the identity scheme.
 
 **Fetching is specification → response → classification.** A fetch transformation
 takes a specification and produces a *response* artifact. A response is whatever
@@ -94,7 +145,8 @@ Consequences that must not be optimised away:
   least until classification is stable.
 - The state of a specification — pending, obtained, gone — is *derived* by
   looking at the classifications that reference it. Do not add a mutable status
-  field to a specification; it would break content addressing.
+  field to a specification; state is a versioned graph-derived fact, not an
+  intrinsic mutable property of the request.
 - A referral classifies to a new specification, giving
   specification → response → classification → specification'. Redirect
   convergence, where several specifications reach one target, is ordinary
@@ -133,6 +185,17 @@ Pluggable from day one. The core model must not import any specific backend.
   implementation is more expensive than a question.
 - Prefer explicit over clever. This is research infrastructure that other people
   will need to reason about.
+- **Plumbing over porcelain, deliberately.** Favor bare, minimal mechanism over
+  convenience layers. Friction is acceptable, even useful — a tool too pleasant
+  to use invites people to live with whatever assumptions happen to be baked in
+  from its first real use case (Riksdag) rather than extend it for their own.
+  Early git is the model: plumbing commands were never pleasant, and that is
+  what kept the object model from ossifying around one workflow before porcelain
+  got layered on by people who needed something different. Nothing here
+  obligates retrofitting existing code to be rougher. The one hard requirement:
+  any porcelain that does exist must stay strictly separable from the mechanism
+  underneath it — usable independently, never the only way to reach the
+  plumbing.
 
 ## Code conventions
 

@@ -17,6 +17,24 @@ We're validating this design against a real, concrete case — Riksdag
 (Swedish parliament) session recordings and their official API — rather
 than building the whole thing speculatively and hoping it holds up later.
 
+## Pipeline status at a glance
+
+```mermaid
+flowchart TD
+    A["Import archived API dumps<br/><b>Built and tested</b>"]
+    B["Extract video link, fetch<br/><b>Built and tested</b>"]
+    C["CTM alignment<br/><b>Built and tested</b>"]
+    D["Persist to a real corpus<br/><b>Mechanism built, never applied</b>"]
+    E["Segmentation, ASR, judgment<br/><b>Designed only, not started</b>"]
+    F["Staleness detection<br/><b>Blocked on open prerequisite</b>"]
+    A --> B --> C --> D --> E --> F
+
+    classDef done fill:#9FE1CB,stroke:#0F6E56,color:#04342C;
+    classDef pending fill:#D3D1C7,stroke:#5F5E5A,color:#2C2C2A;
+    class A,B,C done;
+    class D,E,F pending;
+```
+
 ## How to read this report
 
 For each stage of the toy pipeline below, I've tagged what exists as one

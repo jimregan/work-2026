@@ -6,17 +6,36 @@ serving in Docker — set `OLLAMA_HOST` if it isn't on `localhost:11434`.
 
 ## Setup (on the server, where Ollama's Docker container is)
 
-```bash
-pip install -r requirements.txt
+Start the Ollama container first if it isn't already running — `entrypoint.sh`
+just polls `OLLAMA_HOST` until it answers, so it'll hang forever against a
+stopped container rather than erroring out.
 
-# in the Ollama container, or via `ollama pull` against its exposed port:
+```bash
+# once Ollama is up, against its published port:
 ollama pull nomic-embed-text   # embedding model
 ollama pull gemma4:26b         # generation model (already pulled for OCR)
+
+docker build -t qpsr-rag .
 ```
+
+Since Ollama publishes 11434 to the host, run qpsr-rag with `--network host`
+so `localhost:11434` (the Dockerfile's default `OLLAMA_HOST`) reaches it
+directly — no need to look up container names or IPs.
 
 ## Ingest
 
 ```bash
+docker run --rm \
+  --network host \
+  -v /path/to/output:/markdown:ro \
+  -v chroma:/data \
+  qpsr-rag
+```
+
+Or without Docker, directly:
+
+```bash
+pip install -r requirements.txt
 python ingest.py /path/to/output --persist-dir ./chroma_db
 ```
 
@@ -37,12 +56,59 @@ sync.
 ## Query
 
 ```bash
-python query.py "What speech synthesis work came out of the department in the 1970s?"
+docker run --rm -it \
+  --network host \
+  -v chroma:/data \
+  qpsr-rag python3 query.py --persist-dir /data/chroma_db
 ```
+
+Or without Docker: `python query.py "What speech synthesis work came out of
+the department in the 1970s?"`
 
 Omit the question to start an interactive session. Each answer is grounded
 in the top-k retrieved excerpts (`--top-k`, default 6) and followed by a
 `Sources:` list with the article citation for each.
+
+## Chat interface (Open WebUI + Pipelines)
+
+`pipeline/qpsr_pipeline.py` is a custom [Pipelines](https://github.com/open-webui/pipelines)
+pipe that runs the same retrieval + citation logic as `query.py`, exposed as
+a selectable "model" in Open WebUI's chat UI. It reads the same
+`chroma` volume the ingest step wrote to, so no re-indexing is
+needed.
+
+Start the Pipelines service, mounting the pipeline file and the Chroma data:
+
+```bash
+docker run -d \
+  --name pipelines \
+  --restart unless-stopped \
+  --network host \
+  -v /path/to/qpsr-rag/pipeline:/app/pipelines \
+  -v chroma:/data \
+  ghcr.io/open-webui/pipelines:main
+```
+
+It installs `chromadb`/`ollama` itself on startup (declared in the
+pipeline file's `requirements` header) and listens on port 9099.
+
+Start Open WebUI:
+
+```bash
+docker run -d \
+  --name open-webui \
+  --restart unless-stopped \
+  --network host \
+  -v open-webui-data:/app/backend/data \
+  ghcr.io/open-webui/open-webui:main
+```
+
+Then in Open WebUI: **Admin Settings → Connections → OpenAI API** — add a
+connection with Base URL `http://localhost:9099` and API key `0p3n-w3bu!`
+(the Pipelines image's default — fine for a single-user server; set
+`PIPELINES_API_KEY` on the container and use a matching key here if you
+ever want to change it). "STL-QPSR Expert" then appears as a selectable
+model in the chat UI.
 
 ## Config
 

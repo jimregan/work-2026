@@ -29,6 +29,7 @@ Rules are composed into a single cascade.
 
 from __future__ import annotations
 
+import math
 import re
 from typing import Optional
 
@@ -249,6 +250,17 @@ def _compile_one_rule(
     replacement_fst = _compile_element(replacement_str, syms, sigma_star)
 
     tau = pynini.cross(segment_fst, replacement_fst)
+    probability = rule.get("probability")
+    if probability is not None:
+        probability = float(probability)
+        if not 0.0 < probability <= 1.0:
+            raise ValueError(
+                f"Rule probability must be in (0, 1], got {probability}"
+            )
+        if probability < 1.0:
+            tau = pynini.concat(
+                pynini.accep("", weight=-math.log(probability)), tau
+            )
 
     lam = _compile_element(preceding_str, syms, sigma_star)
     rho = _compile_element(following_str, syms, sigma_star)

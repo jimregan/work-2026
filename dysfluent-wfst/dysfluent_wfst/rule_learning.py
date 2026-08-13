@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import argparse
+import math
 from collections import Counter, defaultdict
 from dataclasses import dataclass, field
 from pathlib import Path
@@ -27,6 +28,18 @@ class RuleStats:
     opportunities: int
     probability: float
     examples: list[str] = field(default_factory=list)
+    score: float = 0.0
+    known_rule_coverage: int = 0
+
+
+@dataclass(frozen=True)
+class Change:
+    """A contiguous source-to-target change anchored in the citation."""
+
+    source: tuple[str, ...]
+    target: tuple[str, ...]
+    source_start: int
+    source_end: int
 
 
 def align_phones(citation: list[str], observed: list[str]) -> list[Edit]:
@@ -75,10 +88,102 @@ def align_phones(citation: list[str], observed: list[str]) -> list[Edit]:
     return edits
 
 
+def changes_from_alignment(edits: list[Edit]) -> list[Change]:
+    """Coalesce adjacent non-matching edits into multi-phone changes."""
+    changes: list[Change] = []
+    source: list[str] = []
+    target: list[str] = []
+    start: int | None = None
+    end: int | None = None
+
+    def flush() -> None:
+        nonlocal source, target, start, end
+        if start is not None:
+            changes.append(Change(tuple(source), tuple(target), start, end or start))
+        source, target, start, end = [], [], None, None
+
+    for edit in edits:
+        if edit.source == edit.target:
+            flush()
+            continue
+        if start is None:
+            start = edit.source_index
+        if edit.source is not None:
+            source.append(edit.source)
+            end = edit.source_index + 1
+        if edit.target is not None:
+            target.append(edit.target)
+        if end is None:
+            end = edit.source_index
+    flush()
+    return changes
+
+
 def _context(seq: list[str], index: int, left: int, right: int) -> tuple[str, str]:
     left_tokens = seq[max(0, index - left):index]
     right_tokens = seq[index + 1:index + 1 + right]
     return " ".join(left_tokens), " ".join(right_tokens)
+
+
+def _change_context(
+    seq: list[str], change: Change, left: int, right: int
+) -> tuple[tuple[str, ...], tuple[str, ...]]:
+    preceding = tuple(seq[max(0, change.source_start - left):change.source_start])
+    following = tuple(seq[change.source_end:change.source_end + right])
+    return preceding, following
+
+
+def load_phone_classes(path: str) -> dict[str, set[str]]:
+    """Load ``classes: {name: [phones...]}`` from YAML."""
+    import yaml
+
+    with open(path, encoding="utf-8") as f:
+        data = yaml.safe_load(f) or {}
+    raw = data.get("classes", data)
+    if not isinstance(raw, dict):
+        raise ValueError("Phone classes YAML must contain a mapping")
+    result = {}
+    for name, phones in raw.items():
+        if not isinstance(phones, list) or not all(isinstance(p, str) for p in phones):
+            raise ValueError(f"Phone class {name!r} must be a list of strings")
+        result[str(name)] = set(phones)
+    return result
+
+
+def _class_pattern(phones: set[str]) -> str:
+    """Return the rule compiler's compact union syntax for a phone class."""
+    return "[" + "".join(sorted(phones, key=lambda p: (len(p), p))) + "]"
+
+
+def _context_forms(
+    context: tuple[str, ...], phone_classes: dict[str, set[str]] | None
+) -> list[tuple[str, int]]:
+    """Return exact and class-generalized contexts with specificity costs."""
+    forms: list[tuple[tuple[str, ...], int]] = [(context, 0)]
+    if not phone_classes:
+        return [(" ".join(context), 0)]
+    for i, phone in enumerate(context):
+        replacements = {
+            _class_pattern(members)
+            for members in phone_classes.values()
+            if phone in members
+        }
+        expanded = list(forms)
+        for current, cost in forms:
+            for replacement in replacements:
+                variant = list(current)
+                variant[i] = replacement
+                expanded.append((tuple(variant), cost + 1))
+        forms = expanded
+    return [(" ".join(value), cost) for value, cost in dict(forms).items()]
+
+
+def _best_baseline(
+    citation: list[str], observed: list[str], variants: Iterable[list[str]]
+) -> tuple[list[str], bool]:
+    candidates = [citation, *variants]
+    best = min(candidates, key=lambda value: _alignment_cost(value, observed))
+    return best, best == observed
 
 
 def _normalise_pairs(
@@ -100,31 +205,62 @@ def induce_rules(
     min_count: int = 2,
     min_probability: float = 0.0,
     max_examples: int = 5,
+    known_variants: Optional[dict[str, list[list[str]]]] = None,
+    phone_classes: Optional[dict[str, set[str]]] = None,
+    complexity_penalty: float = 0.02,
+    overgeneration_penalty: float = 0.5,
 ) -> list[RuleStats]:
-    """Learn rewrite candidates from citation/observed pronunciation pairs."""
+    """Learn residual rewrite rules after selecting the best known variant.
+
+    ``known_variants`` maps item ids to pronunciations licensed by an existing
+    phonological grammar. Exact matches are treated as explained; otherwise the
+    closest licensed form becomes the alignment baseline.
+    """
     examples = _normalise_pairs(pairs)
     opportunities: Counter[tuple[str, str, str]] = Counter()
     changes: Counter[tuple[str, str, str, str]] = Counter()
     seen_examples: dict[tuple[str, str, str, str], list[str]] = defaultdict(list)
+    complexity: dict[tuple[str, str, str, str], int] = {}
+    explained = 0
 
     for item_id, citation, observed in examples:
-        for i, source in enumerate(citation):
-            preceding, following = _context(
-                citation, i, left_context, right_context
-            )
-            opportunities[(source, preceding, following)] += 1
+        baseline, exact = _best_baseline(
+            citation, observed, (known_variants or {}).get(item_id, [])
+        )
+        if exact:
+            explained += int(baseline != citation)
+            continue
 
-        for edit in align_phones(citation, observed):
-            if edit.source is None or edit.target == edit.source:
-                continue
-            preceding, following = _context(
-                citation, edit.source_index, left_context, right_context
+        aligned_changes = changes_from_alignment(align_phones(baseline, observed))
+        for change in aligned_changes:
+            preceding, following = _change_context(
+                baseline, change, left_context, right_context
             )
-            replacement = edit.target or ""
-            key = (edit.source, replacement, preceding, following)
-            changes[key] += 1
-            if len(seen_examples[key]) < max_examples:
-                seen_examples[key].append(item_id)
+            source = " ".join(change.source)
+            replacement = " ".join(change.target)
+            for left_form, left_cost in _context_forms(preceding, phone_classes):
+                for right_form, right_cost in _context_forms(following, phone_classes):
+                    key = (source, replacement, left_form, right_form)
+                    changes[key] += 1
+                    complexity[key] = left_cost + right_cost
+                    if len(seen_examples[key]) < max_examples:
+                        seen_examples[key].append(item_id)
+
+        # Count candidate opportunities against every baseline after candidates
+        # are known in a second pass below.
+
+    candidate_contexts = {
+        (segment, preceding, following)
+        for segment, _, preceding, following in changes
+    }
+    for item_id, citation, observed in examples:
+        baseline, exact = _best_baseline(
+            citation, observed, (known_variants or {}).get(item_id, [])
+        )
+        for segment, preceding, following in candidate_contexts:
+            opportunities[(segment, preceding, following)] += _count_opportunities(
+                baseline, segment, preceding, following, phone_classes
+            )
 
     rules = []
     for key, count in changes.items():
@@ -133,6 +269,13 @@ def induce_rules(
         probability = count / total if total else 0.0
         if count < min_count or probability < min_probability:
             continue
+        false_positive_rate = 1.0 - probability
+        score = (
+            math.log1p(count)
+            + probability
+            - overgeneration_penalty * false_positive_rate
+            - complexity_penalty * complexity.get(key, 0)
+        )
         rules.append(
             RuleStats(
                 segment=segment,
@@ -143,12 +286,15 @@ def induce_rules(
                 opportunities=total,
                 probability=probability,
                 examples=seen_examples[key],
+                score=score,
+                known_rule_coverage=explained,
             )
         )
 
     return sorted(
         rules,
         key=lambda rule: (
+            -rule.score,
             -rule.count,
             -rule.probability,
             rule.segment,
@@ -157,6 +303,41 @@ def induce_rules(
             rule.following_context,
         ),
     )
+
+
+def _matches_context_token(
+    phone: str, token: str, phone_classes: dict[str, set[str]] | None
+) -> bool:
+    if token.startswith("[") and token.endswith("]") and phone_classes:
+        return any(phone in members and token == _class_pattern(members)
+                   for members in phone_classes.values())
+    return phone == token
+
+
+def _count_opportunities(
+    seq: list[str], segment: str, preceding: str, following: str,
+    phone_classes: dict[str, set[str]] | None,
+) -> int:
+    source = segment.split() if segment else []
+    left = preceding.split() if preceding else []
+    right = following.split() if following else []
+    count = 0
+    for i in range(len(seq) + 1):
+        if source and seq[i:i + len(source)] != source:
+            continue
+        if not source and i == len(seq) + 1:
+            continue
+        if len(left) > i or len(right) > len(seq) - i - len(source):
+            continue
+        left_actual = seq[i - len(left):i] if left else []
+        right_actual = seq[i + len(source):i + len(source) + len(right)]
+        if all(_matches_context_token(p, t, phone_classes)
+               for p, t in zip(left_actual, left)) and all(
+            _matches_context_token(p, t, phone_classes)
+            for p, t in zip(right_actual, right)
+        ):
+            count += 1
+    return count
 
 
 def load_pronunciation_pairs(path: str) -> list[tuple[str, str, str]]:
@@ -174,6 +355,56 @@ def load_pronunciation_pairs(path: str) -> list[tuple[str, str, str]]:
                 )
             pairs.append((parts[0].strip(), parts[1].strip(), parts[2].strip()))
     return pairs
+
+
+def variants_from_known_rules(
+    pairs: Iterable[tuple[str, str, str]],
+    rules_path: str,
+    max_variants: int = 256,
+) -> dict[str, list[list[str]]]:
+    """Enumerate Pynini outputs licensed by the known-rule cascade.
+
+    The symbol inventory is derived from the data and literal rule fields.
+    ``max_variants`` bounds optional-rule combinatorics per item.
+    """
+    import pynini
+
+    from .rules import compile_rules, load_rules
+
+    materialized = list(pairs)
+    inventory = {
+        phone
+        for _, citation, observed in materialized
+        for phone in (citation + " " + observed).split()
+    }
+    for rule in load_rules(rules_path):
+        for field_name in ("segment", "replacement", "preceding_context", "following_context"):
+            value = str(rule.get(field_name, ""))
+            if not any(char in value for char in "[]?*$^."):
+                inventory.update(value.split())
+
+    syms = pynini.SymbolTable()
+    syms.add_symbol("<eps>", 0)
+    for phone in sorted(inventory):
+        if phone:
+            syms.add_symbol(phone)
+    grammar = compile_rules(rules_path, syms)
+    if grammar is None:
+        return {}
+
+    result: dict[str, list[list[str]]] = {}
+    for item_id, citation, _ in materialized:
+        source = pynini.accep(citation, token_type=syms)
+        lattice = pynini.compose(source, grammar)
+        if lattice.start() == pynini.NO_STATE_ID:
+            result[item_id] = []
+            continue
+        outputs = pynini.project(lattice, "output")
+        paths = pynini.shortestpath(
+            outputs, nshortest=max_variants, unique=True
+        ).paths(output_token_type=syms)
+        result[item_id] = [value.split() for value in paths.ostrings()]
+    return result
 
 
 def load_timit_phn(path: str) -> list[str]:
@@ -263,6 +494,8 @@ def write_rules_yaml(
             item["opportunities"] = rule.opportunities
             item["probability"] = round(rule.probability, 6)
             item["examples"] = rule.examples
+            item["score"] = round(rule.score, 6)
+            item["known_rule_coverage"] = rule.known_rule_coverage
         data["rules"].append(item)
 
     with open(path, "w", encoding="utf-8") as f:
@@ -303,6 +536,17 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     parser.add_argument("--min-count", type=int, default=2)
     parser.add_argument("--min-probability", type=float, default=0.0)
     parser.add_argument(
+        "--known-rules",
+        help="Known phonological rules YAML to apply before residual inference",
+    )
+    parser.add_argument(
+        "--phone-classes",
+        help="YAML mapping phonological class names to phone lists",
+    )
+    parser.add_argument("--max-known-variants", type=int, default=256)
+    parser.add_argument("--complexity-penalty", type=float, default=0.02)
+    parser.add_argument("--overgeneration-penalty", type=float, default=0.5)
+    parser.add_argument(
         "--no-stats",
         action="store_true",
         help="Omit count/probability/example metadata from YAML",
@@ -322,12 +566,25 @@ def main(argv: list[str] | None = None) -> None:
     else:
         pairs = pairs_from_lexicons(args.citation, args.observed)
 
+    known_variants = None
+    if args.known_rules:
+        known_variants = variants_from_known_rules(
+            pairs, args.known_rules, max_variants=args.max_known_variants
+        )
+    phone_classes = (
+        load_phone_classes(args.phone_classes) if args.phone_classes else None
+    )
+
     rules = induce_rules(
         pairs,
         left_context=args.left_context,
         right_context=args.right_context,
         min_count=args.min_count,
         min_probability=args.min_probability,
+        known_variants=known_variants,
+        phone_classes=phone_classes,
+        complexity_penalty=args.complexity_penalty,
+        overgeneration_penalty=args.overgeneration_penalty,
     )
     write_rules_yaml(rules, args.output, include_stats=not args.no_stats)
 

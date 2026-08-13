@@ -2,7 +2,9 @@ import yaml
 
 from dysfluent_wfst.rule_learning import (
     align_phones,
+    changes_from_alignment,
     induce_rules,
+    load_phone_classes,
     load_timit_pair_manifest,
     write_rules_yaml,
 )
@@ -36,6 +38,72 @@ def test_induce_rules_counts_contextual_changes():
     assert rules[0].count == 2
     assert rules[0].opportunities == 2
     assert rules[0].probability == 1.0
+
+
+def test_changes_coalesce_insertions_and_multi_phone_edits():
+    edits = align_phones(["a", "b", "c"], ["a", "x", "y", "c"])
+    changes = changes_from_alignment(edits)
+
+    assert len(changes) == 1
+    assert changes[0].source == ("b",)
+    assert changes[0].target == ("x", "y")
+
+
+def test_induce_rules_preserves_pure_insertions():
+    rules = induce_rules(
+        [("one", "a b", "a x b"), ("two", "a b", "a x b")],
+        min_count=2,
+    )
+
+    assert any(
+        rule.segment == ""
+        and rule.replacement == "x"
+        and rule.preceding_context == "a"
+        and rule.following_context == "b"
+        for rule in rules
+    )
+
+
+def test_known_variants_are_removed_before_residual_inference():
+    pairs = [
+        ("known", "a n", "a m"),
+        ("residual1", "a t", "a s"),
+        ("residual2", "a t", "a s"),
+    ]
+    rules = induce_rules(
+        pairs,
+        known_variants={"known": [["a", "m"]]},
+        min_count=2,
+    )
+
+    assert [(rule.segment, rule.replacement) for rule in rules] == [("t", "s")]
+    assert rules[0].known_rule_coverage == 1
+
+
+def test_unchanged_examples_count_as_overgeneration_opportunities():
+    rules = induce_rules(
+        [("changed", "a t b", "a s b"), ("same", "a t b", "a t b")],
+        min_count=1,
+    )
+
+    rule = next(r for r in rules if r.segment == "t" and r.replacement == "s")
+    assert rule.opportunities == 2
+    assert rule.probability == 0.5
+
+
+def test_phone_classes_generalize_contexts(tmp_path):
+    path = tmp_path / "classes.yaml"
+    path.write_text("classes:\n  vowel: [a, e]\n", encoding="utf-8")
+    classes = load_phone_classes(str(path))
+    rules = induce_rules(
+        [("one", "a t", "a s"), ("two", "e t", "e s")],
+        min_count=2,
+        phone_classes=classes,
+    )
+
+    generalized = next(r for r in rules if r.preceding_context == "[ae]")
+    assert generalized.count == 2
+    assert generalized.opportunities == 2
 
 
 def test_write_rules_yaml_matches_compiler_format(tmp_path):

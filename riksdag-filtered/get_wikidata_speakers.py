@@ -9,6 +9,9 @@ from collections import defaultdict
 
 
 ENDPOINT = "https://query.wikidata.org/sparql"
+CANONICAL_BIRTHPLACE_ITEMS = {
+    "Q110817631": "Q11055815",
+}
 
 
 def load_speakers(jsonl_path, ids_path):
@@ -32,13 +35,19 @@ def load_speakers(jsonl_path, ids_path):
 def fetch_wikidata(ids):
     values = " ".join(json.dumps(riksdag_id) for riksdag_id in ids)
     query = f"""
-SELECT ?person ?personLabel ?riksdagId ?birthDate ?birthPlace ?birthPlaceLabel ?birthPlaceCoordinates WHERE {{
+SELECT ?person ?personLabel ?riksdagId ?birthDate ?birthPlace ?birthPlaceLabel ?birthPlaceCoordinates ?canonicalBirthPlaceLabel ?canonicalBirthPlaceCoordinates WHERE {{
   VALUES ?riksdagId {{ {values} }}
   ?person wdt:P1214 ?riksdagId .
   OPTIONAL {{ ?person wdt:P569 ?birthDate . }}
   OPTIONAL {{
     ?person wdt:P19 ?birthPlace .
     OPTIONAL {{ ?birthPlace wdt:P625 ?birthPlaceCoordinates . }}
+    OPTIONAL {{
+      VALUES (?birthPlace ?canonicalBirthPlace) {{
+        (wd:Q110817631 wd:Q11055815)
+      }}
+      ?canonicalBirthPlace wdt:P625 ?canonicalBirthPlaceCoordinates .
+    }}
   }}
   SERVICE wikibase:label {{ bd:serviceParam wikibase:language \"sv,en\". }}
 }}
@@ -59,10 +68,18 @@ ORDER BY ?riksdagId ?birthDate ?birthPlace
         for key, output_key in (("birthPlace", "birth_places"), ("birthDate", "birth_dates")):
             if key in binding:
                 value = binding[key]["value"]
+                if key == "birthPlace":
+                    value = "http://www.wikidata.org/entity/" + CANONICAL_BIRTHPLACE_ITEMS.get(
+                        value.rsplit("/", 1)[-1], value.rsplit("/", 1)[-1]
+                    )
                 label = binding.get(f"{key}Label", {}).get("value")
+                if key == "birthPlace" and "canonicalBirthPlaceLabel" in binding:
+                    label = binding["canonicalBirthPlaceLabel"]["value"]
                 item = {"id": value, "label": label}
                 if "birthPlaceCoordinates" in binding:
                     item["coordinates"] = binding["birthPlaceCoordinates"]["value"]
+                elif "canonicalBirthPlaceCoordinates" in binding:
+                    item["coordinates"] = binding["canonicalBirthPlaceCoordinates"]["value"]
                 if item not in record[output_key]:
                     record[output_key].append(item)
     return records

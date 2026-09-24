@@ -26,6 +26,7 @@ Notes, reading lists, and works in progress for my thesis.
 - [Gutenberg HTML Scraper](gutenberg-scraper/index.qmd)
 - [MEK MP3 Scraper](scrape-mek-mp3/index.qmd)
 - [TIMIT to MFA TextGrids](timit-to-mfa/index.qmd)
+- [Gemma 4 CTC ASR (archived)](gemma4-ctc/index.qmd)
 
 ## Tools
 

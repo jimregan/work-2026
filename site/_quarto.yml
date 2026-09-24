@@ -56,6 +56,8 @@ website:
             href: scrape-mek-mp3/index.qmd
           - text: "TIMIT to MFA TextGrids"
             href: timit-to-mfa/index.qmd
+          - text: "Gemma 4 CTC ASR (archived)"
+            href: gemma4-ctc/index.qmd
       - text: "Papers"
         menu:
           - text: "My Papers"

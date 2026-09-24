@@ -23,6 +23,24 @@ Notes, reading lists, and works in progress for my thesis.
 - [Literary Edition Alignment](editions-alignment/index.qmd)
 - [Preprocessing Seanchló OCR Labels](preprocess-ocr-labels/index.qmd)
 - [Recording HLS Streams](record-streams/index.qmd)
+- [Gutenberg HTML Scraper](gutenberg-scraper/index.qmd)
+- [MEK MP3 Scraper](scrape-mek-mp3/index.qmd)
+- [TIMIT to MFA TextGrids](timit-to-mfa/index.qmd)
+- [Gemma 4 CTC ASR (archived)](gemma4-ctc/index.qmd)
+- [audio-nfs (untried)](audio-nfs/index.qmd)
+- [claudemail (archived)](local_mail/index.qmd)
+- [Acoustic Boundary Detector Baseline](santen99/index.qmd)
+- [Image/PDF Region OCR](image-region-ocr/index.qmd)
+- [LibriVox Book Alignment Pipeline](align-librivox/index.qmd)
+- [Riksdag Speech Watcher](riksdag-watcher/index.qmd)
+- [Hungarian Reel Analyzer (untried)](hungarian-reels/index.qmd)
+- [Storspigg Talking-Book Announcement Correction](storspigg/index.qmd)
+- [IBM Model 1 Graphone Bootstrap](ibm1_graphone/index.qmd)
+- [LibriVox Multi-Speaker Transcription](librivox-multispeaker/index.qmd)
+
+## Tools
+
+- [Intergaelic Modernizer](intergaelic-modernize/index.qmd) — Claude Code skill
 
 ## Papers
 

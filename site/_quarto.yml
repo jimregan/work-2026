@@ -50,6 +50,34 @@ website:
             href: ocr-alignment/index.qmd
           - text: "Papermill HuggingFace Mount"
             href: papermill-hfmount/index.qmd
+          - text: "Gutenberg HTML Scraper"
+            href: gutenberg-scraper/index.qmd
+          - text: "MEK MP3 Scraper"
+            href: scrape-mek-mp3/index.qmd
+          - text: "TIMIT to MFA TextGrids"
+            href: timit-to-mfa/index.qmd
+          - text: "Gemma 4 CTC ASR (archived)"
+            href: gemma4-ctc/index.qmd
+          - text: "audio-nfs (untried)"
+            href: audio-nfs/index.qmd
+          - text: "claudemail (archived)"
+            href: local_mail/index.qmd
+          - text: "Acoustic Boundary Detector Baseline"
+            href: santen99/index.qmd
+          - text: "Image/PDF Region OCR"
+            href: image-region-ocr/index.qmd
+          - text: "LibriVox Book Alignment Pipeline"
+            href: align-librivox/index.qmd
+          - text: "Riksdag Speech Watcher"
+            href: riksdag-watcher/index.qmd
+          - text: "Hungarian Reel Analyzer (untried)"
+            href: hungarian-reels/index.qmd
+          - text: "Storspigg Talking-Book Announcement Correction"
+            href: storspigg/index.qmd
+          - text: "IBM Model 1 Graphone Bootstrap"
+            href: ibm1_graphone/index.qmd
+          - text: "LibriVox Multi-Speaker Transcription"
+            href: librivox-multispeaker/index.qmd
       - text: "Papers"
         menu:
           - text: "My Papers"

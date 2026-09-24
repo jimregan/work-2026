@@ -1,0 +1,22 @@
+---
+title: "LibriVox Multi-Speaker Transcription"
+---
+
+Two transcription scripts and a partial reference-source mapping for multi-speaker LibriVox recordings (collections with several different readers per book).
+
+## Files
+
+- [`script.py`](script.py) — a minimal WhisperX example: transcribe `audio.mp3` (hardcoded), then run forced alignment. Not a CLI — edit the constants at the top before running.
+- [`transcribe.py`](transcribe.py) — a proper batch transcription CLI using [VibeVoice ASR](https://github.com/microsoft/VibeVoice), with per-segment speaker IDs and multi-GPU support:
+
+  ```bash
+  python transcribe.py --model_path <hf-model-or-path> \
+      --audio_dir recordings/ --out_dir transcripts/ \
+      --gpu_ids 0 1 2
+  ```
+
+  Writes one JSON per audio file (`Start`/`End`/`Content`/`Speaker` per segment), skipping files whose output already exists. `--audio_files` accepts an explicit file list instead of `--audio_dir`.
+
+- [`properties.tsv`](properties.tsv) — partial, hand/scrape-assembled mapping of LibriVox recording IDs to their source text (Project Gutenberg or other) and reader page URLs, e.g. for multi-poem/multi-reader "short poetry collection" recordings of Kipling's *If—*. Three or four tab-separated columns (recording ID, source text URL, reader URL, optional note); incomplete — many rows are still missing a reader URL.
+
+**Dependencies:** `whisperx` (`script.py`); `torch`, `vibevoice` (`transcribe.py`).

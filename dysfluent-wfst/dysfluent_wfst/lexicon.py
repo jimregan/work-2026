@@ -62,7 +62,7 @@ def lookup_word(word: str, lexicon_fst: pynini.Fst) -> pynini.Fst:
     Returns a transducer/acceptor containing all pronunciations for
     the word. Raises ``pynini.FstArgError`` if the word is not found.
     """
-    word_fst = pynini.escape(word)
+    word_fst = pynini.accep(pynini.escape(word), token_type="utf8")
     return pynini.compose(word_fst, lexicon_fst)
 
 
@@ -88,6 +88,9 @@ def build_utterance_fst(
         An FST over the phoneme symbol table containing all
         pronunciation paths for the utterance.
     """
+    if not words:
+        raise ValueError("words must be non-empty")
+
     word_fsts = []
     for word in words:
         word_pron = lookup_word(word, lexicon_fst)

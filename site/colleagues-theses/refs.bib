@@ -149,3 +149,33 @@
    ISBN = {978-91-8106-460-5},
    year = {2025}
 }
+
+@phdthesis{Deichler2062127,
+   author = {Deichler, Anna},
+   institution = {KTH, Speech, Music and Hearing},
+   note = {QC 20260525},
+   pages = {xxi, 103},
+   school = {KTH, Speech, Music and Hearing},
+   title = {Spatially Grounded Communication in Embodied Agents : From Gesture Generation to Referential Understanding},
+   series = {TRITA-EECS-AVL},
+   number = {2026:60},
+   keywords = {embodied agents, multimodal machine learning, diffusion models, multimodal communication, referential grounding},
+   abstract = {When a person says "put that over there" while pointing at a shelf, the meaning depends on the spatial relationship between speaker, listener, and shared physical scene. Embodied agents that participate in such interactions must both produce spatially grounded gestures and interpret multimodal references. Yet these capabilities have largely been studied in isolation, with separate data, methods, and evaluation paradigms. This thesis argues that gesture generation and referential grounding are two sides of the same communicative process, and that studying them jointly reveals structure that neither subfield surfaces alone. The argument is developed across seven papers. On the production side, contrastive speech-motion pretraining enables semantically aware co-speech gesture generation, while reinforcement learning with adversarial motion priors produces pointing gestures that are both spatially accurate and motorically natural, outperforming supervised baselines in a human referential identification study. A flow-matching architecture further combines semantic and spatial conditioning within a single generative system through distinct pathways. On the comprehension side, the thesis introduces multimodal conversational datasets recorded in virtual reality and with wearable AR sensors, combining full-body motion, gaze, speech, and 3D scene context. Experiments show that state-of-the-art vision–language models fail on conversational references not for lack of perceptual capability, but because they cannot determine what is being referred to from underspecified language. A rewrite-based decoupling experiment isolates this bottleneck: once the referent is explicitly described, even simple detectors localize it accurately. A central finding across both threads is that semantic reasoning, what is being communicated, and spatial reasoning, where it is directed, benefit from separate architectural treatment. On the production side, audio conditioning drives gesture timing while spatial targets determine direction; on the comprehension side, linguistic reasoning identifies the referent while visual perception localizes it. In both cases, architectures that maintain this separation outperform those that conflate heterogeneous signals into a shared representation. A shared data infrastructure, built incrementally across the papers, makes this parallel empirically testable: the same referential annotations that define conditioning targets for generation also define evaluation targets for grounding. The thesis contributes methods, datasets, benchmarks, and evaluation protocols that support a unified view of spatially grounded communication in embodied agents, where producing and interpreting meaning are coordinated processes grounded in language, body, and shared physical space. },
+   ISBN = {978-91-8106-641-8},
+   year = {2026}
+}
+
+@phdthesis{Wang2103477,
+   author = {Wang, Siyang},
+   institution = {KTH, Speech, Music and Hearing},
+   note = {QC 20260922},
+   pages = {53},
+   school = {KTH, Speech, Music and Hearing},
+   title = {Synthesizing Speech and Gesture for Embodied Conversational Agents},
+   series = {TRITA-EECS-AVL},
+   number = {2026:77},
+   keywords = {speech synthesis, gesture synthesis, embodied conversational agents, integrated speech and gesture, self-supervised learning, spontaneous speech, speech language models, evaluation methodology, multimodal synthesis, talsyntes, gestsyntes, förkroppsligade konversationsagenter, integrerad tal- och gestgenerering, självövervakad inlärning, spontant tal, talspråksmodeller, utvärderingsmetodik, multimodal syntes},
+   abstract = {Embodied conversational agents (ECAs) require synthesis systems that produce natural, spontaneous speech together with appropriate co-speech gesture under real-world conversational conditions. This thesis addresses three intertwined research questions: spontaneous text-to-speech, integrated speech-gesture generation, and evaluation methodology. First, I ask how spontaneous speech can be synthesized; my research shows that disfluencies can be modeled explicitly through sampling-based insertion, that self-supervised speech representations outperform mel-spectrograms as acoustic model prediction targets — with intermediate layers of an ASR-finetuned model performing best — and that token-based speech language models gain spontaneity at the cost of robustness and speaker consistency. Second, I ask whether speech and co-speech gesture can be generated jointly within a single architecture rather than via a pipeline; I formulate this as integrated speech and gesture synthesis (ISG). I demonstrate that a Tacotron2-based ISG model matches a strong pipeline at a fraction of its parameter count and inference time. Third, I ask how such conversational synthesis should be evaluated; I develop a layered protocol that combines task-specific objective metrics, modality-decomposed listening tests, contextual mean-opinion-score evaluation, and live interactive evaluation with real users in an autonomous “20 Questions” dialogue system, and argue that no single layer is sufficient on its own. I close with lessons distilled from unsuccessful experiments on data preparation, on reinforcement-learning post-training for speech language models, and on the role of scale in conversational speech-text pretraining. The unifying claim of this thesis is that spontaneous speech, co-speech gesture, and the evaluation that judges them are facets of one problem, and that progress on embodied conversational agents depends on both modeling and evaluating them together in the contexts in which conversation actually unfolds.  },
+   ISBN = {978-91-8106-700-2},
+   year = {2026}
+}

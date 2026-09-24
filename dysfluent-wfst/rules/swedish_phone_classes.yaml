@@ -1,0 +1,49 @@
+classes:
+  vowel:
+    - a
+    - e
+    - i
+    - o
+    - u
+    - y
+    - å
+    - ä
+    - ö
+    - ɑ
+    - ɔ
+    - ɛ
+    - ə
+    - ɪ
+    - ʉ
+    - ʊ
+    - æ
+    - œ
+  nasal:
+    - m
+    - n
+    - ŋ
+    - ɳ
+  stop:
+    - p
+    - b
+    - t
+    - d
+    - k
+    - ɡ
+    - ʈ
+    - ɖ
+  fricative:
+    - f
+    - v
+    - s
+    - ɕ
+    - ʂ
+    - ç
+    - h
+  sonorant:
+    - m
+    - n
+    - ŋ
+    - r
+    - l
+    - j

@@ -30,24 +30,27 @@ def build_ctc_topo(num_tokens: int, syms: pynini.SymbolTable) -> pynini.Fst:
     Returns:
         A pynini FST representing the CTC topology.
     """
-    compiler = pynini.Compiler()
+    fst = pynini.Fst()
     blank = 0
 
+    for _ in range(num_tokens):
+        fst.add_state()
+    fst.set_start(0)
+
     # State 0: blank state
-    compiler.add_arc(0, pynini.Arc(blank, blank, 0, 0))  # self-loop
+    fst.add_arc(0, pynini.Arc(blank, blank, 0, 0))  # self-loop
     for t in range(1, num_tokens):
-        compiler.add_arc(0, pynini.Arc(t, t, 0, t))  # blank -> token
+        fst.add_arc(0, pynini.Arc(t, t, 0, t))  # blank -> token
 
     # States 1..N-1: non-blank token states
     for t in range(1, num_tokens):
-        compiler.add_arc(t, pynini.Arc(t, t, 0, t))  # self-loop
-        compiler.add_arc(t, pynini.Arc(blank, blank, 0, 0))  # -> blank
+        fst.add_arc(t, pynini.Arc(t, t, 0, t))  # self-loop
+        fst.add_arc(t, pynini.Arc(blank, blank, 0, 0))  # -> blank
 
     # All states are final with weight 0
     for s in range(num_tokens):
-        compiler.set_final(s, 0)
+        fst.set_final(s, 0)
 
-    fst = compiler.compile()
     fst.set_input_symbols(syms)
     fst.set_output_symbols(syms)
     fst.arcsort("olabel")

@@ -1,0 +1,21 @@
+[package]
+name = "audio-nfs"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+nfsserve   = "0.5"
+ffmpeg-next = "7"
+tokio      = { version = "1", features = ["full"] }
+dashmap    = "5"
+serde      = { version = "1", features = ["derive"] }
+toml       = "0.8"
+anyhow     = "1"
+tracing    = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter"] }
+lru = "0.12"
+
+[features]
+default = ["libav"]
+libav = []
+subprocess = []

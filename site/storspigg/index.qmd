@@ -1,0 +1,41 @@
+---
+title: "Storspigg Talking-Book Announcement Correction"
+---
+
+Corrects the spoken-announcement transcript that opens MTM (Myndigheten för tillgängliga medier, the Swedish accessible-media agency) talking books, by cross-checking a partially-corrected transcript against ASR output and catalogue metadata.
+
+The announcement is a fixed template — reader name, page count, level count, year, production company — so correction reduces to extracting those slots from every available source and voting when they disagree.
+
+## Sources per book
+
+| Source | Description |
+|---|---|
+| `transcript` | the partially-corrected target (numerals spelled out) |
+| `messate` | the metadata sheet's own text column (numerals as digits; itself noisy) |
+| `whisperx` | ASR, cased/punctuated, digits |
+| `wav2vec` | ASR, uppercase, numerals spelled out, truncates word-finally |
+| `narrator` / `media_year` | structured metadata fields — genuine ground truth |
+
+## What gets corrected
+
+From the [`correct.py`](correct.py) docstring, two classes of change are applied:
+
+- **reader** — the metadata `narrator` column is a controlled registry field, and every transcript/metadata mismatch checked out as a homophone the transcript corrector couldn't have caught by ear (Lövenborg/Löfvenborg, Sätterstad/Zetterstad — initial *Z* is /s/ in Swedish — Sjöld/Sköld, Pilblad/Pihlblad, Malmqvist/Malmkvist). Metadata wins on spelling.
+- **pages** — ten files where the transcript reads "sjuttiotvå" (72) but `messate`, `whisperx`, and `wav2vec` independently agree on 272.
+
+Deliberately **not** auto-corrected: `year` (the transcript, `messate`, and both ASR systems agree with each other against `media_year` on 97 files — `media_year` is the cataloguing year, not the spoken one), readers where the transcript names two people but metadata lists one, and a couple of individually-reviewed IDs (see the `SKIP_REVIEW`/`REVIEW_YEAR` sets in `correct.py`).
+
+## Files
+
+- [`sources.py`](sources.py) — loads and joins all five sources per book ID from a TSV metadata sheet, a transcript file, and `storspigg-tbi-{wav2vec,whisperx}/*.json` ASR output directories
+- [`slots.py`](slots.py) — extracts the template's variable slots (pages, levels, year, reader, company) from tokenized text, tolerating ASR spelling variants of anchor phrases like "inläsare är"
+- [`svnum.py`](svnum.py) — parses Swedish cardinal/ordinal numerals written as one run-together word (`etthundrafemtiotre` → 153), for comparing sources that render numbers differently
+- [`correct.py`](correct.py) — applies the two supported correction classes, writes the corrected transcript plus a change log
+
+## Running
+
+```bash
+python correct.py corrected.tsv changes.tsv
+```
+
+Expects the layout `sources.py`'s `ROOT` constant points at: a TSV metadata sheet, a transcript file, and the two ASR output directories, all under one root directory.

@@ -1,0 +1,5 @@
+{
+  "name": "intergaelic-modernize",
+  "version": "1.0.0",
+  "description": "Modernize archaic Irish text into contemporary standard Irish via the Cadhán intergaelic API"
+}

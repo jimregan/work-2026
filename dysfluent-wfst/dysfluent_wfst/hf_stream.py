@@ -134,8 +134,6 @@ class HFStreamRunner:
 
     def _text_to_phonemes(self, text: str) -> list[str]:
         """Look up phonemes for a text string using the loaded lexicon."""
-        from .cli import get_phonemes_from_text  # reuse existing logic
-        # Build a temporary word->pron mapping from the already-loaded entries
         if not hasattr(self, "_word_to_prons"):
             self._word_to_prons: dict[str, list[str]] = {}
             for word, pron in self.decoder.lexicon_entries:
@@ -229,9 +227,9 @@ class HFStreamRunner:
 
             try:
                 array = self.get_audio_array(row)
-                log_probs, length, frame_shift_ms = self.infer(array)
+                logits, length, frame_shift_ms = self.infer(array)
                 alignment = self.decoder.decode_utterance(
-                    log_probs=log_probs,
+                    logits=logits,
                     length=length,
                     ref_phonemes=ref_phonemes,
                     utterance_id=utt_id,

@@ -76,6 +76,8 @@ website:
             href: storspigg/index.qmd
           - text: "IBM Model 1 Graphone Bootstrap"
             href: ibm1_graphone/index.qmd
+          - text: "LibriVox Multi-Speaker Transcription"
+            href: librivox-multispeaker/index.qmd
       - text: "Papers"
         menu:
           - text: "My Papers"

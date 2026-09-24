@@ -36,6 +36,7 @@ Notes, reading lists, and works in progress for my thesis.
 - [Hungarian Reel Analyzer (untried)](hungarian-reels/index.qmd)
 - [Storspigg Talking-Book Announcement Correction](storspigg/index.qmd)
 - [IBM Model 1 Graphone Bootstrap](ibm1_graphone/index.qmd)
+- [LibriVox Multi-Speaker Transcription](librivox-multispeaker/index.qmd)
 
 ## Tools
 

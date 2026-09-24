@@ -6,9 +6,9 @@ import unittest
 from pathlib import Path
 
 
-ROOT = Path(__file__).resolve().parents[1]
-SCRIPT = ROOT / "scripts" / "ibm1_graphone_bootstrap.py"
-EXAMPLE = ROOT / "examples" / "tiny_lexicon.tsv"
+ROOT = Path(__file__).resolve().parent
+SCRIPT = ROOT / "ibm1_graphone_bootstrap.py"
+EXAMPLE = ROOT / "tiny_lexicon.tsv"
 
 
 class BootstrapSmokeTest(unittest.TestCase):

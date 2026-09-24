@@ -35,6 +35,7 @@ Notes, reading lists, and works in progress for my thesis.
 - [Riksdag Speech Watcher](riksdag-watcher/index.qmd)
 - [Hungarian Reel Analyzer (untried)](hungarian-reels/index.qmd)
 - [Storspigg Talking-Book Announcement Correction](storspigg/index.qmd)
+- [IBM Model 1 Graphone Bootstrap](ibm1_graphone/index.qmd)
 
 ## Tools
 

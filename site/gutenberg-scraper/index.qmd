@@ -1,0 +1,19 @@
+---
+title: "Gutenberg HTML Scraper"
+---
+
+**[`gutenberg-scraper.py`](gutenberg-scraper.py)** finds Project Gutenberg book IDs referenced by local `index.html` files, resolves the best HTML reading URL for each book, and downloads the HTML text.
+
+It scans anchor hrefs (falling back to a text search) for a Gutenberg book ID, then picks the canonical HTML link from the book's ebook page — preferring the `.html.images` reader, falling back to a plain `.html`/`.htm` link, and finally an HTML `.zip` archive if no direct link exists.
+
+```bash
+# Scan a directory of index.html files recursively
+python3 gutenberg-scraper.py /path/to/book-dir
+
+# Single file, custom output directory
+python3 gutenberg-scraper.py /path/to/index.html --outdir downloaded-html
+```
+
+By default, each downloaded file is written next to its `index.html`, with any `index` path component replaced by `text`. Use `--overwrite` to replace existing downloads.
+
+**Dependencies:** `requests`, `beautifulsoup4`.

@@ -1,0 +1,17 @@
+---
+title: "MEK MP3 Scraper"
+---
+
+**[`scrape_mek_mp3.py`](scrape_mek_mp3.py)** scrapes MP3 files from a Hungarian Electronic Library (MEK) audio collection page — either live or a Wayback Machine snapshot — downloading every MP3 and writing a JSON manifest of anchor text and original URLs.
+
+```bash
+# Fetch from a live or Wayback Machine URL
+python scrape_mek_mp3.py <url>
+
+# Parse a locally saved HTML page, using <url> for link resolution
+python scrape_mek_mp3.py <url> <file.html>
+```
+
+Files are saved under `mek_<collection-id>/`, alongside a `manifest.json` recording each file's anchor text and original (non-archived) URL. If a Hungarian/English "text version" link is present on the page, its URL is included in the manifest too.
+
+**Dependencies:** `requests`, `beautifulsoup4`.

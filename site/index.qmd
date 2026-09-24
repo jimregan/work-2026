@@ -23,6 +23,9 @@ Notes, reading lists, and works in progress for my thesis.
 - [Literary Edition Alignment](editions-alignment/index.qmd)
 - [Preprocessing Seanchló OCR Labels](preprocess-ocr-labels/index.qmd)
 - [Recording HLS Streams](record-streams/index.qmd)
+- [Gutenberg HTML Scraper](gutenberg-scraper/index.qmd)
+- [MEK MP3 Scraper](scrape-mek-mp3/index.qmd)
+- [TIMIT to MFA TextGrids](timit-to-mfa/index.qmd)
 
 ## Tools
 

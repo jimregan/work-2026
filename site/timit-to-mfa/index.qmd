@@ -1,0 +1,21 @@
+---
+title: "TIMIT to MFA TextGrids"
+---
+
+**[`timit_to_mfa.py`](timit_to_mfa.py)** converts TIMIT `.phn` phone-alignment files into MFA-compatible TextGrids, plus an identity pronunciation dictionary over the phone set actually used.
+
+**Merging rules applied:**
+
+| Rule | Detail |
+|---|---|
+| Closure + burst | Closure phones (`bcl`, `dcl`, `gcl`, `kcl`, `pcl`, `tcl`) are merged with the following burst, spanning both segments under the burst label (e.g. `bcl b` → `b`). An unreleased closure with no following burst is kept as-is. |
+| Silence | `h#`, `pau`, `epi` are normalised to a single `sil` label; consecutive silence phones are merged into one interval. |
+| Everything else | Kept unchanged, including the glottal stop `q`. |
+
+```bash
+python timit_to_mfa.py /path/to/TIMIT --dict timit_identity.dict --tier words
+```
+
+Writes one `.TextGrid` next to each `.phn`/`.PHN` file, and an identity dictionary (`phone -> phone`) covering every non-silence phone seen across the corpus.
+
+**Dependencies:** none beyond the standard library.

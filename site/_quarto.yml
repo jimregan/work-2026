@@ -50,6 +50,12 @@ website:
             href: ocr-alignment/index.qmd
           - text: "Papermill HuggingFace Mount"
             href: papermill-hfmount/index.qmd
+          - text: "Gutenberg HTML Scraper"
+            href: gutenberg-scraper/index.qmd
+          - text: "MEK MP3 Scraper"
+            href: scrape-mek-mp3/index.qmd
+          - text: "TIMIT to MFA TextGrids"
+            href: timit-to-mfa/index.qmd
       - text: "Papers"
         menu:
           - text: "My Papers"

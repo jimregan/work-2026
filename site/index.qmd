@@ -28,6 +28,7 @@ Notes, reading lists, and works in progress for my thesis.
 - [TIMIT to MFA TextGrids](timit-to-mfa/index.qmd)
 - [Gemma 4 CTC ASR (archived)](gemma4-ctc/index.qmd)
 - [audio-nfs (untried)](audio-nfs/index.qmd)
+- [claudemail (archived)](local_mail/index.qmd)
 
 ## Tools
 

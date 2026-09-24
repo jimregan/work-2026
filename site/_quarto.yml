@@ -60,6 +60,8 @@ website:
             href: gemma4-ctc/index.qmd
           - text: "audio-nfs (untried)"
             href: audio-nfs/index.qmd
+          - text: "claudemail (archived)"
+            href: local_mail/index.qmd
       - text: "Papers"
         menu:
           - text: "My Papers"

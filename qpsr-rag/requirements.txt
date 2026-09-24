@@ -1,4 +1,0 @@
-chromadb==1.5.9
-ollama
-tiktoken
-tqdm

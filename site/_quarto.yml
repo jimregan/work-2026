@@ -72,6 +72,8 @@ website:
             href: riksdag-watcher/index.qmd
           - text: "Hungarian Reel Analyzer (untried)"
             href: hungarian-reels/index.qmd
+          - text: "Storspigg Talking-Book Announcement Correction"
+            href: storspigg/index.qmd
       - text: "Papers"
         menu:
           - text: "My Papers"

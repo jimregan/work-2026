@@ -14,7 +14,7 @@ import os
 
 import slots
 
-ROOT = "/tmp/storpigg"
+ROOT = "/tmp/storspigg"
 TSV = os.path.join(ROOT, "Untitled spreadsheet - Sheet1.tsv")
 TRANSCRIPT = os.path.join(ROOT, "storspigg_transcript.txt")
 

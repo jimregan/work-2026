@@ -1,0 +1,7 @@
+# pip install -r requirements.txt
+beautifulsoup4>=4.12
+lxml>=5.0
+requests>=2.31
+pyyaml>=6.0
+# Optional: better sentence splitting (install a model after: python -m spacy download en_core_web_sm)
+spacy>=3.7

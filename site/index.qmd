@@ -42,10 +42,6 @@ Notes, reading lists, and works in progress for my thesis.
 
 - [Intergaelic Modernizer](intergaelic-modernize/index.qmd) — Claude Code skill
 
-## Tools
-
-- [Intergaelic Modernizer](intergaelic-modernize/index.qmd) — Claude Code skill
-
 ## Papers
 
 - [My Papers](my-papers/papers.qmd)

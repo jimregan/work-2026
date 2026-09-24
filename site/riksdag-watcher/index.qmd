@@ -1,0 +1,46 @@
+---
+title: "Riksdag Speech Watcher"
+---
+
+A long-running Dockerized service that polls the Swedish Riksdag's open data API for new parliamentary speeches, downloads each speech's video via `yt-dlp`, and POSTs a webhook when a download is ready — intended as an ingestion feed for a downstream ASR pipeline.
+
+**Note:** unlike the other entries on this page, this one is meant to run continuously (`docker compose up -d`), not be invoked once — it's parked here as documentation of a self-contained tool rather than an active deployment.
+
+## How it works
+
+Runs an infinite poll loop (`POLL_INTERVAL`, default 300s):
+
+1. **List** — fetches the most recent `PAGE_SIZE` speeches from `data.riksdagen.se/anforandelista/`, records any not already seen in a local SQLite state DB (`seen`).
+2. **Detail + video URL** — for each `seen` speech, fetches `/anforande/{id}/json` and looks for a video URL (`video_url`, `webb_url`, etc.) → `has_video`, or `no_video` if none found.
+3. **Download** — for each `has_video` speech, downloads via `yt-dlp` (handles both direct media URLs and `webb-tv` streaming pages) → `downloaded`, or `error` on failure.
+4. **Notify** — for each `downloaded` speech, POSTs a JSON payload (`anforande_id`, `talare`, `parti`, `datum`, `debattnamn`, `video_url`, `local_video`, ...) to every URL in `WEBHOOK_URLS` → `notified`.
+
+Each speech's status is tracked in SQLite (`speeches` table, keyed on `anforande_id`), so restarts resume rather than reprocessing.
+
+## Running
+
+```bash
+cp .env.example .env   # edit POLL_INTERVAL, WEBHOOK_URLS, etc.
+docker compose up --build -d
+```
+
+State and downloads persist in the `watcher-state` and `speech-downloads` Docker volumes. Mount `speech-downloads` into a downstream ASR container to read files by the path reported in webhook payloads.
+
+## Configuration
+
+| Variable | Default | Description |
+|---|---|---|
+| `POLL_INTERVAL` | `300` | Seconds between polls |
+| `PAGE_SIZE` | `50` | Speeches fetched per poll |
+| `WEBHOOK_URLS` | *(empty)* | Comma-separated endpoints POSTed on each ready download |
+| `LOG_LEVEL` | `INFO` | `DEBUG`/`INFO`/`WARNING`/`ERROR` |
+
+## Files
+
+- [`src/main.py`](src/main.py) — poll loop and pipeline orchestration
+- [`src/riksdag.py`](src/riksdag.py) — Riksdag API client (`list_speeches`, `get_speech_detail`, `extract_video_url`)
+- [`src/state.py`](src/state.py) — SQLite state tracking
+- [`src/downloader.py`](src/downloader.py) — `yt-dlp` wrapper
+- [`src/notify.py`](src/notify.py) — webhook dispatch
+
+**Dependencies:** `requests`, `yt-dlp`; `ffmpeg` (installed in the container image, needed by `yt-dlp` for remuxing).

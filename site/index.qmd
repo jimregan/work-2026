@@ -32,6 +32,7 @@ Notes, reading lists, and works in progress for my thesis.
 - [Acoustic Boundary Detector Baseline](santen99/index.qmd)
 - [Image/PDF Region OCR](image-region-ocr/index.qmd)
 - [LibriVox Book Alignment Pipeline](align-librivox/index.qmd)
+- [Riksdag Speech Watcher](riksdag-watcher/index.qmd)
 
 ## Tools
 

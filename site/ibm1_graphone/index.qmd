@@ -93,4 +93,3 @@ accepted_seed
 - [`ibm1_graphone_bootstrap.py`](ibm1_graphone_bootstrap.py) — the bootstrap script
 - [`test_ibm1_graphone_bootstrap.py`](test_ibm1_graphone_bootstrap.py) — smoke test, runs the script end-to-end on `tiny_lexicon.tsv`
 - [`tiny_lexicon.tsv`](tiny_lexicon.tsv) — toy example input
-- [`g2p-pivot-merged.tex`](g2p-pivot-merged.tex) — draft paper this tool feeds into: task-curated multitask learning for G2P, in a Swedish TTS setting with native and foreign-origin lexicon material

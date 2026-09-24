@@ -1,6 +1,10 @@
-# audio-nfs
+---
+title: "audio-nfs (untried)"
+---
 
-Userspace NFSv3 server that serves a source audio directory with on-the-fly transcoding via `ffmpeg-next` (libav bindings).
+A userspace NFSv3 server, written in Rust, that serves a source audio directory with on-the-fly transcoding via `ffmpeg-next` (libav bindings).
+
+**Status:** built but never actually run against a real mount — parked here in case it's worth coming back to.
 
 ## Path convention
 
@@ -20,12 +24,20 @@ Userspace NFSv3 server that serves a source audio directory with on-the-fly tran
 
 Trim ranges are in **output-sample-rate samples** (same convention as torchaudio).
 
+## Files
+
+- [`src/main.rs`](src/main.rs) — entry point
+- [`src/fs.rs`](src/fs.rs) — NFS filesystem implementation
+- [`src/handle.rs`](src/handle.rs) — file handle / cache management
+- [`src/transcode.rs`](src/transcode.rs) — ffmpeg-based transcoding
+- [`src/config.rs`](src/config.rs) — config parsing
+- [`Cargo.toml`](Cargo.toml), [`config.toml`](config.toml)
+
 ## Build
 
-Requires libavformat/libavcodec/libavutil/libswresample dev headers.
-Use the included dev container for a pre-configured environment:
+Requires libavformat/libavcodec/libavutil/libswresample dev headers. The included `.devcontainer/` gives a pre-configured environment:
 
-```
+```bash
 # VS Code: Reopen in Container
 # Or manually:
 docker build -t audio-nfs-dev .devcontainer/

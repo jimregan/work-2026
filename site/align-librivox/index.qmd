@@ -1,0 +1,39 @@
+---
+title: "LibriVox Book Alignment Pipeline"
+---
+
+A pipeline for turning a LibriVox audiobook page into per-chapter ASR/text alignments: parse the LibriVox index, fetch and clean the reference text, split it to match chapter audio, sentence-split it, and align it against WhisperX output.
+
+## Pipeline
+
+```bash
+# 1. Parse a downloaded LibriVox index page into a YAML book config
+python parse_index.py --html index.html --out book_config.yaml
+
+# 2. Edit book_config.yaml: fill in whisperx_json paths, fix any text_url issues
+
+# 3. Fetch and clean reference text (Project Gutenberg, Wikisource, Standard Ebooks, ...)
+python fetch_text.py --config book_config.yaml --outdir texts/
+
+# 4. Split the downloaded book HTML into per-chapter HTML, preserving markup
+python split_html.py --config book_config.yaml
+
+# 5. Clean per-chapter HTML into paragraph-level sentence lists
+python html_to_sentences.py --config book_config.yaml
+
+# 6. Align WhisperX output against the reference text, whole book via config
+python align.py --config book_config.yaml --outdir aligned/
+```
+
+`book_config.yaml` is the thread running through the whole pipeline — each step reads and fills in more of it. See the comments in [`book_config.yaml`](book_config.yaml) for the full field reference.
+
+## Files
+
+- [`parse_index.py`](parse_index.py) — parses a LibriVox HTML index page into chapter metadata plus the most relevant online-text links, writing a YAML config stub
+- [`fetch_text.py`](fetch_text.py) — fetches a text URL and returns clean plain text suitable for alignment
+- [`split_html.py`](split_html.py) — splits one downloaded book HTML into per-chapter HTML files, preserving markup
+- [`html_to_sentences.py`](html_to_sentences.py) — cleans per-chapter HTML into paragraph-level sentence lists (spaCy sentence splitting with a regex fallback)
+- [`align.py`](align.py) — book-level wrapper around the alignment engine; keeps the old `align-html` CLI (`--whisperx`, `--text`, `--config`)
+- [`align_to_json.py`](align_to_json.py), [`align_whisper_ref.py`](align_whisper_ref.py) — the Smith-Waterman alignment engine `align.py` calls into (`align_file_to_sentences`), vendored here rather than shared with [Aligning Whisper Output](../align-whisper/index.qmd) — this copy has grown extra features (per-word timing detail, a reusable `align_file_to_sentences` entry point) that the other page's copy doesn't have
+
+**Dependencies:** `beautifulsoup4`, `lxml`, `requests`, `pyyaml`; optionally `spacy` (with an `en_core_web_sm`/`xx_sent_ud_sm`/`xx_ent_wiki_sm` model) for better sentence splitting — falls back to a regex splitter otherwise.

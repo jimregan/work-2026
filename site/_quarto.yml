@@ -62,6 +62,8 @@ website:
             href: audio-nfs/index.qmd
           - text: "claudemail (archived)"
             href: local_mail/index.qmd
+          - text: "Acoustic Boundary Detector Baseline"
+            href: santen99/index.qmd
       - text: "Papers"
         menu:
           - text: "My Papers"

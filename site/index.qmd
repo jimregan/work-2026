@@ -33,6 +33,7 @@ Notes, reading lists, and works in progress for my thesis.
 - [Image/PDF Region OCR](image-region-ocr/index.qmd)
 - [LibriVox Book Alignment Pipeline](align-librivox/index.qmd)
 - [Riksdag Speech Watcher](riksdag-watcher/index.qmd)
+- [Hungarian Reel Analyzer (untried)](hungarian-reels/index.qmd)
 
 ## Tools
 

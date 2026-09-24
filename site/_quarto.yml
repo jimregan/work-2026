@@ -70,6 +70,8 @@ website:
             href: align-librivox/index.qmd
           - text: "Riksdag Speech Watcher"
             href: riksdag-watcher/index.qmd
+          - text: "Hungarian Reel Analyzer (untried)"
+            href: hungarian-reels/index.qmd
       - text: "Papers"
         menu:
           - text: "My Papers"

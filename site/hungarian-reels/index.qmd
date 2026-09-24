@@ -1,0 +1,40 @@
+---
+title: "Hungarian Reel Analyzer (untried)"
+---
+
+A pipeline for turning a Hungarian Instagram Reel into a language-learning breakdown: line-by-line translation plus a vocabulary list, driven by three local Ollama models.
+
+**Status:** never actually run end-to-end — `instaloader` (the Instagram downloader it depends on) broke not long after this was written, before it could be tested. Parked here in case it's worth reviving with a different downloader.
+
+## Pipeline
+
+```bash
+OLLAMA_HOST=http://your-server:11434 ./setup-models.sh   # one-time: creates hu-ear, hu-eye, hu-brain
+OLLAMA_HOST=http://your-server:11434 python3 pipeline.py <instagram_reel_url>
+```
+
+1. **Download** — `instaloader` fetches the Reel's video.
+2. **Extract** — `ffmpeg` pulls a 16kHz mono WAV and one JPEG frame per second.
+3. **Transcribe** (`hu-ear`) — Hungarian audio → raw transcription.
+4. **OCR** (`hu-eye`) — on-screen text/subtitles across up to 30 frames → deduplicated text list.
+5. **Coordinate** (`hu-brain`) — transcript + OCR text → Markdown output: line-by-line Hungarian/English translation, then a vocabulary section (inflected forms cross-referenced to lemmas, grammatical notes, common function words excluded unless used non-obviously).
+
+## Models
+
+All three are [`gemma4`](https://ollama.com)-based Ollama models, defined by Modelfile with a fixed system prompt and low temperature for the extraction steps:
+
+| Model | Base | Role |
+|---|---|---|
+| [`hu-ear`](modelfiles/Modelfile.ear) | `gemma4:e4b` | Hungarian ASR — raw transcription only |
+| [`hu-eye`](modelfiles/Modelfile.eye) | `gemma4:e4b` | OCR across video frames |
+| [`hu-brain`](modelfiles/Modelfile.brain) | `gemma4:32b` | Translation + vocabulary breakdown, fixed Markdown output format |
+
+`setup-models.sh` creates all three on the target Ollama server via `ollama create`.
+
+## Files
+
+- [`pipeline.py`](pipeline.py) — the end-to-end driver
+- [`setup-models.sh`](setup-models.sh) — one-time model setup
+- `modelfiles/` — the three Ollama Modelfiles above
+
+**Dependencies:** `ollama` (Python client), `instaloader`, `ffmpeg`.

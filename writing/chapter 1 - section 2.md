@@ -1,0 +1,10 @@
+Phones and phonemes
+
+A phoneme is what you think you said, a phone is what you actually said; a phoneme is what you think you heard, a phone is what you actually heard.
+
+As an explanation, this falls into the category of "lies to children" -- the best known example of this is the story of the apple falling on Newton's head. The falling apple seems actually to have been true [cite Stukeley's "Memoirs of Sir Isaac Newton's life", p. 15], though it never fell on his head: more importantly, gravity was well known long before Newton was born, but the story helps to create the association: Newton's work is central to our current understanding of gravity.
+
+The first paragraph is a deliberate over-simplification, but the key word in relation to phonemes is _think_. A phoneme is a perceptual unit: a unit of understanding shared by the speakers of a language. A phone, on the other hand, is the result of a sound being created: it can be recorded, it can be measured.
+
+We think of colours in a somewhat similar way: we think of "green" as a single concept, while knowing that it represents many different shades. We can even know that it represents potentially infinite values on the spectrum, while still holding on to a single concept. As children we learn about "primary colours" when we learn to mix paints. We later learn about the light spectrum, with a different set of primary colours, but 
+We think in terms of "primary colours", which are combined in different ways to create other colours, and in English, for the light spectrum, they are three: red, green, blue. This is also language-dependent: Hungarian has two words that occupy the space of "red" in English; Russian has two for "blue"; Irish has two for "green". The differences can all be expressed in English, of course: red and crimson, light blue and dark blue, natural green and artificial green. 

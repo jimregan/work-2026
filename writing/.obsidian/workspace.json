@@ -699,12 +699,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "wc.md",
+                "file": "Acks.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "wc"
+              "title": "Acks"
             }
           }
         ],
@@ -875,8 +875,14 @@
   },
   "active": "97e9c175d7ea7648",
   "lastOpenFiles": [
+    "Acknowledgements.md",
+    "Acks.md",
+    "2026-08-23 page 1.md",
+    "LRE - Phonetic corpus/old-towards.md",
+    "Untitled 2.md",
+    "TSD strategy.md",
+    "TODO 12-04-2026.md",
     "2026-09-01 scan.md",
-    "wc.md",
     "ng.md",
     "2026-08-29 page 3 chat.md",
     "2026-08-29 page 3.md",
@@ -884,10 +890,8 @@
     "2026-08-25.md",
     "2026-08-23 page 3.md",
     "2026-08-23 page 2.md",
-    "2026-08-23 page 1.md",
     "2026-04-14.md",
     "LRE - Phonetic corpus/BRIEFING.md",
-    "LRE - Phonetic corpus/old-towards.md",
     "LRE - Phonetic corpus/05 Swedish phonemic supervision lineage.md",
     "LRE - Phonetic corpus/04 rules as acoustic hypotheses.md",
     "LRE - Phonetic corpus/01 Introduction.md",
@@ -896,11 +900,7 @@
     "Shivam.md",
     "Intro - ducktape.md",
     "wav_positioning.md",
-    "TSD strategy.md",
     "Corpus build.md",
-    "chapter 1.md",
-    "Acks.md",
-    "corpus build chat.md",
     "Chapter 1",
     "tmp",
     "Teanga - Web corpus of Irish/refs.bib",

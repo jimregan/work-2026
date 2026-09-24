@@ -64,6 +64,8 @@ website:
             href: local_mail/index.qmd
           - text: "Acoustic Boundary Detector Baseline"
             href: santen99/index.qmd
+          - text: "Image/PDF Region OCR"
+            href: image-region-ocr/index.qmd
       - text: "Papers"
         menu:
           - text: "My Papers"

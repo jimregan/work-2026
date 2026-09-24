@@ -1,0 +1,99 @@
+---
+title: "Image/PDF Region OCR"
+---
+
+A local web tool for selecting rectangular regions on images or PDFs and extracting text from them.
+
+**Stack:** FastAPI + pytesseract + Pillow + PyMuPDF (`fitz`) + pdfplumber + httpx on the backend; a single `frontend/index.html` (vanilla JS + Canvas API + PDF.js from CDN, no build step) on the frontend.
+
+## Image mode
+
+Upload an image (PNG/JPG/WebP) or load one from a URL (fetched backend-side, bypasses CORS), then drag a rectangle over any region. The sidebar shows the selection in several copyable formats:
+
+- space-separated `x y w h` — for use with `bbox_text.split(" ")`
+- JSON array `[x, y, w, h]`
+- JSON object `{"x": …, "y": …, "w": …, "h": …}`
+- Tesseract `image_to_boxes` bottom-left convention
+
+Click **Run OCR** to extract text from the selected region via Tesseract. Set the language code (e.g. `gle`, `deu`, `fra`) before running. The Words tab shows per-word confidence (`pytesseract.image_to_data`).
+
+## PDF mode
+
+Upload a PDF. Pages are rendered in-browser via PDF.js. Draw exclusion rectangles (headers/footers) on each page — templates apply per page parity (**Odd**, **Even**, optional **First**/**Last** overrides).
+
+- Navigate pages with ← →; each page stores its own region independently
+- **Get Page Text** / **Export All Pages** — extract text via PyMuPDF word-level filtering, with excluded regions removed
+- **All Odd / All Even / All Pages** — copy the current page's region to other pages
+- The page overview panel on the right lists every page and its region (or "skipped")
+- Save/load region config as JSON; save extracted text as `.txt`
+
+## Running
+
+### Docker (recommended)
+
+```bash
+docker compose up --build
+# open http://localhost:8000
+```
+
+Uploaded files are persisted in `./uploads/` via a bind mount.
+
+### Conda (local dev)
+
+```bash
+conda create -n image-region-ocr python=3.11
+conda run -n image-region-ocr pip install -r backend/requirements.txt
+./run.sh
+# open http://localhost:8000 (or open frontend/index.html directly)
+```
+
+`./run.sh` starts uvicorn with `--reload`. The frontend falls back to `http://localhost:8000` for API calls when opened as a plain `file://`.
+
+## Adding Tesseract languages
+
+In Docker, add the package name to the `apt-get` line in [`Dockerfile`](Dockerfile) and rebuild:
+
+```dockerfile
+tesseract-ocr-gle \   # Irish (already included)
+tesseract-ocr-deu \   # German
+tesseract-ocr-fra \   # French
+```
+
+For the conda setup, install via Homebrew or your system package manager (`brew install tesseract-lang`).
+
+## API endpoints
+
+| Method | Path | Description |
+|--------|------|-------------|
+| POST | `/api/image/load` | Upload image file |
+| POST | `/api/image/load_url` | Fetch image from URL |
+| GET  | `/api/image/preview/{id}` | Return JPEG preview |
+| POST | `/api/image/ocr` | Crop region and run Tesseract |
+| POST | `/api/pdf/load` | Upload PDF |
+| GET  | `/api/pdf/page_render` | Render page to JPEG (optional) |
+| POST | `/api/pdf/extract_page` | Extract text from one page with exclude rects |
+| POST | `/api/pdf/extract_all` | Extract all pages with odd/even/first/last templates |
+| POST | `/api/pdf/pdftotext_region` | Poppler pdftotext region fallback |
+| GET  | `/` | Serves `frontend/index.html` |
+
+## Coordinate conventions
+
+- Image mode stores selections as `{x, y, w, h}` in **image pixels, top-left origin**
+- PDF mode stores rectangles as `{x0, y0, x1, y1}` in **PDF points** (PyMuPDF top-left origin, y increases downward), converted from canvas coordinates by dividing by the render scale
+- Tesseract `image_to_boxes` uses bottom-left origin: `y1 = H - (y + h)`, `y2 = H - y`
+
+## Files
+
+```
+image-region-ocr/
+├── Dockerfile
+├── docker-compose.yml
+├── .dockerignore
+├── run.sh                    # local dev launcher (conda)
+├── backend/
+│   ├── main.py               # FastAPI app + all endpoints
+│   ├── requirements.txt
+│   └── uploads/               # temp storage (gitignored except .gitkeep)
+└── frontend/
+    └── index.html             # entire UI — no build step
+```
